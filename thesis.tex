@@ -1,0 +1,703 @@
+% This is the Reed College LaTeX thesis template. Most of the work
+% for the document class was done by Sam Noble (SN), as well as this
+% template. Later comments etc. by Ben Salzberg (BTS). Additional
+% restructuring and APA support by Jess Youngberg (JY).
+% Your comments and suggestions are more than welcome; please email
+% them to cus@reed.edu
+%
+% See http://web.reed.edu/cis/help/latex.html for help. There are a 
+% great bunch of help pages there, with notes on
+% getting started, bibtex, etc. Go there and read it if you're not
+% already familiar with LaTeX.
+%
+% Any line that starts with a percent symbol is a comment. 
+% They won't show up in the document, and are useful for notes 
+% to yourself and explaining commands. 
+% Commenting also removes a line from the document; 
+% very handy for troubleshooting problems. -BTS
+
+% As far as I know, this follows the requirements laid out in 
+% the 2002-2003 Senior Handbook. Ask a librarian to check the 
+% document before binding. -SN
+
+%% Jay Kruer's includes
+\include{macros}
+
+%%
+%% Preamble
+%%
+% \documentclass{<something>} must begin each LaTeX document
+\documentclass[12pt,twoside]{reedthesis}
+% Packages are extensions to the basic LaTeX functions. Whatever you
+% want to typeset, there is probably a package out there for it.
+% Chemistry (chemtex), screenplays, you name it.
+% Check out CTAN to see: http://www.ctan.org/
+%%
+\usepackage{graphicx,latexsym} 
+\usepackage{amssymb,amsthm,amsmath}
+\usepackage{longtable,booktabs,setspace} 
+\usepackage[hyphens]{url}
+\usepackage{rotating}
+\usepackage{natbib}
+
+%% Jay Kruer's packages
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks,
+  allcolors=black,
+  hidelinks,
+}
+\usepackage{luatexja} % for memes
+
+
+
+%%% Jay Kruer's misc preamble
+%%% TODO: move this to its own file
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\newtheorem{recall}{Recall}
+\newtheorem{theorem}{Theorem}
+\newtheorem{joke}{Joke}
+
+% Comment out the natbib line above and uncomment the following two lines to use the new 
+% biblatex-chicago style, for Chicago A. Also make some changes at the end where the 
+% bibliography is included. 
+% \usepackage{biblatex-chicago}
+% \bibliography{thesis}
+
+% \usepackage{times} % other fonts are available like times, bookman, charter, palatino
+
+\title{慣性ドリフト: From 0 to Normalization by Gluing in 4.9 seconds\\ A Brisk Drift through Categorical Semantics of Lambda Calculi}
+\author{Jay Kruer}
+% The month and year that you submit your FINAL draft TO THE LIBRARY (May or December)
+\date{December 2021}
+\division{Mathematics and Natural Sciences}
+\advisor{Ang\'elica Osorno}
+\altadvisor{James (Jim) Fix}
+
+% If you have two advisors for some reason, you can use the following
+% \altadvisor{Your Other Advisor}
+%%% Remember to use the correct department!
+\department{Mathematics}
+% if you're writing a thesis in an interdisciplinary major,
+% uncomment the line below and change the text as appropriate.
+% check the Senior Handbook if unsure.
+% \thedivisionof{The Established Interdisciplinary Committee for}
+% if you want the approval page to say "Approved for the Committee",
+% uncomment the next line
+% \approvedforthe{Committee}
+
+\setlength{\parskip}{0pt}
+%%
+%% End Preamble
+%%
+%% The fun begins:
+\begin{document}
+
+\maketitle
+\frontmatter % this stuff will be roman-numbered
+\pagestyle{empty} % this removes page numbers from the frontmatter
+
+% Acknowledgements (Acceptable American spelling) are optional
+% So are Acknowledgments (proper English spelling)
+\chapter*{Acknowledgements}
+Ms. Kim, Hyong Rhew, Mrs. Leitsch, Mr. Raveli (was that his name? gotta find out
+somehow), Jim Fix, Ang\'elica Osorno, Irena Swanson, [TODO]
+
+% The preface is optional
+% To remove it, comment it out or delete it.
+\chapter*{Preface}
+This is an example of a thesis setup to use the reed thesis document class.
+
+
+
+\chapter*{List of Abbreviations}
+You can always change the way your abbreviations are formatted. Play around with it yourself, use tables, or come to CUS if you'd like to change the way it looks. You can also completely remove this chapter if you have no need for a list of abbreviations. Here is an example of what this could look like:
+
+\begin{table}[h]
+  \centering % You could remove this to move table to the left
+  \begin{tabular}{ll}
+    \textbf{ABC}  	&  American Broadcasting Company \\
+    \textbf{CBS}  	&  Columbia Broadcasting System\\
+    \textbf{CDC}  	&  Center for Disease Control \\
+    \textbf{CIA}  	&  Central Intelligence Agency\\
+    \textbf{CLBR} 	&  Center for Life Beyond Reed\\
+    \textbf{CUS}  	&  Computer User Services\\
+    \textbf{FBI}  	&  Federal Bureau of Investigation\\
+    \textbf{NBC}  	&  National Broadcasting Corporation\\
+  \end{tabular}
+\end{table}
+
+
+\tableofcontents
+% if you want a list of tables, optional
+\listoftables
+% if you want a list of figures, also optional
+\listoffigures
+
+% The abstract is not required if you're writing a creative thesis (but aren't they all?)
+% If your abstract is longer than a page, there may be a formatting issue.
+\chapter*{Abstract}
+The preface pretty much says it all.
+
+\chapter*{Dedication}
+You can have a dedication here if you wish.
+
+\mainmatter % here the regular arabic numbering starts
+\pagestyle{fancyplain} % turns page numbering back on
+
+% The \introduction command is provided as a convenience.
+% if you want special chapter formatting, you'll probably want to avoid using it altogether
+
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\chaptermark{Introduction}
+\markboth{Introduction}{Introduction}
+% The three lines above are to make sure that the headers are right, that the intro gets included in the table of contents, and that it doesn't get numbered 1 so that chapter one is 1.
+
+% Double spacing: if you want to double space, or one and a half 
+% space, uncomment one of the following lines. You can go back to 
+% single spacing with the \singlespacing command.
+% \onehalfspacing
+% \doublespacing
+
+Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\ before, you'll have an initial learning period to go through, but the results of a nicely formatted thesis are worth it for more than the aesthetic benefit: markup like \LaTeX\ is more consistent than the output of a word processor, much less prone to corruption or crashing and the resulting file is smaller than a Word file. While you may have never had problems using Word in the past, your thesis is going to be about twice as large and complex as anything you've written before, taxing Word's capabilities. If you're still on the fence about  using \LaTeX, read the Introduction to LaTeX on the CUS site as well as skim the following template and give it a few weeks. Pretty soon all the markup gibberish will become second nature.
+
+\section{Why use it?}
+
+\LaTeX\ does a great job of formatting tables and paragraphs. Its line-breaking algorithm was the subject of a PhD.\thinspace thesis. It does a fine job of automatically inserting ligatures, and to top it all off it is the only way to typeset good-looking mathematics.
+
+\section{Who should use it?}
+
+Anyone who needs to use math, tables, a lot of figures, complex cross-references, IPA or who just cares about the final appearance of their document should use \LaTeX. At Reed, math majors are required to use it, most physics majors will want to use it, and many other science majors may want it also.
+
+\chapter{The First}
+This is the first page of the first chapter. You may delete the contents of this chapter so you can add your own text; it's just here to show you some examples.
+
+\section{References, Labels, Custom Commands and Footnotes}
+It is easy to refer to anything within your document using the \texttt{label} and \texttt{ref} tags.  Labels must be unique and shouldn't use any odd characters; generally sticking to letters and numbers (no spaces) should be fine. Put the label on whatever you want to refer to, and put the reference where you want the reference. \LaTeX\ will keep track of the chapter, section, and figure or table numbers for you. 
+
+\subsection{References and Labels}
+Sometimes you'd like to refer to a table or figure, e.g. you can see in Figure \ref{subd2} that you can rotate figures . Start by labeling your figure or table with the label command (\verb=\label{labelvariable}=) below the caption (see the chapter on graphics and tables for examples). Then when you would like to refer to the table or figure, use the ref command (\verb=\ref{labelvariable}=). Make sure your label variables are unique; you can't have two elements named ``default." Also, since the reference command only puts the figure or table number, you will have to put  ``Table" or ``Figure" as appropriate, as seen in the following examples:
+
+As I showed in Table \ref{inheritance} many factors can be assumed to follow from inheritance. Also see the Figure \ref{subd} for an illustration.
+
+\subsection{Custom Commands}\label{commands}
+Are you sick of writing the same complex equation or phrase over and over? 
+
+The custom commands should be placed in the preamble, or at least prior to the first usage of the command. The structure of the \verb=\newcommand= consists of the name of the new command in curly braces, the number of arguments to be made in square brackets and then, inside a new set of curly braces, the command(s) that make up the new command. The whole thing is sandwiched inside a larger set of curly braces. 
+
+% Note: you cannot use numbers in your commands!
+\newcommand{\hydro}{H$_2$SO$_4$}
+
+In other words, if you want to make a shorthand for H$_2$SO$_4$, which doesn't include an argument, you would write: \verb=\newcommand{\hydro}{H$_2$SO$_4$}= and then when you needed  to use the command you would type \verb=\hydro=. (sans verb and the equals sign brackets, if you're looking at the .tex version). For example: \hydro
+
+\subsection{Footnotes and Endnotes}
+You might want to footnote something.\footnote{footnote text} Be sure to leave no spaces between the word immediately preceding the footnote command and the command itself. The footnote will be in a smaller font and placed appropriately. Endnotes work in much the same way. More information can be found about both on the CUS site.
+
+\section{Bibliographies}
+Of course you will need to cite things, and you will probably accumulate an armful of sources. This is why BibTeX was created. For more information about BibTeX and bibliographies, see our CUS site (\url{web.reed.edu/cis/help/latex/index.html})\footnote{\cite{reedweb:2007}}. There are three pages on this topic: {\it bibtex} (which talks about using BibTeX, at \url{/latex/bibtex.html}), {\it bibtexstyles} (about how to find and use the bibliography style that best suits your needs, at \url{/latex/bibtexstyles.html}) and {\it bibman} (which covers how to make and maintain a bibliography by hand, without BibTeX, at at \url{/latex/bibman.html}). The last page will not be useful unless you have only a few sources. There used to be APA stuff here, but we don't need it since I've fixed this with my apa-good natbib style file.
+
+\subsection{Tips for Bibliographies}
+\begin{enumerate}
+  \item Like with thesis formatting, the sooner you start compiling your bibliography for something as large as thesis, the better. Typing in source after source is mind-numbing enough; do you really want to do it for hours on end in late April? Think of it as procrastination.
+  \item The cite key (a citation's label) needs to be unique from the other entries.
+  \item When you have more than one author or editor, you need to separate each author's name by the word ``and'' e.g.\\ \verb+Author = {Noble, Sam and Youngberg, Jessica},+.
+  \item Bibliographies made using BibTeX (whether manually or using a manager) accept LaTeX markup, so you can italicize and add symbols as necessary.
+  \item To force capitalization in an article title or where all lowercase is generally used, bracket the capital letter in curly braces.
+  \item You can add a Reed Thesis citation\footnote{\cite{noble:2002}} option. The best way to do this is to use the phdthesis type of citation, and use the optional ``type'' field to enter ``Reed thesis'' or ``Undergraduate thesis''. Here's a test of Chicago, showing the second cite in a row\footnote{\cite{noble:2002}} being different. Also the second time not in a row\footnote{\cite{reedweb:2007}} should be different. Of course in other styles they'll all look the same.
+\end{enumerate}
+\section{Anything else?}
+If you'd like to see examples of other things in this template, please contact CUS (email cus@reed.edu) with your suggestions. We love to see people using \LaTeX\ for their theses, and are happy to help.
+
+
+\chapter{Mathematics and Science}	
+\section{Math}
+\TeX\ is the best way to typeset mathematics. Donald Knuth designed \TeX\ when he got frustrated at how long it was taking the typesetters to finish his book, which contained a lot of mathematics.
+
+If you are doing a thesis that will involve lots of math, you will want to read the following section which has been commented out. If you're not going to use math, skip over this next big red section. (It's red in the .tex file but does not show up in the .pdf.)
+%	
+%% MATH and PHYSICS majors: Uncomment the following section	
+%	$$\sum_{j=1}^n (\delta\theta_j)^2 \leq {{\beta_i^2}\over{\delta_i^2 + \rho_i^2}}
+% \left[ 2\rho_i^2 + {\delta_i^2\beta_i^2\over{\delta_i^2 + \rho_i^2}} \right] \equiv \omega_i^2
+% $$
+
+% From Informational Dynamics, we have the following (Dave Braden):
+
+% After {\it n} such encounters the posterior density for $\theta$ is
+
+% $$
+% \pi(\theta|X_1< y_1,\dots,X_n<y_n) \varpropto \pi(\theta) \prod_{i=1}^n\int_{-\infty}^{y_i}
+% \exp\left(-{(x-\theta)^2\over{2\sigma^2}}\right)\ dx
+% $$
+
+%
+
+% Another equation:
+
+% $$\det\left|\,\begin{matrix}%
+%     c_0&c_1\hfill&c_2\hfill&\ldots&c_n\hfill\cr
+%     c_1&c_2\hfill&c_3\hfill&\ldots&c_{n+1}\hfill\cr
+%     c_2&c_3\hfill&c_4\hfill&\ldots&c_{n+2}\hfill\cr
+%     \,\vdots\hfill&\,\vdots\hfill&
+%     \,\vdots\hfill&&\,\vdots\hfill\cr
+%     c_n&c_{n+1}\hfill&c_{n+2}\hfill&\ldots&c_{2n}\hfill\cr
+%   \end{matrix}\right|>0$$
+
+%
+% Lapidus and Pindar, Numerical Solution of Partial Differential Equations in Science and
+% Engineering.  Page 54
+
+% $$
+% \int_t\left\{\sum_{j=1}^3 T_j \left({d\phi_j\over dt}+k\phi_j\right)-kT_e\right\}w_i(t)\ dt=0,
+% \qquad\quad i=1,2,3.
+% $$
+
+% L\&P  Galerkin method weighting functions.  Page 55
+
+% $$
+% \sum_{j=1}^3 T_j\int_0^1\left\{{d\phi_j\over dt} + k\phi_j\right\} \phi_i\ dt
+% = \int_{0}^1k\,T_e\phi_idt, \qquad i=1,2,3 $$
+%
+% Another L\&P (p145)
+
+% $$
+% \int_{-1}^1\!\int_{-1}^1\!\int_{-1}^1 f\big(\xi,\eta,\zeta\big)
+% = \sum_{k=1}^n\sum_{j=1}^n\sum_{i=1}^n w_i w_j w_k f\big( \xi,\eta,\zeta\big).
+% $$
+
+% Another L\&P (p126)
+
+% $$
+% \int_{A_e} (\,\cdot\,) dx dy = \int_{-1}^1\!\int_{-1}^1 (\,\cdot\,) \det[J] d\xi d\eta.
+% $$
+
+
+\section{Physics}
+
+Many of the symbols you will need can be found on the math page (\url{http://web.reed.edu/cis/help/latex/math.html}) and the Comprehensive \LaTeX\ Symbol Guide (enclosed in this template download).  You may wish to create custom commands for commonly used symbols, phrases or equations, as described in Chapter \ref{commands}.
+
+\section{Biology}
+You will probably find the resources at \url{http://www.lecb.ncifcrf.gov/~toms/latex.html} helpful, particularly the links to bsts for various journals. You may also be interested in TeXShade for nucleotide typesetting (\url{http://homepages.uni-tuebingen.de/beitz/txe.html}).  Be sure to read the proceeding chapter on graphics and tables, and remember that the thesis template has versions of Ecology and Science bsts which support webpage citation formats. 
+
+\chapter{Tables and Graphics}
+
+\section{Tables}
+The following section contains examples of tables, most of which have been commented out for brevity. (They will show up in the .tex document in red, but not at all in the .pdf). For more help in constructing a table (or anything else in this document), please see the LaTeX pages on the CUS site.
+
+\begin{table}[htbp] % begins the table floating environment. This enables LaTeX to fit the table where it works best and lets you add a caption.
+  \caption[Correlation of Inheritance Factors between Parents and Child]{Correlation of Inheritance Factors between Parents and Child}
+  % The words in square brackets of the caption command end up in the Table of Tables. The words in curly braces are the caption directly over the table.
+  \begin{center}
+    % makes the table centered
+    \begin{tabular}{c c c c}
+      % the tabular environment is used to make the table itself. The {c c c c} specify that the table will have four columns and they will all be center-aligned. You can make the cell contents left aligned by replacing the Cs with Ls or right aligned by using Rs instead. Add more letters for more columns, and pipes (the vertical line above the backslash) for vertical lines. Another useful type of column is the p{width} column, which forces text to wrap within whatever width you specify e.g. p{1in}. Text will wrap badly in narrow columns though, so beware.
+      \toprule % a horizontal line, slightly thicker than \hline, depends on the booktabs package
+      Factors &  Correlation between Parents \& Child & Inherited \\ % the first row of the table. Separate columns with ampersands and end the line with two backslashes. An environment begun in one cell will not carry over to adjacent rows.
+      \midrule % another horizontal line
+      Education 				& -0.49 & Yes 	 \\ % another row
+      Socio-Economic Status 	& 0.28 	& Slight \\
+      Income 					& 0.08 	& No	 \\
+      Family Size 			& 0.19 	& Slight \\
+      Occupational Prestige 	& 0.21 	& Slight \\
+      \bottomrule % yet another horizontal line
+    \end{tabular}
+  \end{center}
+  \label{inheritance} % labels are useful when you have more than one table or figure in your document. See our online documentation for more on this.
+\end{table}
+
+\clearpage
+%% \clearpage ends the page, and also dumps out all floats. 
+%% Floats are things like tables and figures.
+
+If you want to make a table that is longer than a page, you will want to use the longtable environment. Uncomment the table below to see an example, or see our online documentation.
+
+%% An example of a long table, with headers that repeat on each subsequent page: Results from the summers of 1998 and 1999 work at Reed College done by Grace Brannigan, Robert Holiday and Lien Ngo in 1998 and Kate Brown and Christina Inman in 1999.
+
+\begin{longtable}{||c|c|c|c||}
+  \caption[Chromium Hexacarbonyl Data Collected in 1998--1999]{Chromium Hexacarbonyl Data Collected in 1998--1999}\\ \hline
+  \multicolumn{4}{||c||}{Chromium Hexacarbonyl} \\\hline
+  State & Laser wavelength & Buffer gas & Ratio of $\frac{\textrm{Intensity
+                                          at vapor pressure}}{\textrm{Intensity at 240 Torr}}$ \\ \hline
+  \endfirsthead
+  \hline     State & Laser wavelength & Buffer gas & Ratio of
+                                                     $\frac{\textrm{Intensity at vapor pressure}}{\textrm{Intensity at 240 Torr}}$\\
+  \hline
+  \endhead
+
+  $z^{7}P^{\circ}_{4}$ & 266 nm & Argon & 1.5 \\\hline
+  $z^{7}P^{\circ}_{2}$ & 355 nm & Argon & 0.57 \\\hline
+  $y^{7}P^{\circ}_{3}$ & 266 nm & Argon & 1 \\\hline
+  $y^{7}P^{\circ}_{3}$ & 355 nm & Argon & 0.14 \\\hline
+  $y^{7}P^{\circ}_{2}$ & 355 nm & Argon & 0.14 \\\hline
+  $z^{5}P^{\circ}_{3}$ & 266 nm & Argon & 1.2 \\\hline
+  $z^{5}P^{\circ}_{3}$ & 355 nm & Argon & 0.04 \\\hline
+  $z^{5}P^{\circ}_{3}$ & 355 nm & Helium & 0.02 \\\hline
+  $z^{5}P^{\circ}_{2}$ & 355 nm & Argon & 0.07 \\\hline
+  $z^{5}P^{\circ}_{1}$ & 355 nm & Argon & 0.05 \\\hline
+  $y^{5}P^{\circ}_{3}$ & 355 nm & Argon & 0.05, 0.4 \\\hline
+  $y^{5}P^{\circ}_{3}$ & 355 nm & Helium & 0.25 \\\hline
+  $z^{5}F^{\circ}_{4}$ & 266 nm & Argon & 1.4 \\\hline
+  $z^{5}F^{\circ}_{4}$ & 355 nm & Argon & 0.29 \\\hline
+  $z^{5}F^{\circ}_{4}$ & 355 nm & Helium & 1.02 \\\hline
+  $z^{5}D^{\circ}_{4}$ & 355 nm & Argon & 0.3 \\\hline
+  $z^{5}D^{\circ}_{4}$ & 355 nm & Helium & 0.65 \\\hline
+  $y^{5}H^{\circ}_{7}$ & 266 nm & Argon & 0.17 \\\hline
+  $y^{5}H^{\circ}_{7}$ & 355 nm & Argon & 0.13 \\\hline
+  $y^{5}H^{\circ}_{7}$ & 355 nm & Helium & 0.11 \\\hline
+  $a^{5}D_{3}$ & 266 nm & Argon & 0.71 \\\hline
+  $a^{5}D_{2}$ & 266 nm & Argon & 0.77 \\\hline
+  $a^{5}D_{2}$ & 355 nm & Argon & 0.63 \\\hline
+  $a^{3}D_{3}$ & 355 nm & Argon & 0.05 \\\hline
+  $a^{5}S_{2}$ & 266 nm & Argon & 2 \\\hline
+  $a^{5}S_{2}$ & 355 nm & Argon & 1.5 \\\hline
+  $a^{5}G_{6}$ & 355 nm & Argon & 0.91 \\\hline
+  $a^{3}G_{4}$ & 355 nm & Argon & 0.08 \\\hline
+  $e^{7}D_{5}$ & 355 nm & Helium & 3.5 \\\hline
+  $e^{7}D_{3}$ & 355 nm & Helium & 3 \\\hline
+  $f^{7}D_{5}$ & 355 nm & Helium & 0.25 \\\hline
+  $f^{7}D_{5}$ & 355 nm & Argon & 0.25 \\\hline
+  $f^{7}D_{4}$ & 355 nm & Argon & 0.2 \\\hline
+  $f^{7}D_{4}$ & 355 nm & Helium & 0.3 \\\hline
+  \multicolumn{4}{||c||}{Propyl-ACT} \\\hline
+  % State & Laser wavelength & Buffer gas & Ratio of $\frac{\textrm{Intensity
+  % at vapor pressure}}{\textrm{Intensity at 240 Torr}}$\\ \hline
+  $z^{7}P^{\circ}_{4}$ & 355 nm & Argon & 1.5 \\\hline
+  $z^{7}P^{\circ}_{3}$ & 355 nm & Argon & 1.5 \\\hline
+  $z^{7}P^{\circ}_{2}$ & 355 nm & Argon & 1.25 \\\hline
+  $z^{7}F^{\circ}_{5}$ & 355 nm & Argon & 2.85 \\\hline
+  $y^{7}P^{\circ}_{4}$ & 355 nm & Argon & 0.07 \\\hline
+  $y^{7}P^{\circ}_{3}$ & 355 nm & Argon & 0.06 \\\hline
+  $z^{5}P^{\circ}_{3}$ & 355 nm & Argon & 0.12 \\\hline
+  $z^{5}P^{\circ}_{2}$ & 355 nm & Argon & 0.13 \\\hline
+  $z^{5}P^{\circ}_{1}$ & 355 nm & Argon & 0.14 \\\hline
+  \multicolumn{4}{||c||}{Methyl-ACT} \\\hline
+  % State & Laser wavelength & Buffer gas & Ratio of $\frac{\textrm{Intensity
+  % at vapor pressure}}{\textrm{Intensity at 240 Torr}}$\\ \hline
+  $z^{7}P^{\circ}_{4}$ & 355 nm & Argon & 1.6, 2.5 \\\hline
+  $z^{7}P^{\circ}_{4}$ & 355 nm & Helium & 3 \\\hline
+  $z^{7}P^{\circ}_{4}$ & 266 nm & Argon & 1.33 \\\hline
+  $z^{7}P^{\circ}_{3}$ & 355 nm & Argon & 1.5 \\\hline
+  $z^{7}P^{\circ}_{2}$ & 355 nm & Argon & 1.25, 1.3 \\\hline
+  $z^{7}F^{\circ}_{5}$ & 355 nm & Argon & 3 \\\hline
+  $y^{7}P^{\circ}_{4}$ & 355 nm & Argon & 0.07, 0.08 \\\hline
+  $y^{7}P^{\circ}_{4}$ & 355 nm & Helium & 0.2 \\\hline
+  $y^{7}P^{\circ}_{3}$ & 266 nm & Argon & 1.22 \\\hline
+  $y^{7}P^{\circ}_{3}$ & 355 nm & Argon & 0.08 \\\hline
+  $y^{7}P^{\circ}_{2}$ & 355 nm & Argon & 0.1 \\\hline
+  $z^{5}P^{\circ}_{3}$ & 266 nm & Argon & 0.67 \\\hline
+  $z^{5}P^{\circ}_{3}$ & 355 nm & Argon & 0.08, 0.17 \\\hline
+  $z^{5}P^{\circ}_{3}$ & 355 nm & Helium & 0.12 \\\hline
+  $z^{5}P^{\circ}_{2}$ & 355 nm & Argon & 0.13 \\\hline
+  $z^{5}P^{\circ}_{1}$ & 355 nm & Argon & 0.09 \\\hline
+  $y^{5}H^{\circ}_{7}$ & 355 nm & Argon & 0.06, 0.05 \\\hline
+  $a^{5}D_{3}$ & 266 nm & Argon & 2.5 \\\hline
+  $a^{5}D_{2}$ & 266 nm & Argon & 1.9 \\\hline
+  $a^{5}D_{2}$ & 355 nm & Argon & 1.17 \\\hline
+  $a^{5}S_{2}$ & 266 nm & Argon & 2.3 \\\hline
+  $a^{5}S_{2}$ & 355 nm & Argon & 1.11 \\\hline
+  $a^{5}G_{6}$ & 355 nm & Argon & 1.6 \\\hline
+  $e^{7}D_{5}$ & 355 nm & Argon & 1 \\\hline
+
+\end{longtable}
+
+
+\section{Figures}
+
+If your thesis has a lot of figures, \LaTeX\ might behave better for you than that other word processor.  One thing that may be annoying is the way it handles ``floats'' like tables and figures. \LaTeX\ will try to find the best place to put your object based on the text around it and until you're really, truly done writing you should just leave it where it lies.   There are some optional arguments to the figure and table environments to specify where you want it to appear; see the comments in the first figure.
+
+If you need a graphic or tabular material to be part of the text, you can just put it inline. If you need it to appear in the list of figures or tables, it should be placed in the floating environment.
+
+To get a figure from StatView, JMP, SPSS or other statistics program into a figure, you can print to pdf or save the image as a jpg or png. Precisely how you will do this depends on the program: you may need to copy-paste figures into Photoshop or other graphic program, then save in the appropriate format.
+
+Below we have put a few examples of figures. For more help using graphics and the float environment, see our online documentation.
+
+And this is how you add a figure with a graphic:
+\begin{figure}[h]
+  % the options are h = here, t = top, b = bottom, p = page of figures.
+  % you can add an exclamation mark to make it try harder, and multiple
+  % options if you have an order of preference, e.g.
+  % \begin{figure}[h!tbp]
+
+  \centering
+  % DO NOT ADD A FILENAME EXTENSION TO THE GRAPHIC FILE
+  \includegraphics{subdivision}
+  \caption{A Figure}
+  \label{subd}
+\end{figure}
+
+\clearpage %% starts a new page and stops trying to place floats such as tables and figures
+
+\section{More Figure Stuff}
+You can also scale and rotate figures.
+\begin{figure}[h!]
+
+  \centering
+  % DO NOT ADD A FILENAME EXTENSION TO THE GRAPHIC FILE
+  \includegraphics[scale=0.5,angle=180]{subdivision}
+  % if your figure shows up not where you want it, it may just be too big to fit. You can use the scale argument to shrink it, e.g. scale=0.85 is 85 percent of the original size.
+  \caption{A Smaller Figure, Flipped Upside Down}
+  \label{subd2}
+\end{figure}
+
+\section{Even More Figure Stuff}
+With some clever work you can crop a figure, which is handy if (for instance) your EPS or PDF is a little graphic on a whole sheet of paper. The viewport arguments are the lower-left and upper-right coordinates for the area you want to crop.
+
+\begin{figure}[h!]
+  \centering
+  % DO NOT ADD A FILENAME EXTENSION TO THE GRAPHIC FILE
+  \includegraphics[clip=true, viewport=.0in .0in 1in 1in]{subdivision}
+  \caption{A Cropped Figure}
+  \label{subd3}
+\end{figure}
+
+\subsection{Common Modifications}
+The following figure features the more popular changes thesis students want to their figures. This information is also on the web at \url{web.reed.edu/cis/help/latex/graphics.html}.
+% \renewcommand{\thefigure}{0.\arabic{figure}} 	% Renumbers the figure to the type 0.x
+% \addtocounter{figure}{4} 						% starts the figure numbering at 4
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[scale=0.5]{subdivision}
+    \caption[Subdivision of arc segments]{\footnotesize{Subdivision of arc segments. You can see that $ p_3 = p_6^\prime$.}} %the special ToC caption is in square brackets. The \footnotesize makes the figure caption smaller
+    \label{barplot}
+  \end{center}
+\end{figure}
+
+\chapter{Sus semantics of type theory: sketches and their models; algebraic theories and their algebras}
+In this chapter we develop the semantics of type theory by way of
+\emph{sketches}. The reader familiar with and/or traumatized by experience with
+pencils of geodesics in hyperbolic geometry need not be scared away by our
+terminology; our development will be quite easy and fun. We begin with the
+notion of an \emph{elementary sketch}, which is powerful enough to describe
+theories with unary operations (something \emph{like} single-variable functions)
+and multiple \emph{sorts} (which you may for now consider as a type, set,
+object, etc.) This already gives us enough power to encode familiar algebraic
+structures like monoids, groups, modules over a ring, rings themselves, among
+others. With their multiple sorts, sketches also allow us to encode structures
+not frequently encountered in an algebra course, such as finite automata. Later
+we will generalize the notion of elementary sketch to that of \emph{algebraic
+  theory}. Algebraic theories are known more famously as \emph{Lawvere theories}
+after categorical logic and model theory superstar (and former Reed College
+professor!) William Lawvere. \emph{Algebraic theories} allow for any operations
+over any number of inputs and so grow the capabilities of our development to
+encoding more grotesque mathematical objects such as non-trivial type theories.
+This chapter is strictly expository in nature. Much of the following
+presentation draws heavily from Paul Taylor's \emph{Practical Foundations of
+  Mathematics} (\cite{taylor_practical_1999}.) Our humble contribution is to
+flesh out some of his examples, add some of our own, and make parts of the
+presentation more palatable and quickly digestible to an audience less
+sophisticated than the usual consumer of Taylor's book.
+
+\section{Elementary sketches and their models}
+\subsection{An algebraic prelude}
+We begin by recalling the notion of an \emph{action} of, say, a group or a
+monoid from algebra. Actions are, from our perspective, a way of giving meaning,
+or \emph{semantics} to elements of a set enjoying some algebraic structure.
+\begin{definition}
+  Recall that a \textbf{covariant action} of a group or monoid \((M, id, \cdot)\) on a
+  set \(A\) is a binary operation \((-)_* (=) : M ‌\times A \rightarrow A\) such that
+  \(\text{id}_* a = a\) and \( (g \circ f)_* a = g_* (f_* a) \). We can similarly a
+  define the notion of a \textbf{contravariant action} which acts in the order
+  opposite of that in the composition.
+\end{definition}
+For example, in algebra we learn that the dihedral group of order 8, written
+$D_{4}$, acts on the square (with uniquely identified points) by reflections and
+rotations (TODO: cite https://groupprops.subwiki.org/wiki/Dihedral\_group:D8);
+each of the operations encoded by the action results in the same image of the
+square up to ignoring the unique identity of the points we started with. This
+action gives geometric meaning to each of the group elements, and was even used
+in the first day of the author's algebra class to explain the algebraic
+mechanics of the group itself; discovering which elements of the group cancel
+each other out is done by geometric experimentation using a square with uniquely
+colored vertices. Similarly, the symmetric groups $S_{n}$ act on lists of length
+$n$ by permutation of the list elements. In this case, the action can be even
+more trivially defined. We now turn to the definition of a property of actions:
+\emph{faithfulness}.
+
+\begin{definition} A \textbf{faithful} action $(-)_{*}$ is one for which things
+  are semantically equal (or, act the same) only when they are syntactically
+  equal (or, are the same as far as your eyeballs are concerned.) More precisely
+  rendered, we require: \[ \forall (a:A)\ldotp f_* a = g_* a \Longrightarrow f = g \]
+\end{definition}
+
+It can now be seen that the critical property enjoyed by the natural action of
+$D_{8}$ which enabled our use of cute little square cutouts is faithfulness. If
+the action were not faithful, determining which operations in $D_{8}$ are
+inverses would not be so easy as printing out a square and plugging away,
+because we may have an action which may not take only the identity element to
+the leave-everything-in-place action on the square.
+
+
+Having gesticulated that actions gives groups and monoids their meaning, we turn
+to the development of some new notions that will allow us to define give actions
+generalize both algebraic structures and their actions to new settings not
+usually considered formally. % TODO: fix this phrasing
+The corresponding notions are, respectively, sketches and their models.
+
+\subsection{Elementary sketches}
+As promised, we begin with the notion of an \emph{elementary sketch} which
+allows us to, among other things, specify structures beyond those treated in
+standard algebra.
+\begin{definition}
+  An \textbf{elementary sketch} is comprised of the following data:
+  \begin{enumerate}
+    \item a collection \(X, Y, Z, \dots \) of named \textbf{base types} or
+          \textbf{sorts}
+    \item a \textbf{variable} \(x:X\) for each occurrence of each named sort.
+    \item a collection of \textbf{unary operation-symbols} or
+          \textbf{constructors} \(\tau\) having at most one variable. As a
+          clarifying example: when sketching type theories, we will write
+          \( x:X \vdash \tau(x) : Y \).
+    \item a collection of equations or \textbf{laws} of the
+          form: \[ \tau_n (\tau_{n-1}(\cdots \tau_2 (\tau_1 (x))\cdots )) = \sigma_m (\sigma_{m-1}(\cdots \sigma_2 (\sigma_1 (x))\cdots )) \]
+  \end{enumerate}
+\end{definition}
+We will discuss the generality provided by this definition after some
+intervening examples. One of the simplest examples is the sketch of a group $G$:
+\begin{enumerate}
+  \item The collection of base types is the singleton \{\star\}.
+  \item The collection of variables is \{x:\star\}.
+  \item The collection of operation symbols is the elements in the set $G$.
+  \item The equations are:
+    \begin{enumerate}
+      \item \( e(g(x)) = g(x) \) for each \( g \in G \) and \( e \in G \) the identity element of \( G \).
+      \item \( g(e(x)) = g(x) \) for each \( g \in G \) and \( e \in G \) the identity element of \( G \).
+      \item \( g(g^{-1}(x)) = e(x) \) for each \( g \in G \) and \( g^{-1} \in G \) its inverse.
+      \item \( g^{-1}(g(x)) = e(x) \) for each \( g \in G \) and \( g^{-1} \in G \) its inverse.
+      \item More here?
+    \end{enumerate}
+  \end{enumerate}
+  The definition of an elementary sketch allows for multiple \emph{sorts}. All
+  the common examples from algebra which we have seen so far only make use of a
+  single sort; in particular, all strings of elements of the sketches we've
+  looked at so far are composable. For an example of a structure for which this
+  is not the case, and therefore one where the notion of sketch gives us a new
+  opportunity for formalization, we shall turn to an example drawing from the
+  theory of finite automata in computability theory. [TODO: finite automata
+  example here.]
+
+  Having examined some sketches and given their models, we now can define a
+  notion of actions for sketches:
+  \begin{definition}
+    A \textbf{model} (also known as an algebra, an interpretation, a covariant action) of an elementary sketch is comprised of:
+    \begin{enumerate}
+      \item an assignment of a set $A_X$ to each sort $X$ and
+      \item an assignment of a function $\tau_* : A_X \rightarrow A_Y$ for each operation-symbol of the appropriate arity such that:
+      \item each law is preserved; i.e., for each law as before we have
+      \[ {\tau_n}_* ({\tau_{n-1}}_* (\cdots {\tau_2}_* ({\tau_1}_* (x))\cdots )) = {\sigma_m}_*  ({\sigma_{m-1}}_*(\cdots {\sigma_2}_* ({\sigma_1}_* (x))\cdots )) \]
+      that is, the covariant action on operation-symbols is faithful in the sense defined above.
+    \end{enumerate}
+  \end{definition}
+
+  Just as with groups, rings, etc., models allow us to give a sketch---its sorts,
+  its operations, and its laws---meaning in terms of sets. Wonderful. Now let's
+  see how we can mechanically get a nice model for any sketch.
+
+  \begin{definition}
+    Given an elementary (unary) sketch, the \textbf{clone} at \( (\Gamma, X) \) is
+    the set \( \text{Cn}_\mathcal{L} (\Gamma, X) \) of all the \textbf{terms} of sort
+    $X$ assuming a n single variable of sort $\Gamma$. A \textbf{term} $x$ in the
+    clone \( \text{Cn}_\mathcal{L} (\Gamma, X) \) is a string of composable unary
+    operation-symbols applied to a variable $\gamma : \Gamma$ as in:
+    \( \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma))))) \).
+  \end{definition}
+
+  It can be shown that the clones of a sketch form (the sets for) a model of a sketch. In particular, it can be shown that the sketch acts covariants on the set of its clones:
+  \begin{theorem}
+    Every elementary sketch has a faithful covariant action on its clones
+    \(\mathcal{H}_{X} = \cup_{\Gamma} \text{Cn}_{\mathcal{L}}(\Gamma,X)\) by
+    sequencing with the operation symbol. Substitution for the (single)
+    variable in a term gives a faithful contravariant action on
+    \(\mathcal{H}^{Y} = \cup_{\Theta} \text{Cn}_{\mathcal{L}}(Y,\Theta)\).
+  \end{theorem}
+  \begin{proof}
+    The actions of \(\tau : X \rightarrow Y\) on \(\text{Cn}_\mathcal{L}(\Gamma,X) \subseteq \mathcal{H}_{X}\) and \(\text{Cn}_\mathcal{L}(Y,\Theta) \subseteq \mathcal{H}^{Y}\) are given by:
+    \begin{itemize}
+      \item \(\tau_{*}a_{n}(\cdots a_{2}(a_{2}(\sigma))\cdots) = \tau(a_{n}(\cdots(a_{2}(a_{1}(\sigma))))) \in \text{Cn}_{\mathcal{L}}(\Gamma,Y)\)
+      \item \(\tau_{*}\zeta_{m}(\cdots \zeta_{2}(\zeta_{1}(y))) = \zeta_{m}(\cdots\zeta_{2}(\zeta_{1}(\tau(x)))) \in \text{Cn}_{\mathcal{L}}(X,\Theta)\)
+    \end{itemize}
+    where \(\sigma : \Gamma, x : X, \text { and }, y:Y\).
+    Covariance of the former is clear. Contravariance of the former follows by considering the behavior of substitutions in sequence.
+  \end{proof}
+
+  \begin{joke}
+    A couple of PL theorists walk into a Michelin starred restaurant. The menu
+    reads in big blackboard bold letters ``NO SUBSTITUTIONS''. They promptly
+    leave.
+  \end{joke}
+
+
+
+\subsection{Familiar examples}
+\section{Models and their categories; or, categories and their models}
+\subsection{The category of contexts and substitutions}
+\emph{Note:} I need to make sure when defining the category of context and substitution for a sketch by means of giving its generating morphisms that I also define the equality on morphisms. In my slides I missed this, but the correct presentation is given in Taylor.
+
+\newcommand{\clone}[3]{{\text{Cn}_{#1}(#2,#3)}}
+
+\subsection{Example morphisms in the syntactic category}
+A natural question for the operationally-minded reader to ask after having seen
+the definition of the syntactic category is: how does all this ornate structure
+encode terms in the calculus I'm interested in? Let us ask instead a more
+precise question: how do we represent by a substitution a term \(\Gamma \vdash t : T\)?
+For such a term, there is a canonical substitution (morphism of contexts)
+\( \Gamma \xrightarrow[]{[t/x]} \Gamma,x:X \) which ``picks'' that term in X. Here $[t/x]$
+is an explicit encoding/formula for the substitution inserting $t$ anywhere it
+sees $x$. The ordering of the codomain and domain here are confusing, but the
+contravariant base change functor, which lifts this encoding to a real
+substitution \emph{operation} clarifies things; we have:
+\( [t/x]^{*} : \clone{}{\Gamma, x:X}{T} \longrightarrow \clone{}{\Gamma}{T} \). In words, the
+substitution operation takes a term of type $T$ under $\Gamma$ and an additional free
+variable $x:X$ and gives us a term of type $T$ under just $\Gamma$; we reduce our
+assumption set by filling in one of the assumptions with some concrete evidence,
+namely the (syntactic) term $t$. In the special case of a closed (syntactic)
+term $t$, we have \( [t/x]^{*} : \clone{}{x:X}{T} \longrightarrow \clone{}{\emptyset}{T}\).
+
+\section{Algebraic theories and their algebras}
+\section{The prototypical algebraic theory: sketching the (simply typed) lambda calculus}
+
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+\chaptermark{Conclusion}
+\markboth{Conclusion}{Conclusion}
+\setcounter{chapter}{4}
+\setcounter{section}{0}
+
+Here's a conclusion, demonstrating the use of all that manual incrementing and table of contents adding that has to happen if you use the starred form of the chapter command. The deal is, the chapter command in \LaTeX\ does a lot of things: it increments the chapter counter, it resets the section counter to zero, it puts the name of the chapter into the table of contents and the running headers, and probably some other stuff. 
+
+So, if you remove all that stuff because you don't like it to say ``Chapter 4: Conclusion'', then you have to manually add all the things \LaTeX\ would normally do for you. Maybe someday we'll write a new chapter macro that doesn't add ``Chapter X'' to the beginning of every chapter title.
+
+\section{More info}
+And here's some other random info: the first paragraph after a chapter title or section head \emph{shouldn't be} indented, because indents are to tell the reader that you're starting a new paragraph. Since that's obvious after a chapter or section title, proper typesetting doesn't add an indent there. 
+
+
+% If you feel it necessary to include an appendix, it goes here.
+\appendix
+\chapter{The First Appendix}
+\chapter{The Second Appendix, for Fun}
+
+
+% This is where endnotes are supposed to go, if you have them.
+% I have no idea how endnotes work with LaTeX.
+
+\backmatter % backmatter makes the index and bibliography appear properly in the t.o.c...
+
+% if you're using bibtex, the next line forces every entry in the bibtex file to be included
+% in your bibliography, regardless of whether or not you've cited it in the thesis.
+\nocite{*}
+
+% Rename my bibliography to be called "Works Cited" and not "References" or ``Bibliography''
+% \renewcommand{\bibname}{Works Cited}
+
+% \bibliographystyle{bsts/mla-good} % there are a variety of styles available;
+% \bibliographystyle{plainnat}
+% replace ``plainnat'' with the style of choice. You can refer to files in the bsts or APA 
+% subfolder, e.g. 
+\bibliographystyle{APA/apa-good}  % or
+\bibliography{thesis}
+% Comment the above two lines and uncomment the next line to use biblatex-chicago.
+% \printbibliography[heading=bibintoc]
+
+% Finally, an index would go here... but it is also optional.
+\end{document}
