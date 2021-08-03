@@ -20,9 +20,6 @@
 % the 2002-2003 Senior Handbook. Ask a librarian to check the 
 % document before binding. -SN
 
-%% Jay Kruer's includes
-\include{macros}
-
 %%
 %% Preamble
 %%
@@ -34,32 +31,37 @@
 % Check out CTAN to see: http://www.ctan.org/
 %%
 \usepackage{graphicx,latexsym} 
-\usepackage{amssymb,amsthm,amsmath}
+\usepackage{amssymb,amsthm}
 \usepackage{longtable,booktabs,setspace} 
 \usepackage[hyphens]{url}
 \usepackage{rotating}
 \usepackage{natbib}
-
-%% Jay Kruer's packages
 \usepackage{hyperref}
+\usepackage{outlines}
 \usepackage{bbm, stmaryrd}
+\usepackage{luatexja} % for memes
+\usepackage{amsmath} % sensible math notation
+\usepackage{braket}
 \hypersetup{
   colorlinks,
   allcolors=black,
   hidelinks,
 }
-\usepackage{luatexja} % for memes
-
-
-
-%%% Jay Kruer's misc preamble
-%%% TODO: move this to its own file
+\theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
+\newtheorem{joke}{Joke}
+
+\theoremstyle{remark}
 \newtheorem{remark}{Remark}
 \newtheorem{recall}{Recall}
+
+
+\theoremstyle{theorem}
 \newtheorem{theorem}{Theorem}
-\newtheorem{joke}{Joke}
+
+\include{autodelims}
+\include{macros}
 
 % Comment out the natbib line above and uncomment the following two lines to use the new 
 % biblatex-chicago style, for Chicago A. Also make some changes at the end where the 
@@ -171,8 +173,9 @@ Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\ be
 In this chapter we develop the semantics of type theory by categorical methods
 using \emph{sketches}. The reader familiar with and/or traumatized by experience
 with pencils of geodesics in hyperbolic geometry need not be scared away by our
-terminology; our development will be easy and fun. We begin with the notion of
-an \emph{elementary sketch}, which is powerful enough to describe theories with
+terminology; there is nothing non-euclidean afoot here, even if we are building
+our way to some nominally geometric notions. We begin with the notion of an
+\emph{elementary sketch}, which is powerful enough to describe theories with
 unary operations (something \emph{like} single-variable functions) and multiple
 \emph{sorts} (which you may, for now, regard as a type, set, object, etc.) This
 already gives us enough power to encode some familiar algebraic structures like
@@ -182,20 +185,20 @@ encountered in an algebra course, such as finite automata. Later we will
 generalize the notion of elementary sketch to that of \emph{algebraic theory}.
 Algebraic theories are known more famously as \emph{Lawvere theories} after
 categorical logic and model theory superstar (and former Reed College
-professor!) William Lawvere. \emph{Algebraic theories} allow for any operations
-over any number of inputs and so grow the capabilities of our development to
-encoding more grotesque mathematical objects such as non-trivial type theories.
-This chapter is strictly expository in nature. Much of the following
-presentation draws heavily from Paul Taylor's \emph{Practical Foundations of
-  Mathematics} (\cite{taylor_practical_1999}.) Our humble contribution is to
-flesh out some of his examples, add some of our own, and make parts of the
-presentation more palatable and quickly digestible to an audience less
-sophisticated than the usual consumer of Taylor's book.
+professor!) William Lawvere. \emph{Algebraic theories} allow for operations over
+any number of inputs and so grow the capabilities of our development to encoding
+more grotesque mathematical artifacts such as the lambda calculus. This chapter
+is strictly expository in nature. Much of the following presentation draws
+heavily from Paul Taylor's \emph{Practical Foundations of Mathematics}
+(\cite{taylor_practical_1999}.) Our humble contribution is to flesh out some of
+his examples, add some of our own, and make parts of the presentation more
+palatable and quickly digestible to the reader already acquainted with basic
+category theory and type theory.
 
 \section{Elementary sketches and their models}
 \subsection{An algebraic prelude}
-We begin by recalling the notion of an \emph{action} of, say, a group or a
-monoid from algebra. Actions are, from our perspective, a way of giving meaning,
+We begin by recalling from algebra the notion of an \emph{action} of, say, a
+group or a monoid. Actions are, from our perspective, a way of giving meaning,
 or \emph{semantics} to elements of a set enjoying some algebraic structure.
 \begin{definition}
   Recall that a \textbf{covariant action} of a group or monoid \((M, id, \cdot)\) on a
@@ -204,6 +207,7 @@ or \emph{semantics} to elements of a set enjoying some algebraic structure.
   define the notion of a \textbf{contravariant action} which acts in the order
   opposite of that in the composition.
 \end{definition}
+[TODO: reword much of this paragraph; not great writing here]
 For example, in algebra we learn that the dihedral group of order 8, written
 $D_{4}$, acts on the square (with uniquely identified points) by reflections and
 rotations (TODO: cite https://groupprops.subwiki.org/wiki/Dihedral\_group:D8);
@@ -233,9 +237,9 @@ the leave-everything-in-place action on the square.
 
 
 Having gesticulated that actions gives groups and monoids their meaning, we turn
-to the development of some new notions that will allow us to define give actions
-generalize both algebraic structures and their actions to new settings not
-usually considered formally. % TODO: fix this phrasing
+to the development of some new notions that will allow us to generalize both the
+notion of algebraic structures and their actions to new
+settings. % TODO: fix this phrasing
 The corresponding notions are, respectively, sketches and their models.
 
 \subsection{Elementary sketches}
@@ -258,12 +262,15 @@ standard algebra.
 \end{definition}
 We will discuss the generality provided by this definition after some
 intervening examples. One of the simplest examples is the sketch of a monoid on some set $S$:
-\begin{enumerate}
-  \item The collection of sorts is the singleton \( \{M\} \).
-  \item The collection of variables is \( \{m:M\} \).
-  \item The collection of operation symbols is the set \( S \). Each has as its signature \( M \rightarrow M \)
-  \item No equations are imposed.
-\end{enumerate}
+
+\begin{example}[Sketch of a (free) monoid] The requisite data for the sketch are as follows:
+  \begin{enumerate}
+    \item The collection of sorts is the singleton \( \{M\} \).
+    \item The collection of variables is \( \{m:M\} \).
+    \item The collection of operation symbols is the set \( S \). Each has as its signature \( M \rightarrow M \)
+    \item No equations are imposed.
+  \end{enumerate}
+\end{example}
 
 To really buy that this sketch generates a free monoid, we begin with an
 intervening definition of a notion we will get a lot of mileage out of in this
@@ -279,8 +286,8 @@ We now propose a more precise version of the above claim: the terms of the
 sketch defined above form the elements of a free monoid \( S \). Before we can
 continue, we should decide what the composition should look like. The definition
 of composition of terms is by substitution: for a term \( \sigma : \Delta \vdash \Gamma\) and some
-terms \( \tau_{i}\) with \( \tau_{n} : \? \vdash \Zeta \) we define
-\[ (\tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma)))))) \circ \sigma = \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\sigma(\delta)))))) : \Delta \vdash \Zeta \].
+terms \( \tau_{i}\) with \( \tau_{n} : \cdots \vdash X \) we define
+\[ (\tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma)))))) \circ \sigma = \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\sigma(\delta)))))) : \Delta \vdash X \].
 The reader will recall from our early discussions of basic type theory that
 substitution is associative [TODO]; our sketch gets that monoid axiom for free. The
 identity term is given by zero composable unary operation-symbols applied to a
@@ -364,13 +371,78 @@ flesh this out.]
     leave.
   \end{joke}
 
-\subsection{Familiar examples}
-\section{Models and their categories; or, categories and their models}
+\section{Models and their categories; and, categories and their models}
+[segue]
+% TODO: should I mention more about how models give rise to a category for a sketch?
+
+% TODO: mention the canonical elementary language for a category?
+
+% TODO: The title of this chapter is sort of wrong. There is a correspondence between
+% categories and elementary sketches, but not the other way around; *a* model
+% gives rise to *a* category associated with a sketch, but going the other way
+% seems non-obvious.
 
 \subsection{The category of contexts and substitutions}
-\emph{Note:} I need to make sure when defining the category of context and substitution for a sketch by means of giving its generating morphisms that I also define the equality on morphisms. In my slides I missed this, but the correct presentation is given in Taylor.
+We now introduce a very special category. This category is special in both the
+structure it enjoys as well as the central role it will play in the rest of the
+thesis. Being so widely studied, this category has gone by many names:
+\emph{syntactic category}, the (rather verbose) \emph{category of contexts and
+  substitutions} and the elusive \emph{classifying category}. We endeavor to
+explain the meaning behind each of these names over the course of the thesis,
+but for now we adopt the name most closely describing its presentation.
 
-\subsection{Models are just functors with the right codomain}
+\newcommand{\id}{\text{id}} % TODO: move this
+
+\begin{definition}[The category of contexts and substitutions]
+  Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \text{Cn}^{\times}_{\mathcal{L}}\) is presented as follows:
+  \begin{outline}
+    \1 The objects are the contexts of \( \mathcal{L} \) namely finitely lists
+    of distinct variables and their types.
+
+    \1 The generating morphisms are:
+
+      \2 Single substitutions or \emph{declarations} \( [a/x] : \Gamma \rightarrow [\Gamma, x:X] \) for each term
+      \( \Gamma \vdash a : X \). The direction here should be confusing unless you're already an expert.
+
+      \2 Single omissions or \emph{drops} \( \hat{x} : [\Gamma, x : X] \rightarrow \Gamma \) for
+      each variable $x:X$.
+
+    \1 The laws are given by an extended version of the familiar substitution
+      lemma from type theory. The following laws are added for each collection
+      of terms $a,b$ and distinct variables $x$ and $y$ such that $x$ does
+      not appear free in $a$ or $u$ and $y$ appears free only in $t$ (or not):
+    \begin{align*}
+      % declaration follow by drop does nothing
+      [a/x] ; \hat{x} &= \id \\
+      % successive declarations commute up to accounting for the first
+      % declaration in the body of the second
+      [a/x] ; [b/y]   &= [ [ a/x ]^{*} b/y ] ; [a/x] \\
+      % non-overlapping declarations and drops commute
+      [a/x]; \hat{y} &= \hat{y}; [a/x] \\
+      % non-overlapping drops commute
+      \hat{x}; \hat{y} &= \hat{y}; \hat{x} \\
+      % assigning y to a variable, dropping it, then re-assigning that variable
+      % to refer to y gives y := y. dropping y then results in the identity.
+      [x/y]; \hat{x}; [y/x]; \hat{y} &= \id
+    \end{align*}
+  \end{outline}
+  We will briefly speak to the meaning of the laws. The first law says that
+  binding a variable to some term and then forgetting the variable is just the
+  same as doing nothing. The second law says that successive variable
+  declarations commute \emph{up to accounting for the first declaration in the
+    body of the second}. The third law says that \emph{non-overlapping}
+  declarations and drops commute. The fourth law says that pairs of
+  non-overlapping drops commute. The last law is slightly more tricky and
+  requires taking careful account of the free variables in play. [TODO: return
+  to this] It is important to note that his category is not fully specified
+  without the laws; knowing only the generating morphism is not enough. [TODO:
+  why?]
+\end{definition}
+
+\subsection{Models are just functors with the right codomain. TODO: is this the correct name for this section? I'm not so sure.}
+
+
+
 
 \newcommand{\clone}[3]{{\text{Cn}_{#1}(#2,#3)}}
 
@@ -393,29 +465,94 @@ namely the (syntactic) term $t$. In the special case of a closed (syntactic)
 term $t$, we have \( [t/x]^{*} : \clone{}{x:X}{T} \longrightarrow \clone{}{\emptyset}{T}\).
 
 \section{Algebraic theories and their algebras}
+Having defined elementary sketches, which give us a way to define multi-sorted
+theories, it's obvious to request the ability to define multi-input operations.
+Algebraic theories, having their genesis in the work of William Lawvere,
+generalize elementary sketches and allow us to do so.
+\begin{definition}[Algebraic theory]
+  A (finitary many-sorted) \textbf{algebraic theory} \mathcal{L} has
+  \begin{enumerate}
+    \item a collection of base types of \textbf{sorts}, $X$: We write $\Sigma$ for the set of these sorts;
+    \item an inexhaustible collecting of variables $x_{i}:X$ of each sor;
+    \item a collection of \textbf{operation symbols}, $X_{1},\dots , X_{k} \vdash r : Y$ each having an \textbf{arity}, namely a list of input sorts $X_{i}$, and an output sort $Y$; and
+    \item a collection of \textbf{laws}, posed as equalities between different
+          terms (in the sense defined before)
+  \end{enumerate}
+\end{definition}
+Here's a little known statistic: One in two readers of this draft will note that
+the notion of Lawvere theory can be rephrased in terms of operards; Lawvere
+theories are operads for which the tensor product used in forming the operation
+domains happens to be the plain ol' Cartesian product \cite{TODO: Nlab}.
+
+The next major concept we will introduce generalizes to algebraic theories the
+notion of \emph{action} or \emph{model} we saw previously for elementary
+sketches. As expected, the definition will be essentially the same up to taking
+some products. Before doing so, we will give an intervening example of an
+algebraic theory.
 \begin{example}[Algebraic theory of \emph{ring} TODO: fix formatting]
   \begin{enumerate}
     \item Sorts: \( \mathbbm{1}, S, S, S \). The variables for each sort are
-          \( \_ \) and \( x, y, z\) respectively.
+          \( \square \) and \( x, y, z\) respectively.
 
     \item Operations: \[
-          \cdot : S \times S \rightarrow S,
-          0 : \mathbbm{1} \rightarrow S,
-          1 : \mathbbm{1} \rightarrow S,
-          - : S \rightarrow S\]
+      \cdot : S \times S \rightarrow S,
+      + : S \times S \rightarrow S,
+      0 : \mathbbm{1} \rightarrow S,
+      1 : \mathbbm{1} \rightarrow S,
+      - : S \rightarrow S\]
 
         \item Laws: \begin{enumerate}
           \item \( +(x,y) = +(y,x) \)
-          \item \( +(0(\_), x) = x \)
-          \item \( +(x, -(x)) = 0(\_) \)
+          \item \( +(0(\square), x) = x \)
+          \item \( +(x, -(x)) = 0(\square) \)
 
           \item \( \cdot(x,y) = \cdot(y,x) \)
-          \item \( \cdot(1(\_), x) = x \)
+          \item \( \cdot(1(\square), x) = x \)
 
           \item \( \cdot(x, +(y,z)) = +(\cdot(x,y), \cdot(x,z))\)
     \end{enumerate}
   \end{enumerate}
 \end{example}
+
+Having given an obligatory concrete example, we give ourselves the permission to
+proceed with another abstract definition: that of an
+\emph{$\mathcal{L}$-algebra} for an algebraic theory:
+
+\begin{definition}[$\mathcal{L}$-algebra]
+  Given an algebraic theory $\mathcal{L}$ and a category $C$ with finite
+  products (in the sense of the universal property as treated in the chapter on
+  basic category theory) an \emph{$\mathcal{L}$-algebra in $C$} is comprised of
+  \begin{enumerate}
+    \item an object $A_{X}$ of $C$ for each sort $X$ of $\mathcal{L}$, and
+    \item for each operation symbol $X_{1}, \dots , X_{k} \vdash r : Y$, an
+          assignment of a map $r_{A} : A_{X_{1}} \times \cdots \times A_{X_{k}} \rightarrow A_{Y}$ in
+          $C$.
+  \end{enumerate}
+  such that the assignments respect the laws of $\mathcal{L}$.
+\end{definition}
+
+We now give an example of an algebra (in the category of sets) for the theory of
+a ring given above.
+\begin{example}
+  \begin{enumerate}
+    \item For the sorts, we set $A_{S} = \mathbb{Z}$ and $A_{\mathbbm{1}} = {\star}$
+    \item For the operations, we set
+    \begin{enumerate}
+      \item $\cdot_A = *$ where $*$ is the ordinary multiplication of integers
+      \item $+_{A} = +$ where the second plus is ordinary addition of integers
+      \item $0_{A}$ to the constant function $x \mapsto 0 \in \mathbb{Z}$
+      \item $1_{A}$ to the constant function $x \mapsto 1 \in \mathbb{Z}$
+      \item $-_{A}$ to the function $x \mapsto -x$ taking an integers to its additive inverse
+    \end{enumerate}
+    \item We wouldn't dare bore the reader by verifying all the laws, so we demonstrate just one:
+    \begin{align*}
+      +_{A}( \braket{0_{A}, x} )
+    \end{align*}
+
+  \end{enumerate}
+\end{example}
+
+
 \section{An algebraic theory: the (simply typed) lambda calculus}
 
 
@@ -430,13 +567,7 @@ term $t$, we have \( [t/x]^{*} : \clone{}{x:X}{T} \longrightarrow \clone{}{\empt
 \setcounter{chapter}{4}
 \setcounter{section}{0}
 
-Here's a conclusion, demonstrating the use of all that manual incrementing and table of contents adding that has to happen if you use the starred form of the chapter command. The deal is, the chapter command in \LaTeX\ does a lot of things: it increments the chapter counter, it resets the section counter to zero, it puts the name of the chapter into the table of contents and the running headers, and probably some other stuff. 
-
-So, if you remove all that stuff because you don't like it to say ``Chapter 4: Conclusion'', then you have to manually add all the things \LaTeX\ would normally do for you. Maybe someday we'll write a new chapter macro that doesn't add ``Chapter X'' to the beginning of every chapter title.
-
-\section{More info}
-And here's some other random info: the first paragraph after a chapter title or section head \emph{shouldn't be} indented, because indents are to tell the reader that you're starting a new paragraph. Since that's obvious after a chapter or section title, proper typesetting doesn't add an indent there. 
-
+That's it for now.
 
 % If you feel it necessary to include an appendix, it goes here.
 \appendix
