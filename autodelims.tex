@@ -1,0 +1,46 @@
+%%% From user4686 on the TeX stackexchange. Thank you!
+%%% https://tex.stackexchange.com/a/289552
+\newcommand*\autoop{\left(}
+\newcommand*\autocp{\right)}
+\newcommand*\autoob{\left[}
+\newcommand*\autocb{\right]}
+\DeclareRobustCommand*\{{\ifmmode \left\lbrace \else \textbraceleft \fi }
+\DeclareRobustCommand*\}{\ifmmode \right\rbrace \else \textbraceright \fi }
+\AtBeginDocument {%
+   \mathcode`( 32768
+   \mathcode`) 32768
+   \mathcode`[ 32768
+   \mathcode`] 32768
+   \begingroup
+       \lccode`\~`(
+       \lowercase{%
+   \endgroup
+       \let~\autoop
+   }\begingroup
+       \lccode`\~`)
+       \lowercase{%
+   \endgroup
+       \let~\autocp
+   }\begingroup
+       \lccode`\~`[
+       \lowercase{%
+   \endgroup
+       \let~\autoob
+   }\begingroup
+       \lccode`\~`]
+       \lowercase{%
+   \endgroup
+       \let~\autocb
+   }}
+
+\delimiterfactor 1001
+
+\makeatletter
+% for amsmath "compatibility" (not sophisticated)
+% \usepackage{amsmath}
+\AtBeginDocument {%
+          \def\resetMathstrut@{%
+           \setbox\z@\hbox{\the\textfont\symoperators\char40}%
+           \ht\Mathstrutbox@\ht\z@ \dp\Mathstrutbox@\dp\z@}%
+}%
+\makeatother
