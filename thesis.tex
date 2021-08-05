@@ -38,9 +38,9 @@
 \usepackage{natbib}
 \usepackage{hyperref}
 \usepackage{outlines}
-\usepackage{bbm, stmaryrd}
+\usepackage{bbm, stmaryrd, mathrsfs}
 \usepackage{luatexja} % for memes
-\usepackage{amsmath} % sensible math notation
+\usepackage{amsmath}
 \usepackage{braket}
 \hypersetup{
   colorlinks,
@@ -51,6 +51,7 @@
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
 \newtheorem{joke}{Joke}
+\newtheorem{notation}{Notation}
 
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
@@ -105,8 +106,8 @@
 % Acknowledgements (Acceptable American spelling) are optional
 % So are Acknowledgments (proper English spelling)
 \chapter*{Acknowledgements}
-Ms. Kim, Hyong Rhew, Mrs. Leitsch, Mr. Raveli (was that his name? gotta find out
-somehow), Jim Fix, Ang\'elica Osorno, Irena Swanson, [TODO]
+My parents, Jaclyn, Nick Chaiyachakiorn, Ms. Kim, Hyong Rhew, Mrs. Leitsch, Mr. Raveli (was that his name? gotta find out
+somehow), Jim Fix, Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Amal Ahmed,
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -147,7 +148,7 @@ The preface pretty much says it all.
 \chapter*{Dedication}
 You can have a dedication here if you wish.
 
-\mainmatter % here the regular arabic numbering starts
+\mainmatter% here the regular arabic numbering starts
 \pagestyle{fancyplain} % turns page numbering back on
 
 % The \introduction command is provided as a convenience.
@@ -180,10 +181,10 @@ Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\ be
 
 
 General thoughts on this chapter: Considerable rework is probably advised. Paul
-Taylor's book follows basically this progression: 1) introduce the concept of an
-elementary sketch 2) generalize the concept of elementary sketch to the concept
+Taylor's book follows basically this progression: 1\) introduce the concept of an
+elementary sketch 2\) generalize the concept of elementary sketch to the concept
 of algebraic theory, which can encode familiar types of object like the theory
-of rings; 3) build a (not-quite? we have function types in the lambda calculus;
+of rings; 3\) build a (not-quite? we have function types in the lambda calculus;
 such sorts aren't specifically mentioned in the doctrine of algebraic theories)
 algebraic theory of the lambda calculus and talk about its models in cartesian
 closed categories. I have spent a great deal of my writing time trying to figure
@@ -364,17 +365,23 @@ flesh this out.]
   \begin{definition}\label{def:clone}
     Given an elementary (unary) sketch, the \textbf{clone} at \( (\Gamma, X) \) is
     the set \( \text{Cn}_\mathcal{L} (\Gamma, X) \) of all the \textbf{terms} of sort
-    $X$ assuming a single variable of sort $\Gamma$.
+    $X$ assuming a single variable of sort $\Gamma$, quotiented by the laws of the
+    sketch.
   \end{definition}
+  The fact that a sketch's clones contain \emph{equivalence classes} of its
+  terms will feature prominently in our later study of ideas central to the
+  goals of this thesis. In particular, clones alone don't allow for any real
+  discussion of computational behavior of terms undergoing reduction; a term's
+  normal form and its various reducible forms are identified in the clone.
 
   It can be shown that the clones of a sketch form (the sets for) a model of a
   sketch. In particular, it can be shown that the sketch acts covariantly on the
   set of its clones:
   \begin{theorem}\label{thm:clone model}
     Every elementary sketch has a faithful covariant action on its clones
-    \(\mathcal{H}_{X} = \cup_{\Gamma} \text{Cn}_{\mathcal{L}}(\Gamma,X)\) by
-    sequencing with the operation symbol. Substitution for the (single)
-    variable in a term gives a faithful contravariant action on
+    \(\mathcal{H}_{X} = \cup_{\Gamma} \text{Cn}_{\mathcal{L}}(\Gamma,X)\) by sequencing with
+    the operation symbol. Substitution for the (single) variable in a term gives
+    a faithful contravariant action on
     \(\mathcal{H}^{Y} = \cup_{\Theta} \text{Cn}_{\mathcal{L}}(Y,\Theta)\).
   \end{theorem}
   \begin{proof}
@@ -410,7 +417,7 @@ flesh this out.]
 Despite not enjoying many compelling examples, elementary sketches are
 interesting due to their close resemblence to categories in their most basic
 form. With no extra structural requirements, it turns out that every elementary
-sketch gives rise to a category, and even more surprisingly, that every 
+sketch gives rise to a category, and even more surprisingly, that every
 % TODO: should I mention more about how models give rise to a category for a sketch?
 
 \begin{theorem}[Elementary sketches gives rise to a category]\label{thm:sketch cat}
@@ -595,6 +602,8 @@ algebraic theory:
 We now give an example of an algebra (in the category of sets) for the theory of
 a ring given in
 \begin{example}\label{ex:integer ring}
+  TODO: do we need to deal with explicating the product structure in this
+  example? see taylor's monoid example in 4.6
   \begin{enumerate}
     \item For the sorts, we set $A_{S} = \mathbb{Z}$ and $A_{\mathbbm{1}} = \{\star\}$
     \item For the operations, we set
@@ -608,21 +617,25 @@ a ring given in
     \item We wouldn't dare bore the reader by verifying all the laws, so we
           demonstrate just one. We show that the $0$ selected by the model
           indeed serves as the left identity of addition in the model.
-    % TODO: to really explain what's going on here, I feel like the
-    % more categorical formalization of the laws as commutative diagrams
-    % preserved by the model functor would be the best presentation. I'm not
-    % sure why Taylor didn't do this himself. Would it really be so hard to
-    % rewrite my own presentation from that perspective? On the other
-    % hand, I think that the more syntax oriented presentation of sketches and
-    % algebraic theories is probably more approachable to a general
-    % audience (even category theorists.) I.e., the syntactic presentation
-    % motivates and clarifies the categorical one, at least in my experience
-    % learning the syntactic first...
-    \begin{align*}
-      +_{A} \circ \braket{0_{A}, \id} &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0(x) + y (\text{TODO: finish me!})\\
-                                 &= (\_, y) \mapsto 0(\star) + y
-                                 &= \id_
-    \end{align*}
+          \begin{proof}
+            \begin{align*}
+              +_{A} \circ \braket{0_{A}, \id} &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0_{A}(x) + \id(y)\\
+                                          &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0_{\mathbb{Z}} + y \\
+                                          &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto y
+                                          &= \id_{\mathbbm{1}_{Z} \times S_{A}} \\
+            \end{align*}
+
+            Our proof is almost done, but we must justify that the final
+            identity morphism is actually the interpretation of the variable
+            $x$. This fact will be validated by results later in this section.
+            In particular, we will give a proper treatment to the interpretation
+            of terms in an algebraic theory and observe the equivalence of the
+            terms $x$ and $\hat{\square} x$ (recall that $\square$ is the variable we
+            settled on for the sort $\mathbbm{1}$) just as in our construction
+            of the syntactic category for an elementary sketch. With the
+            clearing of that remaining goalpost promised, we have shown what is
+            required for this law.
+          \end{proof}
   \end{enumerate}
 \end{example}
 
@@ -645,8 +658,62 @@ define a more general notion:
   $\mathscr{Mod}_{\mathfrak{C}}(\mathcal{L})$. TODO: prove it, nerd.
 \end{remark}
 
-\begin{theorem}[Extending to a model of terms]\label{thm:term model}
-% TODO
+Most questions in type theory are concerned with the \emph{terms} of the theory
+at hand. Normalization theorems talk about the accessibility (under some
+reduction relation) of a certain class of terms from any arbitrary term.
+Canonicity, a stronger property implying normalization, talks about the
+accessibility of another more strict class of terms from arbitrary start terms.
+These are but two examples of a broad spectrum of properties one might desire of
+the terms of a theory. Considering the primacy of term properties in type
+theory, it is rather strange that the notion of semantics we have built so far
+makes no commentary on terms. Our models so far have only given meaning to the
+\emph{sorts} (types) and /emph{operation symbols} (constructors) of the theory
+considered. In fact, this is enough: our models extend canonically to contexts
+and substitutions and thus give meaning to terms.
+
+\DeclarePairedDelimiter{\sem}{\llbracket}{\rrbracket}
+
+\begin{theorem}[Extending a model to terms]\label{thm:term model}
+  Let $A$ be an $\mathcal{L}$-algebra in a category $\mathfrak{C}$ This algebra
+  extends canonically to an interpretation $\sem{-}$ of contexts by the
+  following definition recursive in the structure of contexts:
+  \begin{align}
+    \label{eq:contexts interp}
+    \sem{} &= \mathbbm{1}_{C} \\
+    \sem{\Gamma, x : X} &= \sem{\Gamma} \times A_{X}
+  \end{align}
+  The (overly) careful reader will complain that $\mathfrak{C}$ doesn't
+  necessarily feature a terminal object, but it turns out that a terminal object
+  is guaranteed by the finite product closure we imposed on $\mathfrak{C}$ in
+  our definition of algebras; we are good to go.
+
+  Recalling more from the definition of an algebra, we know that $A$ gives
+  meaning to each operation symbol \( Y_{1},\dots , Y_{k} \vdash r : Z \) as a
+  morphism \( r_{A} : A_{Y_{1}} \times \cdots \times A_{Y_{k}} \rightarrow A_{Z} \) and gives meaning to
+  each constant \( c : Z \) by a morphism \( 1_{\mathfrak{C}} \rightarrow A_{Z} \). We can
+  extend this uniquely to arbitrary terms in the context
+  \( \Gamma \equiv \sem{x_{1} : X_{1}, \dots , x_{n} : X_{n}} \) by the following
+  recursive definiton:
+  \begin{align}
+    \label{eq:term interp}
+    \sem{x_{i}} &: \sem{\Gamma} \equiv A_{X_{1}} \times \cdots \times A_{X_{n}} \xrightarrow{\pi_{i}} A_{X_{i}} \\
+    \sem{c} &: \sem{\Gamma} \xrightarrow{<_{!}} \mathbbm{1}_{C} \xrightarrow{c_{A}} A_{Z} \\
+    \sem{r(u_{1}, \dots , u_{k})} &: \sem{\Gamma} \xrightarrow{/braket{\sem{u_{1}}, \dots, \sem{u_{k}}}} A_{Y_{1}} \times \cdots \times A_{Y_{k}} \xrightarrow{r_{A}} A_{Z}
+  \end{align}
+  where the $\sem{u_{i}}$ are the interpretations of the sub-expressions of the
+  expression in the final line, $\pi_{i}$ is the $i$th projection guaranteed to us
+  by the universal property of products, and $<_{!}$ is the unique map into the
+  terminal object. The angle bracket notion is used to express the product
+  functor's action on morphisms in $\mathfrak{C}$. For clarity, we write out
+  explicitly the composites for the reader:
+  \begin{align*}
+    \sem{x_{i}} &\equiv \pi_{i} \\
+    \sem{c} &\equiv c_{A } \circ <_{!} \\
+    \sem{r(u_{1}, \dots , u_{k})} &\equiv r_{A} \circ /braket{\sem{u_{1}}, \dots, \sem{u_{k}}
+  \end{align*}
+
+
+
 \end{theorem}
 
 \begin{theorem}[The classifying category of an algebraic theory]\label{thm:classifying alg theory}
@@ -679,7 +746,7 @@ That's it for now.
 % This is where endnotes are supposed to go, if you have them.
 % I have no idea how endnotes work with LaTeX.
 
-\backmatter % backmatter makes the index and bibliography appear properly in the t.o.c...
+\backmatter% backmatter makes the index and bibliography appear properly in the t.o.c...
 
 % if you're using bibtex, the next line forces every entry in the bibtex file to be included
 % in your bibliography, regardless of whether or not you've cited it in the thesis.
