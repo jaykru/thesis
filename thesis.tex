@@ -81,7 +81,7 @@
 
 % If you have two advisors for some reason, you can use the following
 % \altadvisor{Your Other Advisor}
-%%% Remember to use the correct department!
+%%% Remember to use the correct depart*** 
 \department{Mathematics}
 % if you're writing a thesis in an interdisciplinary major,
 % uncomment the line below and change the text as appropriate.
@@ -116,7 +116,7 @@ This is an example of a thesis setup to use the reed thesis document class.
 
 
 \chapter*{List of Abbreviations}
-You can always change the way your abbreviations are formatted. Play around with it yourself, use tables, or come to CUS if you'd like to change the way it looks. You can also completely remove this chapter if you have no need for a list of abbreviations. Here is an example of what this could look like:
+You can always change the way your abbrevias are formatted. Play around with it yourself, use tables, or come to CUS if you'd like to change the way it looks. You can also completely remove this chapter if you have no need for a list of abbreviations. Here is an example of what this could look like:
 
 \begin{table}[h]
   \centering % You could remove this to move table to the left
@@ -170,10 +170,35 @@ Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\ be
 \chapter{Basic Type Theory}
 \chapter{Enough Categories to Get Working}
 \chapter{Sus semantics of type theory: sketches and their models; algebraic theories and their algebras}
+
+% TODO
+% adopt doctrine terminology throughout 
+% Cite Sterling/Gratzer somewhere
+% Cite Wells outline
+% rework for a more modern and diagrammatic take on sketches?
+% 
+
+
+General thoughts on this chapter: Considerable rework is probably advised. Paul
+Taylor's book follows basically this progression: 1) introduce the concept of an
+elementary sketch 2) generalize the concept of elementary sketch to the concept
+of algebraic theory, which can encode familiar types of object like the theory
+of rings; 3) build a (not-quite? we have function types in the lambda calculus;
+such sorts aren't specifically mentioned in the doctrine of algebraic theories)
+algebraic theory of the lambda calculus and talk about its models in cartesian
+closed categories. I have spent a great deal of my writing time trying to figure
+out how to make the first step work—limiting yourself to unary operations makes
+providing concrete examples surprisingly challenging—but I am beginning to think
+it's not even necessary. I am eager to get the first chapter finished soon so I
+can turn my attention to some of the stuff I'm planning to draw on in later
+chapters about gluing for normalization proofs.
+
+
+
 In this chapter we develop the semantics of type theory by categorical methods
 using \emph{sketches}. The reader familiar with and/or traumatized by experience
 with pencils of geodesics in hyperbolic geometry need not be scared away by our
-terminology; there is nothing non-euclidean afoot here, even if we are building
+terminology; there is nothing non-Euclidean afoot here, even if we are building
 our way to some nominally geometric notions. We begin with the notion of an
 \emph{elementary sketch}, which is powerful enough to describe theories with
 unary operations (something \emph{like} single-variable functions) and multiple
@@ -200,7 +225,7 @@ category theory and type theory.
 We begin by recalling from algebra the notion of an \emph{action} of, say, a
 group or a monoid. Actions are, from our perspective, a way of giving meaning,
 or \emph{semantics} to elements of a set enjoying some algebraic structure.
-\begin{definition}
+\begin{definition}\label{def:covariant action}
   Recall that a \textbf{covariant action} of a group or monoid \((M, id, \cdot)\) on a
   set \(A\) is a binary operation \((-)_* (=) : M ‌\times A \rightarrow A\) such that
   \(\text{id}_* a = a\) and \( (g \circ f)_* a = g_* (f_* a) \). We can similarly a
@@ -222,7 +247,8 @@ $n$ by permutation of the list elements. In this case, the action can be even
 more trivially defined. We now turn to the definition of a property of actions:
 \emph{faithfulness}.
 
-\begin{definition} A \textbf{faithful} action $(-)_{*}$ is one for which things
+\begin{definition}\label{def:faithful}
+  A \textbf{faithful} action $(-)_{*}$ is one for which things
   are semantically equal (or, act the same) only when they are syntactically
   equal (or, are the same as far as your eyeballs are concerned.) More precisely
   rendered, we require: \[ \forall (a:A)\ldotp f_* a = g_* a \Longrightarrow f = g \]
@@ -244,9 +270,8 @@ The corresponding notions are, respectively, sketches and their models.
 
 \subsection{Elementary sketches}
 As promised, we begin with the notion of an \emph{elementary sketch} which
-allows us to, among other things, specify structures beyond those treated in
-standard algebra.
-\begin{definition}
+allows us to encode structures involving \emph{unary} operations.
+\begin{definition}\label{def:elem sketch}
   An \textbf{elementary sketch} is comprised of the following data:
   \begin{enumerate}
     \item a collection \(X, Y, Z, \dots \) of named \textbf{base types} or
@@ -263,7 +288,8 @@ standard algebra.
 We will discuss the generality provided by this definition after some
 intervening examples. One of the simplest examples is the sketch of a monoid on some set $S$:
 
-\begin{example}[Sketch of a (free) monoid] The requisite data for the sketch are as follows:
+\begin{example}[Sketch of a (free) monoid]\label{ex:monoid sketch}
+  The requisite data for the sketch are as follows:
   \begin{enumerate}
     \item The collection of sorts is the singleton \( \{M\} \).
     \item The collection of variables is \( \{m:M\} \).
@@ -275,7 +301,7 @@ intervening examples. One of the simplest examples is the sketch of a monoid on 
 To really buy that this sketch generates a free monoid, we begin with an
 intervening definition of a notion we will get a lot of mileage out of in this
 thesis.
-\begin{definition}
+\begin{definition}\label{def:term}
   Given an elementary sketch, a \textbf{term} $x : \Gamma \vdash X$ is a string of
   composable unary operation-symbols applied to a variable $\gamma : \Gamma$ as in:
   \( \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma))))) \). Composable unary-operation
@@ -295,7 +321,7 @@ variable. It's just a variable; when composing the identity with a term of the
 appropriate type, we end up getting exactly that term [TODO: say more here, or maybe
 flesh this out.]
 
-  [transition to discussion of models]
+  [TODO: transition to discussion of models]
   %   The definition of an elementary sketch allows for multiple \emph{sorts}. All
   % the common examples from algebra which we have seen so far only make use of a
   % single sort; in particular, all strings of elements of the sketches we've
@@ -308,7 +334,9 @@ flesh this out.]
   % To really begin to buy that this sketch encodes the free monoid on the set S,
   % it helps to consider a \emph{model}, which is in some sense a way of giving a
   % sketch meaning in terms of the ambient mathematical universe.
-  \begin{definition}
+
+  % TODO: rework to be an algebra of algebraic theory
+  \begin{definition}\label{def:model}
     A \textbf{model} (also known as an algebra, an interpretation, a covariant
     action) of an elementary sketch is comprised of:
     \begin{enumerate}
@@ -332,15 +360,17 @@ flesh this out.]
   %     \item The laws are vacuosly preserved.
   %   \end{enumerate}
   % \end{example}
-
-  \begin{definition}
+  % TODO: rework to algebraic theory
+  \begin{definition}\label{def:clone}
     Given an elementary (unary) sketch, the \textbf{clone} at \( (\Gamma, X) \) is
     the set \( \text{Cn}_\mathcal{L} (\Gamma, X) \) of all the \textbf{terms} of sort
     $X$ assuming a single variable of sort $\Gamma$.
   \end{definition}
 
-  It can be shown that the clones of a sketch form (the sets for) a model of a sketch. In particular, it can be shown that the sketch acts covariantly on the set of its clones:
-  \begin{theorem}
+  It can be shown that the clones of a sketch form (the sets for) a model of a
+  sketch. In particular, it can be shown that the sketch acts covariantly on the
+  set of its clones:
+  \begin{theorem}\label{thm:clone model}
     Every elementary sketch has a faithful covariant action on its clones
     \(\mathcal{H}_{X} = \cup_{\Gamma} \text{Cn}_{\mathcal{L}}(\Gamma,X)\) by
     sequencing with the operation symbol. Substitution for the (single)
@@ -348,52 +378,71 @@ flesh this out.]
     \(\mathcal{H}^{Y} = \cup_{\Theta} \text{Cn}_{\mathcal{L}}(Y,\Theta)\).
   \end{theorem}
   \begin{proof}
-    The actions of \(\tau : X \rightarrow Y\) on \(\text{Cn}_\mathcal{L}(\Gamma,X) \subseteq \mathcal{H}_{X}\) and \(\text{Cn}_\mathcal{L}(Y,\Theta) \subseteq \mathcal{H}^{Y}\) are given by:
+    The actions of \(\tau : X \rightarrow Y\) on
+    \(\text{Cn}_\mathcal{L}(\Gamma,X) \subseteq \mathcal{H}_{X}\) and
+    \(\text{Cn}_\mathcal{L}(Y,\Theta) \subseteq \mathcal{H}^{Y}\) are given by:
     \begin{itemize}
-      \item \(\tau_{*}a_{n}(\cdots a_{2}(a_{2}(\sigma))\cdots) = \tau(a_{n}(\cdots(a_{2}(a_{1}(\sigma))))) \in \text{Cn}_{\mathcal{L}}(\Gamma,Y)\)
-      \item \(\tau_{*}\zeta_{m}(\cdots \zeta_{2}(\zeta_{1}(y))) = \zeta_{m}(\cdots\zeta_{2}(\zeta_{1}(\tau(x)))) \in \text{Cn}_{\mathcal{L}}(X,\Theta)\)
+      \item \(\tau_{*}a_{n}(\cdots a_{2}(a_{2}(\sigma))\cdots) =
+      \tau(a_{n}(\cdots(a_{2}(a_{1}(\sigma))))) \in
+      \text{Cn}_{\mathcal{L}}(\Gamma,Y)\)
+      \item \(\tau_{*}\zeta_{m}(\cdots \zeta_{2}(\zeta_{1}(y))) =
+      \zeta_{m}(\cdots\zeta_{2}(\zeta_{1}(\tau(x)))) \in
+      \text{Cn}_{\mathcal{L}}(X,\Theta)\)
     \end{itemize}
     where \(\sigma : \Gamma, x : X, \text { and }, y:Y\). Covariance of the former is
     clear. Contravariance of the former follows by considering the behavior of
-    substitutions in sequence. TODO: flesh out this explanation; I don't really
-    remember the details any longer.
+    substitutions in sequence. [TODO: flesh out this explanation; I don't really
+    remember the details any longer.]
   \end{proof}
 
-  Recalling our example sketch of a monoid, the substance of this covariant
-  action morally amounts to saying that the monoid acts on itself by left
-  multiplication (here it is actually juxtaposition plus some parentheses). This
-  is essentially ``the same'' action that groups enjoy as guaranteed by Cayley's
-  theorem.
+  Recalling our sketch of a monoid from \ref{ex:monoid sketch}, the substance of
+  this covariant action morally amounts to saying that the monoid acts on itself
+  by left multiplication (here ``multiplication'' is actually just juxtaposition
+  plus some parentheses). This is essentially ``the same'' action that groups
+  enjoy as guaranteed by Cayley's theorem.
 
   \begin{joke}
-    A couple of PL theorists walk into a Michelin starred restaurant. The menu
-    reads in big blackboard bold letters ``NO SUBSTITUTIONS''. They promptly
-    leave.
+    A couple of type theorists walk into a Michelin starred restaurant. The menu
+    reads in blackboard bold letters $\mathbbm{``NO\, SUBSTITUTIONS''}$. They promptly leave.
   \end{joke}
 
 \section{Models and their categories; and, categories and their models}
-[segue]
+Despite not enjoying many compelling examples, elementary sketches are
+interesting due to their close resemblence to categories in their most basic
+form. With no extra structural requirements, it turns out that every elementary
+sketch gives rise to a category, and even more surprisingly, that every 
 % TODO: should I mention more about how models give rise to a category for a sketch?
 
-% TODO: mention the canonical elementary language for a category?
+\begin{theorem}[Elementary sketches gives rise to a category]\label{thm:sketch cat}
+  TODO
+\end{theorem}
+
+\begin{theorem}[The canonical elementary language for a category]\label{thm:canon lang}
+  TODO
+\end{theorem}
+
+% TODO: mention the canonical elementary language for a category?: this
+% justifies the whole treatment of elementary sketches; every category gives
+% rise to an elementary sketch, while only some (those with finite products)
+% give rise to an algebraic theory.
 
 % TODO: The title of this chapter is sort of wrong. There is a correspondence between
 % categories and elementary sketches, but not the other way around; *a* model
 % gives rise to *a* category associated with a sketch, but going the other way
-% seems non-obvious.
+% seems non-obvious to me.
 
 \subsection{The category of contexts and substitutions}
 We now introduce a very special category. This category is special in both the
 structure it enjoys as well as the central role it will play in the rest of the
-thesis. Being so widely studied, this category has gone by many names:
+thesis. Being so widely studied, this category goes by many names:
 \emph{syntactic category}, the (rather verbose) \emph{category of contexts and
-  substitutions} and the elusive \emph{classifying category}. We endeavor to
+substitutions} and the elusive \emph{classifying category}. We endeavor to
 explain the meaning behind each of these names over the course of the thesis,
 but for now we adopt the name most closely describing its presentation.
 
 \newcommand{\id}{\text{id}} % TODO: move this
 
-\begin{definition}[The category of contexts and substitutions]
+\begin{definition}[The category of contexts and substitutions]\label{def:syn cat}
   Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \text{Cn}^{\times}_{\mathcal{L}}\) is presented as follows:
   \begin{outline}
     \1 The objects are the contexts of \( \mathcal{L} \) namely finitely lists
@@ -439,12 +488,18 @@ but for now we adopt the name most closely describing its presentation.
   why?]
 \end{definition}
 
-\subsection{Models are just functors with the right codomain. TODO: is this the correct name for this section? I'm not so sure.}
-
-
-
-
+\subsection{Models are essentially functors with the right codomain}
 \newcommand{\clone}[3]{{\text{Cn}_{#1}(#2,#3)}}
+\newcommand{\cn}{\mathrm{Cn}}
+\begin{theorem}[The classifying category]\label{thm:classify_elem_sketch}
+  Let $\mathcal{L}$ be an elementary sketch and \( \cn_{\mathcal{L}} \) the
+  category it presents. Then the interpretations of $\mathcal{L}$ correspond to
+  functors $\cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$.
+\end{theorem}
+\begin{proof}
+  TODO: Omitted. We will give the proof for the analogous result for \emph{algebraic theories}.
+\end{proof}
+
 
 \subsection{Example morphisms in the syntactic category}
 A natural question for the operationally-minded reader to ask after having seen
@@ -469,8 +524,8 @@ Having defined elementary sketches, which give us a way to define multi-sorted
 theories, it's obvious to request the ability to define multi-input operations.
 Algebraic theories, having their genesis in the work of William Lawvere,
 generalize elementary sketches and allow us to do so.
-\begin{definition}[Algebraic theory]
-  A (finitary many-sorted) \textbf{algebraic theory} \mathcal{L} has
+\begin{definition}[Algebraic theory]\label{def:alg theory}
+  A (finitary many-sorted) \textbf{algebraic theory} $\mathcal{L}$ has
   \begin{enumerate}
     \item a collection of base types of \textbf{sorts}, $X$: We write $\Sigma$ for the set of these sorts;
     \item an inexhaustible collecting of variables $x_{i}:X$ of each sor;
@@ -489,68 +544,114 @@ notion of \emph{action} or \emph{model} we saw previously for elementary
 sketches. As expected, the definition will be essentially the same up to taking
 some products. Before doing so, we will give an intervening example of an
 algebraic theory.
-\begin{example}[Algebraic theory of \emph{ring} TODO: fix formatting]
+\begin{example}[Algebraic theory of \emph{ring}]\label{ex:theory of ring}
+
+  We sketch an algebraic theory encoding the familiar structure of a ring from
+  abstract algebra. The presentation should be familiar to anyone with a
+  background in abstract algebra, except that we force the existence of
+  multiplicative and additive identities by requiring any instance of this
+  theory to provide \emph{global elements}, namely operations over a
+  distinguished sort $\mathbbm{1}$.
   \begin{enumerate}
     \item Sorts: \( \mathbbm{1}, S, S, S \). The variables for each sort are
           \( \square \) and \( x, y, z\) respectively.
 
-    \item Operations: \[
-      \cdot : S \times S \rightarrow S,
-      + : S \times S \rightarrow S,
-      0 : \mathbbm{1} \rightarrow S,
-      1 : \mathbbm{1} \rightarrow S,
-      - : S \rightarrow S\]
+    \item Operations: \begin{align*}
+                        \cdot &: S \times S \rightarrow S, \\
+                        + &: S \times S \rightarrow S,\\
+                        0 &: \mathbbm{1} \rightarrow S,\\
+                        1 &: \mathbbm{1} \rightarrow S,\\
+                        - &: S \rightarrow S
+                      \end{align*}
 
-        \item Laws: \begin{enumerate}
-          \item \( +(x,y) = +(y,x) \)
-          \item \( +(0(\square), x) = x \)
-          \item \( +(x, -(x)) = 0(\square) \)
-
-          \item \( \cdot(x,y) = \cdot(y,x) \)
-          \item \( \cdot(1(\square), x) = x \)
-
-          \item \( \cdot(x, +(y,z)) = +(\cdot(x,y), \cdot(x,z))\)
-    \end{enumerate}
+    \item Laws: \begin{align*}
+                  +(x,y) &= +(y,x)\\
+                  +(0(\square), x) &= x\\
+                  +(x, -(x)) &= 0(\square)\\
+                  \cdot(x,y) &= \cdot(y,x)\\
+                  \cdot(1(\square), x) &= x\\
+                  \cdot(x, +(y,z)) &= +(\cdot(x,y), \cdot(x,z))
+                \end{align*}
   \end{enumerate}
 \end{example}
 
-Having given an obligatory concrete example, we give ourselves the permission to
-proceed with another abstract definition: that of an
-\emph{$\mathcal{L}$-algebra} for an algebraic theory:
+Having given the obligatory concrete example, we now have permission to proceed
+with another abstract definition: that of an \emph{$\mathcal{L}$-algebra} for an
+algebraic theory:
 
-\begin{definition}[$\mathcal{L}$-algebra]
+\begin{definition}[$\mathcal{L}$-algebra]\label{def:algebra}
   Given an algebraic theory $\mathcal{L}$ and a category $C$ with finite
   products (in the sense of the universal property as treated in the chapter on
   basic category theory) an \emph{$\mathcal{L}$-algebra in $C$} is comprised of
   \begin{enumerate}
     \item an object $A_{X}$ of $C$ for each sort $X$ of $\mathcal{L}$, and
     \item for each operation symbol $X_{1}, \dots , X_{k} \vdash r : Y$, an
-          assignment of a map $r_{A} : A_{X_{1}} \times \cdots \times A_{X_{k}} \rightarrow A_{Y}$ in
+          assignment of a map \(r_{A} : A_{X_{1}} \times \cdots \times A_{X_{k}} \rightarrow A_{Y}\) in
           $C$.
   \end{enumerate}
   such that the assignments respect the laws of $\mathcal{L}$.
 \end{definition}
 
 We now give an example of an algebra (in the category of sets) for the theory of
-a ring given above.
-\begin{example}
+a ring given in
+\begin{example}\label{ex:integer ring}
   \begin{enumerate}
-    \item For the sorts, we set $A_{S} = \mathbb{Z}$ and $A_{\mathbbm{1}} = {\star}$
+    \item For the sorts, we set $A_{S} = \mathbb{Z}$ and $A_{\mathbbm{1}} = \{\star\}$
     \item For the operations, we set
     \begin{enumerate}
       \item $\cdot_A = *$ where $*$ is the ordinary multiplication of integers
       \item $+_{A} = +$ where the second plus is ordinary addition of integers
       \item $0_{A}$ to the constant function $x \mapsto 0 \in \mathbb{Z}$
       \item $1_{A}$ to the constant function $x \mapsto 1 \in \mathbb{Z}$
-      \item $-_{A}$ to the function $x \mapsto -x$ taking an integers to its additive inverse
+      \item $-_{A}$ to the function $x \mapsto -x$ taking an integer to its additive inverse
     \end{enumerate}
-    \item We wouldn't dare bore the reader by verifying all the laws, so we demonstrate just one:
+    \item We wouldn't dare bore the reader by verifying all the laws, so we
+          demonstrate just one. We show that the $0$ selected by the model
+          indeed serves as the left identity of addition in the model.
+    % TODO: to really explain what's going on here, I feel like the
+    % more categorical formalization of the laws as commutative diagrams
+    % preserved by the model functor would be the best presentation. I'm not
+    % sure why Taylor didn't do this himself. Would it really be so hard to
+    % rewrite my own presentation from that perspective? On the other
+    % hand, I think that the more syntax oriented presentation of sketches and
+    % algebraic theories is probably more approachable to a general
+    % audience (even category theorists.) I.e., the syntactic presentation
+    % motivates and clarifies the categorical one, at least in my experience
+    % learning the syntactic first...
     \begin{align*}
-      +_{A}( \braket{0_{A}, x} )
+      +_{A} \circ \braket{0_{A}, \id} &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0(x) + y (\text{TODO: finish me!})\\
+                                 &= (\_, y) \mapsto 0(\star) + y
+                                 &= \id_
     \end{align*}
-
   \end{enumerate}
 \end{example}
+
+The reader familiar with algebra will observe that this example (at least when
+fully worked out by a less lazy typist) amounts to verifying that the integers
+form a ring under the standard multiplication and addition operations we learn
+in elementary school. A natural next question to ask is how we might encode a
+ring homomorphism in this framework. To answer this question, we (of course)
+define a more general notion:
+
+\begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
+  A \emph{homomorphism} \( A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
+  finite-productful category $C$ is an assignment to each sort $X$ of a
+  $C$-morphism \( \phi_{X} : A_{X} \rightarrow B_{X}\) between the corresponding options
+\end{definition}
+
+\begin{remark}
+  Of course, the $\mathfrak{C}$-valued algebras and homomorphisms of a algebraic
+  theory $\mathcal{L} $form a category, called
+  $\mathscr{Mod}_{\mathfrak{C}}(\mathcal{L})$. TODO: prove it, nerd.
+\end{remark}
+
+\begin{theorem}[Extending to a model of terms]\label{thm:term model}
+% TODO
+\end{theorem}
+
+\begin{theorem}[The classifying category of an algebraic theory]\label{thm:classifying alg theory}
+% TODO
+\end{theorem}
 
 
 \section{An algebraic theory: the (simply typed) lambda calculus}
