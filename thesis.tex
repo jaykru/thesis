@@ -200,22 +200,35 @@ In this chapter we develop the semantics of type theory by categorical methods
 using \emph{sketches}. The reader familiar with and/or traumatized by experience
 with pencils of geodesics in hyperbolic geometry need not be scared away by our
 terminology; there is nothing non-Euclidean afoot here, even if we are building
-our way to some nominally geometric notions. We begin with the notion of an
-\emph{elementary sketch}, which is powerful enough to describe theories with
-unary operations (something \emph{like} single-variable functions) and multiple
-\emph{sorts} (which you may, for now, regard as a type, set, object, etc.) This
-already gives us enough power to encode some familiar algebraic structures like
-monoids, modules over a ring, rings themselves, among others. With their
-multiple sorts, sketches also allow us to encode structures not frequently
-encountered in an algebra course, such as finite automata. Later we will
-generalize the notion of elementary sketch to that of \emph{algebraic theory}.
-Algebraic theories are known more famously as \emph{Lawvere theories} after
-categorical logic and model theory superstar (and former Reed College
-professor!) William Lawvere. \emph{Algebraic theories} allow for operations over
-any number of inputs and so grow the capabilities of our development to encoding
-more grotesque mathematical artifacts such as the lambda calculus. This chapter
-is strictly expository in nature. Much of the following presentation draws
-heavily from Paul Taylor's \emph{Practical Foundations of Mathematics}
+our way to some nominally geometric notions. We will introduce two
+\emph{doctrines}; or, notions of \emph{synactic theories}. A \emph{doctrine} is
+something like a meta-framework specifying how we are to write down a notion of
+abstract structure. For example, the doctrine of \emph{algebraic theories}
+allows us to write down what it means to be a ring---without any reference to sets
+or functions---as we will see later in this chapter (TODO: Cite
+https://ncatlab.org/nlab/revision/doctrine/19). In the following chapter, we
+will scale up our doctrine to one able to encode the \emph{cartesian closed
+  structure} of the lambda calculus (TODO: actually correct?). We begin with the
+notion of an \emph{elementary sketch}, which is powerful enough to describe
+theories with unary operations (something \emph{like} single-variable functions)
+and multiple \emph{sorts} (which you may, for now, regard as a type, set,
+object, etc.) The \emph{doctrine} of elementary sketches is somewhat limited; it
+only allows us to define theories employing only the structure guaranteed by an
+ordinary category, without any guaranteed products, limits, etc; elementary
+sketches work for defining associative theories with identity. This should make
+the reader think of monoids, and we will reward that strong recall with an
+example sketch of a monoid in due course. With their multiple sorts, sketches
+also allow us to encode structures not frequently encountered in an algebra
+course, such as finite automata. Later we will generalize the doctrine of
+elementary sketches to that of \emph{algebraic theories}. Algebraic theories are
+known more famously as \emph{Lawvere theories} after categorical logic and model
+theory superstar (and former Reed College professor!) William Lawvere. Keeping
+with our sketchy terminology, they are also called \emph{finite product
+  sketches}. \emph{Algebraic theories} allow for operations over any finite
+number of inputs and so grow the capabilities of our development to encoding
+more grotesque mathematical artifacts than monoids. This chapter is strictly
+expository in nature. Much of the following presentation draws heavily from Paul
+Taylor's \emph{Practical Foundations of Mathematics}
 (\cite{taylor_practical_1999}.) Our humble contribution is to flesh out some of
 his examples, add some of our own, and make parts of the presentation more
 palatable and quickly digestible to the reader already acquainted with basic
