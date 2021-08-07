@@ -41,6 +41,7 @@
 \usepackage{bbm, stmaryrd, mathrsfs}
 \usepackage{luatexja} % for memes
 \usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{braket}
 \hypersetup{
   colorlinks,
@@ -58,7 +59,7 @@
 \newtheorem{recall}{Recall}
 
 
-\theoremstyle{theorem}
+\theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
 
 \include{autodelims}
@@ -180,21 +181,19 @@ Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\ be
 % 
 
 
-General thoughts on this chapter: Considerable rework is probably advised. Paul
-Taylor's book follows basically this progression: 1\) introduce the concept of an
-elementary sketch 2\) generalize the concept of elementary sketch to the concept
-of algebraic theory, which can encode familiar types of object like the theory
-of rings; 3\) build a (not-quite? we have function types in the lambda calculus;
-such sorts aren't specifically mentioned in the doctrine of algebraic theories)
-algebraic theory of the lambda calculus and talk about its models in cartesian
-closed categories. I have spent a great deal of my writing time trying to figure
-out how to make the first step work—limiting yourself to unary operations makes
-providing concrete examples surprisingly challenging—but I am beginning to think
-it's not even necessary. I am eager to get the first chapter finished soon so I
-can turn my attention to some of the stuff I'm planning to draw on in later
-chapters about gluing for normalization proofs.
-
-
+% General thoughts on this chapter: Considerable rework is probably advised. Paul
+% Taylor's book follows basically this progression: 1\) introduce the concept of an
+% elementary sketch 2\) generalize the concept of elementary sketch to the concept
+% of algebraic theory, which can encode familiar types of object like the theory
+% of rings; 3\) build a (not-quite? we have function types in the lambda calculus;
+% such sorts aren't specifically mentioned in the doctrine of algebraic theories)
+% algebraic theory of the lambda calculus and talk about its models in cartesian
+% closed categories. I have spent a great deal of my writing time trying to figure
+% out how to make the first step work—limiting yourself to unary operations makes
+% providing concrete examples surprisingly challenging—but I am beginning to think
+% it's not even necessary. I am eager to get the first chapter finished soon so I
+% can turn my attention to some of the stuff I'm planning to draw on in later
+% chapters about gluing for normalization proofs.
 
 In this chapter we develop the semantics of type theory by categorical methods
 using \emph{sketches}. The reader familiar with and/or traumatized by experience
@@ -383,9 +382,10 @@ flesh this out.]
   \end{definition}
   The fact that a sketch's clones contain \emph{equivalence classes} of its
   terms will feature prominently in our later study of ideas central to the
-  goals of this thesis. In particular, clones alone don't allow for any real
-  discussion of computational behavior of terms undergoing reduction; a term's
-  normal form and its various reducible forms are identified in the clone.
+  goals of this thesis. In particular, clones alone don't allow for any
+  meaningful discussion of computational behavior of terms undergoing reduction;
+  a term's normal form and its various reducible forms are identified in the
+  clone.
 
   It can be shown that the clones of a sketch form (the sets for) a model of a
   sketch. In particular, it can be shown that the sketch acts covariantly on the
@@ -409,13 +409,12 @@ flesh this out.]
       \zeta_{m}(\cdots\zeta_{2}(\zeta_{1}(\tau(x)))) \in
       \text{Cn}_{\mathcal{L}}(X,\Theta)\)
     \end{itemize}
-    where \(\sigma : \Gamma, x : X, \text { and }, y:Y\). Covariance of the former is
-    clear. Contravariance of the former follows by considering the behavior of
-    substitutions in sequence. [TODO: flesh out this explanation; I don't really
-    remember the details any longer.]
+    where \(\sigma : \Gamma, x : X, \text { and }, y:Y\). Covariance of the
+    former is clear. Contravariance of the latter follows by considering the
+    behavior of substitutions in sequence.
   \end{proof}
 
-  Recalling our sketch of a monoid from \ref{ex:monoid sketch}, the substance of
+  Recalling our sketch of a monoid from Example \ref{ex:monoid sketch}, the substance of
   this covariant action morally amounts to saying that the monoid acts on itself
   by left multiplication (here ``multiplication'' is actually just juxtaposition
   plus some parentheses). This is essentially ``the same'' action that groups
@@ -426,39 +425,41 @@ flesh this out.]
     reads in blackboard bold letters $\mathbbm{``NO\, SUBSTITUTIONS''}$. They promptly leave.
   \end{joke}
 
-\section{Models and their categories; and, categories and their models}
-Despite not enjoying many compelling examples, elementary sketches are
-interesting due to their close resemblence to categories in their most basic
-form. With no extra structural requirements, it turns out that every elementary
-sketch gives rise to a category, and even more surprisingly, that every
-% TODO: should I mention more about how models give rise to a category for a sketch?
+% TODO: I nuked this whole section. I'm not sure it's really worth covering, and
+% anyway, I didn't like what I had here.
 
-\begin{theorem}[Elementary sketches gives rise to a category]\label{thm:sketch cat}
-  TODO
-\end{theorem}
+% \section{Models and their categories; and, categories and their models}
+% Despite not enjoying many compelling examples, elementary sketches are
+% interesting due to their close resemblence to categories in their most basic
+% form. With no extra structural requirements, it turns out that every elementary
+% sketch gives rise to a category, and even more surprisingly, that every
 
-\begin{theorem}[The canonical elementary language for a category]\label{thm:canon lang}
-  TODO
-\end{theorem}
+% \begin{theorem}[Every elementary sketch gives rise to a category]\label{thm:sketch cat}
+%   TODO
+% \end{theorem}
 
-% TODO: mention the canonical elementary language for a category?: this
-% justifies the whole treatment of elementary sketches; every category gives
-% rise to an elementary sketch, while only some (those with finite products)
-% give rise to an algebraic theory.
+% \begin{theorem}[Every category gives rise to a canonical elementary sketch]\label{thm:canon lang}
+%   TODO
+% \end{theorem}
 
-% TODO: The title of this chapter is sort of wrong. There is a correspondence between
-% categories and elementary sketches, but not the other way around; *a* model
-% gives rise to *a* category associated with a sketch, but going the other way
-% seems non-obvious to me.
+% % TODO: mention the canonical elementary language for a category?: this
+% % justifies the whole treatment of elementary sketches; every category gives
+% % rise to an elementary sketch, while only some (those with finite products)
+% % give rise to an algebraic theory.
+
+% % TODO: The title of this chapter is sort of wrong. There is a correspondence between
+% % categories and elementary sketches, but not the other way around; *a* model
+% % gives rise to *a* category associated with a sketch, but going the other way
+% % seems non-obvious to me.
 
 \subsection{The category of contexts and substitutions}
 We now introduce a very special category. This category is special in both the
 structure it enjoys as well as the central role it will play in the rest of the
-thesis. Being so widely studied, this category goes by many names:
-\emph{syntactic category}, the (rather verbose) \emph{category of contexts and
-substitutions} and the elusive \emph{classifying category}. We endeavor to
-explain the meaning behind each of these names over the course of the thesis,
-but for now we adopt the name most closely describing its presentation.
+thesis. This category goes by many names: \emph{syntactic category}, the (rather
+verbose) \emph{category of contexts and substitutions}, and the elusive
+\emph{classifying category}. We endeavor to explain the meaning behind each of
+these names over the course of the thesis, but for now we adopt the name most
+closely describing its presentation.
 
 \newcommand{\id}{\text{id}} % TODO: move this
 
@@ -478,8 +479,8 @@ but for now we adopt the name most closely describing its presentation.
 
     \1 The laws are given by an extended version of the familiar substitution
       lemma from type theory. The following laws are added for each collection
-      of terms $a,b$ and distinct variables $x$ and $y$ such that $x$ does
-      not appear free in $a$ or $u$ and $y$ appears free only in $t$ (or not):
+      of terms $a,b$ and distinct variables $x$ and $y$ such that $x$ does not
+      appear free in $a$ and $y$ appears free in neither $a$ or $b$:
     \begin{align*}
       % declaration follow by drop does nothing
       [a/x] ; \hat{x} &= \id \\
@@ -503,9 +504,7 @@ but for now we adopt the name most closely describing its presentation.
   declarations and drops commute. The fourth law says that pairs of
   non-overlapping drops commute. The last law is slightly more tricky and
   requires taking careful account of the free variables in play. [TODO: return
-  to this] It is important to note that his category is not fully specified
-  without the laws; knowing only the generating morphism is not enough. [TODO:
-  why?]
+  to this] 
 \end{definition}
 
 \subsection{Models are essentially functors with the right codomain}
@@ -517,7 +516,8 @@ but for now we adopt the name most closely describing its presentation.
   functors $\cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$.
 \end{theorem}
 \begin{proof}
-  TODO: Omitted. We will give the proof for the analogous result for \emph{algebraic theories}.
+  Omitted. We will give the proof for a more general result in
+  \ref{thm:classifying alg theory}.
 \end{proof}
 
 
@@ -613,7 +613,7 @@ algebraic theory:
 \end{definition}
 
 We now give an example of an algebra (in the category of sets) for the theory of
-a ring given in
+a ring given in \ref{ex:theory of ring}.
 \begin{example}\label{ex:integer ring}
   TODO: do we need to deal with explicating the product structure in this
   example? see taylor's monoid example in 4.6
@@ -666,8 +666,8 @@ define a more general notion:
 \end{definition}
 
 \begin{remark}
-  Of course, the $\mathfrak{C}$-valued algebras and homomorphisms of a algebraic
-  theory $\mathcal{L} $form a category, called
+  Of course, the $\mathfrak{C}$-valued algebras and homomorphisms of an algebraic
+  theory $\mathcal{L}$ form a category, called
   $\mathscr{Mod}_{\mathfrak{C}}(\mathcal{L})$. TODO: prove it, nerd.
 \end{remark}
 
@@ -686,7 +686,7 @@ and substitutions and thus give meaning to terms.
 
 \DeclarePairedDelimiter{\sem}{\llbracket}{\rrbracket}
 
-\begin{theorem}[Extending a model to terms]\label{thm:term model}
+\begin{definition}[Extending a model to terms]\label{def:term model}
   Let $A$ be an $\mathcal{L}$-algebra in a category $\mathfrak{C}$ This algebra
   extends canonically to an interpretation $\sem{-}$ of contexts by the
   following definition recursive in the structure of contexts:
@@ -711,7 +711,7 @@ and substitutions and thus give meaning to terms.
     \label{eq:term interp}
     \sem{x_{i}} &: \sem{\Gamma} \equiv A_{X_{1}} \times \cdots \times A_{X_{n}} \xrightarrow{\pi_{i}} A_{X_{i}} \\
     \sem{c} &: \sem{\Gamma} \xrightarrow{<_{!}} \mathbbm{1}_{C} \xrightarrow{c_{A}} A_{Z} \\
-    \sem{r(u_{1}, \dots , u_{k})} &: \sem{\Gamma} \xrightarrow{/braket{\sem{u_{1}}, \dots, \sem{u_{k}}}} A_{Y_{1}} \times \cdots \times A_{Y_{k}} \xrightarrow{r_{A}} A_{Z}
+    \sem{r(u_{1}, \dots , u_{k})} &: \sem{\Gamma} \xrightarrow{\braket{\sem{u_{1}}, \dots, \sem{u_{k}}}} A_{Y_{1}} \times \cdots \times A_{Y_{k}} \xrightarrow{r_{A}} A_{Z}
   \end{align}
   where the $\sem{u_{i}}$ are the interpretations of the sub-expressions of the
   expression in the final line, $\pi_{i}$ is the $i$th projection guaranteed to us
@@ -722,19 +722,58 @@ and substitutions and thus give meaning to terms.
   \begin{align*}
     \sem{x_{i}} &\equiv \pi_{i} \\
     \sem{c} &\equiv c_{A } \circ <_{!} \\
-    \sem{r(u_{1}, \dots , u_{k})} &\equiv r_{A} \circ /braket{\sem{u_{1}}, \dots, \sem{u_{k}}
+    \sem{r(u_{1}, \dots , u_{k})} &\equiv r_{A} \circ \braket{\sem{u_{1}}, \dots,\sem{u_{k}}}
   \end{align*}
+\end{definition}
 
-
-
+\begin{theorem}[The classifying category of an algebraic
+  theory]\label{thm:classifying alg theory} Let \( \mathcal{L} \) be an
+  algebraic theory. Then \begin{enumerate}
+    \item $\cn_\mathcal{L}^{\times}$ has finite products and an $\mathcal{L}$-algebra.
+    \item Let $\mathfrak{C}$ be another category with a choice of finite
+    products and an $\mathcal{L}$-algebra. Then the functor $\sem{-} :
+    \cn_{\mathcal{L}}^{\times} \rightarrow \mathfrak{C}$ preserves finite
+    products and the $\mathcal{L}$-algebra, and is the unique such functor.
+    \item Any functor \( \cn_{\mathcal{L}}^{\times} \rightarrow C \) which
+    preserves finite products also preserves the $mathcal{L}$-algebra.
+  \end{enumerate}
 \end{theorem}
+\newcommand{\ob}{\mathrm{ob}\,}
+\begin{proof}\,\\
+  \begin{enumerate}
+    \item We first show that the syntactic category has finite products. Recall
+    that the objects of the syntactic category are variable contexts \([x : X, y
+    : Y, z : Z, \dots]\). For any other context \( [t : T, u : U, v : V, \dots]
+    \) we have the product \[ [x : X, y : Y, z : Z, \dots] \times [t : T, u : U,
+    v : V] = [x : X, y : Y, z : Z, \dots, t : T, u : U, v : V, \dots]\] That
+    is, products are given by concatenation of contexts. Now the model is given
+    as follows:
+    \begin{enumerate}
+      \item The sorts $X$ of $\mathcal{L}$ are interpreted as single variable
+      contexts $[x:X] \in \ob C$ where the variable $x$ is arbitrary.
+      \item The operation symbols \( X_1, X_2, \dots \vdash r : Y \) of
+      $\mathcal{L}$ are interpreted as substitutions \( [r(x_1, x_2, \dots)/y] :
+      [x_1:X_1, x_2:X_2,\dots] \rightarrow [y : Y]\) 
+    \end{enumerate}
+    \item The functor promised is precisely the one defined by Definition
+          \ref{thm:term model}. TODO: we still need to verify the uniqueness of
+          this functor, which Taylor himself never demonstrates.
+          \item This result demands a full proof, which isn't given in Taylor.
+          \begin{proof}
+            Suppose we have a functor $F : \cn_{\mathcal{L}}^{\times} \rightarrow \mathfrak{C}$
+            which preserves products. We will show that it preserves the
+            $\mathcal{L}-model$. In particular, it takes the intrepretation in
+            $\cn_{\mathcal{L}}^{\times}$ of any context $\Gamma$ to the intrepretation of
+            $\Gamma$ in $\mathfrak{C}$.
+          \end{proof}
 
-\begin{theorem}[The classifying category of an algebraic theory]\label{thm:classifying alg theory}
-% TODO
-\end{theorem}
 
 
-\section{An algebraic theory: the (simply typed) lambda calculus}
+  \end{enumerate}
+\end{proof}
+
+
+\section{Sketching the simply typed lambda calculus}
 
 
 \chapter{Enough Topoi to Grok Glueing}
