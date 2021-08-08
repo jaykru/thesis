@@ -195,95 +195,88 @@ Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\ be
 % can turn my attention to some of the stuff I'm planning to draw on in later
 % chapters about gluing for normalization proofs.
 
-In this chapter we develop the semantics of type theory by categorical methods
-using \emph{sketches}. The reader familiar with and/or traumatized by experience
-with pencils of geodesics in hyperbolic geometry need not be scared away by our
-terminology; there is nothing non-Euclidean afoot here, even if we are building
-our way to some nominally geometric notions. We will introduce two
-\emph{doctrines}; or, notions of \emph{synactic theories}. A \emph{doctrine} is
-something like a meta-framework specifying how we are to write down a notion of
-abstract structure. For example, the doctrine of \emph{algebraic theories}
-allows us to write down what it means to be a ring---without any reference to sets
-or functions---as we will see later in this chapter (TODO: Cite
-https://ncatlab.org/nlab/revision/doctrine/19). In the following chapter, we
-will scale up our doctrine to one able to encode the \emph{cartesian closed
-  structure} of the lambda calculus (TODO: actually correct?). We begin with the
-notion of an \emph{elementary sketch}, which is powerful enough to describe
-theories with unary operations (something \emph{like} single-variable functions)
-and multiple \emph{sorts} (which you may, for now, regard as a type, set,
-object, etc.) The \emph{doctrine} of elementary sketches is somewhat limited; it
-only allows us to define theories employing only the structure guaranteed by an
-ordinary category, without any guaranteed products, limits, etc; elementary
-sketches work for defining associative theories with identity. This should make
-the reader think of monoids, and we will reward that strong recall with an
-example sketch of a monoid in due course. With their multiple sorts, sketches
-also allow us to encode structures not frequently encountered in an algebra
-course, such as finite automata. Later we will generalize the doctrine of
-elementary sketches to that of \emph{algebraic theories}. Algebraic theories are
-known more famously as \emph{Lawvere theories} after categorical logic and model
-theory superstar (and former Reed College professor!) William Lawvere. Keeping
-with our sketchy terminology, they are also called \emph{finite product
-  sketches}. \emph{Algebraic theories} allow for operations over any finite
-number of inputs and so grow the capabilities of our development to encoding
-more grotesque mathematical artifacts than monoids. This chapter is strictly
-expository in nature. Much of the following presentation draws heavily from Paul
-Taylor's \emph{Practical Foundations of Mathematics}
-(\cite{taylor_practical_1999}.) Our humble contribution is to flesh out some of
-his examples, add some of our own, and make parts of the presentation more
-palatable and quickly digestible to the reader already acquainted with basic
-category theory and type theory.
+In this chapter we develop tools for reasoning about (syntactic)
+\emph{theories}, which are in some sense a ``notion of'' abstract structure.
+Examples of theories include the theory of rings, and simple type theory. To
+discuss how we write down our theories, we need another level of abstraction. We
+will work with several \emph{notions of} (syntactic) theory, and we will more
+laconically refer to a notion of syntactic theory as a \emph{doctrine}. A
+\emph{doctrine} is something like a meta-framework specifying how we are to
+write down a theory. The first doctrine we will consider is that of the
+\emph{elementary sketch}. The reader familiar with and/or traumatized by
+experience with pencils of geodesics in hyperbolic geometry need not be scared
+away by this terminology; there is nothing non-Euclidean afoot here. The
+doctrine of the \emph{elementary sketch} allows us to write down theories
+involving \emph{unary} operations (those defined over a single argument.) This
+restriction on the arity of operations turns out to be quite limiting. We will
+later upgrade the doctrine of elementary sketches to the doctrine of
+\emph{algebraic theories} which allow encoding operations with any finite number
+of arguments, thus covering a broad variety of theories. Algebraic theories are
+known more famously as \emph{Lawvere theories} after categorical logic superstar
+(and former Reed College professor!) William Lawvere who originally studied them
+when building his functorial treatment of model theory. Keeping with our sketchy
+terminology and emphasizing the doctrinal upgrade, algebraic theories are also
+called \emph{finite product sketches}. As an example of the strength of
+algebraic theories, we will show to write down (as an algebraic theory) what it
+means to be a ring, with no reference to sets or functions. In the following
+chapter, we will use the doctrine of algebraic theories to develop categorical
+semantics of the lambda calculus. This chapter is strictly expository in nature.
+Much of the following presentation draws heavily from Paul Taylor's
+\emph{Practical Foundations of Mathematics} (\cite{taylor_practical_1999}.) Our
+humble contribution is to flesh out some of his examples, add some of our own,
+and make parts of the presentation more palatable and quickly digestible to the
+reader already acquainted with basic category theory and type theory.
 
 \section{Elementary sketches and their models}
 \subsection{An algebraic prelude}
 We begin by recalling from algebra the notion of an \emph{action} of, say, a
 group or a monoid. Actions are, from our perspective, a way of giving meaning,
-or \emph{semantics} to elements of a set enjoying some algebraic structure.
+or \emph{semantics} to elements of a set which enjoys some algebraic structure.
 \begin{definition}\label{def:covariant action}
   Recall that a \textbf{covariant action} of a group or monoid \((M, id, \cdot)\) on a
   set \(A\) is a binary operation \((-)_* (=) : M ‌\times A \rightarrow A\) such that
   \(\text{id}_* a = a\) and \( (g \circ f)_* a = g_* (f_* a) \). We can similarly a
   define the notion of a \textbf{contravariant action} which acts in the order
-  opposite of that in the composition.
+  opposite of that in the composition. TODO: right?
 \end{definition}
-[TODO: reword much of this paragraph; not great writing here]
+
 For example, in algebra we learn that the dihedral group of order 8, written
 $D_{4}$, acts on the square (with uniquely identified points) by reflections and
-rotations (TODO: cite https://groupprops.subwiki.org/wiki/Dihedral\_group:D8);
-each of the operations encoded by the action results in the same image of the
-square up to ignoring the unique identity of the points we started with. This
-action gives geometric meaning to each of the group elements, and was even used
-in the first day of the author's algebra class to explain the algebraic
-mechanics of the group itself; discovering which elements of the group cancel
-each other out is done by geometric experimentation using a square with uniquely
-colored vertices. Similarly, the symmetric groups $S_{n}$ act on lists of length
-$n$ by permutation of the list elements. In this case, the action can be even
-more trivially defined. We now turn to the definition of a property of actions:
-\emph{faithfulness}.
+rotations\footnote{https://groupprops.subwiki.org/wiki/Dihedral\_group:D8}; each
+of the operations encoded by the action results in the same image of the square
+up to ignoring the unique identity of the points we started with. This action
+gives geometric meaning to each of the group elements, and was used in the first
+day of the author's algebra class to explain the algebraic mechanics of the
+group itself; discovering which elements of the group are inverse to one another
+is done by geometric experimentation using a square with uniquely colored
+vertices. Similarly, the symmetric groups $S_{n}$ act on lists of length $n$ by
+permutation of the list elements. In this case, the action can be even more
+trivially defined. We now turn to the definition of an important property of
+actions: \emph{faithfulness}.
 
 \begin{definition}\label{def:faithful}
-  A \textbf{faithful} action $(-)_{*}$ is one for which things
-  are semantically equal (or, act the same) only when they are syntactically
-  equal (or, are the same as far as your eyeballs are concerned.) More precisely
-  rendered, we require: \[ \forall (a:A)\ldotp f_* a = g_* a \Longrightarrow f = g \]
+  A \textbf{faithful} action $(-)_{*}$ is one for which things are
+  \emph{semantically} equal (or, act the same) only when they are
+  \emph{syntactically} equal (or, \emph{are} the same as far as your eyeballs
+  are concerned.) More precisely rendered, we
+  require: \[ \forall (a:A)\ldotp f_* a = g_* a \Longrightarrow f = g \]
 \end{definition}
 
-It can now be seen that the critical property enjoyed by the natural action of
-$D_{8}$ which enabled our use of cute little square cutouts is faithfulness. If
-the action were not faithful, determining which operations in $D_{8}$ are
-inverses would not be so easy as printing out a square and plugging away,
-because we may have an action which may not take only the identity element to
-the leave-everything-in-place action on the square.
-
+It can now be seen that the crucial property enjoyed by the natural action of
+$D_{8}$ on the square which enabled our use of paper cutouts in studying the
+group is faithfulness. If the action were not faithful, determining which
+operations in $D_{8}$ are inverses would not be so easy as printing out a square
+and plugging away, because we may (among other catastrophes) have an action
+which may not take only the identity element to the leave-everything-in-place
+operation on the square.
 
 Having gesticulated that actions gives groups and monoids their meaning, we turn
-to the development of some new notions that will allow us to generalize both the
-notion of algebraic structures and their actions to new
-settings. % TODO: fix this phrasing
-The corresponding notions are, respectively, sketches and their models.
+to the development of the doctrines of \emph{elementary sketch} and
+\emph{algebraic theory} which will allow us to generalize both sets with
+algebraic structures and their actions to new settings.
 
 \subsection{Elementary sketches}
-As promised, we begin with the notion of an \emph{elementary sketch} which
-allows us to encode structures involving \emph{unary} operations.
+As promised, we begin with the definition.
 \begin{definition}\label{def:elem sketch}
   An \textbf{elementary sketch} is comprised of the following data:
   \begin{enumerate}
@@ -299,7 +292,8 @@ allows us to encode structures involving \emph{unary} operations.
   \end{enumerate}
 \end{definition}
 We will discuss the generality provided by this definition after some
-intervening examples. One of the simplest examples is the sketch of a monoid on some set $S$:
+intervening examples. One of the simplest examples is the sketch of a monoid on
+some set $S$:
 
 \begin{example}[Sketch of a (free) monoid]\label{ex:monoid sketch}
   The requisite data for the sketch are as follows:
@@ -311,9 +305,10 @@ intervening examples. One of the simplest examples is the sketch of a monoid on 
   \end{enumerate}
 \end{example}
 
-To really buy that this sketch generates a free monoid, we begin with an
-intervening definition of a notion we will get a lot of mileage out of in this
-thesis.
+To really buy that this sketch generates a free monoid, we need an intervening
+definition of concepts we will get a lot of mileage out of in this thesis. This
+definition should already be familiar from our study of type theory, despite
+the drastically simplified setting.
 \begin{definition}\label{def:term}
   Given an elementary sketch, a \textbf{term} $x : \Gamma \vdash X$ is a string of
   composable unary operation-symbols applied to a variable $\gamma : \Gamma$ as in:
@@ -321,12 +316,18 @@ thesis.
   symbols are ones which have compatible domains and codomains in the usual
   sense as in set theory.
 \end{definition}
+
 We now propose a more precise version of the above claim: the terms of the
 sketch defined above form the elements of a free monoid \( S \). Before we can
-continue, we should decide what the composition should look like. The definition
-of composition of terms is by substitution: for a term \( \sigma : \Delta \vdash \Gamma\) and some
-terms \( \tau_{i}\) with \( \tau_{n} : \cdots \vdash X \) we define
-\[ (\tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma)))))) \circ \sigma = \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\sigma(\delta)))))) : \Delta \vdash X \].
+continue, we should decide what the composition should look like.
+
+\begin{definition}[Composition of terms]
+  Composition of terms is by substitution for the variable: for a term
+  \( \sigma : \Delta \vdash \Gamma\) and some terms \( \tau_{i}\) with \( \tau_{n} : \cdots \vdash X \) we define
+  \[ (\tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma)))))) \circ \sigma = \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\sigma(\delta)))))) : \Delta \vdash X \].
+\end{definition}
+
+
 The reader will recall from our early discussions of basic type theory that
 substitution is associative [TODO]; our sketch gets that monoid axiom for free. The
 identity term is given by zero composable unary operation-symbols applied to a
@@ -766,8 +767,6 @@ and substitutions and thus give meaning to terms.
             $\cn_{\mathcal{L}}^{\times}$ of any context $\Gamma$ to the intrepretation of
             $\Gamma$ in $\mathfrak{C}$.
           \end{proof}
-
-
 
   \end{enumerate}
 \end{proof}
