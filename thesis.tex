@@ -297,6 +297,7 @@ As promised, we begin with the definition.
           form: \[ \tau_n (\tau_{n-1}(\cdots \tau_2 (\tau_1 (x))\cdots )) = \sigma_m (\sigma_{m-1}(\cdots \sigma_2 (\sigma_1 (x))\cdots )) \]
   \end{enumerate}
 \end{definition}
+
 We will discuss the generality provided by this definition after some
 intervening examples. One of the simplest examples is the sketch of a monoid on
 some set $S$:
@@ -312,9 +313,9 @@ some set $S$:
 \end{example}
 
 To really buy that this sketch generates a free monoid, we need an intervening
-definition of concepts we will get a lot of mileage out of in this thesis. This
-definition should already be familiar from our study of type theory, despite
-the drastically simplified setting.
+definition of a concept we will get a lot of mileage out of in this thesis. This
+definition should already be familiar from our study of type theory, despite the
+drastically simplified setting.
 \begin{definition}\label{def:term}
   Given an elementary sketch, a \textbf{term} $x : \Gamma \vdash X$ is a string of
   composable unary operation-symbols applied to a variable $\gamma : \Gamma$ as in:
@@ -324,113 +325,97 @@ the drastically simplified setting.
 \end{definition}
 
 We now propose a more precise version of the above claim: the terms of the
-sketch defined above form the elements of a free monoid \( S \). Before we can
-continue, we should decide what the composition should look like.
+sketch defined above form the elements of a free monoid over $S$. Before we can
+continue, we should decide what our composition will be.
 
-\begin{definition}[Composition of terms]
+\begin{definition}[Composition of terms]\label{def:term composition}
   Composition of terms is by substitution for the variable: for a term
-  \( \sigma : \Delta \vdash \Gamma\) and some terms \( \tau_{i}\) with \( \tau_{n} : \cdots \vdash X \) we define
-  \[ (\tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma)))))) \circ \sigma = \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\sigma(\delta)))))) : \Delta \vdash X \].
+  \( \sigma : \Delta \vdash \Gamma\) and some terms \( \tau_{i}\) with \( \tau_{n} : \cdots \vdash \Xi \) we define
+  \[ (\tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma)))))) \circ \sigma = \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\sigma(\delta)))))) : \Delta \vdash \Xi. \]
 \end{definition}
 
-
+With our notion of composition in hand, we can now handwave an argument for our
+revised claim that the terms of the sketch form the elements of a free monoid.
 The reader will recall from our early discussions of basic type theory that
-substitution is associative [TODO]; our sketch gets that monoid axiom for free. The
-identity term is given by zero composable unary operation-symbols applied to a
-variable. It's just a variable; when composing the identity with a term of the
-appropriate type, we end up getting exactly that term [TODO: say more here, or maybe
-flesh this out.]
+substitution is associative [TODO in Ch 1]. As a consequence, any elementary
+sketch, including this one, satisfies that axiom for free. The identity term is
+given by zero composable unary operation-symbols applied to a variable. It's
+just a variable; when composing the identity term with any other term, we end up
+getting exactly that original term.
 
-  [TODO: transition to discussion of models]
-  %   The definition of an elementary sketch allows for multiple \emph{sorts}. All
-  % the common examples from algebra which we have seen so far only make use of a
-  % single sort; in particular, all strings of elements of the sketches we've
-  % looked at so far are composable. For an example of a structure for which this
-  % is not the case, and therefore one where the notion of sketch gives us a new
-  % opportunity for formalization, we shall turn to an example drawing from the
-  % theory of finite automata in computability theory. [TODO: finite automata
-  % example here.]
+This loose argument is somewhat satisfying, but we can do better. To get there,
+we will first develop a notion generalizing \emph{actions} from algebra. After
+doing so, we will give more concrete meaning to this sketch and complete our
+intuitive handle on it.
 
-  % To really begin to buy that this sketch encodes the free monoid on the set S,
-  % it helps to consider a \emph{model}, which is in some sense a way of giving a
-  % sketch meaning in terms of the ambient mathematical universe.
+\begin{definition}\label{def:model}
+  A \textbf{model} (also known as an algebra, an interpretation, a covariant
+  action) of an elementary sketch is comprised of:
+  \begin{enumerate}
+    \item an assignment of a set $A_X$ to each sort $X$ and
+    \item an assignment of a function $\tau_* : A_X \rightarrow A_Y$ for each
+    operation-symbol of the appropriate arity such that:
+    \item each law is preserved; i.e., for each law as before we have
+    \[ {\tau_n}_* ({\tau_{n-1}}_* (\cdots {\tau_2}_* ({\tau_1}_* (x))\cdots )) = {\sigma_m}_* ({\sigma_{m-1}}_*(\cdots {\sigma_2}_* ({\sigma_1}_* (x))\cdots )) \]
+    that is, the covariant action on operation-symbols is faithful in
+    the sense defined above.
+  \end{enumerate}
+\end{definition}
 
-  % TODO: rework to be an algebra of algebraic theory
-  \begin{definition}\label{def:model}
-    A \textbf{model} (also known as an algebra, an interpretation, a covariant
-    action) of an elementary sketch is comprised of:
-    \begin{enumerate}
-      \item an assignment of a set $A_X$ to each sort $X$ and
-      \item an assignment of a function $\tau_* : A_X \rightarrow A_Y$ for each
-            operation-symbol of the appropriate arity such that:
-      \item each law is preserved; i.e., for each law as before we have
-            \[ {\tau_n}_* ({\tau_{n-1}}_* (\cdots {\tau_2}_* ({\tau_1}_* (x))\cdots )) = {\sigma_m}_* ({\sigma_{m-1}}_*(\cdots {\sigma_2}_* ({\sigma_1}_* (x))\cdots )) \]
-            that is, the covariant action on operation-symbols is faithful in
-            the sense defined above.
-    \end{enumerate}
-  \end{definition}
+The next definition will feature prominently in our later study of type theory,
+but will prove useful in studying Example \ref{ex:monoid sketch}.
 
-  % We now will continue by giving the free monoid sketch a model:
-  % \begin{example}
-  %   \begin{enumerate}
-  %     \item To the single sort \( M \) we assign the set \( S \)
-  %     \item To the operation symbols \( s \in S \), we assign the function
-  %           \( S \rightarrow S \) which takes \( t \in S\) to \( s \cdot t \); namely, it acts
-  %           by left-multiplication.
-  %     \item The laws are vacuosly preserved.
-  %   \end{enumerate}
-  % \end{example}
-  % TODO: rework to algebraic theory
-  \begin{definition}\label{def:clone}
-    Given an elementary (unary) sketch, the \textbf{clone} at \( (\Gamma, X) \) is
-    the set \( \text{Cn}_\mathcal{L} (\Gamma, X) \) of all the \textbf{terms} of sort
-    $X$ assuming a single variable of sort $\Gamma$, quotiented by the laws of the
-    sketch.
-  \end{definition}
-  The fact that a sketch's clones contain \emph{equivalence classes} of its
-  terms will feature prominently in our later study of ideas central to the
-  goals of this thesis. In particular, clones alone don't allow for any
-  meaningful discussion of computational behavior of terms undergoing reduction;
-  a term's normal form and its various reducible forms are identified in the
-  clone.
+% TODO: rework to algebraic theory
+\begin{definition}\label{def:clone}
+  Given an elementary (unary) sketch, the \textbf{clone} at \( (\Gamma, X) \) is
+  the set \( \text{Cn}_\mathcal{L} (\Gamma, X) \) of all the \textbf{terms} of sort
+  $X$ assuming a single variable of sort $\Gamma$, quotiented by the laws of the
+  sketch.
+\end{definition}
+The fact that a sketch's clones contain \emph{equivalence classes} of its
+terms will feature prominently in our later study of ideas central to the
+goals of this thesis. In particular, clones alone don't allow for any
+meaningful discussion of computational behavior of terms undergoing reduction;
+a term's normal form and its various reducible forms are identified in the
+clone.
 
-  It can be shown that the clones of a sketch form (the sets for) a model of a
-  sketch. In particular, it can be shown that the sketch acts covariantly on the
-  set of its clones:
-  \begin{theorem}\label{thm:clone model}
-    Every elementary sketch has a faithful covariant action on its clones
-    \(\mathcal{H}_{X} = \cup_{\Gamma} \text{Cn}_{\mathcal{L}}(\Gamma,X)\) by sequencing with
-    the operation symbol. Substitution for the (single) variable in a term gives
-    a faithful contravariant action on
-    \(\mathcal{H}^{Y} = \cup_{\Theta} \text{Cn}_{\mathcal{L}}(Y,\Theta)\).
-  \end{theorem}
-  \begin{proof}
-    The actions of \(\tau : X \rightarrow Y\) on
-    \(\text{Cn}_\mathcal{L}(\Gamma,X) \subseteq \mathcal{H}_{X}\) and
-    \(\text{Cn}_\mathcal{L}(Y,\Theta) \subseteq \mathcal{H}^{Y}\) are given by:
-    \begin{itemize}
-      \item \(\tau_{*}a_{n}(\cdots a_{2}(a_{2}(\sigma))\cdots) =
-      \tau(a_{n}(\cdots(a_{2}(a_{1}(\sigma))))) \in
-      \text{Cn}_{\mathcal{L}}(\Gamma,Y)\)
-      \item \(\tau_{*}\zeta_{m}(\cdots \zeta_{2}(\zeta_{1}(y))) =
-      \zeta_{m}(\cdots\zeta_{2}(\zeta_{1}(\tau(x)))) \in
-      \text{Cn}_{\mathcal{L}}(X,\Theta)\)
-    \end{itemize}
-    where \(\sigma : \Gamma, x : X, \text { and }, y:Y\). Covariance of the
-    former is clear. Contravariance of the latter follows by considering the
-    behavior of substitutions in sequence.
-  \end{proof}
+It can be shown that the clones of a sketch form (the sets for) a model of a
+sketch. In particular, it can be shown that the sketch acts covariantly on the
+set of its clones:
+\begin{theorem}\label{thm:clone model}
+  Every elementary sketch has a faithful covariant action on its clones
+  \(\mathcal{H}_{X} = \cup_{\Gamma} \text{Cn}_{\mathcal{L}}(\Gamma,X)\) by sequencing with
+  the operation symbol. Substitution for the (single) variable in a term gives
+  a faithful contravariant action on
+  \(\mathcal{H}^{Y} = \cup_{\Theta} \text{Cn}_{\mathcal{L}}(Y,\Theta)\).
+\end{theorem}
+\begin{proof}
+  The actions of \(\tau : X \rightarrow Y\) on
+  \(\text{Cn}_\mathcal{L}(\Gamma,X) \subseteq \mathcal{H}_{X}\) and
+  \(\text{Cn}_\mathcal{L}(Y,\Theta) \subseteq \mathcal{H}^{Y}\) are given by:
+  \begin{itemize}
+    \item \(\tau_{*}a_{n}(\cdots a_{2}(a_{2}(\sigma))\cdots) =
+    \tau(a_{n}(\cdots(a_{2}(a_{1}(\sigma))))) \in
+    \text{Cn}_{\mathcal{L}}(\Gamma,Y)\)
+    \item \(\tau^{*}\zeta_{m}(\cdots \zeta_{2}(\zeta_{1}(y))) =
+    \zeta_{m}(\cdots\zeta_{2}(\zeta_{1}(\tau(x)))) \in
+    \text{Cn}_{\mathcal{L}}(X,\Theta)\)
+  \end{itemize}
+p  where \(\sigma : \Gamma, x : X, \text { and }, y:Y\). Covariance of the
+  former is clear. Contravariance of the latter follows by considering the
+  behavior of substitutions in sequence.
+\end{proof}
 
-  Recalling our sketch of a monoid from Example \ref{ex:monoid sketch}, the substance of
-  this covariant action morally amounts to saying that the monoid acts on itself
-  by left multiplication (here ``multiplication'' is actually just juxtaposition
-  plus some parentheses). This is essentially ``the same'' action that groups
-  enjoy as guaranteed by Cayley's theorem.
+Recalling our sketch of a monoid from Example \ref{ex:monoid sketch}, the
+substance of this covariant action morally amounts to saying that the monoid
+acts on itself by left multiplication (here ``multiplication'' is actually just
+juxtaposition plus some parentheses) which gives the robust version of the
+handwavy argument we provided above.
 
-  \begin{joke}
-    A couple of type theorists walk into a Michelin starred restaurant. The menu
-    reads in blackboard bold letters $\mathbbm{``NO\, SUBSTITUTIONS''}$. They promptly leave.
-  \end{joke}
+\begin{joke}
+  A couple of type theorists walk into a Michelin starred restaurant. The menu
+  reads in blackboard bold letters $\mathbbm{``NO\, SUBSTITUTIONS''}$. They promptly leave.
+\end{joke}
 
 % TODO: I nuked this whole section. I'm not sure it's really worth covering, and
 % anyway, I didn't like what I had here.
@@ -458,6 +443,10 @@ flesh this out.]
 % % categories and elementary sketches, but not the other way around; *a* model
 % % gives rise to *a* category associated with a sketch, but going the other way
 % % seems non-obvious to me.
+
+% continue from here; what should we do about the above stripped out stuff?
+% should I just skip elementary sketches entirely? the definitions in that
+% section definitely help to lay the groundwork for the
 
 \subsection{The category of contexts and substitutions}
 We now introduce a very special category. This category is special in both the
@@ -514,19 +503,22 @@ closely describing its presentation.
   to this] 
 \end{definition}
 
+This category, as with most in category theory, serves to allow us to define a
+special class of functor. In our case, that class of functor captures what it
+means to produce a model of an elementary sketch.
+
 \subsection{Models are essentially functors with the right codomain}
 \newcommand{\clone}[3]{{\text{Cn}_{#1}(#2,#3)}}
 \newcommand{\cn}{\mathrm{Cn}}
 \begin{theorem}[The classifying category]\label{thm:classify_elem_sketch}
   Let $\mathcal{L}$ be an elementary sketch and \( \cn_{\mathcal{L}} \) the
-  category it presents. Then the interpretations of $\mathcal{L}$ correspond to
-  functors $\cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$.
+  category it presents. Then the models of $\mathcal{L}$ correspond to functors
+  $\cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$.
 \end{theorem}
 \begin{proof}
-  Omitted. We will give the proof for a more general result in
+  Omitted. We will give the proof for a more general result in Theorem
   \ref{thm:classifying alg theory}.
 \end{proof}
-
 
 \subsection{Example morphisms in the syntactic category}
 A natural question for the operationally-minded reader to ask after having seen
@@ -548,23 +540,23 @@ term $t$, we have \( [t/x]^{*} : \clone{}{x:X}{T} \longrightarrow \clone{}{\empt
 
 \section{Algebraic theories and their algebras}
 Having defined elementary sketches, which give us a way to define multi-sorted
-theories, it's obvious to request the ability to define multi-input operations.
-Algebraic theories, having their genesis in the work of William Lawvere,
-generalize elementary sketches and allow us to do so.
+theories, it's obvious to request the ability to define multi-input
+operations\footnote{Here's a little known statistic: At least one in two readers
+  of this draft will observe that the doctrine of algebraic theory can be
+  rephrased in terms of operards: algebraic theories are operads for which the
+  tensor product used in forming the operation domains happens to be the plain
+  ol' Cartesian product \cite{TODO: Nlab}}. Algebraic theories generalize the
+doctrine of elementary sketches and allow us to do so.
 \begin{definition}[Algebraic theory]\label{def:alg theory}
   A (finitary many-sorted) \textbf{algebraic theory} $\mathcal{L}$ has
   \begin{enumerate}
     \item a collection of base types of \textbf{sorts}, $X$: We write $\Sigma$ for the set of these sorts;
-    \item an inexhaustible collecting of variables $x_{i}:X$ of each sor;
+    \item an inexhaustible collecting of variables $x_{i}:X$ of each sort;
     \item a collection of \textbf{operation symbols}, $X_{1},\dots , X_{k} \vdash r : Y$ each having an \textbf{arity}, namely a list of input sorts $X_{i}$, and an output sort $Y$; and
     \item a collection of \textbf{laws}, posed as equalities between different
           terms (in the sense defined before)
   \end{enumerate}
 \end{definition}
-Here's a little known statistic: One in two readers of this draft will note that
-the notion of Lawvere theory can be rephrased in terms of operards; Lawvere
-theories are operads for which the tensor product used in forming the operation
-domains happens to be the plain ol' Cartesian product \cite{TODO: Nlab}.
 
 The next major concept we will introduce generalizes to algebraic theories the
 notion of \emph{action} or \emph{model} we saw previously for elementary
@@ -603,7 +595,7 @@ algebraic theory.
 \end{example}
 
 Having given the obligatory concrete example, we now have permission to proceed
-with another abstract definition: that of an \emph{$\mathcal{L}$-algebra} for an
+with another abstract definition: that of an \emph{$\mathcal{L}$-algebra} for ana
 algebraic theory:
 
 \begin{definition}[$\mathcal{L}$-algebra]\label{def:algebra}
@@ -653,7 +645,7 @@ a ring given in \ref{ex:theory of ring}.
             terms $x$ and $\hat{\square} x$ (recall that $\square$ is the variable we
             settled on for the sort $\mathbbm{1}$) just as in our construction
             of the syntactic category for an elementary sketch. With the
-            clearing of that remaining goalpost promised, we have shown what is
+            clearing of that remaining goalpost deferred, we have shown what is
             required for this law.
           \end{proof}
   \end{enumerate}
@@ -673,9 +665,11 @@ define a more general notion:
 \end{definition}
 
 \begin{remark}
-  Of course, the $\mathfrak{C}$-valued algebras and homomorphisms of an algebraic
-  theory $\mathcal{L}$ form a category, called
-  $\mathscr{Mod}_{\mathfrak{C}}(\mathcal{L})$. TODO: prove it, nerd.
+  Predictably, the $\mathfrak{C}$-valued algebras and homomorphisms of an
+  algebraic theory $\mathcal{L}$ form a category, called
+  $\mathscr{Mod}_{\mathfrak{C}}(\mathcal{L})$.
+
+  TODO: prove it, nerd.
 \end{remark}
 
 Most questions in type theory are concerned with the \emph{terms} of the theory
@@ -686,10 +680,11 @@ accessibility of another more strict class of terms from arbitrary start terms.
 These are but two examples of a broad spectrum of properties one might desire of
 the terms of a theory. Considering the primacy of term properties in type
 theory, it is rather strange that the notion of semantics we have built so far
-makes no commentary on terms. Our models so far have only given meaning to the
-\emph{sorts} (types) and /emph{operation symbols} (constructors) of the theory
-considered. In fact, this is enough: our models extend canonically to contexts
-and substitutions and thus give meaning to terms.
+makes no commentary on terms besides the action on the clones given in Theorem
+\ref{thm:clone model}. Our models so far have only given meaning to the
+individual \emph{sorts} (types) and individual \emph{operation symbols}
+(constructors) of the theory considered. In fact, this is enough: our models
+extend canonically to contexts and substitutions and thus give meaning to terms.
 
 \DeclarePairedDelimiter{\sem}{\llbracket}{\rrbracket}
 
