@@ -186,52 +186,38 @@ Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\ be
 % rework for a more modern and diagrammatic take on sketches?
 % 
 
-
-% General thoughts on this chapter: Considerable rework is probably advised. Paul
-% Taylor's book follows basically this progression: 1\) introduce the concept of an
-% elementary sketch 2\) generalize the concept of elementary sketch to the concept
-% of algebraic theory, which can encode familiar types of object like the theory
-% of rings; 3\) build a (not-quite? we have function types in the lambda calculus;
-% such sorts aren't specifically mentioned in the doctrine of algebraic theories)
-% algebraic theory of the lambda calculus and talk about its models in cartesian
-% closed categories. I have spent a great deal of my writing time trying to figure
-% out how to make the first step work—limiting yourself to unary operations makes
-% providing concrete examples surprisingly challenging—but I am beginning to think
-% it's not even necessary. I am eager to get the first chapter finished soon so I
-% can turn my attention to some of the stuff I'm planning to draw on in later
-% chapters about gluing for normalization proofs.
-
 In this chapter we develop tools for reasoning about (syntactic)
-\emph{theories}, which are in some sense a ``notion of'' abstract structure.
+\emph{theories}, which are in some sense ``notions of'' abstract structure.
 Examples of theories include the theory of rings, and simple type theory. To
 discuss how we write down our theories, we need another level of abstraction. We
 will work with several \emph{notions of} (syntactic) theory, and we will more
 laconically refer to a notion of syntactic theory as a \emph{doctrine}. A
 \emph{doctrine} is something like a meta-framework specifying how we are to
 write down a theory. The first doctrine we will consider is that of the
-\emph{elementary sketch}. The reader familiar with and/or traumatized by
-experience with pencils of geodesics in hyperbolic geometry need not be scared
-away by this terminology; there is nothing non-Euclidean afoot here. The
-doctrine of the \emph{elementary sketch} allows us to write down theories
+\emph{elementary sketch}. % The reader familiar with and/or traumatized by
+% experience with pencils of geodesics in hyperbolic geometry need not be scared
+% away by this terminology; there is nothing non-Euclidean afoot here.
+The doctrine of the \emph{elementary sketch} allows us to write down theories
 involving \emph{unary} operations (those defined over a single argument.) This
-restriction on the arity of operations turns out to be quite limiting. We will
-later upgrade the doctrine of elementary sketches to the doctrine of
-\emph{algebraic theories} which allow encoding operations with any finite number
-of arguments, thus covering a broad variety of theories. Algebraic theories are
-known more famously as \emph{Lawvere theories} after categorical logic superstar
-(and former Reed College professor!) William Lawvere who originally studied them
-when building his functorial treatment of model theory. Keeping with our sketchy
-terminology and emphasizing the doctrinal upgrade, algebraic theories are also
-called \emph{finite product sketches}. As an example of the strength of
-algebraic theories, we will show to write down (as an algebraic theory) what it
-means to be a ring, with no reference to sets or functions. In the following
-chapter, we will use the doctrine of algebraic theories to develop categorical
-semantics of the lambda calculus. This chapter is strictly expository in nature.
-Much of the following presentation draws heavily from Paul Taylor's
-\emph{Practical Foundations of Mathematics} (\cite{taylor_practical_1999}.) Our
-humble contribution is to flesh out some of his examples, add some of our own,
-and make parts of the presentation more palatable and quickly digestible to the
-reader already acquainted with basic category theory and type theory.
+restriction on the arity of operations turns out to be quite limiting. To
+address this, we will later upgrade the doctrine of elementary sketches to the
+doctrine of \emph{algebraic theories} which allow encoding operations with any
+finite number of arguments, thus covering a broad variety of theories. Algebraic
+theories are known more famously as \emph{Lawvere theories} after categorical
+logic superstar (and former Reed College professor!) William Lawvere who
+originally studied them while building his functorial treatment of universal
+algebra. Keeping with our sketchy terminology and emphasizing the doctrinal
+upgrade, algebraic theories are also called \emph{finite product sketches}. As
+an example of the strength of algebraic theories, we will show how to write down
+(as an algebraic theory) what it means to be a ring, with no reference to sets
+or functions. In the following chapter, we will use the doctrine of algebraic
+theories to develop categorical semantics of the lambda calculus. This chapter
+is strictly expository in nature. Much of the following presentation draws
+heavily from Paul Taylor's \emph{Practical Foundations of Mathematics}
+(\cite{taylor_practical_1999}.) Our humble contribution is to flesh out some of
+his examples, add some of our own, and make parts of the presentation more
+palatable and quickly digestible to the reader already acquainted with basic
+category theory and type theory.
 
 \section{Elementary sketches and their models}
 \subsection{An algebraic prelude}
@@ -239,11 +225,12 @@ We begin by recalling from algebra the notion of an \emph{action} of, say, a
 group or a monoid. Actions are, from our perspective, a way of giving meaning,
 or \emph{semantics} to elements of a set which enjoys some algebraic structure.
 \begin{definition}\label{def:covariant action}
-  Recall that a \textbf{covariant action} of a group or monoid \((M, id, \cdot)\) on a
-  set \(A\) is a binary operation \((-)_* (=) : M ‌\times A \rightarrow A\) such that
+  Recall that a \textbf{covariant action} of a group or monoid \((M, id, \cdot)\) on
+  a set \(A\) is a binary operation \((-)_* (=) : M ‌\times A \rightarrow A\) such that
   \(\text{id}_* a = a\) and \( (g \circ f)_* a = g_* (f_* a) \). We can similarly a
-  define the notion of a \textbf{contravariant action} which acts in the order
-  opposite of that in the composition. TODO: right?
+  define the notion of a \textbf{contravariant action} which similarly requires
+  the identity action to do nothing, but instead flips the order of action for
+  compositions: $(g \circ f)^{*}a = f^{*}(g^{*} a)$
 \end{definition}
 
 For example, in algebra we learn that the dihedral group of order 8, written
@@ -272,9 +259,9 @@ It can now be seen that the crucial property enjoyed by the natural action of
 $D_{8}$ on the square which enabled our use of paper cutouts in studying the
 group is faithfulness. If the action were not faithful, determining which
 operations in $D_{8}$ are inverses would not be so easy as printing out a square
-and plugging away, because we may (among other catastrophes) have an action
-which may not take only the identity element to the leave-everything-in-place
-operation on the square.
+and plugging away, because we may (among other catastrophes) be working with an
+action which may not take only the identity element to the
+leave-everything-in-place operation on the square.
 
 Having gesticulated that actions gives groups and monoids their meaning, we turn
 to the development of the doctrines of \emph{elementary sketch} and
@@ -299,8 +286,8 @@ As promised, we begin with the definition.
 \end{definition}
 
 We will discuss the generality provided by this definition after some
-intervening examples. One of the simplest examples is the sketch of a monoid on
-some set $S$:
+intervening examples. One of the simplest examples is the sketch of a (free)
+monoid on some set $S$:
 
 \begin{example}[Sketch of a (free) monoid]\label{ex:monoid sketch}
   The requisite data for the sketch are as follows:
@@ -313,9 +300,10 @@ some set $S$:
 \end{example}
 
 To really buy that this sketch generates a free monoid, we need an intervening
-definition of a concept we will get a lot of mileage out of in this thesis. This
-definition should already be familiar from our study of type theory, despite the
+definition of a concept we will get a lot of mileage out of in this thesis. The
+idea should already be familiar from our study of type theory, despite the
 drastically simplified setting.
+
 \begin{definition}\label{def:term}
   Given an elementary sketch, a \textbf{term} $x : \Gamma \vdash X$ is a string of
   composable unary operation-symbols applied to a variable $\gamma : \Gamma$ as in:
@@ -326,7 +314,7 @@ drastically simplified setting.
 
 We now propose a more precise version of the above claim: the terms of the
 sketch defined above form the elements of a free monoid over $S$. Before we can
-continue, we should decide what our composition will be.
+continue, we should decide what our term composition will be.
 
 \begin{definition}[Composition of terms]\label{def:term composition}
   Composition of terms is by substitution for the variable: for a term
@@ -363,21 +351,21 @@ intuitive handle on it.
 \end{definition}
 
 The next definition will feature prominently in our later study of type theory,
-but will prove useful in studying Example \ref{ex:monoid sketch}.
+but will prove useful in studying Example \ref{ex:monoid sketch} by forming the
+sets of a ``for-free'' model for any elementary sketch.
 
-% TODO: rework to algebraic theory
 \begin{definition}\label{def:clone}
   Given an elementary (unary) sketch, the \textbf{clone} at \( (\Gamma, X) \) is
   the set \( \text{Cn}_\mathcal{L} (\Gamma, X) \) of all the \textbf{terms} of sort
   $X$ assuming a single variable of sort $\Gamma$, quotiented by the laws of the
   sketch.
 \end{definition}
-The fact that a sketch's clones contain \emph{equivalence classes} of its
-terms will feature prominently in our later study of ideas central to the
-goals of this thesis. In particular, clones alone don't allow for any
-meaningful discussion of computational behavior of terms undergoing reduction;
-a term's normal form and its various reducible forms are identified in the
-clone.
+The fact that a sketch's clones contain \emph{equivalence classes} (with respect
+to the laws) of its terms will feature prominently in our later study of ideas
+central to the goals of this thesis. In particular, clones alone don't allow for
+any meaningful discussion of computational behavior of terms undergoing
+reduction; a term's normal form and its various reducible forms are identified
+in the clone.
 
 It can be shown that the clones of a sketch form (the sets for) a model of a
 sketch. In particular, it can be shown that the sketch acts covariantly on the
@@ -401,15 +389,15 @@ set of its clones:
     \zeta_{m}(\cdots\zeta_{2}(\zeta_{1}(\tau(x)))) \in
     \text{Cn}_{\mathcal{L}}(X,\Theta)\)
   \end{itemize}
-p  where \(\sigma : \Gamma, x : X, \text { and }, y:Y\). Covariance of the
+  where \(\sigma : \Gamma, x : X, \text { and }, y:Y\). Covariance of the
   former is clear. Contravariance of the latter follows by considering the
   behavior of substitutions in sequence.
 \end{proof}
 
 Recalling our sketch of a monoid from Example \ref{ex:monoid sketch}, the
-substance of this covariant action morally amounts to saying that the monoid
-acts on itself by left multiplication (here ``multiplication'' is actually just
-juxtaposition plus some parentheses) which gives the robust version of the
+substance of this covariant action morally amounts to saying that the sketch
+acts on its terms by left multiplication (here ``multiplication'' is actually
+just juxtaposition plus some parentheses) which gives the robust version of the
 handwavy argument we provided above.
 
 \begin{joke}
@@ -462,21 +450,23 @@ closely describing its presentation.
 \begin{definition}[The category of contexts and substitutions]\label{def:syn cat}
   Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \text{Cn}^{\times}_{\mathcal{L}}\) is presented as follows:
   \begin{outline}
-    \1 The objects are the contexts of \( \mathcal{L} \) namely finitely lists
-    of distinct variables and their types.
+    \1 The objects are the contexts of \( \mathcal{L} \), i.e., finite lists of
+    distinct variables and their types.
 
     \1 The generating morphisms are:
 
-      \2 Single substitutions or \emph{declarations} \( [a/x] : \Gamma \rightarrow [\Gamma, x:X] \) for each term
-      \( \Gamma \vdash a : X \). The direction here should be confusing unless you're already an expert.
+    \2 Single substitutions or \emph{declarations} \( [a/x] : \Gamma \rightarrow [\Gamma, x:X] \)
+    for each term \( \Gamma \vdash a : X \). The direction in the signature should be
+    confusing unless you're either already an expert or a total novice to type
+    theory.
 
-      \2 Single omissions or \emph{drops} \( \hat{x} : [\Gamma, x : X] \rightarrow \Gamma \) for
-      each variable $x:X$.
+    \2 Single omissions or \emph{drops} \( \hat{x} : [\Gamma, x : X] \rightarrow \Gamma \) for each
+    variable $x:X$.
 
     \1 The laws are given by an extended version of the familiar substitution
-      lemma from type theory. The following laws are added for each collection
-      of terms $a,b$ and distinct variables $x$ and $y$ such that $x$ does not
-      appear free in $a$ and $y$ appears free in neither $a$ or $b$:
+    lemma from type theory. The following laws are added for each collection of
+    terms $a,b$ and distinct variables $x$ and $y$ such that $x$ does not appear
+    free in $a$ and $y$ appears free in neither $a$ or $b$:
     \begin{align*}
       % declaration follow by drop does nothing
       [a/x] ; \hat{x} &= \id \\
@@ -516,27 +506,27 @@ means to produce a model of an elementary sketch.
   $\cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$.
 \end{theorem}
 \begin{proof}
-  Omitted. We will give the proof for a more general result in Theorem
+  Omitted. We give the proof of a more general result in Theorem
   \ref{thm:classifying alg theory}.
 \end{proof}
 
-\subsection{Example morphisms in the syntactic category}
-A natural question for the operationally-minded reader to ask after having seen
-the definition of the syntactic category is: how does all this ornate structure
-encode terms in the calculus I'm interested in? Let us ask instead a more
-precise question: how do we represent by a substitution a term \(\Gamma \vdash t : T\)?
-For such a term, there is a canonical substitution (morphism of contexts)
-\( \Gamma \xrightarrow[]{[t/x]} \Gamma,x:X \) which ``picks'' that term in X. Here $[t/x]$
-is an explicit encoding/formula for the substitution inserting $t$ anywhere it
-sees $x$. The ordering of the codomain and domain here are confusing, but the
-contravariant base change functor, which lifts this encoding to a real
-substitution \emph{operation} clarifies things; we have:
-\( [t/x]^{*} : \clone{}{\Gamma, x:X}{T} \longrightarrow \clone{}{\Gamma}{T} \). In words, the
-substitution operation takes a term of type $T$ under $\Gamma$ and an additional free
-variable $x:X$ and gives us a term of type $T$ under just $\Gamma$; we reduce our
-assumption set by filling in one of the assumptions with some concrete evidence,
-namely the (syntactic) term $t$. In the special case of a closed (syntactic)
-term $t$, we have \( [t/x]^{*} : \clone{}{x:X}{T} \longrightarrow \clone{}{\emptyset}{T}\).
+% \subsection{Example morphisms in the syntactic category}
+% A natural question for the operationally-minded reader to ask after having seen
+% the definition of the syntactic category is: how does all this ornate structure
+% encode terms in the calculus I'm interested in? Let us ask instead a more
+% precise question: how do we represent by a substitution a term \(\Gamma \vdash t : T\)?
+% For such a term, there is a canonical substitution (morphism of contexts)
+% \( \Gamma \xrightarrow[]{[t/x]} \Gamma,x:X \) which ``picks'' that term in $T$. Here
+% $[t/x]$ is an explicit encoding/formula for the substitution inserting $t$
+% anywhere it sees $x$. The ordering of the codomain and domain here should be
+% confusing, but the contravariant base change functor, which lifts this encoding
+% to a real substitution \emph{operation} clarifies things; we have:
+% \( [t/x]^{*} : \clone{}{\Gamma, x:X}{T} \longrightarrow \clone{}{\Gamma}{T} \). In words, the
+% substitution operation takes a term of type $T$ under $\Gamma$ and an additional free
+% variable $x:X$ and gives us a term of type $T$ under just $\Gamma$; we reduce our
+% assumption set by filling in one of the assumptions with some concrete evidence,
+% namely the (syntactic) term $t$. In the special case of a closed (syntactic)
+% term $t$, we have \( [t/x]^{*} : \clone{}{x:X}{T} \longrightarrow \clone{}{\emptyset}{T}\).
 
 \section{Algebraic theories and their algebras}
 Having defined elementary sketches, which give us a way to define multi-sorted
@@ -546,7 +536,11 @@ operations\footnote{Here's a little known statistic: At least one in two readers
   rephrased in terms of operards: algebraic theories are operads for which the
   tensor product used in forming the operation domains happens to be the plain
   ol' Cartesian product \cite{TODO: Nlab}}. Algebraic theories generalize the
-doctrine of elementary sketches and allow us to do so.
+doctrine of elementary sketches and allow us to do so. As we upgrade our
+doctrine to allow products, many of the notions (\emph{terms, clones, syntactic
+  category, etc.}) which we developed in the simplified world of elementary
+sketches will come along for the ride.
+
 \begin{definition}[Algebraic theory]\label{def:alg theory}
   A (finitary many-sorted) \textbf{algebraic theory} $\mathcal{L}$ has
   \begin{enumerate}
