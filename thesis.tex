@@ -1,54 +1,37 @@
-% This is the Reed College LaTeX thesis template. Most of the work
-% for the document class was done by Sam Noble (SN), as well as this
-% template. Later comments etc. by Ben Salzberg (BTS). Additional
-% restructuring and APA support by Jess Youngberg (JY).
-% Your comments and suggestions are more than welcome; please email
-% them to cus@reed.edu
-%
-% See http://web.reed.edu/cis/help/latex.html for help. There are a 
-% great bunch of help pages there, with notes on
-% getting started, bibtex, etc. Go there and read it if you're not
-% already familiar with LaTeX.
-%
-% Any line that starts with a percent symbol is a comment. 
-% They won't show up in the document, and are useful for notes 
-% to yourself and explaining commands. 
-% Commenting also removes a line from the document; 
-% very handy for troubleshooting problems. -BTS
-
-% As far as I know, this follows the requirements laid out in 
-% the 2002-2003 Senior Handbook. Ask a librarian to check the 
-% document before binding. -SN
-
-%%
-%% Preamble
-%%
-% \documentclass{<something>} must begin each LaTeX document
 \documentclass[12pt,twoside]{reedthesis}
-% Packages are extensions to the basic LaTeX functions. Whatever you
-% want to typeset, there is probably a package out there for it.
-% Chemistry (chemtex), screenplays, you name it.
-% Check out CTAN to see: http://www.ctan.org/
-%%
-\usepackage{graphicx,latexsym} 
+
+\usepackage{graphicx,latexsym}
 \usepackage{amssymb,amsthm}
 \usepackage{longtable,booktabs,setspace} 
 \usepackage[hyphens]{url}
 \usepackage{rotating}
-\usepackage{natbib}
 \usepackage{hyperref}
 \usepackage{outlines}
-\usepackage{bbm, stmaryrd, mathrsfs}
+
+% font stuff
+\usepackage{bbm, stmaryrd}
+\usepackage{unicode-math}
 \usepackage{luatexja} % for memes
+
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{braket}
 \usepackage{epigraph} % funny quotes
+\usepackage{quiver} % lazy diagrams
+
+\usepackage[
+backend=biber,
+style=alphabetic,
+citestyle=alphabetic
+]{biblatex} % better citation style
+\addbibresource{thesis.bib}
+
 \hypersetup{
   colorlinks,
   allcolors=black,
   hidelinks,
 }
+
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 \newtheorem{example}{Example}
@@ -82,9 +65,6 @@
 \advisor{Ang\'elica Osorno}
 \altadvisor{James (Jim) Fix}
 
-% If you have two advisors for some reason, you can use the following
-% \altadvisor{Your Other Advisor}
-%%% Remember to use the correct depart*** 
 \department{Mathematics}
 % if you're writing a thesis in an interdisciplinary major,
 % uncomment the line below and change the text as appropriate.
@@ -95,10 +75,7 @@
 % \approvedforthe{Committee}
 
 \setlength{\parskip}{0pt}
-%%
-%% End Preamble
-%%
-%% The fun begins:
+
 \begin{document}
 
 \maketitle
@@ -108,8 +85,10 @@
 % Acknowledgements (Acceptable American spelling) are optional
 % So are Acknowledgments (proper English spelling)
 \chapter*{Acknowledgements}
-My parents, Jaclyn, Nick Chaiyachakiorn, Ms. Kim, Hyong Rhew, Mrs. Leitsch, Mr. Raveli (was that his name? gotta find out
-somehow), Jim Fix, Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Amal Ahmed,
+% My parents, Jim Fix, Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Amal Ahmed,
+% Jaclyn, Nick Chaiyachakorn, Ms.\ Kim, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr.\
+% Raveli, Noah Koster, Shulav, Aditya, Francis, Alec, Joebob, Jit, Gabe and Ciara,
+% Murali Vijayaraghavan, 吳老師, Ian Desai, Becca, Andres
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -121,22 +100,13 @@ somehow), Jim Fix, Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Amal Ahmed,
 This is an example of a thesis setup to use the reed thesis
 document class.
 
-
-
 \chapter*{List of Abbreviations}
 You can always change the way your abbrevias are formatted. Play around with it yourself, use tables, or come to CUS if you'd like to change the way it looks. You can also completely remove this chapter if you have no need for a list of abbreviations. Here is an example of what this could look like:
 
 \begin{table}[h]
   \centering % You could remove this to move table to the left
   \begin{tabular}{ll}
-    \textbf{ABC}  	&  American Broadcasting Company \\
-    \textbf{CBS}  	&  Columbia Broadcasting System\\
-    \textbf{CDC}  	&  Center for Disease Control \\
-    \textbf{CIA}  	&  Central Intelligence Agency\\
-    \textbf{CLBR} 	&  Center for Life Beyond Reed\\
-    \textbf{CUS}  	&  Computer User Services\\
-    \textbf{FBI}  	&  Federal Bureau of Investigation\\
-    \textbf{NBC}  	&  National Broadcasting Corporation\\
+    \textbf{TMA}  	&  Too Many Abbreviations
   \end{tabular}
 \end{table}
 
@@ -173,18 +143,21 @@ You can have a dedication here if you wish.
 % \onehalfspacing
 % \doublespacing
 
-Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\ before, you'll have an initial learning period to go through, but the results of a nicely formatted thesis are worth it for more than the aesthetic benefit: markup like \LaTeX\ is more consistent than the output of a word processor, much less prone to corruption or crashing and the resulting file is smaller than a Word file. While you may have never had problems using Word in the past, your thesis is going to be about twice as large and complex as anything you've written before, taxing Word's capabilities. If you're still on the fence about  using \LaTeX, read the Introduction to LaTeX on the CUS site as well as skim the following template and give it a few weeks. Pretty soon all the markup gibberish will become second nature.
+Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\
+before, you'll have an initial learning period to go through, but the results of
+a nicely formatted thesis are worth it for more than the aesthetic benefit:
+markup like \LaTeX\ is more consistent than the output of a word processor, much
+less prone to corruption or crashing and the resulting file is smaller than a
+Word file. While you may have never had problems using Word in the past, your
+thesis is going to be about twice as large and complex as anything you've
+written before, taxing Word's capabilities. If you're still on the fence about
+using \LaTeX, read the Introduction to LaTeX on the CUS site as well as skim the
+following template and give it a few weeks. Pretty soon all the markup gibberish
+will become second nature.
 
 \chapter{Basic Type Theory}
 \chapter{Enough Categories to Get Working}
 \chapter{Sus semantics of type theory: sketches and their models; algebraic theories and their algebras}
-
-% TODO
-% adopt doctrine terminology throughout 
-% Cite Sterling/Gratzer somewhere
-% Cite Wells outline
-% rework for a more modern and diagrammatic take on sketches?
-% 
 
 In this chapter we develop tools for reasoning about (syntactic)
 \emph{theories}, which are in some sense ``notions of'' abstract structure.
@@ -213,8 +186,7 @@ an example of the strength of algebraic theories, we will show how to write down
 or functions. In the following chapter, we will use the doctrine of algebraic
 theories to develop categorical semantics of the lambda calculus. This chapter
 is strictly expository in nature. Much of the following presentation draws
-heavily from Paul Taylor's \emph{Practical Foundations of Mathematics}
-(\cite{taylor_practical_1999}.) Our humble contribution is to flesh out some of
+heavily from Paul Taylor's \emph{Practical Foundations of Mathematics}~\cite{taylor_practical_1999}. Our humble contribution is to flesh out some of
 his examples, add some of our own, and make parts of the presentation more
 palatable and quickly digestible to the reader already acquainted with basic
 category theory and type theory.
@@ -351,12 +323,12 @@ intuitive handle on it.
 \end{definition}
 
 The next definition will feature prominently in our later study of type theory,
-but will prove useful in studying Example \ref{ex:monoid sketch} by forming the
+but will prove useful in studying Example~\ref{ex:monoid sketch} by forming the
 sets of a ``for-free'' model for any elementary sketch.
 
 \begin{definition}\label{def:clone}
   Given an elementary (unary) sketch, the \textbf{clone} at \( (\Gamma, X) \) is
-  the set \( \text{Cn}_\mathcal{L} (\Gamma, X) \) of all the \textbf{terms} of sort
+  the set \( \text{Cn}_{\mathcal{L}} (\Gamma, X) \) of all the \textbf{terms} of sort
   $X$ assuming a single variable of sort $\Gamma$, quotiented by the laws of the
   sketch.
 \end{definition}
@@ -379,8 +351,8 @@ set of its clones:
 \end{theorem}
 \begin{proof}
   The actions of \(\tau : X \rightarrow Y\) on
-  \(\text{Cn}_\mathcal{L}(\Gamma,X) \subseteq \mathcal{H}_{X}\) and
-  \(\text{Cn}_\mathcal{L}(Y,\Theta) \subseteq \mathcal{H}^{Y}\) are given by:
+  \(\text{Cn}_{\mathcal{L}} (\Gamma,X) \subseteq \mathcal{H}_{X}\) and
+  \(\text{Cn}_{\mathcal{L}} (Y,\Theta) \subseteq \mathcal{H}^{Y}\) are given by:
   \begin{itemize}
     \item \(\tau_{*}a_{n}(\cdots a_{2}(a_{2}(\sigma))\cdots) =
     \tau(a_{n}(\cdots(a_{2}(a_{1}(\sigma))))) \in
@@ -394,7 +366,7 @@ set of its clones:
   behavior of substitutions in sequence.
 \end{proof}
 
-Recalling our sketch of a monoid from Example \ref{ex:monoid sketch}, the
+Recalling our sketch of a monoid from Example~\ref{ex:monoid sketch}, the
 substance of this covariant action morally amounts to saying that the sketch
 acts on its terms by left multiplication (here ``multiplication'' is actually
 just juxtaposition plus some parentheses) which gives the robust version of the
@@ -405,37 +377,6 @@ handwavy argument we provided above.
   reads in blackboard bold letters $\mathbbm{``NO\, SUBSTITUTIONS''}$. They promptly leave.
 \end{joke}
 
-% TODO: I nuked this whole section. I'm not sure it's really worth covering, and
-% anyway, I didn't like what I had here.
-
-% \section{Models and their categories; and, categories and their models}
-% Despite not enjoying many compelling examples, elementary sketches are
-% interesting due to their close resemblence to categories in their most basic
-% form. With no extra structural requirements, it turns out that every elementary
-% sketch gives rise to a category, and even more surprisingly, that every
-
-% \begin{theorem}[Every elementary sketch gives rise to a category]\label{thm:sketch cat}
-%   TODO
-% \end{theorem}
-
-% \begin{theorem}[Every category gives rise to a canonical elementary sketch]\label{thm:canon lang}
-%   TODO
-% \end{theorem}
-
-% % TODO: mention the canonical elementary language for a category?: this
-% % justifies the whole treatment of elementary sketches; every category gives
-% % rise to an elementary sketch, while only some (those with finite products)
-% % give rise to an algebraic theory.
-
-% % TODO: The title of this chapter is sort of wrong. There is a correspondence between
-% % categories and elementary sketches, but not the other way around; *a* model
-% % gives rise to *a* category associated with a sketch, but going the other way
-% % seems non-obvious to me.
-
-% continue from here; what should we do about the above stripped out stuff?
-% should I just skip elementary sketches entirely? the definitions in that
-% section definitely help to lay the groundwork for the
-
 \subsection{The category of contexts and substitutions}
 We now introduce a very special category. This category is special in both the
 structure it enjoys as well as the central role it will play in the rest of the
@@ -445,7 +386,7 @@ verbose) \emph{category of contexts and substitutions}, and the elusive
 these names over the course of the thesis, but for now we adopt the name most
 closely describing its presentation.
 
-\newcommand{\id}{\text{id}} % TODO: move this
+
 
 \begin{definition}[The category of contexts and substitutions]\label{def:syn cat}
   Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \text{Cn}^{\times}_{\mathcal{L}}\) is presented as follows:
@@ -477,8 +418,6 @@ closely describing its presentation.
       [a/x]; \hat{y} &= \hat{y}; [a/x] \\
       % non-overlapping drops commute
       \hat{x}; \hat{y} &= \hat{y}; \hat{x} \\
-      % assigning y to a variable, dropping it, then re-assigning that variable
-      % to refer to y gives y := y. dropping y then results in the identity.
       [x/y]; \hat{x}; [y/x]; \hat{y} &= \id
     \end{align*}
   \end{outline}
@@ -488,9 +427,18 @@ closely describing its presentation.
   declarations commute \emph{up to accounting for the first declaration in the
     body of the second}. The third law says that \emph{non-overlapping}
   declarations and drops commute. The fourth law says that pairs of
-  non-overlapping drops commute. The last law is slightly more tricky and
-  requires taking careful account of the free variables in play. [TODO: return
-  to this] 
+  non-overlapping drops commute. The last law is tricky and is easier to explain
+  by passing to the substitution point-of-view. Since the substitution functor
+  is contravariant, this requires considering the compositions in reverse order
+  as:
+  \[ \hat{y}^{*}; [y/x]^{*}; \hat{x}^{*}; [x/y]^{*} = {\id}^{*} \] Rendered
+  thus, this law means that introducing a free variable $y$ to the
+  context\footnote{possibly having no effect if $y$ is already present},
+  followed by replacing every free occurrence of $x$ with $y$, followed by
+  re-introducing $x$ as a variable in the context, and then finally replacing
+  every free occurrence of $y$ with $x$ is the same as doing nothing. More
+  concisely at the expense of precision, renaming a free variable in a term and
+  then un-renaming it results in the same term.
 \end{definition}
 
 This category, as with most in category theory, serves to allow us to define a
@@ -498,7 +446,7 @@ special class of functor. In our case, that class of functor captures what it
 means to produce a model of an elementary sketch.
 
 \subsection{Models are essentially functors with the right codomain}
-\newcommand{\clone}[3]{{\text{Cn}_{#1}(#2,#3)}}
+\newcommand{\clone}[3]{{\text{Cn}_{#1} (#2,#3)}}
 \newcommand{\cn}{\mathrm{Cn}}
 \begin{theorem}[The classifying category]\label{thm:classify_elem_sketch}
   Let $\mathcal{L}$ be an elementary sketch and \( \cn_{\mathcal{L}} \) the
@@ -506,8 +454,8 @@ means to produce a model of an elementary sketch.
   $\cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$.
 \end{theorem}
 \begin{proof}
-  Omitted. We give the proof of a more general result in Theorem
-  \ref{thm:classifying alg theory}.
+  Omitted. We give the proof of a more general result in
+  Theorem~\ref{thm:classifying alg theory}.
 \end{proof}
 
 % \subsection{Example morphisms in the syntactic category}
@@ -535,7 +483,7 @@ operations\footnote{Here's a little known statistic: At least one in two readers
   of this draft will observe that the doctrine of algebraic theory can be
   rephrased in terms of operards: algebraic theories are operads for which the
   tensor product used in forming the operation domains happens to be the plain
-  ol' Cartesian product \cite{TODO: Nlab}}. Algebraic theories generalize the
+  ol' Cartesian product~\cite{TODO: Nlab}}. Algebraic theories generalize the
 doctrine of elementary sketches and allow us to do so. As we upgrade our
 doctrine to allow products, many of the notions (\emph{terms, clones, syntactic
   category, etc.}) which we developed in the simplified world of elementary
@@ -544,9 +492,11 @@ sketches will come along for the ride.
 \begin{definition}[Algebraic theory]\label{def:alg theory}
   A (finitary many-sorted) \textbf{algebraic theory} $\mathcal{L}$ has
   \begin{enumerate}
-    \item a collection of base types of \textbf{sorts}, $X$: We write $\Sigma$ for the set of these sorts;
-    \item an inexhaustible collecting of variables $x_{i}:X$ of each sort;
-    \item a collection of \textbf{operation symbols}, $X_{1},\dots , X_{k} \vdash r : Y$ each having an \textbf{arity}, namely a list of input sorts $X_{i}$, and an output sort $Y$; and
+    \item a collection $\Sigma$ of base types or \textbf{sorts} $X$
+    \item an inexhaustible collection of variables $x_{i}:X$ of each sort;
+    \item a collection of \textbf{operation symbols},
+          $X_{1},\dots , X_{k} \vdash r : Y$ each having an \textbf{arity}, namely a
+          list of input sorts $X_{i}$, and an output sort $Y$; and
     \item a collection of \textbf{laws}, posed as equalities between different
           terms (in the sense defined before)
   \end{enumerate}
@@ -560,14 +510,15 @@ algebraic theory.
 \begin{example}[Algebraic theory of \emph{ring}]\label{ex:theory of ring}
 
   We sketch an algebraic theory encoding the familiar structure of a ring from
-  abstract algebra. The presentation should be familiar to anyone with a
-  background in abstract algebra, except that we force the existence of
-  multiplicative and additive identities by requiring any instance of this
-  theory to provide \emph{global elements}, namely operations over a
-  distinguished sort $\mathbbm{1}$.
+  abstract algebra. The presentation should look familiar (when squinting) to
+  anyone with a background in abstract algebra, except that we force the
+  existence of multiplicative and additive identities by requiring any model (to
+  be defined!) of this theory to provide \emph{global elements}, namely
+  operations out of a distinguished sort $\mathbbm{1}$.
   \begin{enumerate}
-    \item Sorts: \( \mathbbm{1}, S, S, S \). The variables for each sort are
-          \( \square \) and \( x, y, z\) respectively.
+    \item Sorts: The sorts are \( \mathbbm{1}, S\). The variable collections for
+          each sort are \( \set{\square} \cup \set{\square_{i}}_{i} \) and
+          \( \set{s_{i}}_{i} \cup {x,y,z} \) respectively.
 
     \item Operations: \begin{align*}
                         \cdot &: S \times S \rightarrow S, \\
@@ -589,7 +540,7 @@ algebraic theory.
 \end{example}
 
 Having given the obligatory concrete example, we now have permission to proceed
-with another abstract definition: that of an \emph{$\mathcal{L}$-algebra} for ana
+with another abstract definition: that of an \emph{$\mathcal{L}$-algebra} for an
 algebraic theory:
 
 \begin{definition}[$\mathcal{L}$-algebra]\label{def:algebra}
@@ -605,11 +556,11 @@ algebraic theory:
   such that the assignments respect the laws of $\mathcal{L}$.
 \end{definition}
 
-We now give an example of an algebra (in the category of sets) for the theory of
-a ring given in \ref{ex:theory of ring}.
+We are now in good shape to give an example of an algebra (in the category of
+sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
 \begin{example}\label{ex:integer ring}
-  TODO: do we need to deal with explicating the product structure in this
-  example? see taylor's monoid example in 4.6
+  % TODO: maybe need to explicate the product structure here, though I think we
+  % really should get that for free with an algebraic theory.
   \begin{enumerate}
     \item For the sorts, we set $A_{S} = \mathbb{Z}$ and $A_{\mathbbm{1}} = \{\star\}$
     \item For the operations, we set
@@ -627,20 +578,22 @@ a ring given in \ref{ex:theory of ring}.
             \begin{align*}
               +_{A} \circ \braket{0_{A}, \id} &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0_{A}(x) + \id(y)\\
                                           &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0_{\mathbb{Z}} + y \\
-                                          &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto y
+                                          &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto y\\
                                           &= \id_{\mathbbm{1}_{Z} \times S_{A}} \\
             \end{align*}
 
             Our proof is almost done, but we must justify that the final
             identity morphism is actually the interpretation of the variable
-            $x$. This fact will be validated by results later in this section.
-            In particular, we will give a proper treatment to the interpretation
-            of terms in an algebraic theory and observe the equivalence of the
-            terms $x$ and $\hat{\square} x$ (recall that $\square$ is the variable we
-            settled on for the sort $\mathbbm{1}$) just as in our construction
-            of the syntactic category for an elementary sketch. With the
-            clearing of that remaining goalpost deferred, we have shown what is
-            required for this law.
+            (regarded as a term) $x$. This fact will be validated by results
+            later in this section. In particular, Definition~\ref{def:term
+              model} will give a proper treatment to the interpretation of terms
+            in an algebraic theory and allow us to justify the equivalence of
+            the terms $x$ and $\hat{\square}^{*} x$ by\footnote{recall from
+              Definition~\ref{def:syn cat} that $\square$ is the variable we settled
+              on for the sort $\mathbbm{1}$ and substitution by the hat is
+              context weakening or adding the variable} way of our construction
+            of the syntactic category. With the clearing of that remaining
+            goalpost deferred, we have shown what is required for this law.
           \end{proof}
   \end{enumerate}
 \end{example}
@@ -654,16 +607,48 @@ define a more general notion:
 
 \begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
   A \emph{homomorphism} \( A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
-  finite-productful category $C$ is an assignment to each sort $X$ of a
-  $C$-morphism \( \phi_{X} : A_{X} \rightarrow B_{X}\) between the corresponding options
+  category $\mathfrak{C}$ with finite-products is an assignment to each sort $X$
+  of a $\mathfrak{C}$-morphism \( \phi_{X} : A_{X} \rightarrow B_{X}\) between the
+  corresponding objects in each algebra such that diagrams of the following form
+  commute:
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJBX3tYXzF9XFx0aW1lc1xcY2RvdHMgXFx0aW1lcyBBX3tYX2t9Il0sWzMsMCwiQV97WF8wfSJdLFswLDIsIkJfe1hfMX1cXHRpbWVzXFxjZG90c1xcdGltZXMgQl97WF9rfSJdLFszLDIsIkJfe1hfMH0iXSxbMCwxLCJyX0EiXSxbMCwyLCJcXHBoaV97WF8wfSIsMl0sWzIsM10sWzEsMywiXFxwaGlfe1hfMX1cXHRpbWVzIFxcY2RvdHMgXFx0aW1lcyBcXHBoaV97WF9rfSJdXQ==
+  \[\begin{tikzcd}
+      {A_{X_1}\times\cdots \times A_{X_k}} &&& {A_{X_0}} \\
+      \\
+      {B_{X_1}\times\cdots\times B_{X_k}} &&& {B_{X_0}}
+      \arrow["{r_A}", from=1-1, to=1-4]
+      \arrow["{\phi_{X_0}}"', from=1-1, to=3-1]
+      \arrow[from=3-1, to=3-4]
+      \arrow["{\phi_{X_1}\times \cdots \times \phi_{X_k}}", from=1-4, to=3-4]
+    \end{tikzcd}\]
+
 \end{definition}
+
+\begin{remark}\label{rmk:alg_func}
+  (The following is an observation due to Lawvere in a paper written in his time
+  teaching at Reed College~\cite{lawvere_functorial_1963}.) The familiarity of
+  this diagram is no mistake: indeed, by analogy to
+  Theorem~\ref{thm:classify_elem_sketch}, we may understand algebras as
+  product-preserving functors. A mapping between algebras then is a natural
+  transformation, hence the naturality diagram in
+  Definition~\ref{def:homomorphism}. We will later make this analogy more
+  concrete in Theorem~\ref{thm:classifying alg theory}.
+\end{remark}
 
 \begin{remark}
   Predictably, the $\mathfrak{C}$-valued algebras and homomorphisms of an
   algebraic theory $\mathcal{L}$ form a category, called
   $\mathscr{Mod}_{\mathfrak{C}}(\mathcal{L})$.
+  \begin{proof}
+    Per Remark~\ref{rmk:alg_func}, we consider algebras and their homomorphisms
+    as functors and natural transformations respectively. The identity morphisms
+    are the identity natural transformations whose component morphisms are the
+    identities of $\mathfrak{C}$. Composition of natural transformations is
+    given by composition of their component morphisms, hence we may out-source
+    the associativity condition to that guaranteed by the categorical structure
+    of $\mathfrak{C}$.
+  \end{proof}
 
-  TODO: prove it, nerd.
 \end{remark}
 
 Most questions in type theory are concerned with the \emph{terms} of the theory
@@ -674,8 +659,8 @@ accessibility of another more strict class of terms from arbitrary start terms.
 These are but two examples of a broad spectrum of properties one might desire of
 the terms of a theory. Considering the primacy of term properties in type
 theory, it is rather strange that the notion of semantics we have built so far
-makes no commentary on terms besides the action on the clones given in Theorem
-\ref{thm:clone model}. Our models so far have only given meaning to the
+makes no commentary on terms besides the action on the clones given in
+Theorem~\ref{thm:clone model}. Our models so far have only given meaning to the
 individual \emph{sorts} (types) and individual \emph{operation symbols}
 (constructors) of the theory considered. In fact, this is enough: our models
 extend canonically to contexts and substitutions and thus give meaning to terms.
@@ -683,18 +668,19 @@ extend canonically to contexts and substitutions and thus give meaning to terms.
 \DeclarePairedDelimiter{\sem}{\llbracket}{\rrbracket}
 
 \begin{definition}[Extending a model to terms]\label{def:term model}
-  Let $A$ be an $\mathcal{L}$-algebra in a category $\mathfrak{C}$ This algebra
+  Let $A$ be an $\mathcal{L}$-algebra in a category $\mathfrak{C}$. This algebra
   extends canonically to an interpretation $\sem{-}$ of contexts by the
   following definition recursive in the structure of contexts:
   \begin{align}
     \label{eq:contexts interp}
-    \sem{} &= \mathbbm{1}_{C} \\
+    \sem{\varnothing} &= \mathbbm{1}_{C} \\
     \sem{\Gamma, x : X} &= \sem{\Gamma} \times A_{X}
   \end{align}
   The (overly) careful reader will complain that $\mathfrak{C}$ doesn't
   necessarily feature a terminal object, but it turns out that a terminal object
-  is guaranteed by the finite product closure we imposed on $\mathfrak{C}$ in
-  our definition of algebras; we are good to go.
+  is guaranteed\footnote{as the nullary finite product} by the finite product
+  closure we imposed on $\mathfrak{C}$ in our definition of algebras. We are
+  good to go.
 
   Recalling more from the definition of an algebra, we know that $A$ gives
   meaning to each operation symbol \( Y_{1},\dots , Y_{k} \vdash r : Z \) as a
@@ -702,7 +688,7 @@ extend canonically to contexts and substitutions and thus give meaning to terms.
   each constant \( c : Z \) by a morphism \( 1_{\mathfrak{C}} \rightarrow A_{Z} \). We can
   extend this uniquely to arbitrary terms in the context
   \( \Gamma \equiv \sem{x_{1} : X_{1}, \dots , x_{n} : X_{n}} \) by the following
-  recursive definiton:
+  recursive definition:
   \begin{align}
     \label{eq:term interp}
     \sem{x_{i}} &: \sem{\Gamma} \equiv A_{X_{1}} \times \cdots \times A_{X_{n}} \xrightarrow{\pi_{i}} A_{X_{i}} \\
@@ -725,7 +711,7 @@ extend canonically to contexts and substitutions and thus give meaning to terms.
 \begin{theorem}[The classifying category of an algebraic
   theory]\label{thm:classifying alg theory} Let \( \mathcal{L} \) be an
   algebraic theory. Then \begin{enumerate}
-    \item $\cn_\mathcal{L}^{\times}$ has finite products and an $\mathcal{L}$-algebra.
+    \item $\cn_{\mathcal{L}}^{\times}$ has finite products and an $\mathcal{L}$-algebra.
     \item Let $\mathfrak{C}$ be another category with a choice of finite
     products and an $\mathcal{L}$-algebra. Then the functor $\sem{-} :
     \cn_{\mathcal{L}}^{\times} \rightarrow \mathfrak{C}$ preserves finite
@@ -751,16 +737,23 @@ extend canonically to contexts and substitutions and thus give meaning to terms.
       $\mathcal{L}$ are interpreted as substitutions \( [r(x_1, x_2, \dots)/y] :
       [x_1:X_1, x_2:X_2,\dots] \rightarrow [y : Y]\) 
     \end{enumerate}
-    \item The functor promised is precisely the one defined by Definition
-          \ref{thm:term model}. TODO: we still need to verify the uniqueness of
-          this functor, which Taylor himself never demonstrates.
+    \item The functor promised is precisely the one defined by
+          Definition~\ref{thm:term model}. TODO: we still need to verify the
+          uniqueness of this functor, which Taylor himself never demonstrates.
           \item This result demands a full proof, which isn't given in Taylor.
           \begin{proof}
             Suppose we have a functor $F : \cn_{\mathcal{L}}^{\times} \rightarrow \mathfrak{C}$
             which preserves products. We will show that it preserves the
-            $\mathcal{L}-model$. In particular, it takes the intrepretation in
-            $\cn_{\mathcal{L}}^{\times}$ of any context $\Gamma$ to the intrepretation of
-            $\Gamma$ in $\mathfrak{C}$.
+            $\mathcal{L}$-model, in particular, that it takes the interpretation
+            in $\cn_{\mathcal{L}}^{\times}$ of any context $\Gamma$ to the interpretation
+            of $\Gamma$ in $\mathfrak{C}$. TODO.
+
+            \textbf{Note}: Taylor claims the proof of this is given
+            in~\cite{lawvere_functorial_1963}, but I am (so far, I haven't tried
+            too long) unable to identify the result in that paper, probably
+            because Lawvere's formulation of algebraic theories is very
+            different from Taylor's. I plan to tie up this loose end sometime
+            before the end of August.
           \end{proof}
 
   \end{enumerate}
@@ -804,9 +797,10 @@ That's it for now.
 % \bibliographystyle{bsts/mla-good} % there are a variety of styles available;
 % \bibliographystyle{plainnat}
 % replace ``plainnat'' with the style of choice. You can refer to files in the bsts or APA 
-% subfolder, e.g. 
-\bibliographystyle{APA/apa-good}  % or
-\bibliography{thesis}
+% subfolder, e.g.
+\printbibliography[heading=bibintoc]
+% \bibliographystyle{APA/apa-good}  % or
+% \bibliography{thesis}
 % Comment the above two lines and uncomment the next line to use biblatex-chicago.
 % \printbibliography[heading=bibintoc]
 
