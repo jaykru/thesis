@@ -1,0 +1,48 @@
+#+TITLE: Barendregt
+* Sequence numbers
+The coded sequence numbers, Seq, are a subset of the natural numbers defined as follows:
+\( \text{Seq} = \{ \langle n_{1}, \dots , n_{k}\rangle \in \mathbb{N} \mid k, n_{1}, \dots , n_{k}  \in \mathbb{N} \} \).
+
+The sequence numbers form a monoid under sequence concatenation: For \(\alpha =
+\langle n_{1}, \dots, n_{p} \rangle \), \( \beta = \langle m_{1}, \dots , m_{q}
+o\rangle\) we define \( \alpha * \beta = \langle n_{1},\dots, n_{p}, m_{1},
+\dots, m_{q}\). The identity is \(\langle \rangle\ \in \text{Seq}\) included by
+convention.
+
+We also assign to each sequence number a length: For \(\alpha = \langle n_{1},
+\dots, n_{p} \rangle \) we define \( \text{lh}(\alpha) = p\).
+
+Finally we endow the sequence numbers with a posetal structure: For sequence
+numbers \( \alpha, \beta\) we say \( \alpha \leq \beta \) if \(
+\text{lh}(\alpha) \leq \text{lh}(\beta) \) and \alpha and \beta agree for the
+entire length of whichever is shorter.
+
+* Definition: Being a head normal form
+A term $M$ /is/ a /head normal form/ (hnf) if $M$ is of the form \(M \equiv
+\lambda x_1 \cdots x_n. x M_{1} \cdots M_{m} \) for $n, m \geq 0$ with $x$ being
+one of the bound $x_i$. The /head variable/ of $M$ is $x$. We write HNF for the
+set of all head normal forms.
+** Def: having a hnf
+We say that $M$ /has/ a head normal form if $M$ is reducible to some $M'$ in HNF.
+** Def: head redex
+\( M \equiv \lambda x_{1}\cdots x_{n}. (\lambda x. M_{0})M_{1}\cdots M_{m}\) for
+$n \geq 0, m \geq 1$, then $(\lambda x. M_0)M_1$ is called the /head redex/ of
+$M$.
+** rmk
+/If/ a term has a head redex, then the head redex is the left-most redex of that
+term. However, the converse is not true: consider e.g. the term \( \lambda x.
+x((\lambda a. a)b)\).
+* Example Boehm tree
+for the Y combinator:
+
+
+Y = \( \lambda f. (\lambda x. f (x x)) (\lambda x. f (x x)) \)
+#+begin_src ocaml
+                 BT(Y) = fun f. f
+                              |
+                              BT((fun x. f (x x)) (fun x. f (x x)))
+                              = BT(f ((fun x. f (x x)) (fun x. f (x x))))
+                              = f
+                                |
+                               ...
+#+end_src

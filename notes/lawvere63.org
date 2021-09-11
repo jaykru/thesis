@@ -1,0 +1,3 @@
+#+TITLE: Lawvere63
+* TODO If A is the algebraic theory whose /only/ n-ary operations are projections (i.e. A is equivalent to the dual --opposite--of the category of finite sets) then... (pp. 1)
+** Why is the parenthetical true? See (Stone) dualities in Awodey/Riehl

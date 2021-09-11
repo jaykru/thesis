@@ -1,0 +1,13 @@
+#+TITLE: Fiore2002
+* The category of renamings
+** The category \mathbb{F}
+The category of untyped contexts \mathbb{F} has:
+- As objects, finite subsets of (the countably infinite set of) variables; and
+- as morphisms, all functions on finite variable subsets.
+** The comma construction (from Riehl)
+For functors F : D -> C , G: E -> C
+The comma category F \downarrow G has
+- As objects, triples (d\in D, e\in E, f : Fd \rightarrow Ge \in C); and
+- As morphisms, \( (d,e,f) \rightarrow (d',e',f') \), a morphism \( (h : d
+  \rightarrow d', k: e\rightarrow e') \) in the product category \( D \times E
+  \) such that \( f' \circ Fh = Gk \circ f \).

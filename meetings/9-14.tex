@@ -1,0 +1,92 @@
+% Created 2021-09-10 Fri 23:42
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Jay Kruer}
+\date{\today}
+\title{9/14: Up to Speed on Stirling \& Spitters}
+\hypersetup{
+ pdfauthor={Jay Kruer},
+ pdftitle={9/14: Up to Speed on Stirling \& Spitters},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 27.1 (Org mode 9.5)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Reminders of some notions from my first chapter}
+\label{sec:org06041dc}
+
+\section{Two Yoneda embeddings and normalization by evaluation}
+\label{sec:org0c26de1}
+\subsection{Reification, reflection}
+\label{sec:org522cba6}
+
+\subsection{Just work from wikipedia for this part}
+\label{sec:org0f74d22}
+
+\subsection{The readback used in StirSpit}
+\label{sec:org50edab0}
+Note that I haven't yet seen exactly the readback operation (in terms of
+presheaves) planned yet. Their presentation is abysmally bad on this point
+actually\ldots{}they delay explaining/defining an object of deep conceptual and
+technical import to the result until like 10 pages in. Maybe they suppose that
+the reader already has experience with normalization by evaluation, which I
+guess is kind of fair, but this was personally my first exposure to it in
+earnest.
+
+\section{A pickle: too much quotienting}
+\label{sec:org5f4b0ea}
+The definition of the syntactic category (category of contexts and
+substitutions) given in the chapter I wrote a few weeks ago has for its
+equations governing equality of morphisms those given by the ``substitution
+lemma.'' It turns out that this identifies far too many terms for our uses. In
+particular, terms which are related by the various beta rules are identified,
+meaning that a normal form (a term for which no further beta reduction can be
+performed) is identified with its (manifestly not normal) beta-predecessor. The
+upshot is that we can't isolate the normal forms as a class of terms, which
+totally bungles our whole project of investigating which terms (all of them) of
+the simply typed lambda calculus have normal forms.
+
+\section{Unpickling ourselves: the category of renamings}
+\label{sec:orgd3ffb4b}
+
+\section{The relative hom functor}
+\label{sec:org64b2b42}
+Stirling \& Spitters follow Fiore in defining the ``relative hom functor'', which
+they suggestively call \(\mathfrak{Tm} : \text{Cl}_{\Sigma} \rightarrow
+{\text{Ren}_\Sigma}^{\textsc{Set}}\). The suggestion hinted at by the name,
+that this functor defines a presheaf of open terms, turns out to be a (small?)
+lie. Let's look at what it actually does. \(\mathfrak{Tm}\) is defined by
+adjusting the hom functor (i.e, the Yoneda embedding) by precomposition with the
+inclusion of the category of renamings into the category of (contexts and)
+substitutions. In particular, StirSpit define \(\mathfrak{Tm}(\Delta) =
+\text{Cl}_{\Sigma} [i(-), \Delta]\). In plain terms, \(\mathfrak{Tm}(\Delta)\)
+takes a context in the category of renamings to the \emph{substitutions on terms}
+\textbf{out of} \(\Delta\) (recalling that the action of the category of contexts on
+its clones is contravariant). This can be (very loosely) construed as a presheaf
+of open terms. For a (renaming) context \(\Gamma\), we have
+\(\mathfrak{Tm}(\Delta)(\Gamma) = \text{Cl}_{\Sigma} [i(\Gamma), \Delta]\), the
+context \(\Gamma\) just falls through and we get the substitutions \(\gamma^{*} : \Delta \vdash \tau \rightarrow \Gamma \vdash \tau\) for arbitrary
+\(\tau\). In particular, any (possibly) open term \(\Delta \vdash t : \tau\)
+is included in \(\mathfrak{Tm}(\Delta,\tau)(\Delta)\) as the single
+substitution \([t/x]\). The reason I regard as misleading the suggestion that
+the relative hom functor defines a presheaf of open terms is that the morphisms
+in the syntactic category aren't just single substitutions, but also single
+omissions \(\hat{x}\) and all the compositions of these two classes of maps.
+\end{document}
