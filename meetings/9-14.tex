@@ -1,4 +1,4 @@
-% Created 2021-09-10 Fri 23:42
+% Created 2021-09-13 Mon 08:51
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -30,18 +30,51 @@
 \tableofcontents
 
 \section{Reminders of some notions from my first chapter}
-\label{sec:org06041dc}
+\label{sec:orgf58096a}
 
 \section{Two Yoneda embeddings and normalization by evaluation}
-\label{sec:org0c26de1}
+\label{sec:org37b24cb}
+\subsection{Normalization by evaluation}
+\label{sec:org9943bee}
+Normalization by evaluation is a technique used to demonstrate normalization--
+the property that all terms have a normal form--for some lambda calculus.
+Andreas Abel renders the technique very clearly\footnote{\url{https://www.cse.chalmers.se/\~abela/talkEAFIT2017.pdf}}: Normalization is the
+process of bringing an open term (with unknowns) to a special kind of fixed
+point. A similar notion is evaluation, the process of bringing a \emph{closure},
+namely an open term paired with a substitution closing it, to a canonical form
+comprised entirely of constructors.
+
+\textbf{Normalization by evaluation} borrows an exist evaluator for some sufficiently
+expressive host language and uses it to normalize an open expression in the
+guest language we're interested in. The basic plot outline is this, each step
+paired with the relevant code from an instance\footnote{\url{https://en.wikipedia.org/wiki/Normalisation\_by\_evaluation}} of normalization with the host
+being Standard ML and the guest being the simply typed lambda calculus:
+\begin{enumerate}
+\item Create in the host language an internal representation of the guest language syntax and type structure:
+\begin{verbatim}
+    datatype ty = Basic of string
+                | Arrow of ty * ty
+                | Prod of ty * ty
+
+
+\end{verbatim}
+\item 
+\end{enumerate}
+
+
+
+This is accomplished
+through a mutually recursive pair of operations called reification and
+reflection.
 \subsection{Reification, reflection}
-\label{sec:org522cba6}
+\label{sec:org43081b6}
+
 
 \subsection{Just work from wikipedia for this part}
-\label{sec:org0f74d22}
+\label{sec:org3258be1}
 
 \subsection{The readback used in StirSpit}
-\label{sec:org50edab0}
+\label{sec:org7b3c6f8}
 Note that I haven't yet seen exactly the readback operation (in terms of
 presheaves) planned yet. Their presentation is abysmally bad on this point
 actually\ldots{}they delay explaining/defining an object of deep conceptual and
@@ -51,7 +84,7 @@ guess is kind of fair, but this was personally my first exposure to it in
 earnest.
 
 \section{A pickle: too much quotienting}
-\label{sec:org5f4b0ea}
+\label{sec:orgc2f5300}
 The definition of the syntactic category (category of contexts and
 substitutions) given in the chapter I wrote a few weeks ago has for its
 equations governing equality of morphisms those given by the ``substitution
@@ -64,10 +97,10 @@ totally bungles our whole project of investigating which terms (all of them) of
 the simply typed lambda calculus have normal forms.
 
 \section{Unpickling ourselves: the category of renamings}
-\label{sec:orgd3ffb4b}
+\label{sec:org6815046}
 
 \section{The relative hom functor}
-\label{sec:org64b2b42}
+\label{sec:orgefff5a7}
 Stirling \& Spitters follow Fiore in defining the ``relative hom functor'', which
 they suggestively call \(\mathfrak{Tm} : \text{Cl}_{\Sigma} \rightarrow
 {\text{Ren}_\Sigma}^{\textsc{Set}}\). The suggestion hinted at by the name,

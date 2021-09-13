@@ -2,9 +2,48 @@
 * Reminders of some notions from my first chapter
 
 * Two Yoneda embeddings and normalization by evaluation
-** Reification, reflection
+** Normalization by evaluation
+Normalization by evaluation is a technique used to demonstrate normalization--
+the property that all terms have a normal form--for some lambda calculus.
+Andreas Abel renders the technique very clearly[fn:1]: Normalization is the
+process of bringing an open term (with unknowns) to a special kind of fixed
+point. A similar notion is evaluation, the process of bringing a /closure/,
+namely an open term paired with a substitution closing it, to a canonical form
+comprised entirely of constructors.
 
-** Just work from wikipedia for this part
+*Normalization by evaluation* borrows an exist evaluator for some sufficiently
+expressive host language and uses it to normalize an open expression in the
+guest language we're interested in. The basic plot outline is this, each step
+paired with the relevant code from an instance[fn:2] of normalization with the host
+being Standard ML and the guest being the simply typed lambda calculus:
+1. Create in the host language an internal representation of the guest language syntax and type structure:
+   #+begin_src ocaml
+    datatype ty = Basic of string
+                | Arrow of ty * ty
+                | Prod of ty * ty
+
+    datatype tm = var of string
+                | lam of string * tm | app of tm * tm
+                | pair of tm * tm | fst of tm | snd of tm
+   #+end_src
+2. Building a semantic model (a la actions) of the guest language in terms of host language constructs:
+
+   #+begin_src ocaml
+   datatype sem = LAM of (sem -> sem)
+                | PAIR of sem * sem
+                | SYN of tm
+   #+end_src
+
+      Here, our model interprets lambda expressions in STLC as /actual
+   functions/ in Standard ML and pairs as /actual ML pairs/. We also allow for
+   embedding syntax terms of our base type, which have no further structure,
+   into the semantics.
+
+3. Defining a mutually recursive pair of type-indexed operation families called
+   reification and reflection, detailed in the next section, whose composition
+   acts as a normalization function.
+
+** Reification, reflection
 
 ** The readback used in StirSpit
 Note that I haven't yet seen exactly the readback operation (in terms of
@@ -52,3 +91,7 @@ substitution \( [t/x] \). The reason I regard as misleading the suggestion that
 the relative hom functor defines a presheaf of open terms is that the morphisms
 in the syntactic category aren't just single substitutions, but also single
 omissions \( \hat{x}\) and all the compositions of these two classes of maps.
+
+* Footnotes
+[fn:2] https://en.wikipedia.org/wiki/Normalisation_by_evaluation
+[fn:1] https://www.cse.chalmers.se/~abela/talkEAFIT2017.pdf
