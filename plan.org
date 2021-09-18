@@ -1,0 +1,27 @@
+#+TITLE: Plan
+* Chapters/large sections
+** "Classical" normalization by evaluation
+*** When: weekend of 9/18
+*** Priority: high
+*** Time estimate: a weekend
+*** Length: 5-10 pages, might be its own chapter
+*** Difficulty: medium
+** [?] Tait's method for normalization of STLC
+*** When: weekend of 9/25
+*** Time estimate: a weekend
+*** Length: 5-10 pages
+*** Priority: low
+*** Difficulty: low
+** Lawvere's paper on algebraic theories
+*** Time estimate: a weekend
+*** When: weekend of 10/02
+*** Priority: high, fills in a large proof gap at the end of my chapter on algebraic theories
+*** Length: 1 page
+*** Difficulty: hard
+** Normalization by gluing
+*** Length: 15-20 pages
+*** Priority: high--it's the thesis after all
+*** Difficult: extreme
+*** Time estimate: a month or more
+* Rough deadlines
+** T-6 weeks: November 1: First draft completed
