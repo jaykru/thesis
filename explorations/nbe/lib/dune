@@ -1,0 +1,4 @@
+(library
+ (name nbe)
+ (libraries core sexplib)
+ (preprocess (pps ppx_sexp_conv)))
