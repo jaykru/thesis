@@ -1,0 +1,46 @@
+#+TITLE: The Category of Proof-relevant logical relations
+This note will discuss the category of proof-relevant logical relations. We will begin with a discussion of what a logical relation is and some areas of inquiry where such a thing might pop up. After that, we build a category theoretic notion of a logical relation. Throughout the development, we assume some notions from category theory and functorial semantics of type theory which will be built in different notes.
+
+* Logical relations
+"Logical relations" refers to a family of techniques used to demonstrate certain /metatheoretic/ results in programming language theory. Usually, logical relations are resorted to when more elementary straight-forward arguments by induction on types fails. The canonical example of a result for which easy induction isn't enough is /strong normalization/ for the simply-typed lambda calculus, which says that no term has an infinite reduction sequence. This argument employs the unary case of logical relations, called logical predicates.
+
+Here's a sketch of the proof: We build a family of type-indexed predicates on
+terms \( SN_{\tau} \) for each \( \tau \). This family is defined inductively
+according to the type structure of the lambda calculus.
+
+For function types \( \sigma \rightarrow \tau \) we define: \( SN_{\sigma \rightarrow \tau} = \{
+t : \sigma \rightarrow \tau \mid \forall (s : \sigma).\, SN_{\sigma}(s) \Rightarrow SN_{\tau}(t\, s)\}\)
+
+For base types \( \beta \), we define: \( SN_{\beta} = \{ b : \beta \mid b
+\text{ is strongly normalizing }\}\).
+
+TODO: finish me
+
+
+* The gluing category
+Stirling and Spitters define the gluing category as the comma category \(
+[\text{Ren}^{\text{op}}, \mathfrak{Set}] \downarrow \mathfrak{Tm} \). The
+objects of the category are tuples \( (\mathscr{D} : [\text{Ren}^{\text{op}},
+\mathfrak{Set}], \Delta : \text{Cl}_{\Sigma}, q : D \Rightarrow
+\mathfrak{Tm}(\Delta)) \). Before we even think about the morphisms in this
+category, let's piece together what exactly these unearthly gadgets are. As a
+special case, consider those objects whose Ren presheaf is simply the
+constantly-singleton presheaf, taking every context \( \Gamma \) to the set \(
+\{ * \}\) and whose \( \Delta : \text{Cl}_{\Sigma} \) is a single-variable
+context \( \tau \). The rest of the data for such an object is a natural
+transformation between the appropriate presheaves. Picking apart the data of
+that natural transformation, we see that it requires, for each renaming context
+\( \Gamma \) a function \( \{ * \} \xrightarrow{t_\Gamma}
+\mathfrak{Tm}(\tau)(\Gamma) \). Recalling our small lie that the relative hom
+functor defines presheaves of open terms, we may fruitfully lie to ourselves
+that such a function picks out an open term (/qua/ substitution) in the
+appropriate context. So this object defines a set \( R_{\tau} =
+\bigcup_{\Gamma : \text{Ren}_{\Sigma}} \{ t_{\Gamma} \}\) which may be
+interpreted as a predicate on open terms. A logical predicate then, is a
+selection of \( R_{\tau} \) for each \( \tau \in \widetilde{U_{\Sigma}}\)
+subject to the conditions mentioned above [Is this so? Does naturality of the
+admittor/term selector transformation get us the conditions above? TODO: think
+out what exactly we gain from naturality here.] A different choice of presheaf
+\( D \) allows for admitting more terms to each predicate. A different choice of
+\( \delta \) allows for including multiple substitutions; I'm not sure what this
+means in the terms/relations point-of-view.
