@@ -1,0 +1,10 @@
+#+TITLE: 9/28
+* New insights
+** Why you can't define the Nf or Ne presheaves on the syntactic category
+*** They can't support a reasonable substitution action, since these presheaves are *not* closed under substitution
+**** Why not?
+The syntactic category is quotiented by definitional equality, so a faithful
+action would need to send the morphisms \( [ \pi_1 (\texttt{true},
+\texttt{false}) / x] \) and \( \texttt{true} / x \) to the same function
+performing on terms the actual replacement for the variable $x$. In particular,
+this forces that these two morphisms have the same action on

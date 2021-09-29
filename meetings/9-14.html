@@ -3,14 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-09-13 Mon 19:59 -->
+<!-- 2021-09-25 Sat 13:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>9/14: Up to Speed on Stirling &amp; Spitters</title>
+<title>9/14: Up to Speed on Sterling &amp; Spitters</title>
+<meta name="generator" content="Org mode" />
 <meta name="author" content="Jay Kruer" />
-<meta name="generator" content="Org Mode" />
-<style>
-  #content { max-width: 60em; margin: auto; }
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
              margin-bottom: .2em; }
   .subtitle { text-align: center;
@@ -31,9 +31,8 @@
   #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
   pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
     padding: 8pt;
     font-family: monospace;
     overflow: auto;
@@ -42,21 +41,21 @@
   pre.src {
     position: relative;
     overflow: auto;
+    padding-top: 1.2em;
   }
   pre.src:before {
     display: none;
     position: absolute;
-    top: -8px;
-    right: 12px;
+    background-color: white;
+    top: -10px;
+    right: 10px;
     padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
+    border: 1px solid black;
   }
   pre.src:hover:before { display: inline; margin-top: 14px;}
   /* Languages per Org manual */
   pre.src-asymptote:before { content: 'Asymptote'; }
   pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
   pre.src-C:before { content: 'C'; }
   /* pre.src-C++ doesn't work in CSS */
   pre.src-clojure:before { content: 'Clojure'; }
@@ -192,7 +191,30 @@
   .org-info-js_search-highlight
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { width: 90%; }
+  /*]]>*/-->
 </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         displayAlign: "center",
@@ -213,48 +235,49 @@
              }
 });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
-<div id="content" class="content">
-<h1 class="title">9/14: Up to Speed on Stirling &amp; Spitters</h1>
-<div id="table-of-contents" role="doc-toc">
+<div id="content">
+<h1 class="title">9/14: Up to Speed on Sterling &amp; Spitters</h1>
+<div id="table-of-contents">
 <h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
+<div id="text-table-of-contents">
 <ul>
-<li><a href="#org4447ef9">1. Reminders of some notions from my first chapter</a></li>
-<li><a href="#orge10c9c1">2. Two Yoneda embeddings and normalization by evaluation</a>
+<li><a href="#orgb658448">1. Reminders of some notions from my first chapter</a></li>
+<li><a href="#org4828860">2. The Yoneda embedding and normalization by evaluation</a>
 <ul>
-<li><a href="#org8fa2d67">2.1. Normalization by evaluation</a></li>
-<li><a href="#org12c53e8">2.2. Reflection, reification</a></li>
-<li><a href="#orgf90f07f">2.3. The readback used in StirSpit</a></li>
+<li><a href="#org3c4c8b8">2.1. Normalization? Evaluation?</a></li>
+<li><a href="#org92a89fd">2.2. Reflection, reification</a></li>
+<li><a href="#org8e44544">2.3. Back to SterSpit</a></li>
 </ul>
 </li>
-<li><a href="#org9ffd95b">3. A pickle: too much quotienting</a></li>
-<li><a href="#orgbefbf3c">4. Unpickling ourselves: the category of renamings</a></li>
-<li><a href="#orgc832f56">5. The relative hom functor</a></li>
+<li><a href="#orge569115">3. A pickle: too much quotienting</a></li>
+<li><a href="#org8d886b3">4. Unpickling ourselves: the category of renamings</a></li>
+<li><a href="#orgba71462">5. The relative hom functor</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4447ef9" class="outline-2">
-<h2 id="org4447ef9"><span class="section-number-2">1.</span> Reminders of some notions from my first chapter</h2>
+<div id="outline-container-orgb658448" class="outline-2">
+<h2 id="orgb658448"><span class="section-number-2">1</span> Reminders of some notions from my first chapter</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Review the category of contexts and substitution
+Review the category of contexts and substitutions, I can do this live.
 </p>
 </div>
 </div>
-<div id="outline-container-orge10c9c1" class="outline-2">
-<h2 id="orge10c9c1"><span class="section-number-2">2.</span> Two Yoneda embeddings and normalization by evaluation</h2>
+<div id="outline-container-org4828860" class="outline-2">
+<h2 id="org4828860"><span class="section-number-2">2</span> The Yoneda embedding and normalization by evaluation</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org8fa2d67" class="outline-3">
-<h3 id="org8fa2d67"><span class="section-number-3">2.1.</span> Normalization by evaluation</h3>
+<div id="outline-container-org3c4c8b8" class="outline-3">
+<h3 id="org3c4c8b8"><span class="section-number-3">2.1</span> Normalization? Evaluation?</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 Normalization by evaluation is a technique used to demonstrate normalization&#x2013;
 the property that all terms have a normal form&#x2013;for some lambda calculus.
-Andreas Abel renders the technique very clearly<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>: Normalization is the
+Andreas Abel renders the technique very clearly<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>: Normalization is the
 process of bringing an open term (with unknowns) to a special kind of fixed
 point. A similar notion is evaluation, the process of bringing a <i>closure</i>,
 namely an open term paired with a substitution closing it, to a canonical form
@@ -264,8 +287,8 @@ comprised entirely of constructors.
 <p>
 <b>Normalization by evaluation</b> borrows an exist evaluator for some sufficiently
 expressive host language and uses it to normalize an open expression in the
-guest language we&rsquo;re interested in. The basic plot outline is this, each step
-paired with the relevant code from an instance<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup> of normalization with the host
+guest language we're interested in. The basic plot outline is this, each step
+paired with the relevant code from an instance<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup> of normalization with the host
 being Standard ML and the guest being the simply typed lambda calculus:
 </p>
 <ol class="org-ol">
@@ -273,13 +296,13 @@ being Standard ML and the guest being the simply typed lambda calculus:
 Create in the host language an internal representation of the guest language syntax and type structure:
 </p>
 <div class="org-src-container">
-<pre class="src src-sml">    <span style="color: #51afef;">datatype</span> <span style="font-weight: bold;">ty</span> = Basic <span style="color: #51afef;">of</span> string
-                | Arrow <span style="color: #51afef;">of</span> ty * ty
-                | Prod <span style="color: #51afef;">of</span> ty * ty
+<pre class="src src-sml">datatype ty = Basic of string
+	    | Arrow of ty * ty
+	    | Prod of ty * ty
 
-    <span style="color: #51afef;">datatype</span> <span style="font-weight: bold;">tm</span> = var <span style="color: #51afef;">of</span> string
-                | lam <span style="color: #51afef;">of</span> string * tm | app <span style="color: #51afef;">of</span> tm * tm
-                | pair <span style="color: #51afef;">of</span> tm * tm | fst <span style="color: #51afef;">of</span> tm | snd <span style="color: #51afef;">of</span> tm
+datatype tm = var of string
+	    | lam of string * tm | app of tm * tm
+	    | pair of tm * tm | fst of tm | snd of tm
 </pre>
 </div></li>
 <li><p>
@@ -287,9 +310,9 @@ Building a semantic model (a la actions) of the guest language in terms of host 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sml">   <span style="color: #51afef;">datatype</span> <span style="font-weight: bold;">sem</span> = LAM <span style="color: #51afef;">of</span> (sem -&gt; sem)
-                | PAIR <span style="color: #51afef;">of</span> sem * sem
-                | SYN <span style="color: #51afef;">of</span> tm
+<pre class="src src-sml">datatype sem = LAM of (sem -&gt; sem)
+	     | PAIR of sem * sem
+	     | SYN of tm
 </pre>
 </div>
 
@@ -308,8 +331,8 @@ in the guest language.</li>
 </div>
 </div>
 
-<div id="outline-container-org12c53e8" class="outline-3">
-<h3 id="org12c53e8"><span class="section-number-3">2.2.</span> Reflection, reification</h3>
+<div id="outline-container-org92a89fd" class="outline-3">
+<h3 id="org92a89fd"><span class="section-number-3">2.2</span> Reflection, reification</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 <img src="nbe.png" alt="nbe.png" />
@@ -319,19 +342,19 @@ something in <code>tm</code>, and produces the corresponding semantic representa
 defined mutually with reification:
 </p>
 <div class="org-src-container">
-<pre class="src src-sml"> <span style="color: #5B6268;">(* </span><span style="color: #5B6268;">reflect : ty -&gt; tm -&gt; sem </span><span style="color: #5B6268;">*)</span>
- <span style="color: #51afef;">fun</span> <span style="color: #c678dd;">reflect</span> (Arrow (a, b)) t =
-       LAM (<span style="color: #51afef;">fn</span> S =&gt; reflect b (app t (reify a S)))
+<pre class="src src-sml"> (* reflect : ty -&gt; tm -&gt; sem *)
+ fun reflect (Arrow (a, b)) t =
+       LAM (fn S =&gt; reflect b (app t (reify a S)))
    | reflect (Prod (a, b)) t =
        PAIR (reflect a (fst t)) (reflect b (snd t))
    | reflect (Basic _) t =
        SYN t
 
-<span style="color: #5B6268;">(* </span><span style="color: #5B6268;">reify : ty -&gt; sem -&gt; tm </span><span style="color: #5B6268;">*)</span>
- <span style="color: #51afef;">and</span> <span style="color: #c678dd;">reify</span> (Arrow (a, b)) (LAM S) =
-       <span style="color: #51afef;">let</span> x = fresh_var () <span style="color: #51afef;">in</span>
-         lam (x, reify b (S (reflect a (var x))))
-       <span style="color: #51afef;">end</span>
+(* reify : ty -&gt; sem -&gt; tm *)
+ and reify (Arrow (a, b)) (LAM S) =
+       let x = fresh_var () in
+	 lam (x, reify b (S (reflect a (var x))))
+       end
    | reify (Prod (a, b)) (PAIR S T) =
        pair (reify a S, reify b T)
    | reify (Basic _) (SYN t) = t
@@ -339,84 +362,139 @@ defined mutually with reification:
 </div>
 
 <p>
-I&rsquo;ll start my explanation of this with reification, because it will be the I&rsquo;ll
-briefly explain what&rsquo;s going on in the first case of reification, in which we
-want to reflect a syntactic function (something of arrow type) into our
-semantics. In this case, we create a new ML function (with a lambda expression)
-which reflects into the semantics the result of applying the syntactic function
-to the reification of its parameter. This resembles an eta-expansion for terms
-of function type, in which we take \( f: A \rightarrow B\) to the term \(
-\lambda a.\, f a \). The pair case has a similarly eta-expansive flavor. The
-case for the base type just embeds the term into the semantics.
+I'll start my explanation of this with reification, because it will come first
+in the normalization function we're building. In its first case, we want to
+reflect a syntactic function (something of arrow type) into our semantics. To do
+so, we create a new ML function (with a lambda expression) which reflects into
+the semantics the result of applying the syntactic function to the reification
+of its parameter. This resembles the usual eta-expansion for terms of function
+type, in which we take \( f: A \rightarrow B\) to the term \( \lambda a.\, f a
+\). The pair case has a similarly eta-expansive flavor. The case for the base
+type just embeds the term into the semantics.
+</p>
+
+<p>
+Reification is just like reflection but with the parity of
+reflection/reification calls flipped everywhere. As before, for function types
+we perform something like eta-expansion; only here we can't rely on the
+meta-language to handle variable freshness issues and we have to allocate
+hitherto-unbound variables ourselves. Pairs are similar, without the variable
+complication. The case of the base type amounts to undoing the embedding
+performed by reflect.
+</p>
+
+<p>
+One can show that the composition <code>fun t. reify (reflect (t))</code> is a normalization
+function for the simply typed lambda calculus.
 </p>
 </div>
 </div>
 
-
-<div id="outline-container-orgf90f07f" class="outline-3">
-<h3 id="orgf90f07f"><span class="section-number-3">2.3.</span> The readback used in StirSpit</h3>
+<div id="outline-container-org8e44544" class="outline-3">
+<h3 id="org8e44544"><span class="section-number-3">2.3</span> Back to SterSpit</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
-Note that I haven&rsquo;t yet seen exactly the readback operation (in terms of
-presheaves) planned yet. Their presentation is abysmally bad on this point
-actually&#x2026;they delay explaining/defining an object of deep conceptual and
-technical import to the result until like 10 pages in. Maybe they suppose that
-the reader already has experience with normalization by evaluation, which I
-guess is kind of fair, but this was personally my first exposure to it in
-earnest.
+The first big claim in SterSpit is that a special version of the Yoneda
+embedding (with more intensional flavor) defines a reflection operation from the
+syntactic category into its category of presheaves. SterSpit promise a
+corresponding reification operation to complete the normalization by evaluation
+story, but delay its introduction until a few sections past what I've managed to
+understand so far. For now, we have a problem.
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9ffd95b" class="outline-2">
-<h2 id="org9ffd95b"><span class="section-number-2">3.</span> A pickle: too much quotienting</h2>
+<div id="outline-container-orge569115" class="outline-2">
+<h2 id="orge569115"><span class="section-number-2">3</span> A pickle: too much quotienting</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 The definition of the syntactic category (category of contexts and
 substitutions) given in the chapter I wrote a few weeks ago has for its
-equations governing equality of morphisms those given by the &ldquo;substitution
-lemma.&rdquo; It turns out that this identifies far too many terms for our uses. In
+equations governing equality of morphisms those given by the "substitution
+lemma." It turns out that this identifies far too many terms for our uses. In
 particular, terms which are related by the various beta rules are identified,
 meaning that a normal form (a term for which no further beta reduction can be
 performed) is identified with its (manifestly not normal) beta-predecessor. The
-upshot is that we can&rsquo;t isolate the normal forms as a class of terms, which
+upshot is that we can't isolate the normal forms as a class of terms, which
 totally bungles our whole project of investigating which terms (all of them) of
-the simply typed lambda calculus have normal forms.
+the simply typed lambda calculus have normal forms. To spell it out: the
+normalization by evaluation function SterSpit propose is actually equal to the
+identity on the syntactic category. The whole point of using the gluing
+construction is to get us out of this situation by introducing more
+computational information that allows us to distinguish terms from their
+beta-ancestors and beta-posteriors.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgbefbf3c" class="outline-2">
-<h2 id="orgbefbf3c"><span class="section-number-2">4.</span> Unpickling ourselves: the category of renamings</h2>
+<div id="outline-container-org8d886b3" class="outline-2">
+<h2 id="org8d886b3"><span class="section-number-2">4</span> Unpickling ourselves: the category of renamings</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+As an alternative to the misbehaving category of contexts and substitutions, we
+will work with the catetory of renamings. In simple terms, this category has as
+its objects all contexts over our types and whose morphisms are type-preserving
+changes of variable from one context to another. Unfortunately as I found while
+typing this up, the simple rendition is somewhat ill-specified. Fiore (2002)
+defines this category as the opposite of the comma category \( \mathfrak{i}
+\downarrow \mathfrak{T} \) where \( \mathfrak{i} \) is the functor embedding the
+category \( \mathbb{F} \) of finite sets of variables (drawn from the supply of
+our algebraic theory) into \( \mathfrak{Set} \) and \( \mathfrak{T} \) is the
+constant functor for our set of types \( \mathfrak{T} \). Concretely, its
+objects are maps \( \Gamma : V \rightarrow \mathfrak{T} \), i.e., exactly
+contexts assigning types to finitely many variables. The morphisms \( \Gamma'
+\rightarrow \Gamma \) (of the opposite we'll be working with) are functions \(
+\rho : \text{dom}(\Gamma) \rightarrow \text{dom}(\Gamma') \) such that \(\Gamma
+= \Gamma' \circ \rho \), i.e., the morphisms are type-preserving changes of
+variables. The reason we work with the opposite of this category is so that the
+action of the category of the renamings acts contravariantly on the clones of
+the syntactic category it embeds in; i.e., we want the arrows to line up with
+the syntactic category.
+</p>
+</div>
 </div>
 
-<div id="outline-container-orgc832f56" class="outline-2">
-<h2 id="orgc832f56"><span class="section-number-2">5.</span> The relative hom functor</h2>
+<div id="outline-container-orgba71462" class="outline-2">
+<h2 id="orgba71462"><span class="section-number-2">5</span> The relative hom functor</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-Stirling &amp; Spitters follow Fiore in defining the &ldquo;relative hom functor&rdquo;, which
+Sterling &amp; Spitters follow Fiore in defining the "relative hom functor", which
 they suggestively call \(\mathfrak{Tm} : \text{Cl}_{\Sigma} \rightarrow
 {\text{Ren}_\Sigma}^{\mathfrak{Set}} \). The suggestion hinted at by the name,
-that this functor defines a presheaf of open terms, turns out to be a (small?)
-lie. Let&rsquo;s look at what it actually does. \(\mathfrak{Tm}\) is defined by
-adjusting the hom functor (i.e, the Yoneda embedding) by precomposition with the
-inclusion of the category of renamings into the category of (contexts and)
-substitutions. In particular, StirSpit define \(\mathfrak{Tm}(\Delta) =
-\text{Cl}_{\Sigma} [i(-), \Delta]\). In plain terms, \( \mathfrak{Tm}(\Delta)\)
-takes a context in the category of renamings to the <i>substitutions on terms</i>
-<b>out of</b> \(\Delta\) (recalling that the action of the category of contexts on
-its clones is contravariant). This can be (very loosely) construed as a presheaf
-of open terms. For a (renaming) context \( \Gamma \), we have
+that this functor defines a presheaf of open terms, turns out to be a small lie.
+Let's look at what it actually does. \(\mathfrak{Tm}\) is defined by adjusting
+the hom functor (i.e, the Yoneda embedding) by precomposition with the inclusion
+of the category of renamings into the category of (contexts and) substitutions.
+In particular, SterSpit define \(\mathfrak{Tm}(\Delta) = \text{Cl}_{\Sigma}
+[i(-), \Delta]\). In plain terms, \( \mathfrak{Tm}(\Delta)\) takes a context in
+the category of renamings to the <i>substitutions on terms</i> <b>out of</b> \(\Delta\)
+(recalling that the action of the category of contexts on its clones is
+contravariant). This can be construed as a presheaf of open terms. For any type
+\( \tau \) and any context \( \Gamma \), the morphisms in this set are (in their
+totality):
+</p>
+<ol class="org-ol">
+<li>Single substitutions \( [t / x] \) where \( \Gamma \vdash t : \tau \). (Note
+that this includes renamings); and,</li>
+<li>Context weakenings \( \hat{y} \)</li>
+</ol>
+
+<p>
+Ignoring the weakenings, we see that we have a presheaf of open terms closed by
+\( \Gamma \).
+</p>
+
+<p>
+The suggestion does break down when generalizing the target context from a
+single \( \tau \). For contexts \( \Delta \) and \( \Gamma \), we have
 \(\mathfrak{Tm}(\Delta)(\Gamma) = \text{Cl}_{\Sigma} [i(\Gamma), \Delta]\), the
-context \( \Gamma \) just falls through and we get the substitutions \(
-\gamma^{*} : \Delta \vdash \tau \rightarrow \Gamma \vdash \tau \) for arbitrary
-\( \tau \). In particular, any (possibly) open term \( \Delta \vdash t : \tau \)
-is included in \( \mathfrak{Tm}(\Delta,\tau)(\Delta) \) as the single
-substitution \( [t/x] \). The reason I regard as misleading the suggestion that
-the relative hom functor defines a presheaf of open terms is that the morphisms
-in the syntactic category aren&rsquo;t just single substitutions, but also single
-omissions \( \hat{x}\) and all the compositions of these two classes of maps.
+context \( \Gamma \) just falls through the inclusion and we get the
+substitutions \( \gamma^{*} : \Delta \vdash \tau \rightarrow \Gamma \vdash \tau
+\) for arbitrary \( \tau \). Now here comes the (small) lie: the morphisms in
+the syntactic category aren't just single substitutions, but also (as before)
+single omissions \( \hat{x}\) and all the compositions of these two classes of
+maps.
 </p>
 </div>
 </div>
@@ -424,11 +502,11 @@ omissions \( \hat{x}\) and all the compositions of these two classes of maps.
 <h2 class="footnotes">Footnotes: </h2>
 <div id="text-footnotes">
 
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
 <a href="https://www.cse.chalmers.se/~abela/talkEAFIT2017.pdf">https://www.cse.chalmers.se/~abela/talkEAFIT2017.pdf</a>
 </p></div></div>
 
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
 <a href="https://en.wikipedia.org/wiki/Normalisation_by_evaluation">https://en.wikipedia.org/wiki/Normalisation_by_evaluation</a>
 </p></div></div>
 
@@ -437,7 +515,8 @@ omissions \( \hat{x}\) and all the compositions of these two classes of maps.
 </div></div>
 <div id="postamble" class="status">
 <p class="author">Author: Jay Kruer</p>
-<p class="date">Created: 2021-09-13 Mon 19:59</p>
+<p class="date">Created: 2021-09-25 Sat 13:28</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

@@ -7,7 +7,7 @@
 *** Length: 5-10 pages, might be its own chapter
 *** Difficulty: medium
 ** Lawvere's paper on algebraic theories
-*** Time estimate: a weekend
+*** Time estimate: an afternoon
 *** When: weekend of 10/02
 *** Priority: high, fills in a large proof gap at the end of my chapter on algebraic theories
 *** Length: 1 page
@@ -24,4 +24,4 @@
 *** Priority: low
 *** Difficulty: low
 * Rough deadlines
-** T-6 weeks: November 1: First draft completed
+** T-5 weeks: November 1: First draft completed
