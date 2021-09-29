@@ -85,10 +85,12 @@ citestyle=alphabetic
 % Acknowledgements (Acceptable American spelling) are optional
 % So are Acknowledgments (proper English spelling)
 \chapter*{Acknowledgements}
-% My parents, Jim Fix, Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Amal Ahmed,
-% Jaclyn, Nick Chaiyachakorn, Ms.\ Kim, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr.\
-% Raveli, Noah Koster, Shulav, Aditya, Francis, Alec, Joebob, Jit, Gabe and Ciara,
-% Murali Vijayaraghavan, 吳老師, Ian Desai, Becca, Andres
+% Jaclyn, My parents, Uncle Jay, Grandma, Aunt Susie, Jim Fix, Ang\'elica
+% Osorno, Irena Swanson, Kyle Ormsby, Amal Ahmed, Albyn Jones, Jaclyn, Nick
+% Chaiyachakorn, Ms.\ Kim, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr.\ Raveli, Noah
+% Koster, Shulav, Aditya, Francis, Alec, Joebob, Jit, Eli, Gabe and Ciara,
+% Murali Vijayaraghavan, 吳老師, Ian Desai, Becca, Andres, Sara Rosenberger in
+% the business office, the GNU project and free software foundation along with the developers of so many other free software projects whose generously donated works were instrumental in the production of this thesis.
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -155,9 +157,7 @@ using \LaTeX, read the Introduction to LaTeX on the CUS site as well as skim the
 following template and give it a few weeks. Pretty soon all the markup gibberish
 will become second nature.
 
-\chapter{Basic Type Theory}
-\chapter{Enough Categories to Get Working}
-\chapter{Sus semantics of type theory: sketches and their models; algebraic theories and their algebras}
+\chapter{Functorial semantics of type theory: sketches and their models; algebraic theories and their algebras}
 
 In this chapter we develop tools for reasoning about (syntactic)
 \emph{theories}, which are in some sense ``notions of'' abstract structure.
@@ -753,7 +753,7 @@ extend canonically to contexts and substitutions and thus give meaning to terms.
             too long) unable to identify the result in that paper, probably
             because Lawvere's formulation of algebraic theories is very
             different from Taylor's. I plan to tie up this loose end sometime
-            before the end of August.
+            soon.
           \end{proof}
   \end{enumerate}
 \end{proof}
@@ -762,9 +762,38 @@ extend canonically to contexts and substitutions and thus give meaning to terms.
 \section{Sketching the simply typed lambda calculus}
 
 
-\chapter{Enough Topoi to Grok Glueing}
-\chapter{Grokking Glueing}
-\chapter{Glueing for Normalization}
+\chapter{Normalization by evaluation: the classical perspective}
+In this chapter, we outline the technique of \emph{normalization by evaluation}
+which exploits an existing programming language evaluator to produce a
+normalization function for the \emph{open terms} of some other language. Our
+intent is merely to communicate the ideas involved with a view to drawing
+analogies to normalization by evaluation in our later discussion of gluing. In
+light of this, we describe the technique in full detail but omit all proofs of
+correctness (in the literature called ``soundness'') % TODO: explain what
+                                                     % soundness is here;
+                                                     % mention other nbe
+                                                     % desiderata?
+
+The chapter will follow our OCaml implementation of normalization by evaluation
+for G\"odel's System T. Our implementation was inspired by the habilitation of
+Andreas Abel and the Wikipedia page on normalization by evaluation written by a
+number of authors.
+
+\chapter{Tait's method for normalization of closed terms}
+
+\chapter{Normalization by gluing}
+
+\section{Trying to define presheaves of neutrals and normals: immediate
+  catastrophe}
+\section{New environment: the category of renamings}
+\section{Substitutionary revisionism: presheaves of neutrals and normals}
+\section{Working internally to presheaves? Or not.}
+\section{The gluing category}
+\subsection{The relative hom functor}
+\subsection{The comma construction: two definitions and elementary examples}
+\subsection{A very special comma: the gluing construction}
+\subsection{First look at the gluing category: studying its objects and morphisms}
+\subsection{Building a cartesian closed interpretation into the gluing category}
 
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
