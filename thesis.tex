@@ -17,7 +17,7 @@
 \usepackage{mathtools} % paired delimeters
 \usepackage{braket}
 \usepackage{epigraph} % funny quotes
-\usepackage{quiver} % lazy diagrams
+\usepackage{tikz-cd} % diagrams
 
 \usepackage{mathpartir} % inference rules
 
@@ -648,14 +648,14 @@ define a more general notion:
   of a $\mathfrak{C}$-morphism \( \phi_{X} : A_{X} \rightarrow B_{X}\) between the
   corresponding objects in each algebra such that diagrams of the following form
   commute:
-% https://q.uiver.app/?q=WzAsNCxbMCwwLCJBX3tYXzF9XFx0aW1lc1xcY2RvdHMgXFx0aW1lcyBBX3tYX2t9Il0sWzMsMCwiQV97WF8wfSJdLFswLDIsIkJfe1hfMX1cXHRpbWVzXFxjZG90c1xcdGltZXMgQl97WF9rfSJdLFszLDIsIkJfe1hfMH0iXSxbMCwxLCJyX0EiXSxbMCwyLCJcXHBoaV97WF8wfSIsMl0sWzIsM10sWzEsMywiXFxwaGlfe1hfMX1cXHRpbWVzIFxcY2RvdHMgXFx0aW1lcyBcXHBoaV97WF9rfSJdXQ==
+
   \[\begin{tikzcd}
       {A_{X_1}\times\cdots \times A_{X_k}} &&& {A_{X_0}} \\
       \\
       {B_{X_1}\times\cdots\times B_{X_k}} &&& {B_{X_0}}
       \arrow["{r_A}", from=1-1, to=1-4]
+      \arrow["{r_B}", from=3-1, to=3-4]
       \arrow["{\phi_{X_0}}"', from=1-1, to=3-1]
-      \arrow[from=3-1, to=3-4]
       \arrow["{\phi_{X_1}\times \cdots \times \phi_{X_k}}", from=1-4, to=3-4]
     \end{tikzcd}\]
 
@@ -815,6 +815,7 @@ Andreas Abel and the Wikipedia page on normalization by evaluation written by a
 number of authors.
 
 \chapter{Normalization by gluing}
+\epigraph{``i really thought u meant arts and crafts glue''}{new gluing understander}
 \newcommand{\red}{\rightarrow^{*}} % TODO: move me
 
 This chapter is the culmination of all that we've developed so far in the
@@ -895,6 +896,44 @@ This subsection introduces Fiore's monster.
 \subsubsection{The relative hom functor}
 \subsubsection{Gluing semantics to syntax along the relative hom functor}
 \subsection{The subcategory of (ordinary) variable-arity Kripke relations}
+\newcommand{\cl}{\text{Cl}_\Sigma}
+\newcommand{\ren}{\text{Ren}_\Sigma}
+\newcommand{\renhat}{\hat{\ren}}
+\newcommand{\tm}{\mathfrak{Tm}}
+\newcommand{\catset}{\mathfrak{Set}}
+
+We can recover ordinary, proof-\emph{irrelevant} variable-arity Kripke relations
+as a subcategory of the gluing category. In particular, ordinary variable-arity
+Kripke relations arise as those objects
+\( (D : \renhat, q : D \Longrightarrow \tm (\Delta), \Delta : \cl) \) of the gluing category whose
+quotient map $q$ is a component-wise monomorphism; i.e., for each
+\( \Gamma \in \ren \), we have that \( q_{\Gamma} : D(\Gamma) \rightarrowtail \tm (\Delta)(\Gamma) \) is a monomorphism.
+Here's why. Recalling the definition of $\ren$-Kripke relations over $\tau \in \cl$,
+we need to find in these data a $\ren$-indexed family \( \{ R_{\Gamma}\}_{\Gamma \in \ren}\)
+of sets of $\cl$-morphisms into \( \tau \) subject to the following relative
+monotonicity condition: for any renaming \( \rho : \Gamma' \rightarrow \Gamma \), if \( t \) TODO.
+Since we're working in $\catset$, those monomorphisms are the usual injective
+functions. To see why this recovers what we had before, we need to look at the
+naturality diagram of \( q \):
+
+  \[\begin{tikzcd}
+      {R (\Gamma)} &&& {\tm(\Delta) (\Gamma)} & t \\
+      \\
+      {R (\Gamma')} &&& {\tm(\Delta) (\Gamma')} & {t \circ \rho}
+      \arrow["{q_{\Gamma}}", from=1-1, to=1-4, rightarrowtail]
+      \arrow["{q_{\Gamma'}}", from=3-1, to=3-4, rightarrowtail]
+      \arrow["{R (\rho)}"', from=1-1, to=3-1]
+      \arrow["{\tm(\Delta) (\rho)}", from=1-4, to=3-4]
+      \arrow[from=1-5, to=3-5, mapsto]
+    \end{tikzcd}\]
+
+  Because they are monos, we may allow ourselves to identify the component
+  morphisms with their images. In particular, we write \( |q_{\Gamma}| \subseteq \tm(\Delta)(\Gamma) \)
+  for the image for each \( \Gamma \). Now what this diagram says is that for any
+  \( q_{\Gamma }(r) = t \in |q_{\Gamma}|\), we have that
+  \( t \circ \rho = q_{\Gamma'}(R(\rho)(r)) \in |q_{\Gamma'}|\). This is precisely the relative
+  monotonicity condition for $\mathfrak{C}$-Kripke relations: containment in
+  each predicate is functorial with respect to renaming \emph{up to renaming}.
 
 \section{Obtaining a normalization function}
 \subsection{A lambda-algebra for the gluing category}
