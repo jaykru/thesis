@@ -19,6 +19,8 @@
 \usepackage{epigraph} % funny quotes
 \usepackage{quiver} % lazy diagrams
 
+\usepackage{mathpartir} % inference rules
+
 \usepackage[
 backend=biber,
 style=alphabetic,
@@ -97,7 +99,7 @@ citestyle=alphabetic
 % donated works were instrumental in the production of this thesis.
 
 % Young Kim for corrupting my soul
-Salma, Mary, Carter, Dan Genya, Tristan, Max
+% $Salma, Mary, Carter, Dan Genya, Tristan, Max
 % Roenberg, Holden
 %
 
@@ -826,6 +828,43 @@ number of authors.
 
 \chapter{Normalization by gluing}
 \section{Trying to neutrals and normals inside the syntactic category: immediate catastrophe} % syntactic category quotients too much, we can't really say much about the computational behavior of these things
+\newcommand{\red}{\rightarrow^{*}} % TODO: move me
+
+This chapter is the culmination of all that we've developed so far in the
+thesis. We will consider the normalization problem for the simply typed lambda
+calculus. Normalization comes in both weak and strong flavors, but both are
+properties of a formal system together with a \emph{reduction} relation, say,
+\( - \rightarrow = \). Now by a \emph{normal form} we mean term $t$ for which there is no
+other $t'$ such that \( t \rightarrow t' \). Writing \( - \rightarrow^{*} = \) for the least
+transitive, reflexive closure of this relation, to say that the reduction system
+enjoys \emph{weak normalization} means that for any well-typed term \( e \),
+there exists a normal form \( n \) such that \( e \red n\). A reduction system
+enjoying \emph{Strong normalization} is one for which \emph{every} reduction
+sequence ends in a normal term; equivalently, \emph{strong normalization}
+requires that there are no infinite reduction sequences over distinct terms.
+\emph{Metatheorems} of this kind tend to resist standard techniques like
+straight-forward induction over the types of the lambda calculus. Instead,
+metatheoreticians resort to the \emph{occult} technique of logical relations.
+(cite TAPL). The method of logical relations is, broadly speaking, somewhat
+opaque even to experienced practitioners. The construction is simple to write
+down and use in easy settings like that of the simply-typed lambda calculus, but
+becomes devilishly complicated when working with more complex lambda calculi.
+
+The method of \emph{gluing} taken from the category theorists book is deeply
+related to the method of logical relations, but regularlizes some of the
+thinking involved and thereby makes most of the choices involved in the usual
+proofs by logical relations completely automatic. The method of gluing is
+well-known in mathematics, but some of its instances are more famous than
+others. The \emph{scone} or \emph{Sierpinski cone} is a famous instance of the
+gluing construction used in and outside of type theory. The \emph{scone} is not
+suited to our particular problem however, as the scone is generally concerned
+with properties of \emph{closed terms} with no free variables, whereas our
+construction will consider terms in any context.
+
+\section{The category of renamings}
+
+\section{Trying to define presheaves of neutrals and normals over the syntactic
+  category: immediate catastrophe}
 \section{New environment: The category of renamings}
 % Definition as a comma, from Fiore; should also discuss some of its properties;
 % is it Cartesian closed? What morphisms qualitatively are included?
