@@ -14,7 +14,7 @@
 \usepackage{luatexja} % for memes
 
 \usepackage{amsmath}
-\usepackage{mathtools}
+\usepackage{mathtools} % paired delimeters
 \usepackage{braket}
 \usepackage{epigraph} % funny quotes
 \usepackage{quiver} % lazy diagrams
@@ -48,6 +48,8 @@ citestyle=alphabetic
 
 \include{autodelims}
 \include{macros}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 
 % Comment out the natbib line above and uncomment the following two lines to use the new 
 % biblatex-chicago style, for Chicago A. Also make some changes at the end where the 
@@ -87,12 +89,18 @@ citestyle=alphabetic
 \chapter*{Acknowledgements}
 % Jaclyn, My parents, Uncle Jay, Grandma, Aunt Susie, Jim Fix, Ang\'elica
 % Osorno, Irena Swanson, Kyle Ormsby, Amal Ahmed, Albyn Jones, Jaclyn, Nick
-% Chaiyachakorn, Ms.\ Kim, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr.\ Raveli, Noah
-% Koster, Shulav, Aditya, Francis, Alec, Joebob, Jit, Eli, Gabe and Ciara,
+% Chaiyachakorn, Ms.\ King, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr.\ Raveli,
+% Noah Koster, Shulav, Aditya, Francis, Alec, Joebob, Jit, Eli, Gabe and Ciara,
 % Murali Vijayaraghavan, 吳老師, Ian Desai, Becca, Andres, Sara Rosenberger in
 % the business office, the GNU project and free software foundation along with
 % the developers of so many other free software projects whose generously
 % donated works were instrumental in the production of this thesis.
+
+% Young Kim for corrupting my soul
+Salma, Mary, Carter, Dan Genya, Tristan, Max
+% Roenberg, Holden
+%
+
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -105,8 +113,6 @@ This is an example of a thesis setup to use the reed thesis
 document class.
 
 \chapter*{List of Abbreviations}
-You can always change the way your abbrevias are formatted. Play around with it yourself, use tables, or come to CUS if you'd like to change the way it looks. You can also completely remove this chapter if you have no need for a list of abbreviations. Here is an example of what this could look like:
-
 \begin{table}[h]
   \centering % You could remove this to move table to the left
   \begin{tabular}{ll}
@@ -445,12 +451,14 @@ closely describing its presentation.
 
 This category, as with most in category theory, serves to allow us to define a
 special class of functor. In our case, that class of functor captures what it
-means to produce a model of an elementary sketch.
+means to produce a model of an elementary sketch. The proof of this theorem is
+rather bureaucratic, but its importance is that it teaches us that the canonical
+elementary language of a category is purpose-built so that its models are
+precisely set-valued functors out of the category in question.
 
 % TODO: must include Theorem 4.2.12 from Taylor, it is essential to the
 % statement of this theorem.
-
-\subsection{Models are essentially functors with the right codomain}
+\subsection{Models are essentially set-valued functors on the category of a sketch}
 \newcommand{\clone}[3]{{\text{Cn}_{#1} (#2,#3)}}
 \newcommand{\cn}{\mathrm{Cn}}
 \begin{theorem}[The classifying category]\label{thm:classify_elem_sketch}
@@ -459,8 +467,40 @@ means to produce a model of an elementary sketch.
   $\cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$.
 \end{theorem}
 \begin{proof}
-  Omitted. We give the proof of a more general result in
-  Theorem~\ref{thm:classifying alg theory}.
+  \( (\Rightarrow) \) Suppose we have an \( \mathcal{L}\)-model $A$. Then $A$ is an
+  assignment of a set $\ceil{X}_{A}$ to each sort \( \ceil{X}\) and an
+  assignment of a function \( \ceil{r}_{A} : X_{A} \rightarrow Y_{A}\) to each operation-symbol
+  \( X \vdash \ceil{r}(x) : Y\) such that the laws (given by
+  Theorem~\ref{thm:category_of_sketch}) of \( \mathcal{L} \) are preserved. These
+  assignment form precisely the data of a functor
+
+  \begin{align*}
+   F_{A} &: \cn_{\mathcal{L}} \rightarrow \mathfrak{Set} \\
+    X &\mapsto \ceil{X}_{A} \\
+    (X \xrightarrow{r} Y) &\mapsto \ceil{r}_{A}
+  \end{align*}.
+
+  It remains to show functoriality of these assignments which follow from the
+  laws of the canonical elementary language and faithfulness of the model. \\
+
+  \( (\Leftarrow) \) Suppose we have a functor
+  $F_A : \cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$. We will construct a model $A$ of
+  $\mathcal{L}$ from $F_{A}$ as follows: Recall from
+  Theorem~\ref{thm:category_of_sketch} % TODO: bad ref
+  that the sorts \(\ceil{X} \) of the sketch $\mathcal{L}$ are precisely the
+  objects $X$ of \( \cn_{ \mathcal{L}} \), and the operation symbols
+  \( X \vdash \ceil{ f } : Y \) are the morphisms \( f \) of \( \cn_{\mathcal{L}}\). Now,
+  \begin{enumerate}
+    \item For each sort \(\ceil{X}\) we assign \( \ceil{X}_A = F_{A}(X)\).
+    \item For each operation symbol \( \ceil{f} \) we assign \( \ceil{f}_{A} = F_{A}(f) \).
+    \item Again by Theorem~\ref{thm:category_of_sketch}, the only laws of the
+          sketch are that \(\ceil{\text{id}}(x) = x\) and
+          \(\ceil{g}(\ceil{f}(x)) = \ceil{g \circ f}(x)\). According to the
+          assignments in the previous two points, the first law says that
+          \(F_{A}(\text{id}_{X}) = \text{id}_{\ceil{X}_{A}}\), and the second says that
+          \( (F_{A} \ceil{g}) \circ (F_{A}(\ceil{f})) = F_{A} (g \circ f)\). Both are
+          ensured by functoriality.
+  \end{enumerate}
 \end{proof}
 
 % \subsection{Example morphisms in the syntactic category}
@@ -598,7 +638,7 @@ sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
               on for the sort $\mathbbm{1}$ and substitution by the hat is
               context weakening or adding the variable} way of our construction
             of the syntactic category. With the clearing of that remaining
-            goalpost deferred, we have shown what is required for this law.
+            goal-post deferred, we have shown what is required for this law.
           \end{proof}
   \end{enumerate}
 \end{example}
@@ -763,8 +803,7 @@ extend canonically to contexts and substitutions and thus give meaning to terms.
   \end{enumerate}
 \end{proof}
 
-
-\section{Sketching the simply typed lambda calculus}
+\chapter{Sketching the simply typed lambda calculus}
 
 
 \chapter{Normalization by evaluation: the classical perspective}
@@ -786,19 +825,34 @@ number of authors.
 \chapter{Tait's method for normalization of closed terms}
 
 \chapter{Normalization by gluing}
-
-
-\section{Trying to define presheaves of neutrals and normals over the syntactic
-  category: immediate catastrophe}
+\section{Trying to neutrals and normals inside the syntactic category: immediate catastrophe} % syntactic category quotients too much, we can't really say much about the computational behavior of these things
 \section{New environment: The category of renamings}
-\section{Adapting the symbol pattern: $\Sigma_{\lambda}$-algebras for presheaves}
-\section{The gluing category}
+% Definition as a comma, from Fiore; should also discuss some of its properties;
+% is it Cartesian closed? What morphisms qualitatively are included?
+\section{Presheaves of syntax}
+% open terms, neutrals, normals
+\section{Adapting the symbol pattern: lambda-algebras in ren-hat}
+% ren hat is cartesian closed, and we will give an explicit structure for it
+
+\section{The comma construction} % should note that we've already seen this
+                                 % before in the section about the category of renamings
+\section{A comma for closed terms: the scone} % This section will likely just be
+                                              % a sketch following much the same
+                                              % style set out in Shulman's note.
+\subsection{The global section functor}
+\subsection{Sconed consistency} % probs just STLC, or something.
+\subsection{Sconed canonicity} % naturals
+
+\section{New and improved comma, \infty\% faster on open terms!}
 \subsection{The relative hom functor}
-\subsection{The comma construction: two definitions and elementary examples}
+\subsection{Gluing semantics to syntax along the relative hom functor}
+\section{The gluing category}
+
+\subsection{The comma construction: definition and elementary examples}
+% Category of pointed sets
 \subsection{A very special comma: the gluing construction}
 \subsection{First look at the gluing category: studying its objects and morphisms}
 \subsection{Building a Cartesian closed interpretation into the gluing category}
-\subsection{}
 
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
