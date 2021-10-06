@@ -73,7 +73,7 @@ citestyle=alphabetic
 % if you're writing a thesis in an interdisciplinary major,
 % uncomment the line below and change the text as appropriate.
 % check the Senior Handbook if unsure.
-% \thedivisionof{The Established Interdisciplinary Committee for}
+\thedivisionof{The Established Interdisciplinary Committee for Mathematics and Computer Science}
 % if you want the approval page to say "Approved for the Committee",
 % uncomment the next line
 % \approvedforthe{Committee}
@@ -111,8 +111,8 @@ citestyle=alphabetic
   there is no end; and much study is a weariness of the flesh.}{Ecclesiastes
   12:12, KJV.}
 
-This is an example of a thesis setup to use the reed thesis
-document class.
+I don't know what to put here, but this is certainly a funny quote that should
+find a home somewhere in the thesis.
 
 \chapter*{List of Abbreviations}
 \begin{table}[h]
@@ -132,10 +132,10 @@ document class.
 % The abstract is not required if you're writing a creative thesis (but aren't they all?)
 % If your abstract is longer than a page, there may be a formatting issue.
 \chapter*{Abstract}
-The preface pretty much says it all.
+Normalization by gluing is poggers.
 
-\chapter*{Dedication}
-You can have a dedication here if you wish.
+% \chapter*{Dedication}
+
 
 \mainmatter% here the regular arabic numbering starts
 \pagestyle{fancyplain} % turns page numbering back on
@@ -155,20 +155,10 @@ You can have a dedication here if you wish.
 % \onehalfspacing
 % \doublespacing
 
-Welcome to the \LaTeX\ thesis template. If you've never used \TeX\ or \LaTeX\
-before, you'll have an initial learning period to go through, but the results of
-a nicely formatted thesis are worth it for more than the aesthetic benefit:
-markup like \LaTeX\ is more consistent than the output of a word processor, much
-less prone to corruption or crashing and the resulting file is smaller than a
-Word file. While you may have never had problems using Word in the past, your
-thesis is going to be about twice as large and complex as anything you've
-written before, taxing Word's capabilities. If you're still on the fence about
-using \LaTeX, read the Introduction to LaTeX on the CUS site as well as skim the
-following template and give it a few weeks. Pretty soon all the markup gibberish
-will become second nature.
+Blah blah blah, I should write some stuff about how category theory helps us
+avoid insane proof heuristics in metatheory of type theory.
 
 \chapter{Functorial semantics of type theory: sketches and their models; algebraic theories and their algebras}
-
 In this chapter we develop tools for reasoning about (syntactic)
 \emph{theories}, which are in some sense ``notions of'' abstract structure.
 Examples of theories include the theory of rings, and simple type theory. To
@@ -824,10 +814,7 @@ for G\"odel's System T. Our implementation was inspired by the habilitation of
 Andreas Abel and the Wikipedia page on normalization by evaluation written by a
 number of authors.
 
-\chapter{Tait's method for normalization of closed terms}
-
 \chapter{Normalization by gluing}
-\section{Trying to neutrals and normals inside the syntactic category: immediate catastrophe} % syntactic category quotients too much, we can't really say much about the computational behavior of these things
 \newcommand{\red}{\rightarrow^{*}} % TODO: move me
 
 This chapter is the culmination of all that we've developed so far in the
@@ -851,7 +838,7 @@ down and use in easy settings like that of the simply-typed lambda calculus, but
 becomes devilishly complicated when working with more complex lambda calculi.
 
 The method of \emph{gluing} taken from the category theorists book is deeply
-related to the method of logical relations, but regularlizes some of the
+related to the method of logical relations, but regularizes some of the
 thinking involved and thereby makes most of the choices involved in the usual
 proofs by logical relations completely automatic. The method of gluing is
 well-known in mathematics, but some of its instances are more famous than
@@ -861,39 +848,61 @@ suited to our particular problem however, as the scone is generally concerned
 with properties of \emph{closed terms} with no free variables, whereas our
 construction will consider terms in any context.
 
-\section{The category of renamings}
+\section{Variable-arity Kripke relations}
 
-\section{Trying to define presheaves of neutrals and normals over the syntactic
-  category: immediate catastrophe}
-\section{New environment: The category of renamings}
-% Definition as a comma, from Fiore; should also discuss some of its properties;
-% is it Cartesian closed? What morphisms qualitatively are included?
-\section{Presheaves of syntax}
+\section{The comma construction and friends}
+
+\subsection{An easy example: the category of renamings}
+The category of renamings is, in a very loose sense, like a less proof relevant
+version of the category of contexts and substitutions. In particular, if there
+exists a substitution relating two contexts in syntactic category, then there
+exists a renaming relating the same contexts. In this sense, renamings allow us
+to track changes in context due to substitution without actually using
+substitutions which are problematic due to their being overly quotiented by
+definitional equality thanks to the substitution lemma. The category of
+renamings allows us to define the presheaves we need while not losing track of
+how contexts evolve by substitution. I think that these two points are precisely
+the desiderata satisfied by the category of renamings.
+
+Need to present its
+\begin{enumerate}
+  \item Definition as a comma: a context is a finite set of variables paired
+        with an assignment of types to each variable; renamings are those
+        functions of the underlying variable sets which preserve the extra
+        globbed on typing information
+  \item Straightforward definition
+\end{enumerate}
+
+\subsubsection{Kripke relations indexed by renaming contexts}
+Should just provide the instance we'll be working with here to lower the
+reader's cognitive burden of too much generality.
+
+\subsection{Presheaves of syntax, defined over the category of renamings}
 % open terms, neutrals, normals
-\section{Adapting the symbol pattern: lambda-algebras in ren-hat}
-% ren hat is cartesian closed, and we will give an explicit structure for it
 
-\section{The comma construction} % should note that we've already seen this
-                                 % before in the section about the category of renamings
-\section{A comma for closed terms: the scone} % This section will likely just be
-                                              % a sketch following much the same
-                                              % style set out in Shulman's note.
-\subsection{The global section functor}
-\subsection{Sconed consistency} % probs just STLC, or something.
-\subsection{Sconed canonicity} % naturals
+\subsubsection{A lambda-algebra in Ren-hat}
 
-\section{New and improved comma, \infty\% faster on open terms!}
-\subsection{The relative hom functor}
-\subsection{Gluing semantics to syntax along the relative hom functor}
-\section{The gluing category}
+\subsection{Why the syntactic category just won't do}
+talk about why neutrals and normals can't support a substitution action
+% should also talk briefly about why we can't define such presheaves over the
+% syntactic category at this point.
+\begin{remark}[Any category of presheaves are cartesian closed]
+  This is a well-known fact. Maybe I can bloviate on this a smidge. I think it goes well in this subsection.
+\end{remark}
 
-\subsection{The comma construction: definition and elementary examples}
-% Category of pointed sets
-\subsection{A very special comma: the gluing construction}
-\subsection{First look at the gluing category: studying its objects and morphisms}
-\subsection{Building a Cartesian closed interpretation into the gluing category}
+\subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
+This subsection introduces Fiore's monster.
+\subsubsection{The relative hom functor}
+\subsubsection{Gluing semantics to syntax along the relative hom functor}
+\subsection{The subcategory of (ordinary) variable-arity Kripke relations}
 
-\chapter*{Conclusion}
+\section{Obtaining a normalization function}
+\subsection{A lambda-algebra for the gluing category}
+\subsection{Cartesian closed structure for the gluing category}
+% TODO: flesh this out some more
+\subsection{A promise kept: normalization}
+
+\chapter{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 \chaptermark{Conclusion}
 \markboth{Conclusion}{Conclusion}
