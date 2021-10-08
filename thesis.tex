@@ -108,6 +108,10 @@ citestyle=alphabetic
 % whose generously donated works were instrumental in the production of this
 % thesis.
 
+% Alice McKean
+
+% My van
+
 % Megan, Luke, Ryan, Kathleen
 
 % Young Kim for corrupting my soul
@@ -127,13 +131,13 @@ citestyle=alphabetic
 I don't know what to put here, but this is certainly a funny quote that should
 find a home somewhere in the thesis.
 
-\chapter*{List of Abbreviations}
-\begin{table}[h]
-  \centering % You could remove this to move table to the left
-  \begin{tabular}{ll}
-    \textbf{TMA}  	&  Too Many Abbreviations
-  \end{tabular}
-\end{table}
+% \chapter*{List of Abbreviations}
+% \begin{table}[h]
+%   \centering % You could remove this to move table to the left
+%   \begin{tabular}{ll}
+%     \textbf{TMA}  	&  Too Many Abbreviations
+%   \end{tabular}
+% \end{table}
 
 
 \tableofcontents
@@ -199,10 +203,11 @@ an example of the strength of algebraic theories, we will show how to write down
 or functions. In the following chapter, we will use the doctrine of algebraic
 theories to develop categorical semantics of the lambda calculus. This chapter
 is strictly expository in nature. Much of the following presentation draws
-heavily from Paul Taylor's \emph{Practical Foundations of Mathematics}~\cite{taylor_practical_1999}. Our humble contribution is to flesh out some of
-his examples, add some of our own, and make parts of the presentation more
-palatable and quickly digestible to the reader already acquainted with basic
-category theory and type theory.
+heavily from Paul Taylor's \emph{Practical Foundations of
+  Mathematics}~\cite{taylor_practical_1999}. Our humble contribution is to flesh
+out some of his examples, add some of our own, and make parts of the
+presentation more palatable and quickly digestible to the reader already
+acquainted with basic category theory and type theory.
 
 \section{Elementary sketches and their models}
 \subsection{An algebraic prelude}
@@ -859,33 +864,42 @@ the reader to the standard references (\cite{pierce_types_2002},
 \end{definition}
 
 \section{Lambda theories, beta-eta rules, and cartesian closed categories}
-\newcommand{\evsig}[2]{[f : {#2^{#1}}, x : #1] \vdash \textrm{ev}_{#1,#2} (f,x):#2}
+\newcommand{\evsig}[2]{\textrm{ev}_{#1,#2} : #2^{#1} \times #1 \rightarrow #2}
 \newcommand{\ev}[2]{\textrm{ev}_{#1,#2}}
-Most sources define this notion en-passant, if at all. We give an explicit
+
+Most sources define this notion only by \emph{context clues}, which is a
+technical term meaning that they don't define it at all. We give an explicit
 characterization of \emph{lambda theories} for the reader who like the author is
 a 5head.
 
 \newcommand{\cnprod}{\cn_{\mathcal{L}}^{\times}}
-\begin{definition}[Lambda theory] % TODO: is this actually a lambda-theory?
-  % Should I instead call it a theory with raw cartesian-closed sturcture?
-  % Perhaps instead it is better to follow Taylor and begin with the category of
-  % the algebraic theory, and then characterize raw CC structure with reference
-  % to the category...
-  Let \( \mathcal{L} \) be an algebraic theory and \( \cnprod \) its classifying
-  category. Then \( \mathcal{L} \) is a \emph{lambda theory} if for
-  object \(X, Y\) of \( \cnprod \) we have
+\begin{definition}[Raw cartesian closed structure]
+  % TODO: is this actually a lambda-theory? Should I instead call it a theory
+  % with raw cartesian-closed sturcture? Perhaps instead it is better to follow
+  % Taylor and begin with the category of the algebraic theory, and then
+  % characterize raw CC structure with reference to the category...
+  Let \( \mathfrak{C} \) be a category with a specified terminal object
+  \( \termob \) and specific products together product projections. We say that
+  \( \mathfrak{C} \) is \emph{raw cartesian closed} or \emph{has raw cartesian
+    closed structure} if we have the following for each pair of objects
+  \( X, Y \) of \( \mathfrak{C} \):
   \begin{enumerate}
-    \item An object \( Y^{X} \) of \( \cnprod \)
-    \item An morphism symbol, \emph{application}, \( \evsig{X}{Y} \) and
-    \item For each list of sorts \( \Gamma \), a function of operation symbols
-          \( \lambda_{\Gamma, X, Y} : \cn_{\mathcal{L}}(\Gamma \times X, Y) \rightarrow (\Gamma, Y^{X})\) obeying the
-          naturality law:
+    \item An object \( Y^{X} \)
+    \item An morphism, \emph{application}, \( \evsig{X}{Y} \) and
+    \item For each object \( \Gamma \), a function of hom-sets
+          \( \lambda_{\Gamma, X, Y} : \mathfrak{C}(\Gamma \times X, Y) \rightarrow \mathfrak{C}(\Gamma, Y^{X})\) obeying
+          the naturality law:
           \[
             \lambda_{\Gamma, X, Y} ( \mathfrak{p} \circ (\mathfrak{u} \times \id_{X})) = \lambda_{\Gamma, X, Y}(\mathfrak{p}) \circ \mathfrak{u}
           \]
           for each \( \mathfrak{u} : \Gamma \rightarrow \Delta \) and
           \( \mathfrak{p} : \Delta \times X \rightarrow Y \).
   \end{enumerate}
+\end{definition}
+
+\begin{definition}[Lambda theory]
+  An algebraic theory $\mathcal{L}$ is a \emph{lambda theory} if its classifying
+  category \( \cnprod \) has raw cartesian closed structure.
 \end{definition}
 
 \begin{definition}[Beta-eta rules]
@@ -897,14 +911,36 @@ a 5head.
   \end{align*}
 \end{definition}
 
+These deserve some commentary. The beta rule says that application of an
+abstracted body $\mathfrak{p}$ to the identity gives you back the body you
+started with: the beta rule forces that application of lambda expressions does
+nothing more than substitute for the abstracted variable. TODO: explain eta.
+
+We now define a notion more well-known outside of computer science. Cartesian
+closed structure endows a category with the ability to take products and
+function spaces over its objects in a suitable fashion.
 \begin{definition}[Cartesian closed structure]
   A category \( \mathfrak{C} \) is \emph{cartesian closed} if it has all
   products and exponentials.
 \end{definition}
 
-\begin{theorem}[Algebraic + eval + beta-eta iff cartesian closed]
+The category \( \catset \) is the prototypical cartesian closed category whose
+products are the usual cartesian products of sets and whose exponentials are
+function spaces: for sets $X$ and $Y$, \( Y^{X} = \{ \textrm{functions
+} f \mid \dom(f) = X \wedge \cod(f) = Y \}\). Another good source of example cartesian
+closed categories is topos theory. All elementary toposes, including categories
+of presheaves, are cartesian closed (\cite{leinster_informal_2011}.) It turns
+out that all of these examples of cartesian closed categories can also be
+characterized as the classifying categories of
 
+\begin{theorem}[Finite-product category + raw CCS + beta-eta $\iff$ cartesian closed]
+  Let \( \mathfrak{C} \) be a category. Then \( \mathfrak{C}\) is cartesian
+  closed if and only if \( \mathfrak{C} \) has finite products, a specified
+  terminal object, and both is raw cartesian closed and satisfies the beta-eta
+  laws.
 \end{theorem}
+
+We will now present the lambda calculus as an algebraic theory.
 
 \begin{definition}[Algebraic theory of the lambda calculus]
 \end{definition}
