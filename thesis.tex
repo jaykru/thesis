@@ -118,6 +118,8 @@ citestyle=alphabetic
 % Salma, Mary, Carter, Dan Genya, Tristan, Max
 % Holden
 
+% Hyperbolic gang: Francis, Alec, Kiana, Usman, Luke Doms
+
 % Curtis, Cody Roux and Dan McArdle at the Charles Stark Draper Laboratory for
 % early encouragement!
 
@@ -934,11 +936,12 @@ function spaces over its objects in a suitable fashion.
 The category \( \catset \) is the prototypical cartesian closed category whose
 products are the usual cartesian products of sets and whose exponentials are
 function spaces: for sets $X$ and $Y$, \( Y^{X} = \{ \textrm{functions
-} f \mid \dom(f) = X \wedge \cod(f) = Y \}\). Another good source of example cartesian
-closed categories is topos theory. All elementary toposes, including categories
-of presheaves, are cartesian closed (\cite{leinster_informal_2011}.) It turns
-out that all of these examples of cartesian closed categories can also be
-characterized as the classifying categories of
+} f \mid \textrm{dom}(f) = X \wedge \textrm{cod}(f) = Y \}\). Another good source of
+example cartesian closed categories is topos theory. All elementary toposes,
+including categories of presheaves, are cartesian closed
+(\cite{leinster_informal_2011}.) It turns out that all of these examples of
+cartesian closed categories can also be characterized as the classifying
+categories of
 
 \begin{theorem}[Finite-product category + raw CCS + beta-eta $\iff$ cartesian closed]
   Let \( \mathfrak{C} \) be a category. Then \( \mathfrak{C}\) is cartesian
@@ -957,21 +960,34 @@ We will now present the lambda calculus as an algebraic theory.
     \( \widetilde{T} \) given in Definition \ref{def:stlc_types}.
     \item Variables: The variables are drawn from some countably infinite set
           $V$ as in the definition of terms.
-     \item The operation symbols are the following:
-          \[
-            t : \tau_{1} * \tau_{2} \vdash \pi_{1}(t) : \tau_{1} \\
-            t : \tau_{1} * \tau_{2} \vdash \pi_{2}(t) : \tau_{2} \\
-            [t_{1} : \tau_{1}, \t_{2} : \tau_{2}] \vdash (t_{1},t_{2}) : \tau_{1} * \tau_{2} \\
+    \item We define the following operation symbols for each
+          \(\tau_{1},\tau_{2},\tau,\tau' \in \Sigma_{\lambda}\):
+          \begin{align*}
+            t : \tau_{1} * \tau_{2} &\vdash \pi_{1}(t) : \tau_{1} \\
+            t : \tau_{1} * \tau_{2} &\vdash \pi_{2}(t) : \tau_{2} \\
+            [t_{1} : \tau_{1}, t_{2} : \tau_{2}] &\vdash (t_{1},t_{2}) : \tau_{1} * \tau_{2} \\
             \\
-            [t : \tau' \rightarrow \tau , \t' : \tau'] \vdash t t' : \tau \\\\
-            \vdash () : \termob
-          \]
+            [t : \tau' \rightarrow \tau , t' : \tau'] &\vdash t\, t' : \tau \\\\
+            &\vdash () : \termob\\
+          \end{align*}
+          The reader will note that we have not yet added an operation symbol
+          for lambda abstraction. This requires careful consideration, because
+          lambda abstraction is not really an operation symbol but rather a
+          family of operation symbols defined mutually with the others. For a
+          term \( \Gamma, x:\tau' \vdash t : \tau \), we add a new operation symbol
+         \begin{align*}
+           \Gamma &\vdash (\lambda (x:\tau').\, t)(\overrightarrow{\gamma}) : \tau && \text{(where $\overrightarrow{\gamma}$ is the list of variables comprising $\Gamma$)}
+         \end{align*}
+          The operation symbols are the least (TODO: does this even make sense)
+          set closed under taking abstractions in this way.
     \item The equations are those of the usual equational theory for the lambda
-          calculus. Let \( \Gamma, x : \tau' \vdash t : \tau \) be a lambda term
+    calculus:
     \begin{align*}
-
+      (\lambda (x:X).\, t)\, t' = [t'/x]*t && (\beta) \\
+      f = (\lambda (x:X).\, f\, x) && (\eta)\\
     \end{align*}
-
+    defined for each operation symbol \( f : Y^{X}\) and terms
+    \( \Gamma, x : X \vdash t : \tau \) and \( \Gamma \vdash t' : X\).
     \end{align*}
   \end{enumerate}
 \end{definition}
