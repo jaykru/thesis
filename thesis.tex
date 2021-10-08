@@ -949,12 +949,14 @@ categories of
   terminal object, and both is raw cartesian closed and satisfies the beta-eta
   laws.
 \end{theorem}
+\begin{proof}
+  TODO
+\end{proof}
 
 We will now present the lambda calculus as an algebraic theory.
-
 \begin{definition}[Algebraic theory of the lambda calculus]
-  The lambda calculus can be encoded as an algebraic theory with the following
-  data:
+  The lambda calculus can be written down as an algebraic theory with the
+  following data:
   \begin{enumerate}
     \item Sorts: We define the sorts \( \Sigma_{\lambda}\) to be the set
     \( \widetilde{T} \) given in Definition \ref{def:stlc_types}.
@@ -973,7 +975,7 @@ We will now present the lambda calculus as an algebraic theory.
           The reader will note that we have not yet added an operation symbol
           for lambda abstraction. This requires careful consideration, because
           lambda abstraction is not really an operation symbol but rather a
-          family of operation symbols defined mutually with the others. For a
+          family of operation symbols defined mutually with the others. For each
           term \( \Gamma, x:\tau' \vdash t : \tau \), we add a new operation symbol
          \begin{align*}
            \Gamma &\vdash (\lambda (x:\tau').\, t)(\overrightarrow{\gamma}) : \tau && \text{(where $\overrightarrow{\gamma}$ is the list of variables comprising $\Gamma$)}
@@ -988,11 +990,11 @@ We will now present the lambda calculus as an algebraic theory.
     \end{align*}
     defined for each operation symbol \( f : Y^{X}\) and terms
     \( \Gamma, x : X \vdash t : \tau \) and \( \Gamma \vdash t' : X\).
-    \end{align*}
   \end{enumerate}
 \end{definition}
 
 \begin{theorem}[Lambda calculus is a lambda theory with beta-eta]
+  Consider the classifying category TODO
 \end{theorem}
 
 \chapter{Normalization by evaluation: the classical perspective}
@@ -1049,6 +1051,28 @@ free variables, whereas our construction will apply to terms in any context.
 \section{Variable-arity Kripke relations}
 
 \section{The comma construction and friends}
+This section introduces a general construction that will, among other things,
+allow us to define the gluing construction. As hinted at before, gluing is just
+a special case of the comma. The idea of the comma is to glob some extra data to
+the objects of a category, and has a notion of an
+object-with-extra-data-morphism which preserves the attached data. This
+intuition perhaps underlies the name for the gluing construction which is a
+special case of the comma.
+
+\begin{definition}[Comma category]
+  Let $E,D,C$ be categories and $F: D \rightarrow C \leftarrow E : G$ be a pair of functors sharing
+  their codomain $C$. The comma category \( F \downarrow G \) has as its
+  \begin{enumerate}
+    \item Objects: triples (d : D, Fd \xrightarrow{f} Ge, e : E)
+    \item Morphisms: arrows $(h,k) : (d, f, e) \rightarrow (d', f', e')$ are pairs of
+          $C$ and $E$-morphisms \(h : c \rightarrow c', k : e \rightarrow e'\) making the following
+          diagram commute:
+          \begin{tikzcd}
+            % TODO
+          \end{tikzcd}
+
+  \end{enumerate}
+\end{definition}
 
 \subsection{An easy example: the category of renamings}
 The category of renamings is, in a very loose sense, like a less proof relevant
