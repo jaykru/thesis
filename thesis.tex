@@ -1034,7 +1034,13 @@ Andreas Abel and the Wikipedia page on normalization by evaluation written by a
 number of authors.
 
 \chapter{Normalization by gluing}\label{chapter:gluing}
-\epigraph{``i really thought u meant arts and crafts glue''}{new gluing understander}
+\epigraph{You, you were like glue\\
+holding each of us together\\
+I slept through July\\
+while you made lines in the heather}{Fleet Foxes, ``Lorelai''}
+
+
+% \epigraph{``i really thought u meant arts and crafts glue''}{new gluing understander}
 
 This chapter is the culmination of all that we've developed so far in the
 thesis. We will consider the normalization problem for the simply typed lambda
@@ -1223,9 +1229,6 @@ renaming action as before.
 
 \subsection{A lambda-algebra in Renhat}
 
-
-
-
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
 This subsection introduces Fiore's monster.
 \subsubsection{The relative hom functor}
@@ -1264,7 +1267,16 @@ closed under $\Gamma$, represented as single substitutions \( [t/x] : \Gamma \ri
 Generalizing to multivariable target contexts \( \Delta \) gives presheaves of
 \emph{lists} of open terms of the types in $\Delta$.
 
-\subsubsection{Gluing semantics to syntax along the relative hom functor}
+\subsection{Gluing semantics to syntax along the relative hom functor}
+\newcommand{\gluingcat}{\textrm{Gl}_\Sigma}
+
+We now define the \emph{gluing category} as the comma of the category of
+renamings along the relative hom functor just defined.
+
+\begin{definition}[The gluing category]
+  TODO, ez
+\end{definition}
+
 
 \subsection{The subcategory of (ordinary) variable-arity Kripke relations}
 We can recover ordinary, proof-\emph{irrelevant} variable-arity Kripke relations
@@ -1371,8 +1383,24 @@ That's it for now.
 % If you feel it necessary to include an appendix, it goes here.
 \appendix
 \chapter{The First Appendix}
-\chapter{The Second Appendix, for Fun}
+\chapter{Orphaned snippets}
+This is where things without a home in their chapter go\ldots for now.
 
+\begin{definition}[Variable presheaf]
+  We can define a presheaf of \emph{typed variables} in $\renhat$ with the Yoneda embedding on $\ren$:
+  \[
+    \mathfrak{V}_{\tau} = \yoneda \tau = \ren(-, \tau)
+  \]
+  \newcommand{\varpsh}{\mathfrak{V}_{\tau}}
+
+  With that definition, we have \( \varpsh(\Gamma) = \ren(\Gamma,\tau) \) where the
+  right-hand side is comprised of renamings \( \Gamma \rightarrow [x:\tau]\) which are
+  \emph{functions} \( \rho : \dom([x:\tau]) \rightarrow \dom(\Gamma)\) such that
+  \( \Gamma(\rho(x)) = [x : \tau](x) = \tau\). That is, the \( \rho \) are functions selecting a variable of type
+  $\tau$ in \( \Gamma \). 
+\end{definition}
+
+We can
 
 % This is where endnotes are supposed to go, if you have them.
 % I have no idea how endnotes work with LaTeX.
