@@ -104,6 +104,10 @@ citestyle=alphabetic
 % software projects whose generously donated works were instrumental in the
 % production of this thesis.
 
+% I'd like to thank Noah Koster for being one of my very first friends at Reed
+% and a wonderful companion as I explored the world on my own for the very first
+% time. You may not be the next Bill Gates, but you're a great guy.
+
 % Alice McKean
 
 % My van
@@ -121,9 +125,11 @@ citestyle=alphabetic
 
 % I would like to give special thanks to Paul Taylor who, though I do not know
 % him personally, wrote the book that made this thesis possible. Almost every
-% day spent on this project I learned a new awe-inspiring fact about the lambda
-% calculus and its semantics. Paul's book is a love letter to the type of
-% computer scientist who wants to understand how the world works.
+% day spent on this project I learned from Paul's book a new awesome perspective
+% on the the lambda calculus or mathematics in general. Paul's Practical
+% Foundations of Mathemtics is a love letter to the type of computer scientist
+% who wants to understand how the world works, and I'm indebted to Paul for
+% having created it.
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -1358,8 +1364,8 @@ closed category \( \renhat \).
 % https://q.uiver.app/?q=WzAsOSxbMCwwLCJcXHByb2RfaVxcbWF0aGZyYWt7TmV9X3tcXHRhdV9pfSAiXSxbMiwwLCJcXHByb2RfaVxcbWF0aGZyYWt7Un1fe1xcdGF1X2l9Il0sWzQsMCwiXFxtYXRoZnJha3tOZn1fe1xcdGF1fSJdLFsxLDBdLFsyLDEsIlxccHJvZF9pXFx0ZXh0cm17Q259X1xcbWF0aGNhbHtcXGxhbWJkYX1ee1xccmlnaHRhcnJvd30oLSxcXHRhdV9pKSJdLFsxLDFdLFsyLDIsIlxcdGV4dHJte0NufV9cXG1hdGhjYWx7XFxsYW1iZGF9XntcXHJpZ2h0YXJyb3d9KC0sXFxHYW1tYSkiXSxbMywwLCJcXG1hdGhmcmFre1J9X1xcdGF1Il0sWzQsMiwiXFx0ZXh0cm17Q259X1xcbWF0aGNhbHtcXGxhbWJkYX1ee1xccmlnaHRhcnJvd30oLSxcXHRhdSkiXSxbMCwxLCJcXHByb2RfaVxcdXBhcnJvd157XFx0YXVfaX0iXSxbMSw0LCJcXHByb2RfaSByX3tcXHRhdV9pfSJdLFswLDQsIlxccHJvZF9pbV97XFx0YXVfaX0iLDJdLFs0LDYsIlxcY29uZyJdLFs3LDIsIlxcZG93bmFycm93XntcXHRhdX0iXSxbMSw3LCJcXG1hdGhiYntzfVxcbGxicmFja2V0XFxHYW1tYVxcdmRhc2ggdDpcXHRhdVxccnJicmFja2V0Il0sWzYsOCwic1xcbGxicmFja2V0XFxHYW1tYVxcdmRhc2ggdCA6IFxcdGF1IFxccnJicmFja2V0XyoiLDJdLFsyLDgsIm5fXFx0YXUiXSxbNyw4LCJyX1xcdGF1IiwyXV0=
 \[\begin{tikzcd}
 	{\prod_i\mathfrak{Ne}_{\tau_i} } & {} & {\prod_i\mathfrak{R}_{\tau_i}} & {\mathfrak{R}_\tau} & {\mathfrak{Nf}_{\tau}} \\
-	& {} & {\prod_i\textrm{Cn}_\mathcal{\lambda}^{\rightarrow}(-,\tau_i)} \\
-	&& {\textrm{Cn}_\mathcal{\lambda}^{\rightarrow}(-,\Gamma)} && {\textrm{Cn}_\mathcal{\lambda}^{\rightarrow}(-,\tau)}
+	& {} & {\prod_i\textrm{Cn}_{\mathcal{\lambda}}^{\rightarrow}(-,\tau_i)} \\
+	&& {\textrm{Cn}_{\mathcal{\lambda}}^{\rightarrow}(-,\Gamma)} && {\textrm{Cn}_{\mathcal{\lambda}}^{\rightarrow}(-,\tau)}
 	\arrow["{\prod_i\uparrow^{\tau_i}}", from=1-1, to=1-3]
 	\arrow["{\prod_i r_{\tau_i}}", from=1-3, to=2-3]
 	\arrow["{\prod_im_{\tau_i}}"', from=1-1, to=2-3]
@@ -1384,6 +1390,9 @@ That's it for now.
 \appendix
 \chapter{The First Appendix}
 \chapter{Orphaned snippets}
+\newcommand{\dom}{\textrm{dom}}
+\newcommand{\cod}{\textrm{cod}}
+\newcommand{\varpsh}{\mathfrak{V}_\tau}
 This is where things without a home in their chapter go\ldots for now.
 
 \begin{definition}[Variable presheaf]
@@ -1391,7 +1400,6 @@ This is where things without a home in their chapter go\ldots for now.
   \[
     \mathfrak{V}_{\tau} = \yoneda \tau = \ren(-, \tau)
   \]
-  \newcommand{\varpsh}{\mathfrak{V}_{\tau}}
 
   With that definition, we have \( \varpsh(\Gamma) = \ren(\Gamma,\tau) \) where the
   right-hand side is comprised of renamings \( \Gamma \rightarrow [x:\tau]\) which are
@@ -1400,7 +1408,28 @@ This is where things without a home in their chapter go\ldots for now.
   $\tau$ in \( \Gamma \). 
 \end{definition}
 
-We can
+We can also explicate binding structure in \( \renhat \) via some special
+contortions aided by the Yoneda lemma. Let \( \mathfrak{P} : \renhat \). Then
+exponentiation by a representable/variable presheaf, \( \varpsh = \yoneda \tau\)
+gives
+
+\begin{align*}
+  \mathfrak{P}^{\mathfrak{V}_{\Delta}}(\Gamma)  &= \mathfrak{P}^{\yoneda \Delta}(\Gamma) \\
+                                    &= \renhat[\yoneda \Gamma \times \yoneda \Delta, \mathfrak{P}] && (2)\\
+                                    &\cong \renhat[\yoneda (\Gamma \times \Delta)] && (\textrm{since the Yoneda embedding is cartesian closed}) \\
+                                    &\cong \mathfrak{P}(\Gamma\times\Delta) && (\textrm{by the Yoneda lemma})\\
+\end{align*}
+
+Where step (2) follows by the definition of the exponentials in the category of
+presheaves, c.f. page 46 of \cite{mac_lane_sheaves_1992}.
+
+The presheaves of typed variables together with the simplified view of
+exponentials in $\renhat$ allow us to define notion of lambda algebras in
+$\renhat$. In particular, a lambda algebra in $\renhat$ is comprised of a family
+of presheaves \( \{\mathfrak{X}_{\tau}\}_{\tau\in \types}\) together with operations of
+the following signatures:
+\begin{align*}
+\end{align*}
 
 % This is where endnotes are supposed to go, if you have them.
 % I have no idea how endnotes work with LaTeX.
