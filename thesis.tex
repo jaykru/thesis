@@ -94,15 +94,18 @@ citestyle=alphabetic
 % Jaclyn, My parents, Uncle Jay, Grandma, Aunt Susie, Jim Fix for teaching me
 % SML what feels like a decade ago and starting me off on this adventure, and
 % for being a wonderful advisor throughout my college experience and thesis;
-% Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Amal Ahmed for taking me under
-% her wing and overseeing my scientific development when I took a leap of faith
-% to Boston, Albyn Jones, Jaclyn, Nick Chaiyachakorn, Ms.\ King, 柳老師 (Hyong
-% Rhew), Mrs.\ Leitsch, Mr.\ Raveli, Noah Koster, Shulav, Aditya, Francis, Alec
-% Forget, Joebob, Jit, Eli, Gabe and Ciara, Murali Vijayaraghavan, 吳老師, Ian
-% Desai, Becca, Andres, Sara Rosenberger in the business office, the GNU project
-% and free software foundation along with the developers of so many other free
-% software projects whose generously donated works were instrumental in the
-% production of this thesis.
+% Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Albyn Jones, Jaclyn, Nick
+% Chaiyachakorn, Ms.\ King, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr.\ Raveli,
+% Noah Koster, Shulav, Aditya, Francis, Alec Forget, Joebob, Jit, Eli, Gabe and
+% Ciara, Murali Vijayaraghavan, 吳老師, Ian Desai, Becca, Andres, Sara
+% Rosenberger in the business office, the GNU project and free software
+% foundation along with the developers of so many other free software projects
+% whose generously donated works were instrumental in the production of this
+% thesis.
+
+% I'd like to thank Noah Koster for being one of my very first friends at Reed
+% and a wonderful companion as I explored the world on my own for the very first
+% time. You may not be the next Bill Gates, but you're a great guy.
 
 % Alice McKean
 
@@ -121,9 +124,11 @@ citestyle=alphabetic
 
 % I would like to give special thanks to Paul Taylor who, though I do not know
 % him personally, wrote the book that made this thesis possible. Almost every
-% day spent on this project I learned a new awe-inspiring fact about the lambda
-% calculus and its semantics. Paul's book is a love letter to the type of
-% computer scientist who wants to understand how the world works.
+% day spent on this project I learned from Paul's book a new awesome perspective
+% on the the lambda calculus or mathematics in general. Paul's Practical
+% Foundations of Mathemtics is a love letter to the type of computer scientist
+% who wants to understand how the world works, and I'm indebted to Paul for
+% having created it.
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -473,7 +478,7 @@ out of the category in question.
 
 % TODO: must include Theorem 4.2.12 from Taylor, it is essential to the
 % statement of this theorem.
-\subsection{Models are essentially set-valued functors on the category of a sketch}
+\subsection{Models are essentially set-valued functors out of the category of a sketch}
 \begin{theorem}[The classifying category]\label{thm:classify_elem_sketch}
   Let $\mathcal{L}$ be an elementary sketch and \( \cn_{\mathcal{L}} \) the
   category it presents. Then the models of $\mathcal{L}$ correspond to functors
@@ -1042,36 +1047,36 @@ while you made lines in the heather}{Fleet Foxes, ``Lorelai''}
 
 % \epigraph{``i really thought u meant arts and crafts glue''}{new gluing understander}
 
-This chapter is the culmination of all that we've developed so far in the
-thesis. We will consider the normalization problem for the simply typed lambda
-calculus. Normalization comes in both weak and strong flavors, but both are
-properties of a formal system together with a \emph{reduction} relation, say,
-\( - \rightarrow = \). Now by a \emph{normal form} we mean term $t$ for which there is no
-other $t'$ such that \( t \rightarrow t' \). Writing \( - \rightarrow^{*} = \) for the least
-transitive, reflexive closure of this relation, to say that the reduction system
-enjoys \emph{weak normalization} means that for any well-typed term \( e \),
-there exists a normal form \( n \) such that \( e \red n\). A reduction system
-enjoying \emph{Strong normalization} is one for which \emph{every} reduction
-sequence ends in a normal term; equivalently, \emph{strong normalization}
-requires that there are no infinite reduction sequences over distinct terms.
-\emph{Metatheorems} of this kind tend to resist standard techniques like
-straight-forward induction over the types of the lambda calculus. Instead,
+This chapter will consider the normalization problem for the simply typed lambda
+calculus using all of the magic technology we've developed so far. Normalization
+comes in both weak and strong flavors, but both are properties of a formal
+system together with a \emph{reduction} relation, say, \( - \rightarrow = \). By a
+\emph{normal form} we mean a term $t$ for which there is no other $t'$ such that
+\( t \rightarrow t' \). Writing \( - \rightarrow^{*} = \) for the least transitive, reflexive
+closure of this relation, we say the reduction system enjoys \emph{weak
+  normalization} if for any well-typed term \( e \), there exists a normal form
+\( n \) such that \( e \red n\). A reduction system enjoying \emph{Strong
+  normalization} is one for which \emph{every} reduction sequence ends in a
+normal term. \emph{Metatheorems} of this kind tend to resist standard techniques
+like straight-forward induction over the types of the lambda calculus. Instead,
 metatheoreticians resort to the \emph{occult} technique of logical relations.
-(cite TAPL). The method of logical relations is, broadly speaking, somewhat
-opaque even to experienced practitioners. The construction is simple to write
-down and use in easy settings like that of the simply-typed lambda calculus, but
-becomes devilishly complicated when working with more complex lambda calculi.
+(cite TAPL). The method of logical relations is, broadly speaking, opaque even
+to experienced practitioners. The construction is easy to use in simple settings
+like that of the simply-typed lambda calculus, but becomes devilishly
+complicated when working with more complex lambda calculi.
 
-The method of \emph{Artin gluing}, torn from the topos theorist's cookbook, is
-deeply related to the method of \emph{logical relations} well-known to
-programming language metatheoreticians. Where the method of logical relations is
-ad-hoc and mysterious, however, gluign regularizes some the thinking involved
-and makes most of the choices involved in proofs by logical relations completely
-automatic. The \emph{scone} or \emph{Sierpinski cone} is a famous instance of
-the gluing construction used in and outside of type theory. The \emph{scone} is
-not suited to our particular problem of \emph{(open) normalization} however, as
-the scone is generally concerned with properties of \emph{closed terms} with no
-free variables, whereas our construction will apply to terms in any context.
+The method of \emph{Artin gluing}, torn from the topos theorist's cookbook, is a
+more transparent encoding of the mechanics of logical relations. Where the
+method of logical relations is ad-hoc and mysterious, gluing regularizes the
+thought involved and makes the choices involved in proofs by logical relations
+completely automatic. The \emph{scone} or \emph{Sierpinski cone} is a famous
+instance of the gluing construction used in and outside of type theory. The
+\emph{scone} is not suited to our particular problem of \emph{(open)
+  normalization} however, as the scone is generally concerned with properties of
+\emph{closed terms} with no free variables, whereas our construction will apply
+to terms in any context.
+
+And we think you're gonna love it.
 
 \section{Variable-arity Kripke relations}
 
@@ -1227,8 +1232,6 @@ renaming action as before.
   talk about why neutrals and normals can't support a substitution action
 \end{remark}
 
-\subsection{A lambda-algebra in Renhat}
-
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
 This subsection introduces Fiore's monster.
 \subsubsection{The relative hom functor}
@@ -1267,7 +1270,7 @@ closed under $\Gamma$, represented as single substitutions \( [t/x] : \Gamma \ri
 Generalizing to multivariable target contexts \( \Delta \) gives presheaves of
 \emph{lists} of open terms of the types in $\Delta$.
 
-\subsection{Gluing semantics to syntax along the relative hom functor}
+\subsubsection{Gluing semantics to syntax along the relative hom functor}
 \newcommand{\gluingcat}{\textrm{Gl}_\Sigma}
 
 We now define the \emph{gluing category} as the comma of the category of
@@ -1278,7 +1281,7 @@ renamings along the relative hom functor just defined.
 \end{definition}
 
 
-\subsection{The subcategory of (ordinary) variable-arity Kripke relations}
+\subsubsection{The subcategory of (ordinary) variable-arity Kripke relations}
 We can recover ordinary, proof-\emph{irrelevant} variable-arity Kripke relations
 as a subcategory of the gluing category. In particular, ordinary variable-arity
 Kripke relations arise as those objects
@@ -1336,13 +1339,64 @@ why this recovers what we had before, let us look at the naturality diagram of
   \( t \in \tm (\Delta)(\Gamma)\) taken to be in the predicate.
 
 \section{Obtaining a normalization function}
-\subsection{A lambda-algebra for the gluing category}
-\subsection{Cartesian closed structure for the gluing category}
-% TODO: flesh this out some more
-\subsection{A promise kept: normalization}
+\subsection{A lambda-algebra of neutrals and normals in Renhat}
+Note: this is not exactly a lambda-algebra, but really something else because of
+the mutual recursion. But I think I should leave this technicality to the end
+and get moving towards the result at hand...
+
+\begin{definition}[Renhat-lambda algebra of neutrals and normals]\label{def:renhat-lambda-algebra-neut-norm}
+  TODO
+\end{definition}
+
+\subsection{Interpreting terms in the gluing category}
+We will define some objects in the gluing category which, in some sense, glue
+the presheaves of syntax we have defined in \( \renhat \) together with their
+semantics in the classifying category.
+\begin{definition}[Gluing syntax and semantics of variables]
+  TODO
+\end{definition}
+
+\begin{definition}[Gluing syntax and semantics of neutrals]
+  TODO
+\end{definition}
+
+\begin{definition}[Gluing syntax and semantics of normals]
+  TODO
+\end{definition}
+
+With these glued objects, we can define a lambda algebra of glued variables,
+neutrals, and normals. In turn Definition~\ref{def:term model} will allow us to
+leverage this to interpret substitutions as gluing category morphisms between
+these glued objects. The interpretation of base types in the syntactic category
+gives rise to the following interpretation in the gluing category.
+
+\begin{definition}[Lambda algebra in the gluing category]\label{def:lambda-algebra-neut-norm}
+\end{definition}
+
+Finally we can give an interpretation of the syntactic category in terms of these
+\begin{align*}
+  T &\xrightarrow{\bar{s}} \renhat \downarrow \tm \\
+  \theta &\mapsto \mu_{\theta}\\
+\end{align*}
+
+By (TODO: $\pi_2$ second component gluing projection), the interpretation of terms
+induced by this assignement according to Definition~\ref{def:term model} extends
+the interpretation of terms in the syntactic category in the following sense:
+\( \bar{s}\sem{\Gamma \vdash t : \tau} \) is a pair of the form
+$(s'\sem{ \Gamma \vdash t : \tau}, s\sem{\Gamma })$ where \( s' : \cl \rightarrow \renhat \) is the unique
+functor induced by the $\renhat-$lambda algebra of neutral and normals from
+Definition~\ref{def:lambda-algebra-neut-norm} and the cartesian closed structure
+of the category of presheaves. Now is a good time to take stock of what we have
+developed so far, and look ahead to where we're going.
+
+\subsection{Taking stock: charting a path to normalization}
 Begin by noting that we can consider \( \tm : \cl \rightarrow \renhat \) as an
-\emph{interpretation} of the base types of the lambda-theory in the cartesian
-closed category \( \renhat \).
+\emph{interpretation} of the base types of the lambda-theory in \( \renhat \).
+We now have enough language to say exactly what it is we're hoping to acquire in
+this chapter. For each type \( \tau \in \types \), we wish to come up with maps to
+fill in the dotted arrows in the upper diagram such that the lower diagram
+commutes. In particular, the composite along the top edge going down to the
+bottom right corner will be our desired normalization function.
 
 % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDAsIlxcbWF0aGZyYWt7Un1fXFx0YXUiXSxbNCwwLCJcXG1hdGhmcmFre05mfV9cXHRhdSJdLFsyLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiXFx1cGFycm93X1xcdGF1IiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzEsMiwiXFxkb3duYXJyb3dfXFx0YXUiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XSxbMiwzLCJuX1xcdGF1Il0sWzAsMywibV9cXHRhdSIsMl0sWzEsMywicl9cXHRhdSIsMl1d
 \[\begin{tikzcd}
@@ -1358,8 +1412,8 @@ closed category \( \renhat \).
 % https://q.uiver.app/?q=WzAsOSxbMCwwLCJcXHByb2RfaVxcbWF0aGZyYWt7TmV9X3tcXHRhdV9pfSAiXSxbMiwwLCJcXHByb2RfaVxcbWF0aGZyYWt7Un1fe1xcdGF1X2l9Il0sWzQsMCwiXFxtYXRoZnJha3tOZn1fe1xcdGF1fSJdLFsxLDBdLFsyLDEsIlxccHJvZF9pXFx0ZXh0cm17Q259X1xcbWF0aGNhbHtcXGxhbWJkYX1ee1xccmlnaHRhcnJvd30oLSxcXHRhdV9pKSJdLFsxLDFdLFsyLDIsIlxcdGV4dHJte0NufV9cXG1hdGhjYWx7XFxsYW1iZGF9XntcXHJpZ2h0YXJyb3d9KC0sXFxHYW1tYSkiXSxbMywwLCJcXG1hdGhmcmFre1J9X1xcdGF1Il0sWzQsMiwiXFx0ZXh0cm17Q259X1xcbWF0aGNhbHtcXGxhbWJkYX1ee1xccmlnaHRhcnJvd30oLSxcXHRhdSkiXSxbMCwxLCJcXHByb2RfaVxcdXBhcnJvd157XFx0YXVfaX0iXSxbMSw0LCJcXHByb2RfaSByX3tcXHRhdV9pfSJdLFswLDQsIlxccHJvZF9pbV97XFx0YXVfaX0iLDJdLFs0LDYsIlxcY29uZyJdLFs3LDIsIlxcZG93bmFycm93XntcXHRhdX0iXSxbMSw3LCJcXG1hdGhiYntzfVxcbGxicmFja2V0XFxHYW1tYVxcdmRhc2ggdDpcXHRhdVxccnJicmFja2V0Il0sWzYsOCwic1xcbGxicmFja2V0XFxHYW1tYVxcdmRhc2ggdCA6IFxcdGF1IFxccnJicmFja2V0XyoiLDJdLFsyLDgsIm5fXFx0YXUiXSxbNyw4LCJyX1xcdGF1IiwyXV0=
 \[\begin{tikzcd}
 	{\prod_i\mathfrak{Ne}_{\tau_i} } & {} & {\prod_i\mathfrak{R}_{\tau_i}} & {\mathfrak{R}_\tau} & {\mathfrak{Nf}_{\tau}} \\
-	& {} & {\prod_i\textrm{Cn}_\mathcal{\lambda}^{\rightarrow}(-,\tau_i)} \\
-	&& {\textrm{Cn}_\mathcal{\lambda}^{\rightarrow}(-,\Gamma)} && {\textrm{Cn}_\mathcal{\lambda}^{\rightarrow}(-,\tau)}
+	& {} & {\prod_i\textrm{Cn}_{\mathcal{\lambda}}^{\rightarrow}(-,\tau_i)} \\
+	&& {\textrm{Cn}_{\mathcal{\lambda}}^{\rightarrow}(-,\Gamma)} && {\textrm{Cn}_{\mathcal{\lambda}}^{\rightarrow}(-,\tau)}
 	\arrow["{\prod_i\uparrow^{\tau_i}}", from=1-1, to=1-3]
 	\arrow["{\prod_i r_{\tau_i}}", from=1-3, to=2-3]
 	\arrow["{\prod_im_{\tau_i}}"', from=1-1, to=2-3]
@@ -1370,6 +1424,10 @@ closed category \( \renhat \).
 	\arrow["{n_\tau}", from=1-5, to=3-5]
 	\arrow["{r_\tau}"', from=1-4, to=3-5]
 \end{tikzcd}\]
+\subsection{Cartesian closed structure for the gluing category}
+% TODO: flesh this out some more
+\subsection{A promise kept: normalization}
+
 
 \chapter{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
@@ -1384,6 +1442,9 @@ That's it for now.
 \appendix
 \chapter{The First Appendix}
 \chapter{Orphaned snippets}
+\newcommand{\dom}{\textrm{dom}}
+\newcommand{\cod}{\textrm{cod}}
+\newcommand{\varpsh}{\mathfrak{V}_\tau}
 This is where things without a home in their chapter go\ldots for now.
 
 \begin{definition}[Variable presheaf]
@@ -1391,7 +1452,6 @@ This is where things without a home in their chapter go\ldots for now.
   \[
     \mathfrak{V}_{\tau} = \yoneda \tau = \ren(-, \tau)
   \]
-  \newcommand{\varpsh}{\mathfrak{V}_{\tau}}
 
   With that definition, we have \( \varpsh(\Gamma) = \ren(\Gamma,\tau) \) where the
   right-hand side is comprised of renamings \( \Gamma \rightarrow [x:\tau]\) which are
@@ -1400,7 +1460,28 @@ This is where things without a home in their chapter go\ldots for now.
   $\tau$ in \( \Gamma \). 
 \end{definition}
 
-We can
+We can also explicate binding structure in \( \renhat \) via some special
+contortions aided by the Yoneda lemma. Let \( \mathfrak{P} : \renhat \). Then
+exponentiation by a representable/variable presheaf, \( \varpsh = \yoneda \tau\)
+gives
+
+\begin{align*}
+  \mathfrak{P}^{\mathfrak{V}_{\Delta}}(\Gamma)  &= \mathfrak{P}^{\yoneda \Delta}(\Gamma) \\
+                                    &= \renhat[\yoneda \Gamma \times \yoneda \Delta, \mathfrak{P}] && (2)\\
+                                    &\cong \renhat[\yoneda (\Gamma \times \Delta)] && (\textrm{since the Yoneda embedding is cartesian closed}) \\
+                                    &\cong \mathfrak{P}(\Gamma\times\Delta) && (\textrm{by the Yoneda lemma})\\
+\end{align*}
+
+Where step (2) follows by the definition of the exponentials in the category of
+presheaves, c.f. page 46 of \cite{mac_lane_sheaves_1992}.
+
+The presheaves of typed variables together with the simplified view of
+exponentials in $\renhat$ allow us to define notion of lambda algebras in
+$\renhat$. In particular, a lambda algebra in $\renhat$ is comprised of a family
+of presheaves \( \{\mathfrak{X}_{\tau}\}_{\tau\in \types}\) together with operations of
+the following signatures:
+\begin{align*}
+\end{align*}
 
 % This is where endnotes are supposed to go, if you have them.
 % I have no idea how endnotes work with LaTeX.
