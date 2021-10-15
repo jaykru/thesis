@@ -946,6 +946,8 @@ categories of
   TODO
 \end{proof}
 
+\subsection{An algebraic theory of the lambda calculus}
+
 Finally, we will present the lambda calculus as a series of algebraic theories,
 each of which are identical except for the equations they admit. These theories
 will correspond to different instances of the lambda calculus with more or less
@@ -1169,10 +1171,6 @@ The category of renamings has a nice presentation as a comma category.
   \emph{subcategory} of the syntactic category.
 \end{remark}
 
-\subsubsection{Kripke relations indexed by renaming contexts}
-Should just provide the instance we'll be working with here to lower the
-reader's cognitive burden of too much generality.
-
 \subsection{Presheaves of syntax, defined over the category of renamings}
 
 \begin{definition}[Neutral and normal judgments]
@@ -1379,15 +1377,17 @@ Finally we can give an interpretation of the syntactic category in terms of thes
   \theta &\mapsto \mu_{\theta}\\
 \end{align*}
 
-By (TODO: $\pi_2$ second component gluing projection), the interpretation of terms
-induced by this assignement according to Definition~\ref{def:term model} extends
-the interpretation of terms in the syntactic category in the following sense:
+Let \(s\sem{-} : \types \rightarrow \cl \) be the interpretation of types as contexts in
+the syntactic category and terms as substitutions. By (TODO: $\pi_2$ second
+component gluing projection), the interpretation of terms induced by
+\( \bar{s} \) according to Definition~\ref{def:term model} extends the
+interpretation of terms in the syntactic category in the following sense:
 \( \bar{s}\sem{\Gamma \vdash t : \tau} \) is a pair of the form
-$(s'\sem{ \Gamma \vdash t : \tau}, s\sem{\Gamma })$ where \( s' : \cl \rightarrow \renhat \) is the unique
-functor induced by the $\renhat-$lambda algebra of neutral and normals from
-Definition~\ref{def:lambda-algebra-neut-norm} and the cartesian closed structure
-of the category of presheaves. Now is a good time to take stock of what we have
-developed so far, and look ahead to where we're going.
+$(s'\sem{ \Gamma \vdash t : \tau}, s\sem{\Gamma \vdash t : \tau })$ where \( s' : \cl \rightarrow \renhat \) is the
+unique functor induced by the $\renhat-$lambda algebra of neutral and normals
+from Definition~\ref{def:lambda-algebra-neut-norm} and the cartesian closed
+structure of the category of presheaves. Now is a good time to take stock of
+what we have developed so far, and look ahead to where we're going.
 
 \subsection{Taking stock: charting a path to normalization}
 Begin by noting that we can consider \( \tm : \cl \rightarrow \renhat \) as an
