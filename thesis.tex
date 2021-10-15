@@ -95,17 +95,13 @@ citestyle=alphabetic
 % SML what feels like a decade ago and starting me off on this adventure, and
 % for being a wonderful advisor throughout my college experience and thesis;
 % Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Albyn Jones, Jaclyn, Nick
-% Chaiyachakorn, Ms.\ King, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr.\ Raveli,
-% Noah Koster, Shulav, Aditya, Francis, Alec Forget, Joebob, Jit, Eli, Gabe and
-% Ciara, Murali Vijayaraghavan, 吳老師, Ian Desai, Becca, Andres, Sara
-% Rosenberger in the business office, the GNU project and free software
-% foundation along with the developers of so many other free software projects
-% whose generously donated works were instrumental in the production of this
-% thesis.
-
-% I'd like to thank Noah Koster for being one of my very first friends at Reed
-% and a wonderful companion as I explored the world on my own for the very first
-% time. You may not be the next Bill Gates, but you're a great guy.
+% Chaiyachakorn, Ms.\ King, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr. Cool even if
+% you couldn't get the team to switch from LabView, Mr.\ Raveli, Noah Koster,
+% Shulav, Aditya, Francis, Alec Forget, Joebob, Jit, Eli, Gabe and Ciara, Murali
+% Vijayaraghavan, 吳老師, Ian Desai, Becca, Andres, Sara Rosenberger in the
+% business office, the GNU project and free software foundation along with the
+% developers of so many other free software projects whose generously donated
+% works were instrumental in the production of this thesis.
 
 % I'd like to thank Noah Koster for being one of my very first friends at Reed
 % and a wonderful companion as I explored the world on my own for the very first
@@ -1234,6 +1230,45 @@ renaming action as before.
   talk about why neutrals and normals can't support a substitution action
 \end{remark}
 
+\subsubsection{Variables and binding in Renhat}
+\newcommand{\varpsh}{\mathfrak{V}_\tau}
+\begin{definition}[Variable presheaf]
+  We can define a presheaf of \emph{typed variables} in $\renhat$ with the Yoneda embedding on $\ren$:
+  \[
+    \mathfrak{V}_{\tau} = \yoneda \tau = \ren(-, \tau)
+  \]
+
+  With that definition, we have \( \varpsh(\Gamma) = \ren(\Gamma,\tau) \) where the
+  right-hand side is comprised of renamings \( \Gamma \rightarrow [x:\tau]\) which are
+  \emph{functions} \( \rho : \dom([x:\tau]) \rightarrow \dom(\Gamma)\) such that
+  \( \Gamma(\rho(x)) = [x : \tau](x) = \tau\). That is, the \( \rho \) are functions selecting a
+  variable of type $\tau$ in \( \Gamma \). More concisely, we have an isomorphism
+  \( \varpsh(\Gamma) \cong \{ x \mid (x:\tau) \in \Gamma \}\) by which we allow ourselves to consider
+  this a \emph{presheaf of syntax}.
+\end{definition}
+
+We can also explicate binding structure in \( \renhat \) via some special
+contortions aided by the Yoneda lemma. Let \( \mathfrak{P} : \renhat \). Then
+exponentiation by a representable/variable presheaf, \( \varpsh = \yoneda \tau\)
+gives
+
+\begin{align*}
+  \mathfrak{P}^{\mathfrak{V}_{\Delta}}(\Gamma)  &= \mathfrak{P}^{\yoneda \Delta}(\Gamma) \\
+                                    &= \renhat[\yoneda \Gamma \times \yoneda \Delta, \mathfrak{P}] && (2)\\
+                                    &\cong \renhat[\yoneda (\Gamma \times \Delta)] && (\textrm{since the Yoneda embedding is cartesian closed}) \\
+                                    &\cong \mathfrak{P}(\Gamma\times\Delta) && (\textrm{by the Yoneda lemma})\\
+\end{align*}
+
+Where step (2) follows by the definition of the exponentials in the category of
+presheaves, c.f. page 46 of \cite{mac_lane_sheaves_1992}.
+
+The presheaves of typed variables together with the simplified view of
+exponentials in $\renhat$ allow us to define notion of lambda algebras in
+$\renhat$. In particular, a lambda algebra in $\renhat$ is comprised of a family
+of presheaves \( \{\mathfrak{X}_{\tau}\}_{\tau\in \types}\) together with operations of
+the following signatures:
+TODO
+
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
 This subsection introduces Fiore's monster.
 \subsubsection{The relative hom functor}
@@ -1278,8 +1313,15 @@ Generalizing to multivariable target contexts \( \Delta \) gives presheaves of
 We now define the \emph{gluing category} as the comma of the category of
 renamings along the relative hom functor just defined.
 
+\newcommand{\gl}{\textrm{Gl}_\Sigma}
+
 \begin{definition}[The gluing category]
-  TODO, ez
+  The gluing category \( \gl \) is defined as the comma \( \renhat \downarrow \tm \).
+  Explicitly, its objects are triples
+  \( D : \renhat, q : D \Rightarrow \tm(\Delta), \Delta : \cl \). The objects of the gluing category
+  are \emph{proof relevant logical predicates}, in a sense that will be more
+  clear after the next subsection. The morphisms (d : D \rightarrow D', \delta: \tm(\Delta) \rightarrow
+  \tm(\Delta'))
 \end{definition}
 
 
@@ -1347,7 +1389,9 @@ the mutual recursion. But I think I should leave this technicality to the end
 and get moving towards the result at hand...
 
 \begin{definition}[Renhat-lambda algebra of neutrals and normals]\label{def:renhat-lambda-algebra-neut-norm}
-  TODO
+  TODO: in notebook mostly. this is actually a MN-algebra, for the theory MN
+  which sort of generalizes the usual lambda theory by throwing in a bunch of
+  sorts allowing us to distinguish between neutrals and normals.
 \end{definition}
 
 \subsection{Interpreting terms in the gluing category}
@@ -1355,15 +1399,24 @@ We will define some objects in the gluing category which, in some sense, glue
 the presheaves of syntax we have defined in \( \renhat \) together with their
 semantics in the classifying category.
 \begin{definition}[Gluing syntax and semantics of variables]
-  TODO
+  We define the glued object \( \nu_{\tau} = (\varpsh, \varpsh \rightarrow \tm(\tau), \tau)\) where
+  the components of the quotient are the interpretation of the term syntax in
+  the classifying category. This object glues the syntax of a variable together
+  with its semantics as substitution for a term of the appropriate type, for
+  each variable of type $\tau$.
 \end{definition}
 
+We do the same for the syntactic presheaves of neutrals and normals we defined
+earlier.
+
+\newcommand{\neut}{\mathfrak{Ne}_{\tau}}
+\newcommand{\norm}{\mathfrak{Nf}_{\tau}}
 \begin{definition}[Gluing syntax and semantics of neutrals]
-  TODO
+  \( \mu_{\tau} = (\neut, \neut \rightarrow \tm(\tau), \tau) \)
 \end{definition}
 
 \begin{definition}[Gluing syntax and semantics of normals]
-  TODO
+\( \eta_{\tau} = (\norm, \norm \rightarrow \tm(\tau), \tau) \)
 \end{definition}
 
 With these glued objects, we can define a lambda algebra of glued variables,
@@ -1448,44 +1501,8 @@ That's it for now.
 \chapter{Orphaned snippets}
 \newcommand{\dom}{\textrm{dom}}
 \newcommand{\cod}{\textrm{cod}}
-\newcommand{\varpsh}{\mathfrak{V}_\tau}
+
 This is where things without a home in their chapter go\ldots for now.
-
-\begin{definition}[Variable presheaf]
-  We can define a presheaf of \emph{typed variables} in $\renhat$ with the Yoneda embedding on $\ren$:
-  \[
-    \mathfrak{V}_{\tau} = \yoneda \tau = \ren(-, \tau)
-  \]
-
-  With that definition, we have \( \varpsh(\Gamma) = \ren(\Gamma,\tau) \) where the
-  right-hand side is comprised of renamings \( \Gamma \rightarrow [x:\tau]\) which are
-  \emph{functions} \( \rho : \dom([x:\tau]) \rightarrow \dom(\Gamma)\) such that
-  \( \Gamma(\rho(x)) = [x : \tau](x) = \tau\). That is, the \( \rho \) are functions selecting a variable of type
-  $\tau$ in \( \Gamma \). 
-\end{definition}
-
-We can also explicate binding structure in \( \renhat \) via some special
-contortions aided by the Yoneda lemma. Let \( \mathfrak{P} : \renhat \). Then
-exponentiation by a representable/variable presheaf, \( \varpsh = \yoneda \tau\)
-gives
-
-\begin{align*}
-  \mathfrak{P}^{\mathfrak{V}_{\Delta}}(\Gamma)  &= \mathfrak{P}^{\yoneda \Delta}(\Gamma) \\
-                                    &= \renhat[\yoneda \Gamma \times \yoneda \Delta, \mathfrak{P}] && (2)\\
-                                    &\cong \renhat[\yoneda (\Gamma \times \Delta)] && (\textrm{since the Yoneda embedding is cartesian closed}) \\
-                                    &\cong \mathfrak{P}(\Gamma\times\Delta) && (\textrm{by the Yoneda lemma})\\
-\end{align*}
-
-Where step (2) follows by the definition of the exponentials in the category of
-presheaves, c.f. page 46 of \cite{mac_lane_sheaves_1992}.
-
-The presheaves of typed variables together with the simplified view of
-exponentials in $\renhat$ allow us to define notion of lambda algebras in
-$\renhat$. In particular, a lambda algebra in $\renhat$ is comprised of a family
-of presheaves \( \{\mathfrak{X}_{\tau}\}_{\tau\in \types}\) together with operations of
-the following signatures:
-\begin{align*}
-\end{align*}
 
 % This is where endnotes are supposed to go, if you have them.
 % I have no idea how endnotes work with LaTeX.
