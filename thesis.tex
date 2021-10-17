@@ -998,8 +998,8 @@ terms identified according to the usual \( \beta\eta\alpha \) conversion rules.
   TODO see Taylor
 \end{proof}
 
-\begin{definition}[Lambda calculus]
-  The lambda calculus, or the $\beta\eta\alpha$-lambda calculus is defined as the algebraic
+\begin{definition}[Lambda calculus]\label{def:alpha_beta_eta_theory}
+  The lambda calculus, or the $\alpha\beta\eta$-lambda calculus is defined as the algebraic
   theory of the $\alpha$-lambda calculus with the following additional equational
   laws:
   \begin{align*}
@@ -1177,6 +1177,47 @@ The category of renamings has a nice presentation as a comma category.
   TODO: inference rules for neutrals and normals go here
 \end{definition}
 
+\begin{definition}[Algebraic theory of neutrals and normals]\label{def:theory_neut_norm}
+  The judgments above give rise to a lambda theory with a richer sort structure
+  than that of the lambda theory defined back in Chapter~\ref{chapter:stlc},
+  because we differentiate between neutral terms of type \( \tau \) and normal
+  terms of type \( \tau \).
+
+  We define the lambda theory \( NN \) as follows:
+  \begin{enumerate}
+    \item Sorts:
+    \( \Sigma = \{ \mathcal{M}_\tau \mid \tau \in \types \}
+    \cup \{ \mathcal{N}_\tau \mid \tau \in \types \}
+    \cup \{ \mathcal{V}_\tau \mid \tau \in \types \} \)
+    \item Operation symbols:
+    \begin{align*}
+      \textrm{var}_\tau &: \mathcal{V}_{\tau} \rightarrow \mathcal{M}_{\tau} \\
+      \textrm{fst}_{\tau}^{\tau'} &: \mathcal{M}_{\tau \times \tau'} \rightarrow \mathcal{M}_{\tau}\\
+      \textrm{snd}_{\tau}^{\tau'} &: \mathcal{M}_{\tau' \times \tau} \rightarrow \mathcal{M}_{\tau}\\
+      \textrm{app}_{\tau}^{\tau'} &: \mathcal{M}_{\tau' \rightarrow \tau} \times \mathcal{N}_{\tau'} \rightarrow \mathcal{M}_{\tau}\\
+      \textrm{incl}_{\theta} &: M_{\theta} \rightarrow N_{\theta} \\
+       \textrm{unit} &: \termob \rightarrow \mathcal{N}_{\termob} \\
+       \textrm{pair}_{\tau}^{\tau'} &: \mathcal{N}_{\tau} \rightarrow \mathcal{N}_{\tau'} \rightarrow \mathcal{N}_{\tau \times \tau'} \\
+       \textrm{abs}_{\tau \rightarrow \tau'} &: {\mathcal{N}_{\tau'}}^{\mathcal{V}_{\tau}} \rightarrow \mathcal{N}_{\tau \rightarrow \tau'} \\
+    \end{align*}
+
+    \item The laws are $\alpha\beta\eta$.
+  \end{enumerate}
+  Note that the codomain of the unit operation symbol is the nullary product of
+  sorts.
+\end{definition}
+
+\begin{remark}\label{rmk:upgrade_to_stratified}
+  Any algebra \( \{ (\mathfrak{V}, \mathfrak{X}_{\tau}) \}_{\tau \in \types}\) of the
+  lambda theory \( \mathcal{L}_{\alpha\beta\eta}\) gives rise to an algebra $\mathfrak{A}$
+  of the theory \( NN \) by setting
+  \begin{align*}
+    \mathfrak{A}_{\mathcal{M}_{\tau}} &= \mathfrak{X}_{\tau} \\
+    \mathfrak{A}_{\mathcal{N}_{\tau}} &= \mathfrak{X}_{\tau} \\
+    \mathfrak{A}_{\mathcal{V}_{\tau}} &= \mathfrak{V}_{\tau}\\
+  \end{align*}
+\end{remark}
+
 \begin{definition}[A presheaf of open syntactic terms]
   For each type $\tau \in \types$, define
   \[
@@ -1196,6 +1237,18 @@ The category of renamings has a nice presentation as a comma category.
   where (TODO?) functorialty of the renaming action is inherited from that of
   the clone model.
 \end{definition}
+
+\begin{definition}[A lambda algebra on the presheaves of open syntax]\label{def:open_syn_algebra}
+  The presheaves of open syntax \( \mathfrak{L}_{\tau}\) induce an algebra for the
+  lambda theory \( \mathcal{L}_{\alpha\beta\eta} \) defined in
+  \ref{def:alpha_beta_eta_theory}.
+\end{definition}
+
+\begin{remark}[A stratified-lambda algebra on the presheaves of open syntax]
+  By Remark~\ref{rmk:upgrade_to_stratified},
+  Definition~\ref{def:open_syn_algebra} induces an algebra of the lambda theory
+  which stratifies neutral and normals.
+\end{remark}
 
 We can define presheaves of neutral and normal terms similarly, with the same
 renaming action as before.
@@ -1223,6 +1276,10 @@ renaming action as before.
   under the renaming action.
 \end{definition}
 
+After teasing out the latent binding structure enjoyed by the category of
+presheaves, we will find in Definition~\ref{def:strat-lam-alg}that the presheaves of neutrals and normals give rise
+to a \( NN \) algebra over \( \renhat \).
+
 \newcommand{\nfpsh}{\mathfrak{Nf}_\tau}
 \newcommand{\nepsh}{\mathfrak{Ne}_\tau}
 
@@ -1232,7 +1289,9 @@ renaming action as before.
 
 \subsubsection{Variables and binding in Renhat}
 \newcommand{\varpsh}{\mathfrak{V}_\tau}
-\begin{definition}[Variable presheaf]
+\newcommand{\dom}{\textrm{dom}}
+\newcommand{\cod}{\textrm{cod}}
+\begin{definition}[Variable presheaf]\label{def:varpsh}
   We can define a presheaf of \emph{typed variables} in $\renhat$ with the Yoneda embedding on $\ren$:
   \[
     \mathfrak{V}_{\tau} = \yoneda \tau = \ren(-, \tau)
@@ -1247,10 +1306,9 @@ renaming action as before.
   this a \emph{presheaf of syntax}.
 \end{definition}
 
-We can also explicate binding structure in \( \renhat \) via some special
-contortions aided by the Yoneda lemma. Let \( \mathfrak{P} : \renhat \). Then
-exponentiation by a representable/variable presheaf, \( \varpsh = \yoneda \tau\)
-gives
+We can also explicate binding structure in \( \renhat \) thanks to the Yoneda
+lemma. Let \( \mathfrak{P} : \renhat \). Exponentiation by a
+representable/variable presheaf, \( \varpsh = \yoneda \tau\) gives
 
 \begin{align*}
   \mathfrak{P}^{\mathfrak{V}_{\Delta}}(\Gamma)  &= \mathfrak{P}^{\yoneda \Delta}(\Gamma) \\
@@ -1263,11 +1321,19 @@ Where step (2) follows by the definition of the exponentials in the category of
 presheaves, c.f. page 46 of \cite{mac_lane_sheaves_1992}.
 
 The presheaves of typed variables together with the simplified view of
-exponentials in $\renhat$ allow us to define notion of lambda algebras in
-$\renhat$. In particular, a lambda algebra in $\renhat$ is comprised of a family
-of presheaves \( \{\mathfrak{X}_{\tau}\}_{\tau\in \types}\) together with operations of
-the following signatures:
-TODO
+exponentials in $\renhat$ allow us to define an algebra for the lambda theory
+\( NN \) of stratified neutrals and normals defined in the previous section.
+
+\begin{definition}[A stratified lambda-algebra of neutrals and normals]\label{def:strat-lam-alg}
+  The presheaves of neutrals and normals defined above give rise to an algebra
+  of the theory \( NN \) in \( \renhat\). The sorts \( \mathcal{N}_{\tau}\) (resp.
+  \( \mathcal{M}_{\tau} \)) are taken to be the presheaves \( \mathfrak{Nf}_{\tau}\)
+  (resp.\( \mathfrak{Ne}_{\tau} \), and the sorts \( \mathcal{V}_{\tau}\) are taken to
+  be the representable/variable presheaves \( \mathfrak{V}_{\tau} \) defined in Definition~\ref{def:varpsh}.
+
+  The operations are given by TODO
+
+\end{definition}
 
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
 This subsection introduces Fiore's monster.
@@ -1302,7 +1368,7 @@ terms. This is a confusing idea at first, and it helps to consider the simple
 cases to understand it. Consider any singleton context \( \tau : \cl \). Then $\tm$
 takes $\tau$ to the presheaf \( \cl(-, \tau)\) which takes any renaming context
 \( \Gamma \) to \( \cl(\Gamma, \tau)\). Recalling the definition of the syntactic category
-and its generating morphism, the latter set comprises the terms of type \( \tau \)
+and its generating morphisms, the latter set comprises the terms of type \( \tau \)
 closed under $\Gamma$, represented as single substitutions \( [t/x] : \Gamma \rightarrow \tau \).
 Generalizing to multivariable target contexts \( \Delta \) gives presheaves of
 \emph{lists} of open terms of the types in $\Delta$.
@@ -1320,8 +1386,8 @@ renamings along the relative hom functor just defined.
   Explicitly, its objects are triples
   \( D : \renhat, q : D \Rightarrow \tm(\Delta), \Delta : \cl \). The objects of the gluing category
   are \emph{proof relevant logical predicates}, in a sense that will be more
-  clear after the next subsection. The morphisms (d : D \rightarrow D', \delta: \tm(\Delta) \rightarrow
-  \tm(\Delta'))
+  clear after the next subsection. The morphisms $(d : D \rightarrow D', \delta: \tm(\Delta) \rightarrow
+  \tm(\Delta'))$ TODO: finish
 \end{definition}
 
 
@@ -1399,7 +1465,7 @@ We will define some objects in the gluing category which, in some sense, glue
 the presheaves of syntax we have defined in \( \renhat \) together with their
 semantics in the classifying category.
 \begin{definition}[Gluing syntax and semantics of variables]
-  We define the glued object \( \nu_{\tau} = (\varpsh, \varpsh \rightarrow \tm(\tau), \tau)\) where
+  We define the glued object \[ \nu_{\tau} = (\varpsh, \varpsh \rightarrow \tm(\tau), \tau)\] where
   the components of the quotient are the interpretation of the term syntax in
   the classifying category. This object glues the syntax of a variable together
   with its semantics as substitution for a term of the appropriate type, for
@@ -1412,11 +1478,11 @@ earlier.
 \newcommand{\neut}{\mathfrak{Ne}_{\tau}}
 \newcommand{\norm}{\mathfrak{Nf}_{\tau}}
 \begin{definition}[Gluing syntax and semantics of neutrals]
-  \( \mu_{\tau} = (\neut, \neut \rightarrow \tm(\tau), \tau) \)
+  \[ \mu_{\tau} = (\neut, \neut \rightarrow \tm(\tau), \tau) \]
 \end{definition}
 
 \begin{definition}[Gluing syntax and semantics of normals]
-\( \eta_{\tau} = (\norm, \norm \rightarrow \tm(\tau), \tau) \)
+  \[ \eta_{\tau} = (\norm, \norm \rightarrow \tm(\tau), \tau) \]
 \end{definition}
 
 With these glued objects, we can define a lambda algebra of glued variables,
@@ -1428,7 +1494,7 @@ gives rise to the following interpretation in the gluing category.
 \begin{definition}[Lambda algebra in the gluing category]\label{def:lambda-algebra-neut-norm}
 \end{definition}
 
-Finally we can give an interpretation of the syntactic category in terms of these
+Finally we can give an interpretation of base types in the gluing category in terms of the glued neutrals
 \begin{align*}
   T &\xrightarrow{\bar{s}} \renhat \downarrow \tm \\
   \theta &\mapsto \mu_{\theta}\\
@@ -1499,8 +1565,6 @@ That's it for now.
 \appendix
 \chapter{The First Appendix}
 \chapter{Orphaned snippets}
-\newcommand{\dom}{\textrm{dom}}
-\newcommand{\cod}{\textrm{cod}}
 
 This is where things without a home in their chapter go\ldots for now.
 
