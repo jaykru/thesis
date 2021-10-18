@@ -180,8 +180,8 @@ being Standard ML and the guest being the simply typed lambda calculus:
 3. Defining a mutually recursive pair of type-indexed operation families called
    reification and reflection, detailed in the next section, whose composition
    acts as a normalization function.
-4. Compose reification with reflection to get a normalization function for terms
-   in the guest language.
+4. Compose reification (defined mutually with reflection) with a suitable
+   interpretation into the semantics: get a normalization function.
 
 ** Reflection, reification
 [[file:nbe.png]]
