@@ -634,9 +634,10 @@ sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
       \item $1_{A}$ to the constant function $x \mapsto 1 \in \mathbb{Z}$
       \item $-_{A}$ to the function $x \mapsto -x$ taking an integer to its additive inverse
     \end{enumerate}
-    \item We wouldn't dare bore the reader by verifying all the laws, so we
-          demonstrate just one. We show that the $0$ selected by the model
-          indeed serves as the left identity of addition in the model.
+    \item Verifying the rest of the laws is routine after understanding how to
+          verify any of them, so we demonstrate just one. We show that the $0$
+          selected by the model indeed serves as the left identity of addition
+          in the model.
           \begin{proof}
             \begin{align*}
               +_{A} \circ \braket{0_{A}, \id} &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0_{A}(x) + \id(y)\\
@@ -661,12 +662,11 @@ sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
   \end{enumerate}
 \end{example}
 
-The reader familiar with algebra will observe that this example (at least when
-fully worked out by a less lazy typist) amounts to verifying that the integers
-form a ring under the standard multiplication and addition operations we learn
-in elementary school. A natural next question to ask is how we might encode a
-ring homomorphism in this framework. To answer this question, we (of course)
-define a more general notion:
+The reader familiar with algebra will observe that this example amounts to
+verifying that the integers form a ring under the standard multiplication and
+addition operations we learn in elementary school. A natural next question to
+ask is how we might encode a ring homomorphism in this framework. To answer this
+question, we define a more general notion:
 
 \begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
   A \emph{homomorphism} \( A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
@@ -1467,6 +1467,153 @@ exponentials in $\renhat$ allow us to define an algebra for the lambda theory
 \section{Onward!}
 \subsection{Cartesian closed structure for the gluing category}
 
+\begin{theorem}[Exponentials in the gluing category]
+  For objects \( (R_{1}, q_{1}, \Delta_{1})\) and \( (R_{2},q_{2},\Delta_{2})\) in
+  \( \gl \), the exponential \( (R_{2}, q_{2}, \Delta_{2})^{(R_{1}, q_{1}, \Delta_{1})}\)
+  is \( (R, q, \Delta) \) in the pullback diagram
+  \[\begin{tikzcd}
+      R && {{R_2}^{R_1}} \\
+      \\
+      {\mathfrak{Tm}(\Delta_2 ^ {\Delta_1})} && {\mathfrak{Tm}(\Delta_2)^{R_1}} \\
+      \\
+      \\
+      && {}
+      \arrow["q"', from=1-1, to=3-1]
+      \arrow["r", from=1-1, to=1-3]
+      \arrow["{{q_2}_*}", from=1-3, to=3-3]
+      \arrow["{{q_1}^* \circ \tilde{p}}"', from=3-1, to=3-3]
+      \arrow["\scalebox{2.0}{\( \lrcorner \)}", from=1-1, to=2-2, very near start, phantom]
+    \end{tikzcd}\]
+  where \[ p = \tm(\epsilon) \circ (\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{\cong} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1})) \]  is the composition of the lifting of the syntactic category's evaluation to
+  \( \renhat \) with the isomorphism witnessing the product preservation of
+  \( \tm \), and \( \tilde{p} \) is its exponential transpose.
+\end{theorem}
+
+\begin{proof}
+  The universal property for exponentials is encoded by the product-hom
+  adjunction. It suffices to show an isomorphism
+  \[ \gl[(R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \equiv \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \]
+
+  recalling the definition of products in the gluing category, we must show
+
+  \[ \phi : P \cong E : \psi \]
+
+  where
+  \begin{align*}
+    &\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{i_{\pi}} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1}) \\
+    &P = \gl[(R_{X} \times R_{Y}, i_{\pi} \circ (q_{X} \times q_{Y}),  \Delta_{X} \times \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \\
+    &E = \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \\
+  \end{align*}
+
+  To come up with this isomorphism, it helps to recognize what the morphisms of
+  the relevant gluing objects are. Some consideration reveals that the
+  components of the map \( \phi \) are given by the dotted arrows in the diagram
+  below.
+
+  % https://q.uiver.app/?q=WzAsMTksWzAsMCwiUl9YXFx0aW1lcyBSX1kiXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhX1hcXHRpbWVzXFxEZWx0YV9ZKSJdLFszLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGFfWikiXSxbMywwLCJSX1oiXSxbMCw3LCJcXG1hdGhmcmFre1RtfShcXERlbHRhX1gpIl0sWzEsNywiXFxtYXRoZnJha3tUbX0oe1xcRGVsdGFfWn1ee1xcRGVsdGFfWX0pIl0sWzEsNSwiUiJdLFszLDUsIntSX1p9XntSX1l9Il0sWzMsNywiXFxtYXRoZnJha3tUbX0oXFxEZWx0YV9aKV57Ul9ZfSJdLFs1LDFdLFswLDUsIlJfWCJdLFsxLDBdLFsxLDJdLFs1LDBdLFs1LDJdLFswLDNdLFsyLDZdLFsxLDRdLFsxLDNdLFswLDMsImQiXSxbMywyLCJxX1oiXSxbMCwxLCJpX1xccGkgXFxjaXJjIChxX1hcXHRpbWVzIHFfWSkiLDJdLFsxLDIsIlxcZGVsdGEiLDJdLFs2LDcsInIiXSxbNyw4LCJ7cV9afV8qIl0sWzYsNSwicSIsMl0sWzUsOCwie3FfWX1eKiBcXGNpcmMgXFx3aWRldGlsZGV7XFxtYXRoZnJha3tUbX0oXFxlcHNpbG9uKSBcXGNpcmMgaV9cXHBpfSIsMl0sWzEwLDYsImQnIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzEwLDQsInFfWCIsMl0sWzQsNSwiXFxkZWx0YSciLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbNiwxNiwiIiwwLHsic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV0sWzE4LDE3LCIiLDAseyJsYWJlbF9wb3NpdGlvbiI6NDAsIm9mZnNldCI6LTUsImxldmVsIjoyLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	{R_X\times R_Y} & {} && {R_Z} && {} \\
+	&&&&& {} \\
+	{\mathfrak{Tm}(\Delta_X\times\Delta_Y)} & {} && {\mathfrak{Tm}(\Delta_Z)} && {} \\
+	{} & {} \\
+	& {} \\
+	{R_X} & R && {{R_Z}^{R_Y}} \\
+	&& {} \\
+	{\mathfrak{Tm}(\Delta_X)} & {\mathfrak{Tm}({\Delta_Z}^{\Delta_Y})} && {\mathfrak{Tm}(\Delta_Z)^{R_Y}}
+	\arrow["d", from=1-1, to=1-4]
+	\arrow["{q_Z}", from=1-4, to=3-4]
+	\arrow["{i_\pi \circ (q_X\times q_Y)}"', from=1-1, to=3-1]
+	\arrow["\delta"', from=3-1, to=3-4]
+	\arrow["r", from=6-2, to=6-4]
+	\arrow["{{q_Z}_*}", from=6-4, to=8-4]
+	\arrow["q"', from=6-2, to=8-2]
+	\arrow["{{q_Y}^* \circ \widetilde{\mathfrak{Tm}(\epsilon) \circ i_\pi}}"', from=8-2, to=8-4]
+	\arrow["{d'}", dashed, from=6-1, to=6-2]
+	\arrow["{q_X}"', from=6-1, to=8-1]
+	\arrow["{\delta'}"', dashed, from=8-1, to=8-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=6-2, to=7-3]
+	\arrow["{\phi}", shift left=5, Rightarrow, dashed, from=4-2, to=5-2]
+\end{tikzcd}\]
+
+where
+\( \tm(\Delta_{Z})^{\tm(\Delta_{Y})} \xrightarrow{i_{e}} \tm(\Delta_{Z}^{\Delta_{Y}})\) is the
+isomorphism witnessing exponential preservation for the relative hom functor. Observing the arrows in sight, a clear choice for \( \delta' \) is
+\[ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \] The choice for \( d' \) is a trickier
+question. \( d' \) should be an arrow into the pullback \( R \). We know nothing
+about nothing about \( R \) except that it fits into the pullback diagram above.
+The up-side of our limited knowledge of \( R \) is that it makes our choice of
+\( d' \) automatic: it must be one of the mediators required by the universal
+property of the pullback. In particular, we will want to choose \( d' = ! \) in
+the diagram below after verifying that the outer square commutes.
+% https://q.uiver.app/?q=WzAsNixbMSwxLCJSIl0sWzAsMCwiUl9YIl0sWzEsMywiXFxtYXRoZnJha3tUbX0oe1xcRGVsdGFfWn1ee1xcRGVsdGFfWX0pIl0sWzMsMywiXFxtYXRoZnJha3tUbX0oXFxEZWx0YV9aKV57Ul9ZfSJdLFszLDEsIntSX1p9XntSX1l9Il0sWzIsMl0sWzAsNCwiciJdLFs0LDMsIntxX1p9XyoiXSxbMCwyLCJxIiwyXSxbMiwzLCJ7cV9ZfV4qIFxcY2lyYyBcXHdpZGV0aWxkZXtcXG1hdGhmcmFre1RtfShcXGVwc2lsb24pIFxcY2lyYyBpX1xccGl9IiwyXSxbMCw1LCIiLDIseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XSxbMSwyLCJcXGRlbHRhJyBcXGNpcmMgcV9YIiwyLHsiY3VydmUiOjN9XSxbMSw0LCJcXHRpbGRle2R9IiwwLHsiY3VydmUiOi0zfV0sWzEsMCwiXFxleGlzdHMhZCciLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XV0=
+\[\begin{tikzcd}
+	{R_X} \\
+	& R && {{R_Z}^{R_Y}} \\
+	&& {} \\
+	& {\mathfrak{Tm}({\Delta_Z}^{\Delta_Y})} && {\mathfrak{Tm}(\Delta_Z)^{R_Y}}
+	\arrow["r", from=2-2, to=2-4]
+	\arrow["{{q_Z}_*}", from=2-4, to=4-4]
+	\arrow["q"', from=2-2, to=4-2]
+	\arrow["{{q_Y}^* \circ \widetilde{\mathfrak{Tm}(\epsilon) \circ i_\pi}}"', from=4-2, to=4-4]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-2, to=3-3]
+	\arrow["{\delta' \circ q_X}"', curve={height=18pt}, from=1-1, to=4-2]
+	\arrow["{\tilde{d}}", curve={height=-18pt}, from=1-1, to=2-4]
+	\arrow["{\exists!d'}"', dotted, from=1-1, to=2-2]
+\end{tikzcd}\]
+
+To verify that the outer square commutes, We need to demonstrate
+that \[ q_{Y}^{*} \circ \widetilde{\tm(\epsilon) \circ i_{\pi}} \circ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \circ q_{X} = q_{Z}_{*} \circ \tilde{d} \]
+which should strike the reader as suspiciously similar to our gluing morphism
+hypothesis that \[ \delta \circ i_{\pi} \circ (q_{X} \times q_{Y}) = q_{Z} \circ d \]
+
+Passing to our higher order notation in \( \renhat \), we can express the
+left-hand side of the desired equality as a ``lambda expression'' (TODO phrasing)
+\begin{align*}
+  &\lambda y'.\, (\lambda y.\, \delta ((q_{X}(x:R_{x}, y)))) q_{Y}(y') \\
+  = &\lambda y.\, \delta (q_{X}(x: R_{X}), q_{Y}(y)) && (\alpha, \beta) \\
+\end{align*}
+
+The transpose of the lower composite in the original gluing morphism diagram is
+\( \widetilde{\delta \circ i_{\pi} \circ (q_{X} \times q_{Y})}\); it can be rendered as a lambda
+expression as \( \lambda y: R_{Y}.\, \delta(q_{X}\times q_{Y} (x : R_{X}, y))\) hence by the
+definition of the product functor, the left-hand side of our desired equality is
+precisely the transpose of the lower composite in the original gluing morphism
+diagram.
+
+The right-hand side of the desired equality is the transpose of the upper
+composite in the gluing morphism diagram so that the desired equality holds
+because transposition preserves equality of morphisms (TODO: cite? this is
+obviously true by an appeal to the lambda calculus, but I'm not sure whether
+this is a well-known theorem in cat theory.)
+
+We now summarize the rightward map for the isomorphism:
+
+\begin{align*}
+  \phi_{1}(d) &= d' && (\textrm{the unique mediating arrow from the argument above})\\
+  \phi_{2}(\delta) &= i_{e} \circ \widetilde{\delta \circ i_{\pi}}
+\end{align*}
+
+
+The leftward side of the isomorphism, \( \psi \), is substantially easier,
+because we don't need to interact much with the pullback. We define
+
+\begin{align*}
+  \psi_{1}(d') &= \epsilon \circ ((d' \circ r) \times \id)  \\
+  \psi_{2}(\delta') &= \tm(\epsilon) \circ (\delta' \times \id) \\
+\end{align*}
+
+With our maps in hand, we can verify that they form a bijection:
+
+\begin{align*}
+  \psi_{2}(\phi_{2}(\delta)) &= \tm(\epsilon) \circ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \\
+  \psi_{1}(\phi_{1}(d)) &= \epsilon \circ ((d' \circ r) \times id) \\
+\end{align*}
+
+Both of these are the universal property for the relevant transpose up to
+squinting, so I think they should be the identity...
+
+\end{proof}
+
 \subsection{Gluing syntax to semantics, and a glued algebra}
 We will define some objects in the gluing category which, in some sense, glue
 the presheaves of syntax we have defined in \( \renhat \) together with their
@@ -1497,9 +1644,9 @@ neutrals, and normals. In turn Definition~\ref{def:term model} will allow us to
 leverage this to interpret substitutions as gluing category morphisms between
 these glued objects. We can now glue the syntactic \( NN \) algebra in
 \( \renhat \) together with the semantic \( NN \) algebra\footnote{i.e., the one
-  induced by Remark~\ref{rmk:upgrade_to_stratified} and tthe usual lambda
-  algebra in the classifying category} in the classifying category to get an
-\( NN \) algebra in \( \renhat \downarrow \tm \).
+  induced by Remark~\ref{rmk:upgrade_to_stratified} and the usual lambda algebra
+  in the classifying category} in the classifying category to get an \( NN \)
+algebra in \( \renhat \downarrow \tm \).
 
 \begin{definition}[An algebra of stratified neutrals and normals in the gluing category]\label{def:lambda-algebra-neut-norm}
 \end{definition}
