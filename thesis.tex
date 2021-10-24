@@ -634,9 +634,10 @@ sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
       \item $1_{A}$ to the constant function $x \mapsto 1 \in \mathbb{Z}$
       \item $-_{A}$ to the function $x \mapsto -x$ taking an integer to its additive inverse
     \end{enumerate}
-    \item We wouldn't dare bore the reader by verifying all the laws, so we
-          demonstrate just one. We show that the $0$ selected by the model
-          indeed serves as the left identity of addition in the model.
+    \item Verifying the rest of the laws is routine after understanding how to
+          verify any of them, so we demonstrate just one. We show that the $0$
+          selected by the model indeed serves as the left identity of addition
+          in the model.
           \begin{proof}
             \begin{align*}
               +_{A} \circ \braket{0_{A}, \id} &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0_{A}(x) + \id(y)\\
@@ -661,12 +662,11 @@ sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
   \end{enumerate}
 \end{example}
 
-The reader familiar with algebra will observe that this example (at least when
-fully worked out by a less lazy typist) amounts to verifying that the integers
-form a ring under the standard multiplication and addition operations we learn
-in elementary school. A natural next question to ask is how we might encode a
-ring homomorphism in this framework. To answer this question, we (of course)
-define a more general notion:
+The reader familiar with algebra will observe that this example amounts to
+verifying that the integers form a ring under the standard multiplication and
+addition operations we learn in elementary school. A natural next question to
+ask is how we might encode a ring homomorphism in this framework. To answer this
+question, we define a more general notion:
 
 \begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
   A \emph{homomorphism} \( A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
@@ -857,7 +857,7 @@ the reader to the standard references (\cite{pierce_types_2002},
 \end{definition}
 
 \begin{definition}[Typing rules]
-  Here they are.
+  Here they are. TODO
 
   \begin{mathpar}
     \inferrule[]{ \Gamma \vdash t : \tau_1 * \tau_2 }{ \Gamma \vdash \pi_{i} t: \tau_{i} } \and \inferrule{ \Gamma \vdash t_{i} : \tau_{i} }{(\tau_1,\tau_{2}) : \tau_{1} * \tau_{2}}\\
@@ -1040,6 +1040,143 @@ for G\"odel's System T. Our implementation was inspired by the habilitation of
 Andreas Abel and the Wikipedia page on normalization by evaluation written by a
 number of authors.
 
+\begin{verbatim}
+open Core
+
+type ty = Arrow of ty * ty
+        | Prod of ty * ty
+        | Nat [@@deriving sexp]
+
+type var = string [@@deriving sexp]
+
+let cur : int ref = ref 0
+
+let fresh () : var = let res = Printf.sprintf "var%d" !cur in
+                     cur := !cur + 1;
+                     res
+
+type syn = Lam of var * ty * syn
+         | App of syn * syn
+
+         | Pair of syn * syn
+         | P1 of syn
+         | P2 of syn
+
+         | Zero
+         | Succ of syn
+         | Rec of ty * syn * syn * syn (* rec : forall (T: ty), T -> (N -> T -> T) -> N -> T *)
+
+         | Var of var [@@deriving sexp]
+
+(* Note: There are no elimination forms in the semantics; they are represented
+   as syntax through the SYN embedding. *)
+type sem = LAM of (sem -> sem)
+         | PAIR of sem * sem
+         | SYN of syn
+[@@deriving sexp]
+
+(* reflect is a type-indexed family of functions taking the syntax into the
+   semantics *)
+let rec reflect (tau : ty) : syn -> sem =
+  fun t ->
+  match tau with
+  | Arrow (a, b) ->
+    LAM (fun s -> reflect b (App (t, (reify a s)) ))
+  | Prod (a, b) ->
+    PAIR ((reflect a (P1 t), (reflect b (P1 t))))
+  | Nat ->
+    SYN t
+
+and reify (tau : ty) : sem -> syn =
+  fun t ->
+  match (t, tau) with
+  | (LAM s, Arrow (a, b)) ->
+    let x = fresh () in
+    Lam (x, tau, reify b (s (reflect a (Var x))))
+  | (PAIR (l, r), Prod(a,b)) ->
+    Pair (reify a l, reify b r)
+  | (SYN b, _) ->
+    b
+  | _ ->
+    raise (Failure (Printf.sprintf "Reification failed on (%s : %s)"
+                      ([%sexp_of : sem] t |> Sexp.to_string)
+                      ([%sexp_of: ty] tau |> Sexp.to_string)))
+
+
+let rec metarec (tau : ty) (z : 'a) (s : syn -> 'a -> 'a) : syn -> 'a =
+  fun n ->
+  match n with
+  | Zero -> z
+  | Succ n ->
+    s n (metarec tau z s n)
+  | u ->
+    let v_z = reify tau z in
+    let v_s = reify (Arrow(Nat, (Arrow (tau, tau)))) (LAM (fun n -> match n with
+                                                            | SYN n -> LAM(s n)
+                                                            | _ -> raise (Failure "in metarec"))) in
+    reflect tau (Rec (tau, v_z, v_s, u))
+
+type context = (var * ty) list
+
+(* A valuation is a list semantic terms to be interpreted as an assignment of
+   terms to variables in an ordered context *)
+type valuation = (var * sem) list
+
+
+(* we assume that a bad lookup is never performed; this will end up being the
+   case as long as we only take the meaning in the valuation generated by the
+   context closing a well-typed term. *)
+let lookup (x : var) (rho : valuation) : sem =
+  List.rev (List.filter ~f:(fun entry -> String.equal (fst entry) x) rho)
+  |> fun l -> List.nth_exn l 0
+  |> snd
+
+(* Given a context gamma, produces a valuation of reflected variables *)
+let reflect_ctx (gamma : context) : valuation =
+  List.map ~f:(fun (x,tau) -> (x, reflect tau (Var x))) gamma
+
+(* interprets into the semantics an open term t with respect to a valuation rho
+   which closes it *)
+let rec interp (t : syn) (rho : valuation): sem =
+  match t with
+  | Var x ->
+    lookup x rho
+  | Lam(x, _, b) ->
+    LAM (fun s -> interp b (List.append rho [(x,s)]))
+  | App(e1, e2) ->
+    let LAM e1f = interp e1 rho in
+    e1f (interp e2 rho)
+  | Pair(e1, e2) ->
+    PAIR(interp e1 rho, interp e2 rho)
+  | P1 e ->
+
+    let PAIR (l,_) = interp e rho in
+    l
+  | P2 e ->
+    let PAIR (_,r) = interp e rho in
+    r
+  | Zero -> SYN Zero
+  | Succ n ->
+    SYN (Succ n)
+  | Rec(tau, z, s, n) ->
+    let LAM si = interp s rho in (* s : nat -> A -> A *)
+    let zi = interp z rho in
+    let SYN ni = interp n rho in
+    metarec tau zi (fun m -> let LAM(f) = si (SYN m) in f) ni
+    [@@warning "-8"]
+(* the above incomplete matches are irrefutable on well-typed terms t *)
+
+let nbe (gamma : context) (tau : ty) : syn -> syn =
+  fun t -> interp t (reflect_ctx gamma) |> reify tau
+
+(* EXAMPLES:
+    nbe [("y", Nat); ("z", Nat)] Nat (App (Lam("x", Nat, Var("y")), Var ("z")));;
+    - : syn = Var "y"
+
+   nbe [] Nat (App ((Lam ("z", Nat, (Rec(Nat, Zero, Lam("x",Nat,Lam("y",Nat,(Var "x"))), (Var "z"))))), (Succ Zero)));;
+   - : syn = Zero*)
+\end{verbatim}
+
 \chapter{Normalization by gluing}\label{chapter:gluing}
 \epigraph{You, you were like glue\\
 holding each of us together\\
@@ -1077,9 +1214,6 @@ instance of the gluing construction used in and outside of type theory. The
   normalization} however, as the scone is generally concerned with properties of
 \emph{closed terms} with no free variables, whereas our construction will apply
 to terms in any context.
-
-And we think you're gonna love it.
-
 \section{Variable-arity Kripke relations}
 
 \section{The comma construction and friends}
@@ -1288,10 +1422,23 @@ why this recovers what we had before, let us look at the naturality diagram of
 \subsection{Stratifying neutral and normal terms}
 We introduce a new type system over the syntax and type structure of the lambda
 calculus as defined in Chapter-\ref{chapter:stlc}. This new type system will
-distinguish between \emph{neutral terms}
+distinguish between \emph{neutral terms}, which are in some sense beta-redexes
+whose reduction is \emph{blocked} by a variable in the head term.
+
+\newcommand{\neu}{\textrm{ne}}
+\newcommand{\nf}{\textrm{nf}}
+
 \begin{definition}[Neutral and normal judgments]
-  TODO: inference rules for neutrals and normals go here
-\end{definition}
+  \begin{mathpar}
+    \inferrule*[Right={ (x:\tau) \in \Gamma }]{ }{ \Gamma \vdash_\neu x : \tau }\\
+    \inferrule[]{ }{ \Gamma, x : \tau, \Gamma' \vdash_\neu x : \tau } \and \inferrule{ \Gamma \vdash_\neu M : \tau_1 \times \tau_2}{\pi_1 M : \tau_i} \\
+    \inferrule{ \Gamma \vdash_\neu t_{1} : \tau' \rightarrow \tau  \\  \Gamma \vdash_\nf t_{2} : \tau' }{ \Gamma \vdash_\neu t_{1} t_{2} : \tau } \and \inferrule{}{ \Gamma \vdash_\nf () : \termob }\\
+    \inferrule{\Gamma \vdash_\nf N_i : \tau_i}{\Gamma \vdash_\nf (N_1, N_2) : \tau_1 * \tau_2} \\
+    \inferrule{\Gamma, x : \tau \vdash_\nf b : \tau' }{\Gamma \vdash_\nf \abstr{x}{\tau}{b} : \tau \rightarrow \tau'} \\
+    \inferrule*[Right={ (\theta \in T \textrm{a base type}) }]{\Gamma \vdash_neu t : \theta}{\Gamma \vdash_\nf t : \theta} \\
+  \end{mathpar}
+  \end{definition}
+
 \begin{definition}[Algebraic theory of neutrals and normals]\label{def:theory_neut_norm}
   The judgments above give rise to a lambda theory with a richer sort structure
   than that of the lambda theory defined back in Chapter~\ref{chapter:stlc},
@@ -1416,7 +1563,6 @@ to a \( NN \) algebra over \( \renhat \).
 \end{remark}
 
 \subsection{Variables and binding in Renhat}
-TODO: section goes here?
 \newcommand{\varpsh}{\mathfrak{V}_\tau}
 \newcommand{\dom}{\textrm{dom}}
 \newcommand{\cod}{\textrm{cod}}
@@ -1467,6 +1613,161 @@ exponentials in $\renhat$ allow us to define an algebra for the lambda theory
 \section{Onward!}
 \subsection{Cartesian closed structure for the gluing category}
 
+\begin{theorem}[Exponentials in the gluing category]
+  For objects \( (R_{1}, q_{1}, \Delta_{1})\) and \( (R_{2},q_{2},\Delta_{2})\) in
+  \( \gl \), the exponential \( (R_{2}, q_{2}, \Delta_{2})^{(R_{1}, q_{1}, \Delta_{1})}\)
+  is \( (R, q, \Delta) \) in the pullback diagram
+  \[\begin{tikzcd}
+      R && {{R_2}^{R_1}} \\
+      \\
+      {\mathfrak{Tm}(\Delta_2 ^ {\Delta_1})} && {\mathfrak{Tm}(\Delta_2)^{R_1}} \\
+      \\
+      \\
+      && {}
+      \arrow["q"', from=1-1, to=3-1]
+      \arrow["r", from=1-1, to=1-3]
+      \arrow["{{q_2}_*}", from=1-3, to=3-3]
+      \arrow["{{q_1}^* \circ \tilde{p}}"', from=3-1, to=3-3]
+      \arrow["\scalebox{2.0}{\( \lrcorner \)}", from=1-1, to=2-2, very near start, phantom]
+    \end{tikzcd}\]
+  where \[ p = \tm(\epsilon) \circ (\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{\cong} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1})) \]  is the composition of the lifting of the syntactic category's evaluation to
+  \( \renhat \) with the isomorphism witnessing the product preservation of
+  \( \tm \), and \( \tilde{p} \) is its exponential transpose.
+\end{theorem}
+
+\begin{proof}
+  The universal property for exponentials is encoded by the product-hom
+  adjunction. It suffices to show an isomorphism
+  \[ \gl[(R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \equiv \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \]
+
+  recalling the definition of products in the gluing category, we must show
+
+  \[ \phi : P \cong E : \psi \]
+
+  where
+  \begin{align*}
+    &\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{i_{\pi}} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1}) \\
+    &P = \gl[(R_{X} \times R_{Y}, i_{\pi} \circ (q_{X} \times q_{Y}),  \Delta_{X} \times \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \\
+    &E = \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \\
+  \end{align*}
+
+  To come up with this isomorphism, it helps to recognize what the morphisms of
+  the relevant gluing objects are. Some consideration reveals that the
+  components of the map \( \phi \) are given by the dotted arrows in the diagram
+  below.
+
+  % https://q.uiver.app/?q=WzAsMTksWzAsMCwiUl9YXFx0aW1lcyBSX1kiXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhX1hcXHRpbWVzXFxEZWx0YV9ZKSJdLFszLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGFfWikiXSxbMywwLCJSX1oiXSxbMCw3LCJcXG1hdGhmcmFre1RtfShcXERlbHRhX1gpIl0sWzEsNywiXFxtYXRoZnJha3tUbX0oe1xcRGVsdGFfWn1ee1xcRGVsdGFfWX0pIl0sWzEsNSwiUiJdLFszLDUsIntSX1p9XntSX1l9Il0sWzMsNywiXFxtYXRoZnJha3tUbX0oXFxEZWx0YV9aKV57Ul9ZfSJdLFs1LDFdLFswLDUsIlJfWCJdLFsxLDBdLFsxLDJdLFs1LDBdLFs1LDJdLFswLDNdLFsyLDZdLFsxLDRdLFsxLDNdLFswLDMsImQiXSxbMywyLCJxX1oiXSxbMCwxLCJpX1xccGkgXFxjaXJjIChxX1hcXHRpbWVzIHFfWSkiLDJdLFsxLDIsIlxcZGVsdGEiLDJdLFs2LDcsInIiXSxbNyw4LCJ7cV9afV8qIl0sWzYsNSwicSIsMl0sWzUsOCwie3FfWX1eKiBcXGNpcmMgXFx3aWRldGlsZGV7XFxtYXRoZnJha3tUbX0oXFxlcHNpbG9uKSBcXGNpcmMgaV9cXHBpfSIsMl0sWzEwLDYsImQnIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzEwLDQsInFfWCIsMl0sWzQsNSwiXFxkZWx0YSciLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbNiwxNiwiIiwwLHsic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV0sWzE4LDE3LCIiLDAseyJsYWJlbF9wb3NpdGlvbiI6NDAsIm9mZnNldCI6LTUsImxldmVsIjoyLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+\[\begin{tikzcd}
+	{R_X\times R_Y} & {} && {R_Z} && {} \\
+	&&&&& {} \\
+	{\mathfrak{Tm}(\Delta_X\times\Delta_Y)} & {} && {\mathfrak{Tm}(\Delta_Z)} && {} \\
+	{} & {} \\
+	& {} \\
+	{R_X} & R && {{R_Z}^{R_Y}} \\
+	&& {} \\
+	{\mathfrak{Tm}(\Delta_X)} & {\mathfrak{Tm}({\Delta_Z}^{\Delta_Y})} && {\mathfrak{Tm}(\Delta_Z)^{R_Y}}
+	\arrow["d", from=1-1, to=1-4]
+	\arrow["{q_Z}", from=1-4, to=3-4]
+	\arrow["{i_\pi \circ (q_X\times q_Y)}"', from=1-1, to=3-1]
+	\arrow["\delta"', from=3-1, to=3-4]
+	\arrow["r", from=6-2, to=6-4]
+	\arrow["{{q_Z}_*}", from=6-4, to=8-4]
+	\arrow["q"', from=6-2, to=8-2]
+	\arrow["{{q_Y}^* \circ \widetilde{\mathfrak{Tm}(\epsilon) \circ i_\pi}}"', from=8-2, to=8-4]
+	\arrow["{d'}", dashed, from=6-1, to=6-2]
+	\arrow["{q_X}"', from=6-1, to=8-1]
+	\arrow["{\delta'}"', dashed, from=8-1, to=8-2]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=6-2, to=7-3]
+	\arrow["{\phi}", shift left=5, Rightarrow, dashed, from=4-2, to=5-2]
+\end{tikzcd}\]
+
+where
+\( \tm(\Delta_{Z})^{\tm(\Delta_{Y})} \xrightarrow{i_{e}} \tm(\Delta_{Z}^{\Delta_{Y}})\) is the
+isomorphism witnessing exponential preservation for the relative hom functor. Observing the arrows in sight, a clear choice for \( \delta' \) is
+\[ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \] The choice for \( d' \) is a trickier
+question. \( d' \) should be an arrow into the pullback \( R \). We know nothing
+about nothing about \( R \) except that it fits into the pullback diagram above.
+The up-side of our limited knowledge of \( R \) is that it makes our choice of
+\( d' \) automatic: it must be one of the mediators required by the universal
+property of the pullback. In particular, we will want to choose \( d' = ! \) in
+the diagram below after verifying that the outer square commutes.
+% https://q.uiver.app/?q=WzAsNixbMSwxLCJSIl0sWzAsMCwiUl9YIl0sWzEsMywiXFxtYXRoZnJha3tUbX0oe1xcRGVsdGFfWn1ee1xcRGVsdGFfWX0pIl0sWzMsMywiXFxtYXRoZnJha3tUbX0oXFxEZWx0YV9aKV57Ul9ZfSJdLFszLDEsIntSX1p9XntSX1l9Il0sWzIsMl0sWzAsNCwiciJdLFs0LDMsIntxX1p9XyoiXSxbMCwyLCJxIiwyXSxbMiwzLCJ7cV9ZfV4qIFxcY2lyYyBcXHdpZGV0aWxkZXtcXG1hdGhmcmFre1RtfShcXGVwc2lsb24pIFxcY2lyYyBpX1xccGl9IiwyXSxbMCw1LCIiLDIseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XSxbMSwyLCJcXGRlbHRhJyBcXGNpcmMgcV9YIiwyLHsiY3VydmUiOjN9XSxbMSw0LCJcXHRpbGRle2R9IiwwLHsiY3VydmUiOi0zfV0sWzEsMCwiXFxleGlzdHMhZCciLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XV0=
+\[\begin{tikzcd}
+	{R_X} \\
+	& R && {{R_Z}^{R_Y}} \\
+	&& {} \\
+	& {\mathfrak{Tm}({\Delta_Z}^{\Delta_Y})} && {\mathfrak{Tm}(\Delta_Z)^{R_Y}}
+	\arrow["r", from=2-2, to=2-4]
+	\arrow["{{q_Z}_*}", from=2-4, to=4-4]
+	\arrow["q"', from=2-2, to=4-2]
+	\arrow["{{q_Y}^* \circ \widetilde{\mathfrak{Tm}(\epsilon) \circ i_\pi}}"', from=4-2, to=4-4]
+	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-2, to=3-3]
+	\arrow["{\delta' \circ q_X}"', curve={height=18pt}, from=1-1, to=4-2]
+	\arrow["{\tilde{d}}", curve={height=-18pt}, from=1-1, to=2-4]
+	\arrow["{\exists!d'}"', dotted, from=1-1, to=2-2]
+\end{tikzcd}\]
+
+To verify that the outer square commutes, We need to demonstrate
+that \[ q_{Y}^{*} \circ \widetilde{\tm(\epsilon) \circ i_{\pi}} \circ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \circ q_{X} = q_{Z}_{*} \circ \tilde{d} \]
+which should strike the reader as suspiciously similar to our gluing morphism
+hypothesis that \[ \delta \circ i_{\pi} \circ (q_{X} \times q_{Y}) = q_{Z} \circ d \]
+
+Passing to our higher order notation in \( \renhat \), we can express the
+left-hand side of the desired equality as a ``lambda expression'' (TODO phrasing)
+\begin{align*}
+  &\lambda y'.\, (\lambda y.\, \delta ((q_{X}(x:R_{x}, y)))) q_{Y}(y') \\
+  = &\lambda y.\, \delta (q_{X}(x: R_{X}), q_{Y}(y)) && (\alpha, \beta) \\
+\end{align*}
+
+The transpose of the lower composite in the original gluing morphism diagram is
+\( \widetilde{\delta \circ i_{\pi} \circ (q_{X} \times q_{Y})}\); it can be rendered as a lambda
+expression as \( \lambda y: R_{Y}.\, \delta(q_{X}\times q_{Y} (x : R_{X}, y))\) hence by the
+definition of the product functor, the left-hand side of our desired equality is
+precisely the transpose of the lower composite in the original gluing morphism
+diagram.
+
+The right-hand side of the desired equality is the transpose of the upper
+composite in the gluing morphism diagram so that the desired equality holds
+because transposition preserves equality of morphisms (TODO: cite? this is
+obviously true by an appeal to the lambda calculus, but I'm not sure whether
+this is a well-known theorem in cat theory.)
+
+We now summarize the rightward map for the isomorphism:
+
+\begin{align*}
+  \phi_{1}(d) &= d' && (\textrm{the unique mediating arrow from the argument above})\\
+  \phi_{2}(\delta) &= i_{e} \circ \widetilde{\delta \circ i_{\pi}}
+\end{align*}
+
+
+The leftward side of the isomorphism, \( \psi \), is substantially easier,
+because we don't need to interact much with the pullback. We define
+
+\begin{align*}
+  \psi_{1}(d') &= \epsilon \circ ((d' \circ r) \times \id)  \\
+  \psi_{2}(\delta') &= \tm(\epsilon) \circ (\delta' \times \id) \\
+\end{align*}
+
+With our maps in hand, we can verify that they form a bijection:
+
+\begin{align*}
+  \psi_{2}(\phi_{2}(\delta)) &= \tm(\epsilon) \circ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \\
+  \psi_{1}(\phi_{1}(d)) &= \epsilon \circ ((d' \circ r) \times id) \\
+\end{align*}
+
+Both of these are the universal property for the relevant transpose up to
+squinting, so I think they should be the identity...
+
+TODO:
+\begin{itemize}
+  \item finish up the bijection proof
+  \item prove naturality
+\end{itemize}
+
+
+
+\end{proof}
+
 \subsection{Gluing syntax to semantics, and a glued algebra}
 We will define some objects in the gluing category which, in some sense, glue
 the presheaves of syntax we have defined in \( \renhat \) together with their
@@ -1497,9 +1798,9 @@ neutrals, and normals. In turn Definition~\ref{def:term model} will allow us to
 leverage this to interpret substitutions as gluing category morphisms between
 these glued objects. We can now glue the syntactic \( NN \) algebra in
 \( \renhat \) together with the semantic \( NN \) algebra\footnote{i.e., the one
-  induced by Remark~\ref{rmk:upgrade_to_stratified} and tthe usual lambda
-  algebra in the classifying category} in the classifying category to get an
-\( NN \) algebra in \( \renhat \downarrow \tm \).
+  induced by Remark~\ref{rmk:upgrade_to_stratified} and the usual lambda algebra
+  in the classifying category} in the classifying category to get an \( NN \)
+algebra in \( \renhat \downarrow \tm \).
 
 \begin{definition}[An algebra of stratified neutrals and normals in the gluing category]\label{def:lambda-algebra-neut-norm}
 \end{definition}
@@ -1558,6 +1859,8 @@ bottom right corner will be our desired normalization function.
 	\arrow["{n_\tau}", from=1-5, to=3-5]
 	\arrow["{r_\tau}"', from=1-4, to=3-5]
 \end{tikzcd}\]
+
+\subsection{Reify-reflect yoga}
 
 \subsection{A promise kept: normalization}
 
