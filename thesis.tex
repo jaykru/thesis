@@ -19,6 +19,7 @@
 \usepackage{braket}
 \usepackage{epigraph} % funny quotes
 \usepackage{tikz-cd} % diagrams
+\usepackage{quiver} % fancy arrows
 
 \usepackage{mathpartir} % inference rules
 
@@ -856,10 +857,9 @@ the reader to the standard references (\cite{pierce_types_2002},
   where the variables $x$ are drawn from a countably infinite set \( V \).
 \end{definition}
 
+The typing rules are given as follows:
 \begin{definition}[Typing rules]
-  Here they are. TODO
-
-  \begin{mathpar}
+    \begin{mathpar}
     \inferrule[]{ \Gamma \vdash t : \tau_1 * \tau_2 }{ \Gamma \vdash \pi_{i} t: \tau_{i} } \and \inferrule{ \Gamma \vdash t_{i} : \tau_{i} }{(\tau_1,\tau_{2}) : \tau_{1} * \tau_{2}}\\
     \inferrule{ \Gamma \vdash t_{1} : \tau' \rightarrow \tau  \\  \Gamma \vdash t_{2} : \tau' }{ \Gamma \vdash t_{1} t_{2} : \tau } \and \inferrule{ \Gamma,x:\tau' \vdash t : \tau}{ \Gamma \vdash \abstr{x}{\tau'}{t} : \tau' \rightarrow \tau}\\
     \inferrule*[Right={ (x:\tau) \in \Gamma }]{ }{ \Gamma \vdash x : \tau }\\
@@ -1215,7 +1215,7 @@ instance of the gluing construction used in and outside of type theory. The
 \emph{closed terms} with no free variables, whereas our construction will apply
 to terms in any context.
 \section{Variable-arity Kripke relations}
-
+TODO
 \section{The comma construction and friends}
 This section introduces a general construction that will, among other things,
 allow us to define the gluing construction. As hinted at before, gluing is just
@@ -1253,6 +1253,8 @@ definitional equality thanks to the substitution lemma. The category of
 renamings allows us to define the presheaves we need while not losing track of
 how contexts evolve by substitution. I think that these two points are precisely
 the desiderata satisfied by the category of renamings.
+
+TODO: fix this explanation
 
 \newcommand{\fin}{\mathbb{F}}
 The category of renamings has a nice presentation as a comma category.
@@ -1356,10 +1358,24 @@ renamings along the relative hom functor just defined.
   Explicitly, its objects are triples
   \( D : \renhat, q : D \Rightarrow \tm(\Delta), \Delta : \cl \). The objects of the gluing category
   are \emph{proof relevant logical predicates}, in a sense that will be more
-  clear after the next subsection. The morphisms $(d : D \rightarrow D', \delta: \tm(\Delta) \rightarrow
-  \tm(\Delta'))$ TODO: finish
+  clear after the next subsection. Following the definition of the comma
+  construction, the morphisms \( (D, q_{\Delta}, \Delta) \rightarrow (D', q_{\Delta'}, \Delta') \) are pairs
+  $(d : D \rightarrow D', \delta: \cl[\Delta', \Delta])$ are pairs of a $\renhat$ natural transformation
+  and a substitution making the following diagram commute:
+  % https://q.uiver.app/?q=WzAsNCxbMCwwLCJEIl0sWzIsMCwiRCciXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhKSJdLFsyLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGEnKSJdLFswLDEsImQiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXGRlbHRhKSJdLFswLDIsInFfe1xcRGVsdGF9IiwyXSxbMSwzLCJxX3tcXERlbHRhJ30iXV0=
+  \[\begin{tikzcd}
+      D && {D'} \\
+      \\
+      {\mathfrak{Tm}(\Delta)} && {\mathfrak{Tm}(\Delta')}
+      \arrow["d", from=1-1, to=1-3]
+      \arrow["{\mathfrak{Tm}(\delta)}", from=3-1, to=3-3]
+      \arrow["{q_{\Delta}}"', from=1-1, to=3-1]
+      \arrow["{q_{\Delta'}}", from=1-3, to=3-3]
+    \end{tikzcd}\]
 \end{definition}
 
+We will better understand what all this means after understanding how the gluing
+category subsumes the notion of variable-arity Kripke relations.
 
 \subsubsection{The subcategory of (ordinary) variable-arity Kripke relations}
 We can recover ordinary, proof-\emph{irrelevant} variable-arity Kripke relations
@@ -1404,54 +1420,60 @@ why this recovers what we had before, let us look at the naturality diagram of
   It turns out that the category of \(\ren\)-Kripke relations is a full
   subcategory of the gluing category \( \renhat \downarrow \tm \).
 
-  \begin{theorem}[Kripke full subcategory of gluing]
+\begin{theorem}[Kripke full subcategory of gluing]
     TODO
   \end{theorem}
   \begin{proof}
     TODO
   \end{proof}
 
-  This perspective allows for a more conceptual understanding of the objects in
-  the gluing category: the presheaves $R$ define context-indexed families of
-  \emph{witnesses} to the inclusion of terms in the predicate, and $q$ is a
-  quotient map that forgets the difference between distinct witnesses
+  The perspective gained above allows for a more conceptual understanding of the
+  objects in the gluing category: the presheaves $R$ define context-indexed
+  families of \emph{witnesses} to the inclusion of terms in the predicate, and
+  $q$ is a quotient map that forgets the difference between distinct witnesses
   \( w, w' \in R(\Gamma) \) and whose image just records those terms
-  \( t \in \tm (\Delta)(\Gamma)\) taken to be in the predicate.
+  \( t \in \tm (\Delta)(\Gamma)\) taken to be in the predicate; insofar as $q$ is a mono,
+  these objects are exactly the variable-arity Kripke relations we considered
+  classically at the beginning of this chapter.
 
+  TODO: explain intuition for the morphisms of the gluing category
 \section{Stratified syntax, theories, presheaves, algebras}
 \subsection{Stratifying neutral and normal terms}
 We introduce a new type system over the syntax and type structure of the lambda
 calculus as defined in Chapter-\ref{chapter:stlc}. This new type system will
-distinguish between \emph{neutral terms}, which are in some sense beta-redexes
-whose reduction is \emph{blocked} by a variable in the head term.
+distinguish between \emph{neutral terms}, a special class of \emph{normal terms}
+which are in some sense beta-redexes whose reduction is \emph{blocked} by a
+variable in the head term, and all other normal terms. In some sense,
+\emph{neutral terms} can be regarded as those terms which are normal only
+because they're ``stuck.''
 
 \newcommand{\neu}{\textrm{ne}}
 \newcommand{\nf}{\textrm{nf}}
 
 \begin{definition}[Neutral and normal judgments]
   \begin{mathpar}
-    \inferrule*[Right={ (x:\tau) \in \Gamma }]{ }{ \Gamma \vdash_\neu x : \tau }\\
-    \inferrule[]{ }{ \Gamma, x : \tau, \Gamma' \vdash_\neu x : \tau } \and \inferrule{ \Gamma \vdash_\neu M : \tau_1 \times \tau_2}{\pi_1 M : \tau_i} \\
-    \inferrule{ \Gamma \vdash_\neu t_{1} : \tau' \rightarrow \tau  \\  \Gamma \vdash_\nf t_{2} : \tau' }{ \Gamma \vdash_\neu t_{1} t_{2} : \tau } \and \inferrule{}{ \Gamma \vdash_\nf () : \termob }\\
-    \inferrule{\Gamma \vdash_\nf N_i : \tau_i}{\Gamma \vdash_\nf (N_1, N_2) : \tau_1 * \tau_2} \\
-    \inferrule{\Gamma, x : \tau \vdash_\nf b : \tau' }{\Gamma \vdash_\nf \abstr{x}{\tau}{b} : \tau \rightarrow \tau'} \\
-    \inferrule*[Right={ (\theta \in T \textrm{a base type}) }]{\Gamma \vdash_neu t : \theta}{\Gamma \vdash_\nf t : \theta} \\
+    \inferrule*[Right={ \( (x:\tau) \in \Gamma \) }]{ }{ \Gamma \vdash_\neu x : \tau }\\
+    \inferrule{ \Gamma \vdash_\neu M : \tau_1 * \tau_2}{\Gamma \vdash_\neu \pi_i M : \tau_i} \and \inferrule{ \Gamma \vdash_\neu t_{1} : \tau' \rightarrow \tau  \\  \Gamma \vdash_\nf t_{2} : \tau' }{ \Gamma \vdash_\neu t_{1} t_{2} : \tau } \\
+
+    \inferrule{}{ \Gamma \vdash_\nf () : \termob } \and \inferrule{\Gamma \vdash_\nf N_i : \tau_i}{\Gamma \vdash_\nf (N_1, N_2) : \tau_1 * \tau_2} \and \inferrule{\Gamma, x : \tau \vdash_\nf b : \tau' }{\Gamma \vdash_\nf \abstr{x}{\tau}{b} : \tau \rightarrow \tau'} \\
+    \inferrule*[Right={ ($\theta \in T$ \textrm{a base type}) }]{\Gamma \vdash_\neu t : \theta}{\Gamma \vdash_\nf t : \theta} \\
   \end{mathpar}
-  \end{definition}
+\end{definition}
 
 \begin{definition}[Algebraic theory of neutrals and normals]\label{def:theory_neut_norm}
   The judgments above give rise to a lambda theory with a richer sort structure
-  than that of the lambda theory defined back in Chapter~\ref{chapter:stlc},
+  than that of the lambda theory defined back in Chapter \ref{chapter:stlc},
   because we differentiate between neutral terms of type \( \tau \) and normal
   terms of type \( \tau \).
 
-  We define the lambda theory \( NN \) as follows:
+  We define the lambda theory \( NN \) as the canonical language (c.f. TODO) of the category
+  with the following objects and generating morphisms:
   \begin{enumerate}
-    \item Sorts:
+    \item Objects:
     \( \Sigma = \{ \mathcal{M}_\tau \mid \tau \in \types \}
     \cup \{ \mathcal{N}_\tau \mid \tau \in \types \}
     \cup \{ \mathcal{V}_\tau \mid \tau \in \types \} \)
-    \item Operation symbols:
+    \item Generating morphisms:
     \begin{align*}
       \textrm{var}_\tau &: \mathcal{V}_{\tau} \rightarrow \mathcal{M}_{\tau} \\
       \textrm{fst}_{\tau}^{\tau'} &: \mathcal{M}_{\tau \times \tau'} \rightarrow \mathcal{M}_{\tau}\\
@@ -1462,8 +1484,7 @@ whose reduction is \emph{blocked} by a variable in the head term.
        \textrm{pair}_{\tau}^{\tau'} &: \mathcal{N}_{\tau} \rightarrow \mathcal{N}_{\tau'} \rightarrow \mathcal{N}_{\tau \times \tau'} \\
        \textrm{abs}_{\tau \rightarrow \tau'} &: {\mathcal{N}_{\tau'}}^{\mathcal{V}_{\tau}} \rightarrow \mathcal{N}_{\tau \rightarrow \tau'} \\
     \end{align*}
-
-    \item The laws are $\alpha\beta\eta$.
+    \item The laws are the usual $\alpha-$, $\beta-$, and $\eta-$rules.
   \end{enumerate}
   Note that the codomain of the unit operation symbol is the nullary product of
   sorts.
@@ -1471,13 +1492,19 @@ whose reduction is \emph{blocked} by a variable in the head term.
 
 \begin{remark}\label{rmk:upgrade_to_stratified}
   Any algebra \( \{ (\mathfrak{V}, \mathfrak{X}_{\tau}) \}_{\tau \in \types}\) of the
-  lambda theory \( \mathcal{L}_{\alpha\beta\eta}\) from Chapter~\ref{chapter:stlc} gives
-  rise to an algebra $\mathfrak{A}$ of the theory \( NN \) by setting
+  lambda theory \( \mathcal{L}_{\alpha\beta\eta}\) (TODO: make this terminology consistent)
+  from Chapter~\ref{chapter:stlc} gives rise to an algebra $\mathfrak{A}$ of the
+  theory \( NN \) by setting
   \begin{align*}
     \mathfrak{A}_{\mathcal{M}_{\tau}} &= \mathfrak{X}_{\tau} \\
     \mathfrak{A}_{\mathcal{N}_{\tau}} &= \mathfrak{X}_{\tau} \\
     \mathfrak{A}_{\mathcal{V}_{\tau}} &= \mathfrak{V}_{\tau}\\
   \end{align*}
+\end{remark}
+
+\begin{remark}\label{rmk:tm-nn-alg}
+  The usual lambda algebra on the syntactic category induces an \(NN\)-algebra
+  on \( \tm \). TODO: flesh out.
 \end{remark}
 
 \subsection{Presheaves of syntax, defined over the category of renamings}
@@ -1504,25 +1531,15 @@ whose reduction is \emph{blocked} by a variable in the head term.
 \begin{remark}[A lambda algebra on the presheaves of open syntax]\label{def:open_syn_algebra}
   The presheaves of open syntax \( \mathfrak{L}_{\tau}\) induce an algebra for the
   lambda theory \( \mathcal{L}_{\alpha\beta\eta} \) defined in
-  \ref{def:alpha_beta_eta_theory} TODO
+  \ref{def:alpha_beta_eta_theory}
+
+  TODO
 \end{remark}
 
 \begin{remark}[A stratified-lambda algebra on the presheaves of open syntax]
   By Remark~\ref{rmk:upgrade_to_stratified},
   Definition~\ref{def:open_syn_algebra} induces an algebra of the lambda theory
   which stratifies neutral and normals.
-\end{remark}
-
-\begin{remark}[interpretations]
-  TODO give the diagram of interpretations
-
-\begin{verbatim}
-  N >--> L <-< M
-         |
-         v
-        Tm
-\end{verbatim}
-
 \end{remark}
 
 We can define presheaves of neutral and normal terms similarly, with the same
@@ -1610,6 +1627,35 @@ exponentials in $\renhat$ allow us to define an algebra for the lambda theory
   The operations are given by TODO
 \end{definition}
 
+\begin{remark}\label{rmk:interpretations-into-tm}
+  The NN-algebra over \( (\tm, \tm) \) together with the NN-algebra
+  \( (\mathfrak{Ne}, \mathfrak{Nf}) \) just presented and the NN-algebra on
+  \( \mathfrak{L} \) induce interpretations \( l : \mathfrak{L} \rightarrow \tm \) and
+  \( (m,n) : (\mathfrak{Ne}, \mathfrak{Nf}) \rightarrow (\tm, \tm) \) such that the
+  following diagram commutes:
+
+  % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfSJdLFsxLDAsIlxcbWF0aGZyYWt7TH0iXSxbMiwwLCJcXG1hdGhmcmFre05mfSJdLFsxLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFsyLDEsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMCwzLCJtIiwyXSxbMSwzLCJsIiwyXSxbMiwzLCJuIl1d
+\[\begin{tikzcd}
+	{\mathfrak{Ne}} & {\mathfrak{L}} & {\mathfrak{Nf}} \\
+	& {\mathfrak{Tm}}
+	\arrow[tail, from=1-1, to=1-2]
+	\arrow[tail, from=1-3, to=1-2]
+	\arrow["m"', from=1-1, to=2-2]
+	\arrow["l"', from=1-2, to=2-2]
+	\arrow["n", from=1-3, to=2-2]
+\end{tikzcd}\]
+
+The map \( l_{\tau} \) for each \( \tau \in \types \) is the usual semantic
+interpretation of terms in the syntactic category:
+\begin{align*}
+  l_{\tau}(\Gamma) : \mathfrak{L}_{\tau}(\Gamma) &\rightarrow \tm(\tau)(\Gamma) \\
+  t &\mapsto \sem{\Gamma \vdash t : \tau} \\
+\end{align*}
+
+The maps \( m_{\tau} \), \( n_{\tau}\) are the usual semantic interpretation
+precomposed with the relevant inclusion.
+\end{remark}
+
 \section{Onward!}
 \subsection{Cartesian closed structure for the gluing category}
 
@@ -1628,7 +1674,6 @@ exponentials in $\renhat$ allow us to define an algebra for the lambda theory
       \arrow["r", from=1-1, to=1-3]
       \arrow["{{q_2}_*}", from=1-3, to=3-3]
       \arrow["{{q_1}^* \circ \tilde{p}}"', from=3-1, to=3-3]
-      \arrow["\scalebox{2.0}{\( \lrcorner \)}", from=1-1, to=2-2, very near start, phantom]
     \end{tikzcd}\]
   where \[ p = \tm(\epsilon) \circ (\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{\cong} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1})) \]  is the composition of the lifting of the syntactic category's evaluation to
   \( \renhat \) with the isomorphism witnessing the product preservation of
@@ -1708,7 +1753,7 @@ the diagram below after verifying that the outer square commutes.
 \end{tikzcd}\]
 
 To verify that the outer square commutes, We need to demonstrate
-that \[ q_{Y}^{*} \circ \widetilde{\tm(\epsilon) \circ i_{\pi}} \circ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \circ q_{X} = q_{Z}_{*} \circ \tilde{d} \]
+that \[ q_{Y}^{*} \circ \widetilde{\tm(\epsilon) \circ i_{\pi}} \circ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \circ q_{X} = {q_{Z}}_{*} \circ \tilde{d} \]
 which should strike the reader as suspiciously similar to our gluing morphism
 hypothesis that \[ \delta \circ i_{\pi} \circ (q_{X} \times q_{Y}) = q_{Z} \circ d \]
 
@@ -1800,6 +1845,7 @@ these glued objects. We can now glue the syntactic \( NN \) algebra in
 algebra in \( \renhat \downarrow \tm \).
 
 \begin{definition}[An algebra of stratified neutrals and normals in the gluing category]\label{def:lambda-algebra-neut-norm}
+  TODO
 \end{definition}
 
 Finally we can give an interpretation of base types in the gluing category in terms of the glued neutrals
@@ -1808,32 +1854,32 @@ Finally we can give an interpretation of base types in the gluing category in te
   \theta &\mapsto \mu_{\theta}\\
 \end{align*}
 
-Let \(s\sem{-} : \types \rightarrow \cl \) be the interpretation of types as contexts in
-the syntactic category and terms as substitutions. By (TODO: $\pi_2$ second
-component gluing projection), the interpretation of terms induced by
-\( \bar{s} \) according to Definition~\ref{def:term model} extends the
-interpretation of terms in the syntactic category in the following sense:
-\( \bar{s}\sem{\Gamma \vdash t : \tau} \) is a pair of the form
-$(s'\sem{ \Gamma \vdash t : \tau}, s\sem{\Gamma \vdash t : \tau })$ where \( s' : \cl \rightarrow \renhat \) is the
-unique functor induced by the $\renhat-$lambda algebra of neutral and normals
-from Definition~\ref{def:lambda-algebra-neut-norm} and the cartesian closed
-structure of the category of presheaves. Now is a good time to take stock of
-what we have developed so far, and look ahead to where we're going.
+Let \(s\sem{-} : \types \rightarrow \cl \) be the the interpretation of terms in the
+syntactic category induced by the usual interpretation of types as singleton
+contexts. By (TODO: $\pi_2$ second component gluing projection), the
+interpretation of terms induced by \( \bar{s} \) according to
+Definition~\ref{def:term model} extends the interpretation of terms in the
+syntactic category in the following sense: \( \bar{s}\sem{\Gamma \vdash t : \tau} \) is
+a pair of the form $(s'\sem{ \Gamma \vdash t : \tau}, s\sem{\Gamma \vdash t : \tau })$ where
+\( s' : \cl \rightarrow \renhat \) is the unique functor induced by the $\renhat-$lambda
+algebra of neutral and normals from
+Definition~\ref{def:lambda-algebra-neut-norm} and the cartesian closed structure
+of the category of presheaves. Now is a good time to take stock of what we have
+developed so far, and look ahead to where we're going.
 
 
-\subsection{Taking stock: charting a path to normalization}
-Begin by noting that we can consider \( \tm : \cl \rightarrow \renhat \) as an
+\subsection{Taking stock: charting a path to normalization}\label{sec:taking-stock}
+Begin by recalling that we can consider \( \tm : \cl \rightarrow \renhat \) as an
 \emph{interpretation} of the base types of the lambda-theory in \( \renhat \).
 We now have enough language to say exactly what it is we're hoping to acquire in
 this chapter. For each type \( \tau \in \types \), we wish to come up with maps to
 fill in the dotted arrows in the upper diagram such that the lower diagram
-commutes. In particular, the composite along the top edge going down to the
-bottom right corner will be our desired normalization function.
+commutes.
 
 % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDAsIlxcbWF0aGZyYWt7Un1fXFx0YXUiXSxbNCwwLCJcXG1hdGhmcmFre05mfV9cXHRhdSJdLFsyLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiXFx1cGFycm93X1xcdGF1IiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzEsMiwiXFxkb3duYXJyb3dfXFx0YXUiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XSxbMiwzLCJuX1xcdGF1Il0sWzAsMywibV9cXHRhdSIsMl0sWzEsMywicl9cXHRhdSIsMl1d
 \[\begin{tikzcd}
 	{\mathfrak{Ne}_\tau} && {\mathfrak{R}_\tau} && {\mathfrak{Nf}_\tau} \\
-	&& {\mathfrak{Tm}}
+	&& {\mathfrak{Tm}(\tau)}
 	\arrow["{\uparrow_\tau}", dotted, from=1-1, to=1-3]
 	\arrow["{\downarrow_\tau}", dotted, from=1-3, to=1-5]
 	\arrow["{n_\tau}", from=1-5, to=2-3]
@@ -1857,12 +1903,25 @@ bottom right corner will be our desired normalization function.
 	\arrow["{r_\tau}"', from=1-4, to=3-5]
 \end{tikzcd}\]
 
+Supposing we can achieve this, our normalization function will be precisely the
+the upper-right composite of the lower diagram. Because the diagram commutes,
+the normalization function computes for a term $t$ a normal form with the same
+\emph{semantics} as $t$; that is, as evident from the diagram, we will have an
+equality of morphisms \( t \equiv \nf(t)\) in the syntactic category.
+
 \subsection{Reify-reflect yoga}
+
+In this section we will actually define the reify-reflect maps for each type.
 
 \subsection{A promise kept: normalization}
 
+Having performed reify-reflect yoga at each type, we have established the
+desired diagram from section~\ref{sec:taking-stock}. We can now define a normalization function \( \nf_{\tau} : \mathfrak{L}_{\tau} \rightarrow \mathfrak{Nf}_{\tau}\) as the composite TODO
 
-\chapter{Conclusion}
+\[ \mathfrak{L}_{\tau} \xrightarrow{\bar{l}_{\tau}} \tm(\tau) \xrightarrow{} \]
+
+
+\chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 \chaptermark{Conclusion}
 \markboth{Conclusion}{Conclusion}
@@ -1872,11 +1931,8 @@ bottom right corner will be our desired normalization function.
 That's it for now.
 
 % If you feel it necessary to include an appendix, it goes here.
-\appendix
-\chapter{The First Appendix}
-\chapter{Orphaned snippets}
-
-This is where things without a home in their chapter go\ldots for now.
+% \appendix
+% \chapter{The First Appendix}
 
 % This is where endnotes are supposed to go, if you have them.
 % I have no idea how endnotes work with LaTeX.
