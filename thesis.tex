@@ -171,6 +171,7 @@ Normalization by gluing is based.
 % if you want special chapter formatting, you'll probably want to avoid using it altogether
 
 \chapter*{Introduction}
+\epigraph{You don't need a weatherman to know which way the wind blows.}{Bob Dylan}
 \addcontentsline{toc}{chapter}{Introduction}
 \chaptermark{Introduction}
 \markboth{Introduction}{Introduction}
@@ -394,6 +395,24 @@ set of its clones:
   behavior of substitutions in sequence.
 \end{proof}
 
+\begin{theorem}[The canonical elementary
+  language]\label{thm:canonical_elementary_language} Every elementary sketch
+  \( \mathcal{L} \) presents a category \( \cn_{\mathcal{L}}\) via the for-free
+  action on its clones, and conversely any small category $C$ is presented by
+  some sketch $\mathcal{L}$ in the sense that \( C \cong \cn_{\mathcal{L}}\). We
+  write \( \lceil-\rceil \) for this isomorphism and call the sketch
+  \( L(C) = \mathcal{L} \) the \emph{canonical elementary language} of \( C \).
+
+  The language is defined as follows:
+  \begin{itemize}
+    \item The sorts \( \lceil X \rceil \) of \( L(C) \) are the objects \( X \) of \( C\)
+    \item The operation symbols \( \lceil f \rceil \) are the morphisms \( f \) of \( C \) and
+    \item The laws are \( \lceil \id \rceil (x) = x \) and \( \lceil g \rceil (\lceil f \rceil (x)) = \lceil g \circ f \rceil (x) \)
+  \end{itemize}
+
+  and the isomorphism is clear.
+\end{theorem}
+
 Recalling our sketch of a monoid from Example~\ref{ex:monoid sketch}, the
 substance of this covariant action morally amounts to saying that the sketch
 acts on its terms by left multiplication (here ``multiplication'' is actually
@@ -490,7 +509,7 @@ out of the category in question.
   assignment of a set $\ceil{X}_{A}$ to each sort \( \ceil{X}\) and an
   assignment of a function \( \ceil{r}_{A} : X_{A} \rightarrow Y_{A}\) to each operation-symbol
   \( X \vdash \ceil{r}(x) : Y\) such that the laws (given by
-  Theorem~\ref{thm:category_of_sketch}) of \( \mathcal{L} \) are preserved. These
+  Theorem~\ref{thm:canonical_elementary_language}) of \( \mathcal{L} \) are preserved. These
   assignment form precisely the data of a functor
 
   \begin{align*}
@@ -505,10 +524,10 @@ out of the category in question.
   \( (\Leftarrow) \) Suppose we have a functor
   $F_A : \cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$. We will construct a model $A$ of
   $\mathcal{L}$ from $F_{A}$ as follows: Recall from
-  Theorem~\ref{thm:category_of_sketch} % TODO: bad ref
-  that the sorts \(\ceil{X} \) of the sketch $\mathcal{L}$ are precisely the
-  objects $X$ of \( \cn_{ \mathcal{L}} \), and the operation symbols
-  \( X \vdash \ceil{ f } : Y \) are the morphisms \( f \) of \( \cn_{\mathcal{L}}\). Now,
+  Theorem~\ref{thm:canonical_elementary_language} that the sorts \(\ceil{X} \)
+  of the sketch $\mathcal{L}$ are precisely the objects $X$ of
+  \( \cn_{ \mathcal{L}} \), and the operation symbols \( X \vdash \ceil{ f } : Y \)
+  are the morphisms \( f \) of \( \cn_{\mathcal{L}}\). Now,
   \begin{enumerate}
     \item For each sort \(\ceil{X}\) we assign \( \ceil{X}_A = F_{A}(X)\).
     \item For each operation symbol \( \ceil{f} \) we assign \( \ceil{f}_{A} = F_{A}(f) \).
@@ -1242,18 +1261,19 @@ special case of the comma.
 \end{definition}
 
 \subsection{An easy comma: the category of renamings}
-The category of renamings is, in a very loose sense, like a less proof relevant
-version of the category of contexts and substitutions. In particular, if there
-exists a substitution relating two contexts in syntactic category, then there
-exists a renaming relating the same contexts. In this sense, renamings allow us
-to track changes in context due to substitution without actually using
-substitutions which are problematic due to their being overly quotiented by
-definitional equality thanks to the substitution lemma. The category of
-renamings allows us to define the presheaves we need while not losing track of
-how contexts evolve by substitution. I think that these two points are precisely
-the desiderata satisfied by the category of renamings.
-
-TODO: fix this explanation
+The category of renamings is something like a less proof-relevant version of the
+category of contexts and substitutions in the following sense: if there exists a
+substitution relating two contexts in syntactic category, then there exists a
+renaming relating the same contexts. In this sense, renamings allow us to track
+changes in context \emph{due to a substitution} without actually using
+substitutions which, because substitutions are identified up to computation, are
+problematic in a development requiring distinguishing between terms at various
+stages of reduction (e.g. distinguishing between a term and its normal form.)
+The category of renamings allows us to define the presheaves we need while not
+losing track of how contexts evolve by substitution. These two points are
+precisely the desiderata satisfied by the category of renamings. We define the
+category and at the same time explain what its morphisms are in terms of the
+more familiar notion of substitution:
 
 \newcommand{\fin}{\mathbb{F}}
 The category of renamings has a nice presentation as a comma category.
@@ -1307,7 +1327,10 @@ The category of renamings has a nice presentation as a comma category.
 \end{remark}
 
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
-This subsection introduces Fiore's monster.
+The gluing category is an instance of the comma construction which will star as
+the primary semantic domain in our development. To define it, we first need to
+define a functor which, in a loose sense that will be explained in due course,
+defines \( \ren \)-presheaves of \emph{open} terms.
 \subsubsection{The relative hom functor}
 Every functor \( \varsigma : \mathcal{R} \rightarrow \mathcal{S} \) induces the following
 situation:
@@ -1347,7 +1370,7 @@ Generalizing to multivariable target contexts \( \Delta \) gives presheaves of
 \subsubsection{Gluing syntax to semantics along the relative hom functor}
 \newcommand{\gluingcat}{\textrm{Gl}_\Sigma}
 
-We now define the \emph{gluing category} as the comma of the category of
+We at last define the \emph{gluing category} as the comma of the category of
 renamings along the relative hom functor just defined.
 
 \newcommand{\gl}{\textrm{Gl}_\Sigma}
@@ -1420,7 +1443,7 @@ why this recovers what we had before, let us look at the naturality diagram of
   subcategory of the gluing category \( \renhat \downarrow \tm \).
 
 \begin{theorem}[Kripke full subcategory of gluing]
-    TODO
+  TODO: maybe, I don't really think I will use this result.
   \end{theorem}
   \begin{proof}
     TODO
@@ -1465,8 +1488,8 @@ because they're ``stuck.''
   because we differentiate between neutral terms of type \( \tau \) and normal
   terms of type \( \tau \).
 
-  We define the lambda theory \( NN \) as the canonical language (c.f. TODO) of the category
-  with the following objects and generating morphisms:
+  We define the lambda theory \( NN \) as the canonical language (c.f. TODO) of
+  the category with the following objects and generating morphisms:
   \begin{enumerate}
     \item Objects:
     \( \Sigma = \{ \mathcal{M}_\tau \mid \tau \in \types \}
