@@ -1492,13 +1492,13 @@ representable/variable presheaf, \( \varpsh = \yoneda \tau\) gives
                                     &\cong \mathfrak{P}(\Gamma\times\Delta) && (\textrm{by the Yoneda lemma})\\
 \end{align*}
 
-Where step (2) follows by the definition of the exponentials in the category of
-presheaves, c.f. page 46 of \cite{mac_lane_sheaves_1992}.
+Where step (2) follows from the definition of the exponentials in the category
+of presheaves, c.f. page 46 of \cite{mac_lane_sheaves_1992}.
 
 The presheaves of typed variables together with the simplified view of
-exponentials in $\renhat$ allow us to define an algebra for the lambda theory
-\( NN \) of stratified neutrals and normals defined in the previous section.
-
+exponentials in $\renhat$ allow us to define algebras for a new lambda theory
+\( NN \) of stratified \emph{neutrals and normals} defined in the previous
+section, which allow for a more fine-grained discussion of normal terms.
 
 \subsection{Stratifying neutral and normal terms}
 We introduce a new type system over the syntax and type structure of the lambda
@@ -1508,7 +1508,6 @@ which are in some sense beta-redexes whose reduction is \emph{blocked} by a
 variable in the head term, and all other normal terms. In some sense,
 \emph{neutral terms} can be regarded as those terms which are normal only
 because they're ``stuck.''
-
 
 \begin{definition}[Neutral and normal judgments]\label{def:neut-norm-rules}
   \begin{mathpar}
@@ -1889,27 +1888,53 @@ of terms in the classifying category.
   \[ \eta_{\tau} = (\norm, \norm \rightarrow \tm(\tau), \tau) \]
 \end{definition}
 
-With these glued objects, we can define a lambda algebra of glued variables,
-neutrals, and normals. In turn Definition~\ref{def:term model} will allow us to
-leverage this to interpret substitutions as gluing category morphisms between
-these glued objects. We can now glue the syntactic \( NN \) algebra in
-\( \renhat \) together with the semantic \( NN \) algebra\footnote{i.e., the one
-  induced by Remark~\ref{rmk:upgrade_to_stratified} and the usual lambda algebra
-  in the classifying category} in the classifying category to get an \( NN \)
-algebra in \( \renhat \downarrow \tm \).
+With these glued objects, we can define an \( NN \) algebra over these families
+of glued variables, glued neutrals, and glued normals. In turn
+Definition~\ref{def:term model} will allow us to leverage this to interpret
+substitutions as gluing category morphisms between these glued objects. The
+algebra we define will be constructed by ``gluing together'' the syntactic
+\( NN \) algebra in \( \renhat \) together with the semantic \( NN \)
+algebra\footnote{i.e., the one induced by Remark~\ref{rmk:upgrade_to_stratified}
+  and the usual lambda algebra in the classifying category} in the classifying
+category.
 
 \begin{definition}[An algebra of stratified neutrals and normals in the gluing category]\label{def:lambda-algebra-neut-norm}
   The family \( \{ (\mu_{\tau}, \eta_{\tau})\}_{\tau\in\types}\) define the objects of an
   \( NN \)-algebra with the operations given as follows:
   \begin{itemize}
-    \item For \( \tau, \tau' \in \types \), the pair of maps
+    \item For each \( \tau, \tau' \in \types\), the pair of maps
     \[ (\var_{\tau} : \varpsh \rightarrow \mathfrak{Ne}_{\tau} , \id_{\sem{\tau}})\]
     is a map \( \nu_{\tau} \rightarrow \mu_{\tau} \) in \( \renhat \downarrow \tm \).
-    \item For \( \tau, \tau' \in \types \), the pair of maps
+    \item For each \( \tau, \tau' \in \types\), the pair of maps
     \[ (\fst_{\tau}^{\tau'} : \mathfrak{Ne}_{\tau*\tau'} \rightarrow \mathfrak{Ne}_{\tau}, \pi_{1} : \sem{\tau} \times \sem{\tau'} \rightarrow \sem{\tau}) \]
     is a map \( \mu_{\tau*\tau'} \rightarrow \mu_{\tau} \) in \( \renhat \downarrow \tm \).
+    \item For each \( \tau, \tau' \in \types\), the pair of maps
+    \[ (\snd_{\tau}^{\tau'} : \mathfrak{Ne}_{\tau'*\tau} \rightarrow \mathfrak{Ne}_{\tau}, \pi_{2} : \sem{\tau'} \times \sem{\tau} \rightarrow \sem{\tau}) \]
+    is a map \( \mu_{\tau'*\tau} \rightarrow \mu_{\tau} \) in \( \renhat \downarrow \tm \).
+    \item For each \( \tau, \tau' \in \types\), the pair of maps
+    \[ (\app_{\tau}^{\tau'} : \mathfrak{Ne}_{\tau'\rightarrow\tau} \times \mathfrak{Nf}_{\tau'} \rightarrow \mathfrak{Ne}_{\tau}, \epsilon : (\sem{\tau'} \rightarrow \sem{\tau}) \times \sem{\tau'} \rightarrow \sem{\tau}) \]
+    is a map \( \mu_{\tau'\rightarrow\tau} \times \eta_{\tau'} \rightarrow \mu_{\tau}\) in \( \renhat \downarrow \tm \).
+
+
+    \item For each base type \( \theta \in T\), the pair of \emph{isomorphisms}
+          \[ \mathfrak{Ne}_{\theta} \cong \mathfrak{Nf}_{\theta} , \id_{\sem{\theta}}\] is an
+          isomorphism \( \mu_{\theta} \cong \eta_{\theta}\) in \( \renhat \downarrow \tm \).
+    \item The pair of isomorphisms
+          \[ \termob \cong \mathfrak{Nf}_{\termob}, \id_{\termob}\] is an isomorphism
+          \( \termob \cong \eta_{\termob}\) in \( \renhat \downarrow \tm \).
+    \item For \( \tau, \tau' \in \types \), the pair of isomorphisms
+          \[ \pair_{\tau*\tau'} : \mathfrak{Nf}_{\tau} \times \mathfrak{Nf}_{\tau'} \xrightarrow{\cong} \mathfrak{Nf}_{\tau*\tau'} , \id_{\sem{\tau} \times \sem{\tau'}}\]
+          is an isomorphism \( \eta_{\tau} \times \eta_{\tau'} \xrightarrow{\cong} \eta_{\tau*\tau'} \) in
+          \( \renhat \downarrow \tm \).
+          \item For \( \tau, \tau' \in \types \), the pair of isomorphisms
+          \[ \abs_{\tau \rightarrow \tau'} : \mathfrak{Nf}_{\tau'}^{\varpsh} \xrightarrow{\cong} \mathfrak{Nf}_{\tau \rightarrow \tau'}, \id_{\sem{\tau'}^{\sem{\tau}}}\]
+          is an isomorphism \( \eta_{\tau'}^{\nu_{\tau}} \xrightarrow{\cong} \eta_{\tau\rightarrow\tau'}\) in \( \renhat \downarrow \tm \).
   \end{itemize}
 \end{definition}
+
+Note that the glued operations are given by pairs of syntactic operations and
+\emph{semantic operations} for elimination forms, and pairs of syntactic
+operations and the \emph{identity} in the for introduction forms.
 
 Finally we can give an interpretation of base types in the gluing category in terms of the glued neutrals
 \begin{align*}
