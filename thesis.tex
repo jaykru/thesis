@@ -879,7 +879,7 @@ the reader to the standard references (\cite{pierce_types_2002},
 \end{definition}
 
 The typing rules are given as follows:
-\begin{definition}[Typing rules]
+\begin{definition}[Typing rules]\label{def:stlc_rules}
     \begin{mathpar}
     \inferrule[]{ \Gamma \vdash t : \tau_1 * \tau_2 }{ \Gamma \vdash \pi_{i} t: \tau_{i} } \and \inferrule{ \Gamma \vdash t_{i} : \tau_{i} }{(\tau_1,\tau_{2}) : \tau_{1} * \tau_{2}}\\
     \inferrule{ \Gamma \vdash t_{1} : \tau' \rightarrow \tau  \\  \Gamma \vdash t_{2} : \tau' }{ \Gamma \vdash t_{1} t_{2} : \tau } \and \inferrule{ \Gamma,x:\tau' \vdash t : \tau}{ \Gamma \vdash \abstr{x}{\tau'}{t} : \tau' \rightarrow \tau}\\
@@ -1603,7 +1603,7 @@ because they're ``stuck.''
   signatures of the required operations are exactly the same.)
 \end{remark}
 
-\subsection{Presheaves of syntax, defined over the category of renamings}
+\subsection{Presheaves of syntax over the category of renamings}
 \begin{definition}[A presheaf of open syntactic terms]
   For each type $\tau \in \types$, define
   \[
@@ -1627,9 +1627,10 @@ because they're ``stuck.''
 \begin{remark}[A lambda algebra on the presheaves of open syntax]\label{def:open_syn_algebra}
   The presheaves of open syntax \( \mathfrak{L}_{\tau}\) form the objects of an
   algebra for the lambda theory \( \mathcal{L}_{\alpha\beta\eta} \) defined in
-  \ref{def:alpha_beta_eta_theory}
+  Definition~\ref{def:alpha_beta_eta_theory}.
 
-  TODO
+  The operations are given by the usual typing rules for the simply typed lambda
+  calculus, as in Definition~\ref{def:stlc_rules}.
 \end{remark}
 
 \begin{remark}[A stratified-lambda algebra on the presheaves of open syntax]
@@ -1850,9 +1851,14 @@ because we don't need to interact much with the pullback. We define
 With our maps in hand, we can verify that they form a bijection:
 
 \begin{align*}
-  \psi_{2}(\phi_{2}(\delta)) &= \tm(\epsilon) \circ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \\
-  \psi_{1}(\phi_{1}(d)) &= \epsilon \circ ((d' \circ r) \times id) \\
+  \psi_{1}(\phi_{1}(d)) &= \epsilon \circ ((d' \circ r) \times \id) \\
+  \psi_{2}(\phi_{2}(\delta)) &= \tm(\epsilon) \circ ((i_{e} \circ \widetilde{\delta \circ i_{\pi}}) \times \id) \\
 \end{align*}
+
+Because we have defined \( d' \) by the universal property of the pullback, we
+have that \( d' \circ r = \tilde{d} \) whence
+\( \psi_{1}(\phi_{1}(d)) = \epsilon \circ (\tilde{d} \times \id) \) by the universal property of the
+transpose in \( \renhat \). The second equality is a little trickier.
 
 Both of these are the universal property for the relevant transpose up to
 squinting, so I think they should be the identity...
@@ -1957,6 +1963,33 @@ developed so far, and look ahead to where we're going.
 
 
 \subsection{Taking stock: charting a path to normalization}\label{sec:taking-stock}
+\newcommand{\opens}{\mathfrak{L}}
+
+For all this talk of normalization, and blood sweat and tears expended for its
+benefit, we haven't talked much about what a normalization function must be. Of
+course, it should take a lambda term to a normal form, but the desiderata are
+far more than that. The following are some of the important properties a
+normalization function \( \nf_{\tau},\Gamma : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should
+satisfy:
+\begin{itemize}
+  \item Compatibility with context renamings: For each morphism \( \rho : \Delta \rightarrow \Gamma \) of \( \ren \) and term \( t \in \opens_{\tau}(\Gamma)\),
+        \[ \rho^{*} \, \nf_{\tau,\Gamma}(t) = \nf_{\tau,\Delta}(\rho^{*} \, t)\]
+
+  \item Idempotency: For all normal terms \( n \in \nfpsh(\Gamma) \),
+  \[ \nf_{\tau,\Gamma}(n) = n \]
+
+  \item Semantics preservation: For all terms \( t \in \opens_{\tau}(\Gamma)\),
+  \[ \nf_{\tau,\Gamma} (t) \equiv_{\beta\eta} t\]
+
+  \item Equation preservation (TODO: not really sure I grok the important of
+        this one, whence the stupid name): For all terms
+        \( t, t' \in \opens_{\tau}(\Gamma) \),
+        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau,\Gamma} (t) = \nf_{\tau,\Gamma} (t') \]
+\end{itemize}
+
+[TODO: say here something about how the the proofs of each of these will ``fall
+out'' of the way we have constructed our normalization function with gluing. ]
+
 Begin by recalling that we can consider \( \tm : \cl \rightarrow \renhat \) as an
 \emph{interpretation} of the base types of the lambda-theory in \( \renhat \).
 We now have enough language to say exactly what it is we're hoping to acquire in
