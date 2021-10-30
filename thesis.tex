@@ -2036,10 +2036,25 @@ In this section we will actually define the reify-reflect maps for each type.
 
 \subsection{A promise kept: normalization}
 
-Having performed reify-reflect yoga at each type, we have established the
-desired diagram from section~\ref{sec:taking-stock}. We can now define a normalization function \( \nf_{\tau} : \mathfrak{L}_{\tau} \rightarrow \mathfrak{Nf}_{\tau}\) as the composite TODO
 
-\[ \mathfrak{L}_{\tau} \xrightarrow{\bar{l}_{\tau}} \tm(\tau) \xrightarrow{} \]
+Having performed reify-reflect yoga at each type, we have established the
+desired diagram from section~\ref{sec:taking-stock}. We can now define a normalization function \( \nf_{\tau}^{\Gamma} : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the composite
+
+\[ \mathfrak{L}_{\tau}(\Gamma) \xrightarrow{(\Gamma \vdash t : \tau) \mapsto [t/x]} \cl[\Gamma, \tau] \xrightarrow{\sem{-}} \renhat \downarrow \tm [\sem{\Gamma}, \sem{\tau}] \xrightarrow{(\uparrow_{\Gamma} v_{\Gamma})^{*} \circ {\downarrow^{\tau}}_{*}} \renhat \downarrow \tm [\yoneda(\Gamma), \eta_{\tau}] \xrightarrow[\cong]{(d,\delta) \mapsto d(\id)} \nfpsh(\Gamma) \]
+
+where
+\begin{align*}
+  \uparrow_{\Gamma} &= \prod_{(x:\tau)\in\Gamma} \uparrow^{\tau} \\
+
+  v_{\Gamma} &= \yoneda(\Gamma) \xrightarrow{\cong} \prod_{(x:\tau)\in\Gamma}\nu_{\tau} \xrightarrow{\prod_{(x:\tau)\in\Gamma} v_{\tau}} \prod_{(x:\tau)\in\Gamma}\mu_{\tau} \\
+\end{align*}
+
+recalling that \( \nu_{\tau} &\xrightarrow{v_{\tau}} \mu_{\tau}\) is the \( \var_{\tau} \)
+operation in the NN algebra on the gluing category.
+
+That is, since the final isomorphism in the composite is a form of the Yoneda
+lemma and hence given by evaluation at the identity, we have for each term $t$
+that \( \nf_{\tau,\Gamma}(t) = (\downarrow^{\tau} \sem{\Gamma \vdash t : \tau} \uparrow_{\Gamma} v_{\Gamma}) (\id_{\Gamma}) \)
 
 
 \chapter*{Conclusion}
