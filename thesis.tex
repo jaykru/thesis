@@ -47,7 +47,7 @@ citestyle=alphabetic
 \newtheorem{recall}{Recall}
 
 
-\theoremstyle{plain}
+\theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{corrolary}{Corrolary}
 
@@ -84,7 +84,6 @@ citestyle=alphabetic
 \setlength{\parskip}{0pt}
 
 \begin{document}
-
 \maketitle
 \frontmatter % this stuff will be roman-numbered
 \pagestyle{empty} % this removes page numbers from the frontmatter
@@ -1969,22 +1968,22 @@ For all this talk of normalization, and blood sweat and tears expended for its
 benefit, we haven't talked much about what a normalization function must be. Of
 course, it should take a lambda term to a normal form, but the desiderata are
 far more than that. The following are some of the important properties a
-normalization function \( \nf_{\tau},\Gamma : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should
+normalization function \( \nf_{\tau}^{\Gamma} : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should
 satisfy:
 \begin{itemize}
   \item Compatibility with context renamings: For each morphism \( \rho : \Delta \rightarrow \Gamma \) of \( \ren \) and term \( t \in \opens_{\tau}(\Gamma)\),
-        \[ \rho^{*} \, \nf_{\tau,\Gamma}(t) = \nf_{\tau,\Delta}(\rho^{*} \, t)\]
+        \[ \rho^{*} \, \nf_{\tau}^{\Gamma}(t) = \nf_{\tau}^{\Delta}(\rho^{*} \, t)\]
 
   \item Idempotency: For all normal terms \( n \in \nfpsh(\Gamma) \),
-  \[ \nf_{\tau,\Gamma}(n) = n \]
+  \[ \nf_{\tau}^{\Gamma}(n) = n \]
 
   \item Semantics preservation: For all terms \( t \in \opens_{\tau}(\Gamma)\),
-  \[ \nf_{\tau,\Gamma} (t) \equiv_{\beta\eta} t\]
+  \[ \nf_{\tau}^{\Gamma} (t) \equiv_{\beta\eta} t\]
 
   \item Equation preservation (TODO: not really sure I grok the importance of
         this one, whence the stupid name): For all terms
         \( t, t' \in \opens_{\tau}(\Gamma) \),
-        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau,\Gamma} (t) = \nf_{\tau,\Gamma} (t') \]
+        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau}^{\Gamma} (t) = \nf_{\tau}^{\Gamma} (t') \]
 \end{itemize}
 
 [TODO: say here something about how the the proofs of each of these will ``fall
@@ -1993,9 +1992,14 @@ out'' of the way we have constructed our normalization function with gluing. ]
 Begin by recalling that we can consider \( \tm : \cl \rightarrow \renhat \) as an
 \emph{interpretation} of the base types of the lambda-theory in \( \renhat \).
 We now have enough language to say exactly what it is we're hoping to acquire in
-this chapter. For each type \( \tau \in \types \), we wish to come up with maps to
-fill in the dotted arrows in the upper diagram such that the lower diagram
-commutes.
+this chapter. For each type \( \tau \in \types \), we wish to come up with maps
+\( \uparrow_{\tau}\) (pronounced ``reflect'', or for the LISPer ``unquote'') and
+\( \downarrow_{\tau}\) (pronounced ``reify'', or for the LISPer ``quote'') at each type
+\( \tau \in \types \) to fill in the dotted arrows in the upper diagram such that the
+lower diagram commutes. In classical approaches to normalization by evaluation,
+reflection can be construed as ``lifting'' syntax into a semantic domain, while
+reification is thought of as ``lowering'' semantic objects to a syntactic
+representation.
 
 % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDAsIlxcbWF0aGZyYWt7Un1fXFx0YXUiXSxbNCwwLCJcXG1hdGhmcmFre05mfV9cXHRhdSJdLFsyLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiXFx1cGFycm93X1xcdGF1IiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzEsMiwiXFxkb3duYXJyb3dfXFx0YXUiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XSxbMiwzLCJuX1xcdGF1Il0sWzAsMywibV9cXHRhdSIsMl0sWzEsMywicl9cXHRhdSIsMl1d
 \[\begin{tikzcd}
@@ -2034,46 +2038,68 @@ equality of morphisms \( t \equiv \nf(t)\) in the syntactic category.
 
 In this section we will actually define the reify-reflect maps for each type.
 
+\begin{definition}[Forgetful semantic projection]
+  The assignments
+  \begin{align*}
+    \pi : \gl &\rightarrow \cl \\
+    (R, q, \Delta) &\mapsto \Delta \\\\
+    \pi_{\textrm{mor}} : \gl[(R,q,\Delta), (R', q', \Delta')] &\rightarrow \cl[\Delta, \Delta'] \\
+    (d, \delta) &\mapsto \delta \\
+  \end{align*}
+
+  form a functor \( \gl \rightarrow \cl \) which \emph{forgets the syntax} leaving only
+  the semantics in objects and morphisms of the gluing category.
+\end{definition}
+
+The following theorem follows immediately from the definitions of the
+reification and reflection maps above, and will prove crucial when
+demonstrating that our normalization function computes normal forms with the
+same semantics as the input term.
+
 \begin{theorem}[Reification and reflection preserve semantics]\label{thm:reif-refl-sempres}
   For each type \( \tau \in \types \), we have the identities
   \[
     \pi (\uparrow^{\tau}) = \id_{\tau} = \pi(\downarrow^{\tau})
   \]
-
-  where \( \pi : \gl \rightarrow \cl \) is the forgetful projection into the semantics.
 \end{theorem}
 
-\subsection{A promise kept: normalization}
-
-
+\subsection{A promise kept: a normalization function}
 Having performed reify-reflect yoga at each type, we have established the
-desired diagram from section~\ref{sec:taking-stock}. We can now define a normalization function \( \nf_{\tau}^{\Gamma} : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the composite
+desired diagram from section~\ref{sec:taking-stock}. We can now define a
+function \( \nf_{\tau}^{\Gamma} : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the
+composite
 
-\[ \mathfrak{L}_{\tau}(\Gamma) \xrightarrow{(\Gamma \vdash t : \tau) \mapsto [t/x]} \cl[\Gamma, \tau] \xrightarrow{\sem{-}} \gl [\sem{\Gamma}, \sem{\tau}] \xrightarrow{(\uparrow_{\Gamma} v_{\Gamma})^{*} \circ {\downarrow^{\tau}}_{*}} \gl [\yoneda(\Gamma), \eta_{\tau}] \xrightarrow[\cong]{(d,\delta) \mapsto d(\id_{\Gamma})} \nfpsh(\Gamma) \]
+\[ \mathfrak{L}_{\tau}(\Gamma) \xrightarrow{l_{\tau}} \tm(\tau)(\Gamma) \xrightarrow{\sem{-}} \gl [\sem{\Gamma}, \sem{\tau}] \xrightarrow{(\uparrow_{\Gamma} v_{\Gamma})^{*} \circ {\downarrow^{\tau}}_{*}} \gl [\yoneda(\Gamma), \eta_{\tau}] \xrightarrow[\cong]{(d,\delta) \mapsto d(\id_{\Gamma})} \nfpsh(\Gamma) \]
 
 where
 \begin{align*}
   \uparrow_{\Gamma} &= \prod_{(x:\tau)\in\Gamma} \uparrow^{\tau} \\
-
   v_{\Gamma} &= \yoneda(\Gamma) \xrightarrow{\cong} \prod_{(x:\tau)\in\Gamma}\nu_{\tau} \xrightarrow{\prod_{(x:\tau)\in\Gamma} v_{\tau}} \prod_{(x:\tau)\in\Gamma}\mu_{\tau} \\
 \end{align*}
 
-recalling that \( \nu_{\tau} &\xrightarrow{v_{\tau}} \mu_{\tau}\) is the \( \var_{\tau} \)
+recalling that \( \nu_{\tau} \xrightarrow{v_{\tau}} \mu_{\tau}\) is the \( \var_{\tau} \)
 operation in the NN algebra on the gluing category.
 
 That is, since the final isomorphism in the composite is a form of the Yoneda
 lemma and hence given by evaluation at the identity, we have for each term $t$
 that \( \nf_{\tau,\Gamma}(t) = (\downarrow^{\tau} \sem{\Gamma \vdash t : \tau} \uparrow_{\Gamma} v_{\Gamma}) (\id_{\Gamma}) \)
 
-We now establish the various correctness results we hinted at above.
-
+The function we've defined takes open terms to normal forms, but it remains to
+establish the various correctness properties characterizing a normalization
+function. The laborious setup work of this chapter turns out to allow us to do
+so with ease.
+a
+\subsection{Reaping what we've sown: easy proofs of correctness properties}
 \begin{theorem}[Normalization respects computational equality]
   For every pair of terms \( t, t' \in \mathfrak{L}_{\tau}(\Gamma) \), if
-  \( t \equiv_{\beta\eta\alpha} t' \) then \( \nf(t)_{\tau}^{\Gamma} = \nf_{\tau}^{\Gamma}(t')\).
+  \( t \equiv_{\beta\eta\alpha} t' \) then \( {\nf}\,_{\tau}^{\Gamma}(t) = \nf\,_{\tau}^{\Gamma}(t')\).
 \end{theorem}
 \begin{proof}
-  \( \beta\eta\alpha \)-equivalent terms have the same denotation ??? TODO so that the
-  equality follows directly from the definition of the normalization function.
+  \( \beta\eta\alpha \)-equivalent terms have the same interpretation in the classifying
+  category, because the classifying category is quotiented by definitional
+  equality. Symbolically, we have \( l_{\tau}(t) = l_{\tau}(t')\) from which the
+  required equality is immediate by the definition of the normalization function
+  as a composite starting with \( l_{\tau}\).
 \end{proof}
 
 \begin{theorem}[Semantics preservation]
@@ -2088,11 +2114,9 @@ We now establish the various correctness results we hinted at above.
     \end{tikzcd}\]
 \end{theorem}
 \begin{proof}
+
   Follows by Theorem~\ref{thm:reif-refl-sempres}.
 \end{proof}
-
-
-
 
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
