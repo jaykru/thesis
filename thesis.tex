@@ -2062,6 +2062,9 @@ same semantics as the input term.
     \pi (\uparrow^{\tau}) = \id_{\tau} = \pi(\downarrow^{\tau})
   \]
 \end{theorem}
+\begin{proof}
+  The semantic component of the glued maps was defined to be the identity.
+\end{proof}
 
 \subsection{A promise kept: a normalization function}
 Having performed reify-reflect yoga at each type, we have established the
@@ -2102,6 +2105,18 @@ a
   as a composite starting with \( l_{\tau}\).
 \end{proof}
 
+\begin{theorem}\label{sem-pi-is-id-endofunctor}
+  The composite \( \pi \circ \sem{-} : \cl \rightarrow \cl \) is the identity endofunctor on \( \cl \).
+\end{theorem}
+\begin{proof}
+  This follows from Theorem~\ref{thm:classifying alg theory}. In particular,
+  since \( \cl \) is the initial category with a model of the lambda calculus,
+  we have that there is a unique functor \( \cl \rightarrow \cl \) preserving the
+  cartesian closed structure and the lambda algebra. The identity preserves the
+  cartesian closed structure and the lambda algebra, so that uniqueness forces
+  the desired equality.
+\end{proof}
+
 \begin{theorem}[Semantics preservation]
   The following diagram commutes for every type \( \tau \in \types \):
   % https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXG1hdGhmcmFre0x9X1xcdGF1Il0sWzIsMCwiXFxtYXRoZnJha3tOZn1fXFx0YXUiXSxbMSwxLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMCwxLCJcXHRleHRybXtuZn1fXFx0YXUiXSxbMCwyLCJsX1xcdGF1IiwyXSxbMSwyLCJuX1xcdGF1Il1d
@@ -2114,8 +2129,20 @@ a
     \end{tikzcd}\]
 \end{theorem}
 \begin{proof}
-
-  Follows by Theorem~\ref{thm:reif-refl-sempres}.
+  We follow Fiore in offering a sketch (for now: TODO). This result follows by
+  Theorem~\ref{thm:reif-refl-sempres} and some consideration about the content
+  of the normalization function. The normalization function takes a term
+  \( \Gamma \vdash t : \tau \) to its interpretation \( [t/x] \) in the classifying category
+  by \( l_{\tau} \), and then interprets the semantics into the gluing category by
+  \( \sem{-} : \cl \rightarrow \gl \); finally, the function performs some adjustments by
+  way of (products of) \( \downarrow_{\tau}\) and (product of) \( \uparrow_{\tau}\) and then projects
+  out the semantic part of the result by the homomorphism \( n_{\tau} \).
+  Theorem~\ref{sem-pi-is-id-endofunctor} says that extending the interpretation
+  preserves the semantics, and Theorem~\ref{thm:reif-refl-sempres} says that the
+  reification and reflection maps don't touch the semantic component. There
+  remains a question as to what the map \( v_{\Gamma} \) does, which Fiore doesn't
+  address, TODO. But otherwise, that is just about the proof. Also, can I
+  actually say that \( n_{\tau} \) projects out the semantic component?
 \end{proof}
 
 \chapter*{Conclusion}
