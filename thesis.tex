@@ -42,14 +42,10 @@ citestyle=alphabetic
 \newtheorem{joke}{Joke}
 \newtheorem{notation}{Notation}
 \newtheorem{remark}{Remark}
-
-\theoremstyle{remark}
+\newtheorem{lemma}{Lemma}
 \newtheorem{recall}{Recall}
-
-
-\theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
-\newtheorem{corrolary}{Corrolary}
+\newtheorem{corollary}{Corollary}
 
 \include{autodelims}
 \include{macros}
@@ -139,6 +135,12 @@ citestyle=alphabetic
 
 I don't know what to put here, but this is certainly a funny quote that should
 find a home somewhere in the thesis.
+
+\chapter*{Notation}
+Following the great masters\footnote{\(\mathfrak{Kale\,\, Ormsby}\)}, the face
+\( \mathfrak{Mathfrak} \) is used liberally and wherever possible without any
+particular convention.
+
 
 % \chapter*{List of Abbreviations}
 % \begin{table}[h]
@@ -492,7 +494,7 @@ importance is that it teaches us that the canonical elementary language of a
 category is purpose-built so that its models are precisely set-valued functors
 out of the category in question.
 
-% TODO: need to have some corrolary or theorem saying how the classifying
+% TODO: need to have some corollary or theorem saying how the classifying
 % category acts on the clones by substitution of the term
 
 % TODO: must include Theorem 4.2.12 from Taylor, it is essential to the
@@ -1030,16 +1032,16 @@ terms identified according to the usual \( \beta\eta\alpha \) conversion rules.
 \begin{theorem}[Lambda calculus is a lambda theory with beta-eta]
 \end{theorem}
 
-\begin{corrolary}[The classifying category of the lambda calculus is cartesian closed]
+\begin{corollary}[The classifying category of the lambda calculus is cartesian closed]
   Immediate by the previous result and Theorem~\ref{thm:rawbetaetaisccs}.
-\end{corrolary}
+\end{corollary}
 
-\begin{corrolary}[$\lambda$-algebras are diagrams in cartesian closed categories]
+\begin{corollary}[$\lambda$-algebras are diagrams in cartesian closed categories]
   Immediate by the previous result and Theorem~\ref{thm:classifying alg theory}.
-\end{corrolary}
+\end{corollary}
 
-\begin{corrolary}[An interpretation of base types in a CCC gives rise to an interpretation of $\lambda$-terms]
-\end{corrolary}
+\begin{corollary}[An interpretation of base types in a CCC gives rise to an interpretation of $\lambda$-terms]
+\end{corollary}
 
 This final result will prove important in \ref{chapter:gluing}
 
@@ -1201,9 +1203,6 @@ let nbe (gamma : context) (tau : ty) : syn -> syn =
 holding each of us together\\
 I slept through July\\
 while you made lines in the heather}{Fleet Foxes, ``Lorelai''}
-
-
-% \epigraph{``i really thought u meant arts and crafts glue''}{new gluing understander}
 
 This chapter will consider the normalization problem for the simply typed lambda
 calculus using all of the magic technology we've developed so far. Normalization
@@ -1899,7 +1898,8 @@ semantics in the classifying category.
 	\arrow[from=2-3, to=2-1]
 	\arrow["\semproj", maps to, from=3-3, to=3-5]
 	\arrow["\synproj"', maps to, from=3-3, to=3-1]
-\end{tikzcd}\]
+\end{tikzcd}
+\]
 
 and satisfies the following form of the Yoneda lemma:
 % https://q.uiver.app/?q=WzAsNixbMCwwLCIoZCxcXGRlbHRhKSJdLFsyLDAsImQoXFxpZCkiXSxbMCwxLCJcXGdsW1xcb3ZlcmxpbmV7XFx5b25lZGEoLSl9LCAoUixxLFxcRGVsdGEpXSJdLFsyLDEsIlIoLSkiXSxbMSwyLCJcXGNsW1xcaW90YSgtKSxcXERlbHRhXT1cXHRtKFxcRGVsdGEpIl0sWzEsMV0sWzAsMSwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFsyLDMsIlxcY29uZyJdLFszLDQsInEiXSxbMiw0LCJcXHNlbXByb2oiLDJdXQ==
@@ -2080,8 +2080,28 @@ the normalization function computes for a term $t$ a normal form with the same
 equality of morphisms \( t \equiv \nf(t)\) in the syntactic category.
 
 \subsection{Reify-reflect yoga}
-
 In this section we will actually define the reify-reflect maps for each type.
+
+We define the reify-reflect maps by induction on the type-former structure of
+\( \types \):
+\begin{definition}[Reify-reflect yoga]
+  \begin{itemize}
+    \item For a base type \( \theta \in T \), we define \( \uparrow^{\theta} = \id_{\mu_{\theta}} \) and
+    \( \downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \)
+    \item For the empty product/unit type \( \termob \), we define \( \uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and \( \downarrow^{\termob} \termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob}\)
+    \item For types \( \tau, \tau' \in \types\), we define
+    \[ \uparrow^{\tau} : \mu_{\tau*\tau'} \rightarrow \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl}\] as the pair of the following composites:
+    \begin{align*}
+      &\mu_{\tau*\tau'} \xrightarrow{(\fst_{\tau}^{\tau'}, \pi_{1})} \mu_{\tau} \xrightarrow{\uparrow^{\tau}} \sem{\tau}_{\gl} \\
+      &\mu_{tau*\tau'} \xrightarrow{(\snd_{\tau'}^{\tau}, \pi_{2})} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl} \\
+    \end{align*}
+
+    and define \( \downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) as the composite
+    \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\downarrow^{\tau}\times \downarrow^{\tau'}} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)} \eta_{\tau*\tau'} \]
+
+    \item Exponentials here
+  \end{itemize}
+\end{definition}
 
 \begin{definition}[Forgetful semantic projection]
   The assignments
@@ -2112,10 +2132,6 @@ same semantics as the input term.
 \end{proof}
 
 \subsection{A promise kept: a normalization function}
-\newcommand{\semproj}{\pi_{\textrm{sem}}}
-\newcommand{\synproj}{\pi_{\textrm{syn}}}
-
-
 Having performed reify-reflect yoga at each type, we have established the
 desired diagram from section~\ref{sec:taking-stock}. We can now define a
 function \( \nf_{\tau}^{\Gamma} : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the
@@ -2140,7 +2156,7 @@ The function we've defined takes open terms to normal forms, but it remains to
 establish the various correctness properties characterizing a normalization
 function. The laborious setup work of this chapter turns out to allow us to do
 so with ease.
-a
+
 \subsection{Reaping what we've sown: easy proofs of correctness properties}
 \begin{theorem}[Normalization respects computational equality]
   For every pair of terms \( t, t' \in \mathfrak{L}_{\tau}(\Gamma) \), if
@@ -2154,9 +2170,9 @@ a
   as a composite starting with \( l_{\tau}\).
 \end{proof}
 
-\begin{theorem}\label{thm:sem-pi-is-id-endofunctor}
-  The composite \( \pi \circ \sem{-} : \cl \rightarrow \cl \) is the identity endofunctor on \( \cl \).
-\end{theorem}
+\begin{lemma}\label{lem:sem-pi-is-id-endofunctor}
+  The composite \( \semproj \circ \sem{-} : \cl \rightarrow \cl \) is the identity endofunctor on \( \cl \).
+\end{lemma}
 \begin{proof}
   This follows from Theorem~\ref{thm:classifying alg theory}. In particular,
   since \( \cl \) is the initial category with a model of the lambda calculus,
@@ -2173,16 +2189,17 @@ a
       {\mathfrak{L}_\tau} && {\mathfrak{Nf}_\tau} \\
       & {\mathfrak{Tm}(\tau)}
       \arrow["{\textrm{nf}_\tau}", from=1-1, to=1-3]
-      \arrow["{l_\tau}"', from=1-1, to=2-2]
+      \arrow["{l_\taua}"', from=1-1, to=2-2]
       \arrow["{n_\tau}", from=1-3, to=2-2]
     \end{tikzcd}\]
 \end{theorem}
 \begin{proof}
   Per the version of the Yoneda lemma from Definition~\ref{def:yonedabar}, we
-  have that the composite \( n_{\tau} \circ \nf_{\tau}\) is the semantic projection
+  have that the composite \( n_{\tau} \circ \nf_{\tau}\) TODO is this right? should
+  actually be the yoneda iso composed with n_t. is the semantic projection
   \( \semproj \). So it suffices to show that
   \( \semproj (\downarrow^{\tau} \sem{\Gamma \vdash t : \tau}_{\gl} (\uparrow_{\Gamma}v_{\Gamma}) ) = \sem{\Gamma \vdash t : \tau}_{\cl} \).
-  By Theorem~\ref{thm:sem-pi-is-id-endofunctor}, the interpretation of terms in
+  By Lemma~\ref{lem:sem-pi-is-id-endofunctor}, the interpretation of terms in
   the gluing category extends the interpretation of terms in the classifying
   category, so that
   \( \semproj (\sem{\Gamma \vdash t : \tau}_{\gl}) = \sem{\Gamma \vdash t : \tau}_{\cl}\). Now the desired
@@ -2191,6 +2208,8 @@ a
   semantic component, by Theorem~\ref{thm:reif-refl-sempres} and
   Definition~\ref{def:glued-algebra}.
 \end{proof}
+
+\section{Looking forward: ``blah'' by gluing}
 
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
