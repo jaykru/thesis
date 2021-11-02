@@ -2082,9 +2082,8 @@ equality of morphisms \( t \equiv \nf(t)\) in the syntactic category.
 \subsection{Reify-reflect yoga}
 In this section we will actually define the reify-reflect maps for each type.
 
-We define the reify-reflect maps by induction on the type-former structure of
-\( \types \):
 \begin{definition}[Reify-reflect yoga]
+  The maps are defined by induction on the type structure of \( \types \):
   \begin{itemize}
     \item For a base type \( \theta \in T \), we define \( \uparrow^{\theta} = \id_{\mu_{\theta}} \) and
     \( \downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \)
@@ -2097,9 +2096,17 @@ We define the reify-reflect maps by induction on the type-former structure of
     \end{align*}
 
     and define \( \downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) as the composite
-    \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\downarrow^{\tau}\times \downarrow^{\tau'}} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)} \eta_{\tau*\tau'} \]
+    \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\downarrow^{\tau}\times \downarrow^{\tau'}} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)}     \eta_{\tau*\tau'} \]
 
-    \item Exponentials here
+    \item For types \( \tau, \tau' \in \types \), we define the reflection map
+    \[ \uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
+    as the exponential transpose of the composite
+    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{\app_{\tau'}^{\tau}, \epsilon} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
+
+    and the reification map
+    \[ \downarrow^{\tau\rightarrow\tau'} : {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \rightarrow \eta_{\tau \rightarrow \tau'} \] as the composite
+    \[ {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \xrightarrow{(\downarrow^{\tau'})^{(\uparrow^{\tau} v_{\tau})}} {\eta_{\tau'}}^{\nu_{\tau}} \xrightarrow[\cong]{(\abs_{\tau\rightarrow\tau'} , \id)} \eta_{\tau\rightarrow\tau'}\]
+    where \( v_{\tau} = (\var_{\tau} , \id) : \nu_{\tau} \rightarrow \mu_{\tau}\).
   \end{itemize}
 \end{definition}
 
@@ -2189,14 +2196,14 @@ so with ease.
       {\mathfrak{L}_\tau} && {\mathfrak{Nf}_\tau} \\
       & {\mathfrak{Tm}(\tau)}
       \arrow["{\textrm{nf}_\tau}", from=1-1, to=1-3]
-      \arrow["{l_\taua}"', from=1-1, to=2-2]
+      \arrow["{l_\tau}"', from=1-1, to=2-2]
       \arrow["{n_\tau}", from=1-3, to=2-2]
     \end{tikzcd}\]
 \end{theorem}
 \begin{proof}
   Per the version of the Yoneda lemma from Definition~\ref{def:yonedabar}, we
   have that the composite \( n_{\tau} \circ \nf_{\tau}\) TODO is this right? should
-  actually be the yoneda iso composed with n_t. is the semantic projection
+  actually be the yoneda iso composed with $n_\tau$. is the semantic projection
   \( \semproj \). So it suffices to show that
   \( \semproj (\downarrow^{\tau} \sem{\Gamma \vdash t : \tau}_{\gl} (\uparrow_{\Gamma}v_{\Gamma}) ) = \sem{\Gamma \vdash t : \tau}_{\cl} \).
   By Lemma~\ref{lem:sem-pi-is-id-endofunctor}, the interpretation of terms in
