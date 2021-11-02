@@ -2034,10 +2034,9 @@ satisfy:
 [TODO: say here something about how the proofs of each of these will ``fall
 out'' of the way we have constructed our normalization function with gluing. ]
 
-Begin by recalling that we can consider \( \tm : \cl \rightarrow \renhat \) as an
-\emph{interpretation} of the base types of the lambda-theory in \( \renhat \).
 We now have enough language to say exactly what it is we're hoping to acquire in
-this chapter. For each type \( \tau \in \types \), we wish to come up with maps
+this chapter. Let \( \tau \in \types \) and suppose
+\( \sem{\tau}_{\gl} = (\mathfrak{R}_{\tau}, q, \tau) \). We wish to come up with maps
 \( \uparrow_{\tau}\) (pronounced ``reflect'', or for the LISPer ``unquote'') and
 \( \downarrow_{\tau}\) (pronounced ``reify'', or for the LISPer ``quote'') at each type
 \( \tau \in \types \) to fill in the dotted arrows in the upper diagram such that the
@@ -2087,7 +2086,7 @@ In this section we will actually define the reify-reflect maps for each type.
   \begin{itemize}
     \item For a base type \( \theta \in T \), we define \( \uparrow^{\theta} = \id_{\mu_{\theta}} \) and
     \( \downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \)
-    \item For the empty product/unit type \( \termob \), we define \( \uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and \( \downarrow^{\termob} \termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob}\)
+    \item For the empty product/unit type \( \termob \), we define \( \uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and \( \downarrow^{\termob} = (\termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob})\)
     \item For types \( \tau, \tau' \in \types\), we define
     \[ \uparrow^{\tau} : \mu_{\tau*\tau'} \rightarrow \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl}\] as the pair of the following composites:
     \begin{align*}
