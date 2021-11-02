@@ -1495,7 +1495,7 @@ of presheaves, c.f. page 46 of \cite{mac_lane_sheaves_1992}.
 
 The presheaves of typed variables together with the simplified view of
 exponentials in $\renhat$ allow us to define algebras for a new lambda theory
-\( NN \) of stratified \emph{neutrals and normals} defined in the previous
+\( \NN \) of stratified \emph{neutrals and normals} defined in the previous
 section, which allow for a more fine-grained discussion of normal terms.
 
 \subsection{Stratifying neutral and normal terms}
@@ -1523,7 +1523,7 @@ because they're ``stuck.''
   because we differentiate between neutral terms of type \( \tau \) and normal
   terms of type \( \tau \).
 
-  We define the lambda theory \( NN \) as the algebraic theory (c.f.
+  We define the lambda theory \( \NN \) as the algebraic theory (c.f.
   Theorem~\ref{thm:canonical_elementary_language}) corresponding to the category
   with the following objects and generating morphisms:
   \begin{enumerate}
@@ -1551,7 +1551,7 @@ because they're ``stuck.''
   Any algebra \( \{ (\mathfrak{V}_{\tau}, \mathfrak{X}_{\tau}) \}_{\tau \in \types}\) of the
   lambda theory \( \mathcal{L}_{\alpha\beta\eta}\) (TODO: make this terminology consistent)
   from Chapter~\ref{chapter:stlc} gives rise to an algebra $\mathfrak{A}$ of the
-  theory \( NN \) by setting
+  theory \( \NN \) by setting
   \begin{align*}
     \mathfrak{A}_{\mathcal{M}_{\tau}} &= \mathfrak{X}_{\tau} \\
     \mathfrak{A}_{\mathcal{N}_{\tau}} &= \mathfrak{X}_{\tau} \\
@@ -1589,7 +1589,7 @@ because they're ``stuck.''
 
 \begin{remark}\label{rmk:tm-nn-alg}
   The lambda algebra just defined induces, by
-  Remark~\ref{rmk:upgrade_to_stratified}, an NN algebra over \( \tm \) with the
+  Remark~\ref{rmk:upgrade_to_stratified}, an \( \NN \)-algebra over \( \tm \) with the
   assignment of sorts
   \begin{align*}
     \mathcal{V}_{\tau} &\mapsto \tm(\tau) \\
@@ -1662,7 +1662,7 @@ renaming action as before.
 
 After teasing out the latent binding structure enjoyed by the category of
 presheaves, we will find in Definition~\ref{def:strat-lam-alg}that the presheaves of neutrals and normals give rise
-to a \( NN \) algebra over \( \renhat \).
+to a \( \NN \)-algebra over \( \renhat \).
 
 \begin{remark}[Why the syntactic category just won't do]
   talk about why neutrals and normals can't support a substitution action
@@ -1671,7 +1671,7 @@ to a \( NN \) algebra over \( \renhat \).
 \subsection{A stratified lambda-algebra of neutrals and normals in Renhat}
 \begin{definition}[A stratified lambda-algebra of neutrals and normals]\label{def:strat-lam-alg}
   The presheaves of neutrals and normals defined above give rise to an algebra
-  of the theory \( NN \) in \( \renhat\). The sorts \( \mathcal{N}_{\tau}\) (resp.
+  of the theory \( \NN \) in \( \renhat\). The sorts \( \mathcal{N}_{\tau}\) (resp.
   \( \mathcal{M}_{\tau} \)) are taken to be the presheaves \( \mathfrak{Nf}_{\tau}\)
   (resp.\( \mathfrak{Ne}_{\tau} \), and the sorts \( \mathcal{V}_{\tau}\) are taken to
   be the representable/variable presheaves \( \mathfrak{V}_{\tau} \) defined in Definition~\ref{def:varpsh}.
@@ -1681,8 +1681,8 @@ to a \( NN \) algebra over \( \renhat \).
 \end{definition}
 
 \begin{remark}\label{rmk:interpretations-into-tm}
-  The NN-algebra over \( (\tm, \tm) \) together with the NN-algebra
-  \( (\mathfrak{Ne}, \mathfrak{Nf}) \) just presented and the NN-algebra on
+  The \( \NN \)-algebra over \( (\tm, \tm) \) together with the \( \NN\)-algebra
+  \( (\mathfrak{Ne}, \mathfrak{Nf}) \) just presented and the \( \NN\)-algebra on
   \( \mathfrak{L} \) induce interpretations \( l : \mathfrak{L} \rightarrow \tm \) and
   \( (m,n) : (\mathfrak{Ne}, \mathfrak{Nf}) \rightarrow (\tm, \tm) \) such that the
   following diagram commutes:
@@ -1715,7 +1715,7 @@ precomposed with the relevant inclusion.
 \begin{theorem}[Exponentials in the gluing category]
   For objects \( (R_{1}, q_{1}, \Delta_{1})\) and \( (R_{2},q_{2},\Delta_{2})\) in
   \( \gl \), the exponential \( (R_{2}, q_{2}, \Delta_{2})^{(R_{1}, q_{1}, \Delta_{1})}\)
-  is \( (R, q, \Delta) \) in the pullback diagram
+  is \( (R, q, {\Delta_{2}}^{\Delta_{1}}) \) in the pullback diagram
   \[\begin{tikzcd}
       R && {{R_2}^{R_1}} \\
       \\
@@ -1939,19 +1939,19 @@ of terms in the classifying category.
   \[ \eta_{\tau} = (\norm, \norm \xrightarrow{n_{\tau}} \tm(\tau), \tau) \]
 \end{definition}
 
-With these glued objects, we can define an \( NN \) algebra over these families
+With these glued objects, we can define an \( \NN \)-algebra over these families
 of glued variables, glued neutrals, and glued normals. In turn
 Definition~\ref{def:term model} will allow us to leverage this to interpret
 substitutions as gluing category morphisms between these glued objects. The
 algebra we define will be constructed by ``gluing together'' the syntactic
-\( NN \) algebra in \( \renhat \) together with the semantic \( NN \)
-algebra\footnote{i.e., the one induced by Remark~\ref{rmk:upgrade_to_stratified}
-  and the usual lambda algebra in the classifying category} in the classifying
-category.
+\( \NN \)-algebra in \( \renhat \) together with the semantic
+\( \NN \)-algebra\footnote{i.e., the one induced by
+  Remark~\ref{rmk:upgrade_to_stratified} and the usual lambda algebra in the
+  classifying category} in the classifying category.
 
 \begin{definition}[An algebra of stratified neutrals and normals in the gluing category]\label{def:glued-algebra}
   The family \( \{ (\mu_{\tau}, \eta_{\tau})\}_{\tau\in\types}\) define the objects of an
-  \( NN \)-algebra with the operations given as follows:
+  \( \NN \)-algebra with the operations given as follows:
   \begin{itemize}
     \item For each \( \tau, \tau' \in \types\), the pair of maps
     \[ (\var_{\tau} : \varpsh \rightarrow \mathfrak{Ne}_{\tau} , \id_{\sem{\tau}})\]
@@ -2100,7 +2100,7 @@ In this section we will actually define the reify-reflect maps for each type.
     \item For types \( \tau, \tau' \in \types \), we define the reflection map
     \[ \uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
     as the exponential transpose of the composite
-    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{\app_{\tau'}^{\tau}, \epsilon} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
+    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
 
     and the reification map
     \[ \downarrow^{\tau\rightarrow\tau'} : {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \rightarrow \eta_{\tau \rightarrow \tau'} \] as the composite
@@ -2139,7 +2139,7 @@ same semantics as the input term.
 
 \subsection{A promise kept: a normalization function}
 Having performed reify-reflect yoga at each type, we have established the
-desired diagram from section~\ref{sec:taking-stock}. We can now define a
+desired diagram from Section~\ref{sec:taking-stock}. We can now define a
 function \( \nf_{\tau}^{\Gamma} : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the
 composite
 
@@ -2152,7 +2152,7 @@ where
 \end{align*}
 
 recalling that \( \nu_{\tau} \xrightarrow{v_{\tau}} \mu_{\tau}\) is the \( \var_{\tau} \)
-operation in the NN algebra on the gluing category.
+operation in the \( \NN \)-algebra on the gluing category.
 
 That is, since the final isomorphism in the composite is a form of the Yoneda
 lemma and hence given by evaluation at the identity, we have for each term $t$
@@ -2201,9 +2201,9 @@ so with ease.
 \end{theorem}
 \begin{proof}
   Per the version of the Yoneda lemma from Definition~\ref{def:yonedabar}, we
-  have that the composite \( n_{\tau} \circ \nf_{\tau}\) TODO is this right? should
-  actually be the yoneda iso composed with $n_\tau$. is the semantic projection
-  \( \semproj \). So it suffices to show that
+  have that the composite \( n_{\tau} \circ ((d, \delta) \mapsto d(\id))\) of the gluing map for
+  normal forms with the isomorphism witnessing the Yoneda lemma is the semantic
+  projection \( \semproj \). So it suffices to show that
   \( \semproj (\downarrow^{\tau} \sem{\Gamma \vdash t : \tau}_{\gl} (\uparrow_{\Gamma}v_{\Gamma}) ) = \sem{\Gamma \vdash t : \tau}_{\cl} \).
   By Lemma~\ref{lem:sem-pi-is-id-endofunctor}, the interpretation of terms in
   the gluing category extends the interpretation of terms in the classifying
