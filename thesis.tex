@@ -2134,7 +2134,31 @@ same semantics as the input term.
   \]
 \end{theorem}
 \begin{proof}
-  The semantic component of the glued maps was defined to be the identity.
+  The proof proceeds, like the definitions of the reification/reflection maps, by induction on the structure of types:
+  \begin{itemize}
+    \item For a base type \( \theta \in T\), the reflection map is
+          \( \uparrow^{\theta} = \id_{\mu_{\theta}}\). By functoriality of the interpretation
+          \( \sem{-}_\gl : \cl \rightarrow \gl \) and
+          Lemma~\ref{lem:sem-pi-is-id-endofunctor}, we have that
+          \( \semproj (\id_{\mu_{\theta}}) = \id_{\sem{\theta}_{\cl}}\), as required. The
+          reification map is
+          \( \downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \) whose semantic
+          component is the identity by Definition~\ref{def:glued-algebra}.
+
+    \item For the empty product/unit type \( \termob \), the reflection map
+          \( \uparrow^{\termob} \) is the unique arrow from \( \mu_{\termob}\) into the
+          terminal object of the gluing category. The interpetation
+          \( \sem{-}_{\gl}\) preserves the cartesian closed structure so that
+          \( \mu_{\theta} = \termob \) and unique arrow in question is forced to be the
+          identity in \( \gl \), whose semantic component is also the identity
+          in \( \cl \).
+
+          The reification map \( \downarrow^{\termob} \) is the \( \unit \) operation for
+          the glued algebra and has the identity as its semantic component by
+          definition.
+    \item For the \( \tau, \tau' \in \types\), the reflection map for the product
+          \( \tau \times \tau'\) is \( \uparrow^{\tau\times\tau'} \)
+  \end{itemize}
 \end{proof}
 
 \subsection{A promise kept: a normalization function}
