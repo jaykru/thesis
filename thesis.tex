@@ -30,7 +30,6 @@ citestyle=alphabetic
 \addbibresource{thesis.bib}
 
 \usepackage{hyperref}
-\usepackage{extdash}
 
 \hypersetup{
   colorlinks,
@@ -1347,7 +1346,7 @@ With the category of renamings in hand, we can now introduce as a comma the
 gluing category which will star as an instrumental semantic domain in our
 development. To define it, we first need to define a functor along which to take
 the comma. In a loose sense that will be explained in due course, this functor
-defines \( \ren \)\=/presheaves of \emph{open} (semantic) terms.
+defines \( \ren \)-presheaves of \emph{open} (semantic) terms.
 \subsubsection{The relative hom functor}
 Every functor \( \varsigma : \mathcal{R} \rightarrow \mathcal{S} \) induces the following
 situation:
@@ -1390,15 +1389,15 @@ renamings along the relative hom functor \( \tm \) just defined.
 \begin{definition}[The gluing category]
   The gluing category \( \gl \) is defined as the comma \( \renhat \downarrow \tm \).
   Explicitly, its objects are triples
-  \( (D : \renhat, q : D \Rightarrow \tm(\Delta), \Delta : \cl) \). The objects of the gluing
+  \( (R : \renhat, q : R \Rightarrow \tm(\Delta), \Delta : \cl) \). The objects of the gluing
   category are \emph{proof relevant logical predicates}, in a sense that will be
   more clear after a digression to follow. Following the definition of the comma
-  construction, the morphisms \( (D, q, \Delta) \rightarrow (D', q', \Delta') \) are pairs
-  $(d : D \rightarrow D', \delta: \cl[\Delta', \Delta])$ are pairs of a $\renhat$ natural transformation
+  construction, the morphisms \( (R, q, \Delta) \rightarrow (R', q', \Delta') \) are pairs
+  $(d : R \rightarrow R', \delta: \cl[\Delta', \Delta])$ are pairs of a $\renhat$ natural transformation
   and a substitution making the following diagram commute:
   % https://q.uiver.app/?q=WzAsNCxbMCwwLCJEIl0sWzIsMCwiRCciXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhKSJdLFsyLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGEnKSJdLFswLDEsImQiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXGRlbHRhKSJdLFswLDIsInFfe1xcRGVsdGF9IiwyXSxbMSwzLCJxX3tcXERlbHRhJ30iXV0=
   \[\begin{tikzcd}
-      D && {D'} \\
+      R && {R'} \\
       \\
       {\mathfrak{Tm}(\Delta)} && {\mathfrak{Tm}(\Delta')}
       \arrow["d", from=1-1, to=1-3]
@@ -1408,7 +1407,24 @@ renamings along the relative hom functor \( \tm \) just defined.
     \end{tikzcd}\]
 \end{definition}
 
-We will better understand what all this means after understanding how the gluing
+We can get a foothold understanding of the objects of the gluing category by
+considering them as a presheaf together with, for each \( \Gamma \), an
+interpretation \( q_{\Gamma} \) of the sets of the presheaf into the set of semantic
+terms \( \tm(\Delta)(\Gamma)\), such that the interpretation commutes with renamings, in a
+way that will be further explained in just a bit.
+
+Holding off our desire to further understand the objects, we can already
+understand the morphisms. A morphism \( (d, \delta) \) is a natural transformation of
+\(\ren \)-presheaves glued together with a substitution, such that performing
+on \( R \) the transformation \( d \) and then looking at the \emph{semantics}
+of the resultant presheaf \( R' \) by interpreting along \( q' \) is the same as
+interpreting the semantics of the original presheaf \( R \) along \( q \) and
+then performing a semantic transformation by substituting with \( \delta \). This
+intuition will become more clear when we define gluing objects over
+\emph{presheaves of syntax} for which the interpretation \( q : R \rightarrow \tm(\Delta)\) is
+the actual \emph{interpretation of syntax} in the classifying category.
+
+We can now better understand the objects by understanding how the gluing
 category subsumes the notion of variable-arity Kripke relations.
 
 \subsubsection{The subcategory of (ordinary) variable-arity Kripke relations}
@@ -1525,17 +1541,18 @@ because they're ``stuck.''
 \end{definition}
 
 \begin{definition}[Algebraic theory of neutrals and normals]\label{def:theory_neut_norm}
-  The judgments above give rise to a lambda theory with a richer sort structure
-  than that of the lambda theory defined back in Chapter \ref{chapter:stlc},
-  because we differentiate between neutral terms of type \( \tau \) and normal
-  terms of type \( \tau \).
+  The judgments above suggest the definition of a lambda theory with a richer
+  sort structure than that of the lambda theory defined back in Chapter
+  \ref{chapter:stlc}. In particular, the new sort structure will feature both a
+  neutral sort and a normal sort for each type \( \tau \), allowing us to define
+  algebras that distinguish between these.
 
-  We define the lambda theory \( \NN \) as the algebraic theory (c.f.
-  Theorem~\ref{thm:canonical_elementary_language}) corresponding to the category
+  We define the lambda theory \( \NN \) as the algebraic theory  corresponding (c.f.
+  Theorem~\ref{thm:canonical_elementary_language}) to the category
   with the following objects and generating morphisms:
   \begin{enumerate}
-    \item The objects are the collection generated by taking products and
-          exponentials over the collection
+    \item The objects are the collection generated by taking (syntactic)
+          products and exponentials over the collection
           \( \Sigma = \{ \mathcal{M}_\tau \mid \tau \in \types \} \cup \{ \mathcal{N}_\tau \mid \tau \in \types \} \cup \{ \mathcal{V}_\tau \mid \tau \in \types \} \)
     \item Generating morphisms, for each \( \tau, \tau' \in \types \):
     \begin{align*}
@@ -1625,8 +1642,8 @@ because they're ``stuck.''
   \[
     \mathfrak{L}_{\tau} : \renhat
   \]
-  where (TODO?) functorialty of the renaming action is inherited from that of
-  the clone model.
+  where functorialty of the renaming action is inherited from that of the clone
+  model as in Theorem~\ref{thm:clone model}.
 \end{definition}
 
 \begin{remark}[A lambda algebra on the presheaves of open syntax]\label{def:open_syn_algebra}
@@ -1639,13 +1656,13 @@ because they're ``stuck.''
 \end{remark}
 
 \begin{remark}[A stratified-lambda algebra on the presheaves of open syntax]
-  By Remark~\ref{rmk:upgrade_to_stratified},
-  Definition~\ref{def:open_syn_algebra} induces an algebra of the lambda theory
-  which stratifies neutral and normals.
+  By Remark~\ref{rmk:upgrade_to_stratified}, the \( \mathcal{L}_{\lambda\alpha\beta\eta}\) algebra
+  of Definition~\ref{def:open_syn_algebra} induces an algebra of the lambda
+  theory \( \NN \).
 \end{remark}
 
 We can define presheaves of neutral and normal terms similarly, with the same
-renaming action as before.
+presheaf action by renaming as before.
 
 \begin{definition}[A presheaf of neutral terms]
   For each $\tau \in \types$, the families
@@ -1668,8 +1685,9 @@ renaming action as before.
 \end{definition}
 
 After teasing out the latent binding structure enjoyed by the category of
-presheaves, we will find in Definition~\ref{def:strat-lam-alg}that the presheaves of neutrals and normals give rise
-to a \( \NN \)-algebra over \( \renhat \).
+presheaves, we will find in Definition~\ref{def:strat-lam-alg} that the
+presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
+\( \renhat \).
 
 \begin{remark}[Why the syntactic category just won't do]\label{rmk:syntactic-cat-bad}
   talk about why neutrals and normals can't support a substitution action
@@ -1678,31 +1696,34 @@ to a \( \NN \)-algebra over \( \renhat \).
 \subsection{A stratified lambda-algebra of neutrals and normals in Renhat}
 \begin{definition}[A stratified lambda-algebra of neutrals and normals]\label{def:strat-lam-alg}
   The presheaves of neutrals and normals defined above give rise to an algebra
-  of the theory \( \NN \) in \( \renhat\). The sorts \( \mathcal{N}_{\tau}\) (resp.
-  \( \mathcal{M}_{\tau} \)) are taken to be the presheaves \( \mathfrak{Nf}_{\tau}\)
-  (resp.\( \mathfrak{Ne}_{\tau} \), and the sorts \( \mathcal{V}_{\tau}\) are taken to
-  be the representable/variable presheaves \( \mathfrak{V}_{\tau} \) defined in Definition~\ref{def:varpsh}.
+  of the theory \( \NN \) in \( \renhat\). The sorts \( \mathcal{N}_{\tau}\)
+  (resp.~\( \mathcal{M}_{\tau} \)) are taken to be the presheaves
+  \( \mathfrak{Nf}_{\tau}\) (resp.~\( \mathfrak{Ne}_{\tau} \)) and the sorts
+  \( \mathcal{V}_{\tau}\) are taken to be the representable/variable presheaves
+  \( \mathfrak{V}_{\tau} \) defined in Definition~\ref{def:varpsh}.
 
   The operations correspond to the typing rules of
   Definition~\ref{def:neut-norm-rules}.
 \end{definition}
 
 \begin{remark}\label{rmk:interpretations-into-tm}
-  The \( \NN \)-algebra over \( (\tm, \tm) \) together with the \( \NN\)-algebra
-  \( (\mathfrak{Ne}, \mathfrak{Nf}) \) just presented and the \( \NN\)-algebra on
-  \( \mathfrak{L} \) induce interpretations \( l : \mathfrak{L} \rightarrow \tm \) and
-  \( (m,n) : (\mathfrak{Ne}, \mathfrak{Nf}) \rightarrow (\tm, \tm) \) such that the
-  following diagram commutes:
+  The \( \NN \)-algebra over \( \{ (\tm(\tau), \tm(\tau)) \}_{\tau} \) together with the
+  \( \NN\)-algebra \( \{ (\mathfrak{Ne_{\tau}}, \mathfrak{Nf_{\tau}}) \}_{\tau\in\types} \)
+  just presented and the \( \NN\)-algebra on
+  \( \{ \mathfrak{L}_{\tau} \}_{\tau\in\types} \) induce for each \( \tau \in \types \)
+  interpretations \( l_{\tau} : \mathfrak{L}_{\tau} \rightarrow \tm(\tau) \) and
+  \( (m_{\tau},n_{\tau}) : (\mathfrak{Ne}_{\tau}, \mathfrak{Nf}_{\tau}) \rightarrow (\tm(\tau), \tm(\tau)) \)
+  such that the following diagram commutes:
 
   % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfSJdLFsxLDAsIlxcbWF0aGZyYWt7TH0iXSxbMiwwLCJcXG1hdGhmcmFre05mfSJdLFsxLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFsyLDEsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMCwzLCJtIiwyXSxbMSwzLCJsIiwyXSxbMiwzLCJuIl1d
 \[\begin{tikzcd}
-	{\mathfrak{Ne}} & {\mathfrak{L}} & {\mathfrak{Nf}} \\
-	& {\mathfrak{Tm}}
+	{\mathfrak{Ne_{\tau}}} & {\mathfrak{L_{\tau}}} & {\mathfrak{Nf_{\tau}}} \\
+	& {\mathfrak{Tm(\tau)}}
 	\arrow[tail, from=1-1, to=1-2]
 	\arrow[tail, from=1-3, to=1-2]
-	\arrow["m"', from=1-1, to=2-2]
-	\arrow["l"', from=1-2, to=2-2]
-	\arrow["n", from=1-3, to=2-2]
+	\arrow["m_{\tau}"', from=1-1, to=2-2]
+	\arrow["l_{\tau}"', from=1-2, to=2-2]
+	\arrow["n_{\tau}", from=1-3, to=2-2]
 \end{tikzcd}\]
 
 The map \( l_{\tau} \) for each \( \tau \in \types \) is the usual semantic
@@ -1717,7 +1738,29 @@ precomposed with the relevant inclusion.
 \end{remark}
 
 \section{Onward!}
+
+\begin{theorem}[Relative hom functor is cartesian closed]
+  TODO
+\end{theorem}
+
 \subsection{Cartesian closed structure for the gluing category}
+In order to give an interpretation of terms in the gluing category, we must give
+an explicit account of its cartesian closed structure. We will say what its
+products are, but not prove the universal property: we send the reader to
+\cite{sterling_normalization_2018} for that part. We will however give a new
+proof of the universal property for the exponentials, which is not shown in
+either of the sources we consulted on connections between gluing and
+normalization (\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}).
+
+\begin{theorem}[Products in the gluing category]
+  The terminal object (nullary product) is
+  \( (\termob : \renhat, t : \termob \rightarrow \tm(\termob), termob : \cl) \) where and
+  \( t \) is the unique map \( \termob \xrightarrow[\cong] \tm(\termob) \)
+  guaranteed by cartesian closure of \( \tm \). The binary product
+  \( (P, p, \Delta) \times (Q, q, \Gamma) \) of \( (P, p, \Delta)\) and \( (Q,q,\Gamma)\) is
+  \( (\P \times Q, r, \Delta \times \Gamma)\) where $r$ is the composite
+  \[ P \times Q \xrightarrow{p \times q} \tm(\Delta) \times \tm(\Gamma) \xrightarrow[\cong]{i_{\pi}} \tm(\Delta \times \Gamma)\]
+\end{theorem}
 
 \begin{theorem}[Exponentials in the gluing category]
   For objects \( (R_{1}, q_{1}, \Delta_{1})\) and \( (R_{2},q_{2},\Delta_{2})\) in
@@ -1743,7 +1786,7 @@ precomposed with the relevant inclusion.
 \begin{proof}
   The universal property for exponentials is encoded by the product-hom
   adjunction. It suffices to show an isomorphism
-  \[ \gl[(R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \equiv \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \]
+  \[ \gl[(R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \cong \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \]
 
   recalling the definition of products in the gluing category, we must show
 
@@ -2146,7 +2189,7 @@ same semantics as the input term.
   \begin{itemize}
     \item For a base type \( \theta \in T\), the reflection map is
           \( \uparrow^{\theta} = \id_{\mu_{\theta}}\). By functoriality of the interpretation
-          \( \sem{-}_\gl : \cl \rightarrow \gl \) and
+          \( \sem{-}_{\gl} : \cl \rightarrow \gl \) and
           Lemma~\ref{lem:sem-pi-is-id-endofunctor}, we have that
           \( \semproj (\id_{\mu_{\theta}}) = \id_{\sem{\theta}_{\cl}}\), as required. The
           reification map is
