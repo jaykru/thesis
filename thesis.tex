@@ -5,7 +5,6 @@
 \usepackage{longtable,booktabs,setspace} 
 \usepackage[hyphens]{url}
 \usepackage{rotating}
-\usepackage{hyperref}
 \usepackage{outlines}
 \usepackage{enumitem} % custom labels
 
@@ -29,6 +28,9 @@ style=alphabetic,
 citestyle=alphabetic
 ]{biblatex} % better citation style
 \addbibresource{thesis.bib}
+
+\usepackage{hyperref}
+\usepackage{extdash}
 
 \hypersetup{
   colorlinks,
@@ -1237,12 +1239,17 @@ to terms in any context.
 TODO
 \section{The comma construction and friends}
 This section introduces a general construction that will, among other things,
-allow us to define the gluing construction. As hinted at before, gluing is just
-a special case of the comma. The idea of the comma is to glob some extra data to
-the objects of a category, and has a notion of an
+allow us to define the gluing construction from which this chapter gets its
+name. The loose idea of the comma is to glob some extra data to the objects of a
+category in a way that supports a well-defined notion of an
 object-with-extra-data-morphism which preserves the attached data. This
-intuition perhaps underlies the name for the gluing construction which is a
-special case of the comma.
+intuition perhaps underlies the name for the gluing construction. Our specific
+use of the gluing construction will involve gluing presheaves of syntactic terms
+(as you would write them down on paper) together with presheaves of semantic
+terms (which are \emph{substitutions}.) That is, the extra data we glob on is
+the semantic of terms, and the notion of extra-data-preserving morphism is a
+pair of a syntactic transformation and a substitution which preserve the
+semantic interpretation of the syntax.
 
 \begin{definition}[Comma category]
   Let $E,D,C$ be categories and $F: D \rightarrow C \leftarrow E : G$ be a pair of functors sharing
@@ -1262,32 +1269,39 @@ special case of the comma.
 \end{definition}
 
 \subsection{An easy comma: the category of renamings}
-The category of renamings is something like a less proof-relevant version of the
-category of contexts and substitutions in the following sense: if there exists a
-substitution relating two contexts in syntactic category, then there exists a
-renaming relating the same contexts. In this sense, renamings allow us to track
-changes in context \emph{due to a substitution} without actually using
-substitutions which, because substitutions are identified up to computation, are
-problematic in a development requiring distinguishing between terms at various
-stages of reduction (e.g. distinguishing between a term and its normal form.)
-The category of renamings allows us to define the presheaves we need while not
-losing track of how contexts evolve by substitution. These two points are
-precisely the desiderata satisfied by the category of renamings. We define the
-category and at the same time explain what its morphisms are in terms of the
-more familiar notion of substitution:
+As a warm-up example, we present the \emph{category of renamings} which can be
+nicely expressed as an instance of the comma. In elementary terms, the category
+has the same objects as the syntactic category (contexts, which are finite lists
+of types) but the morphisms are a restricted class of substitutions, which in
+simple terms are only allowed to substitute for a variable \emph{by a variable
+  of the same type}. Thus the category of renamings is something like a less
+proof-relevant version of the category of contexts and substitutions in the
+following sense: if there exists a substitution relating two contexts in
+syntactic category, then there exists a renaming relating the same contexts. The
+upshot is that renamings allow us to track changes in context \emph{due to a
+  substitution} without actually using substitutions which, because
+substitutions are identified up to computation, are problematic in a development
+requiring distinguishing between terms at various stages of reduction (e.g.
+distinguishing between a term and its normal form.) We will understand this
+problem in greater detail in Remark~\ref{rmk:syntactic-cat-bad}. Concisely, the
+category of renamings allows us to define the presheaves we need while not
+losing track of how contexts evolve by substitution. We now present the category
+abstractly as a comma and at the same time spell out concretely its morphisms in
+terms of the substitutions of the syntactic category:
 
 The category of renamings has a nice presentation as a comma category.
 \begin{definition}[Category of renamings]
-  Recall \( V \) the countably infinite set of variables and \( \types \) the
-  set of all types in the simply typed lambda calculus from our early
-  definitions in Chapter~\ref{chapter:stlc}. Let \( \fin \) be the category
-  whose objects are finite subsets of \( V \) and whose morphisms are all
-  functions between the underlying sets. Let \( \mathbb{T} : \fin \rightarrow \catset \)
-  be the functor which is constantly \( \types \) on objects and constantly
-  \( \id_{\types}\) on morphisms. Let \( U : \fin \rightarrow \catset \) be the forgetful
-  functor taking finite variable sets to their underlying sets and functions to
-  functions. Now by the \emph{category of renamings} we mean the \emph{opposite
-    category} of the comma \( U \downarrow \mathbb{T} \) whose
+  Recall from Chapter~\ref{chapter:stlc} that \( V \) is some countably infinite
+  set of variables and \( \types \) is the set of all types in the simply typed
+  lambda calculus generated from a set of base types \( T \). Let \( \fin \) be
+  the category whose objects are finite subsets of \( V \) and whose morphisms
+  are all functions between the underlying sets. Let
+  \( \mathbb{T} : \fin \rightarrow \catset \) be the functor which is constantly
+  \( \types \) on objects and constantly \( \id_{\types}\) on morphisms. Let
+  \( U : \fin \rightarrow \catset \) be the forgetful functor taking finite variable sets
+  to their underlying sets and functions to functions. Now by the \emph{category
+    of renamings} we mean the \emph{opposite category} of the comma
+  \( U \downarrow \mathbb{T} \) whose
   \begin{itemize}
     \item Objects are \emph{pairs} \( (V : \fin, \Gamma : V \rightarrow \types) \), i.e.,
     finite variable list together with an assignments of types to a each
@@ -1302,15 +1316,17 @@ The category of renamings has a nice presentation as a comma category.
         \types \arrow{r}[swap]{\id_{\types}} & \types\\
       \end{tikzcd}
     \]
-    The reason the comma morphisms are single functions and not pairs is
-    that the second function would not communicate any data, it would just
-    be taken by \( \mathbb{T}\) to the identity no matter what it is. We
-    now unpack this means. The functions \( \rho \) are \emph{type-preserving
-      renamings}: for each variable \( x \in V\), we have that
-    \( \Gamma'(\rho x) = \Gamma(x)\). In particular, this restricts \( \rho \) to the
-    following classes of morphisms in the classifying category:
-    substitutions of variables for variables of the same type, context
-    extension with new variables, and all compositions of these.
+          The reason the comma morphisms are single functions and not pairs is
+          that the second function would not communicate any data, it would just
+          be taken by \( \mathbb{T}\) to the identity no matter what it is. We
+          now unpack this means. The functions \( \rho \) are \emph{type-preserving
+          renamings}: for each variable \( x \in V\), we have that
+          \( \Gamma'(\rho x) = \Gamma(x)\). In particular, this restricts \( \rho \) to the
+          following classes of morphisms in the classifying category:
+          substitutions of variables for variables of the same type, context
+          extension with new variables, and all compositions of these. The
+          equations are given by the substitution lemma, as in the syntactic
+          category.
   \end{itemize}
 
   We write \( \ren = (U \downarrow \mathbb{T})^{\textrm{op}}\) for the category of
@@ -1327,10 +1343,11 @@ The category of renamings has a nice presentation as a comma category.
 \end{remark}
 
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
-The gluing category is an instance of the comma construction which will star as
-the primary semantic domain in our development. To define it, we first need to
-define a functor which, in a loose sense that will be explained in due course,
-defines \( \ren \)-presheaves of \emph{open} terms.
+With the category of renamings in hand, we can now introduce as a comma the
+gluing category which will star as an instrumental semantic domain in our
+development. To define it, we first need to define a functor along which to take
+the comma. In a loose sense that will be explained in due course, this functor
+defines \( \ren \)\=/presheaves of \emph{open} (semantic) terms.
 \subsubsection{The relative hom functor}
 Every functor \( \varsigma : \mathcal{R} \rightarrow \mathcal{S} \) induces the following
 situation:
@@ -1349,17 +1366,16 @@ That is, we get a functor
 \[
   \braket{\varsigma} : \mathcal{S} \rightarrow \mathfrak{Set}^{\mathcal{R}^{\textrm{op}}}
 \]
-by adjusting the Yoneda embedding into the category of
-$\mathcal{S}$-presheaves. In particular, specializing to the case of the
-inclusion \( \iota : \ren \rightarrow \cl \) of Remark~\ref{rmk:reninclusioncl} gives us a
-functor
+by adjusting the Yoneda embedding into the category of $\mathcal{S}$-presheaves.
+Specializing to the case of the inclusion \( \iota : \ren \rightarrow \cl \) of
+Remark~\ref{rmk:reninclusioncl} gives us a functor
 \begin{align*}
   \mathfrak{Tm} : \cl &\rightarrow \renhat \\
   \Delta &\mapsto \cl(\iota(-), \Delta)\\
 \end{align*}
 which can be construed as taking a syntactic context to a presheaf of open
 terms. This is a confusing idea at first, and it helps to consider the simple
-cases to understand it. Consider any singleton context \( \tau : \cl \). Then $\tm$
+cases to understand it. Consider any singleton context \( \tau : \cl \). $\tm$
 takes $\tau$ to the presheaf \( \cl(-, \tau)\) which takes any renaming context
 \( \Gamma \) to \( \cl(\Gamma, \tau)\). Recalling the definition of the syntactic category
 and its generating morphisms, the latter set comprises the terms of type \( \tau \)
@@ -1369,15 +1385,15 @@ Generalizing to multivariable target contexts \( \Delta \) gives presheaves of
 
 \subsubsection{Gluing syntax to semantics along the relative hom functor}
 We at last define the \emph{gluing category} as the comma of the category of
-renamings along the relative hom functor just defined.
+renamings along the relative hom functor \( \tm \) just defined.
 
 \begin{definition}[The gluing category]
   The gluing category \( \gl \) is defined as the comma \( \renhat \downarrow \tm \).
   Explicitly, its objects are triples
-  \( D : \renhat, q : D \Rightarrow \tm(\Delta), \Delta : \cl \). The objects of the gluing category
-  are \emph{proof relevant logical predicates}, in a sense that will be more
-  clear after the next subsection. Following the definition of the comma
-  construction, the morphisms \( (D, q_{\Delta}, \Delta) \rightarrow (D', q_{\Delta'}, \Delta') \) are pairs
+  \( (D : \renhat, q : D \Rightarrow \tm(\Delta), \Delta : \cl) \). The objects of the gluing
+  category are \emph{proof relevant logical predicates}, in a sense that will be
+  more clear after a digression to follow. Following the definition of the comma
+  construction, the morphisms \( (D, q, \Delta) \rightarrow (D', q', \Delta') \) are pairs
   $(d : D \rightarrow D', \delta: \cl[\Delta', \Delta])$ are pairs of a $\renhat$ natural transformation
   and a substitution making the following diagram commute:
   % https://q.uiver.app/?q=WzAsNCxbMCwwLCJEIl0sWzIsMCwiRCciXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhKSJdLFsyLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGEnKSJdLFswLDEsImQiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXGRlbHRhKSJdLFswLDIsInFfe1xcRGVsdGF9IiwyXSxbMSwzLCJxX3tcXERlbHRhJ30iXV0=
@@ -1387,8 +1403,8 @@ renamings along the relative hom functor just defined.
       {\mathfrak{Tm}(\Delta)} && {\mathfrak{Tm}(\Delta')}
       \arrow["d", from=1-1, to=1-3]
       \arrow["{\mathfrak{Tm}(\delta)}", from=3-1, to=3-3]
-      \arrow["{q_{\Delta}}"', from=1-1, to=3-1]
-      \arrow["{q_{\Delta'}}", from=1-3, to=3-3]
+      \arrow["{q}"', from=1-1, to=3-1]
+      \arrow["{q'}", from=1-3, to=3-3]
     \end{tikzcd}\]
 \end{definition}
 
@@ -1409,12 +1425,10 @@ monotonicity condition: for any renaming \( \rho : \Gamma' \rightarrow \Gamma \)
 in \( R_{\Gamma}\), then we have that \( t \circ \rho : \Gamma' \rightarrow \tau \) is in \( R_{\Gamma'}\). Looking
 again to our proposed Kripke predicate objects of the gluing category, we can
 see that the presheaf \( R \) together with the natural mono \( q \) define for
-each \( \Gamma \) a subset\footnote{this result is elementary for $\catset$, but also
-  holds for any \emph{topos} modulo its notion of subobjects
-  (\cite{leinster_informal_2011})} of the substitutions \( \Gamma \rightarrow \tau \). It is
-tempting to dismiss the naturality of $q$ as bureaucracy; but naturality turns
-out to be essential to recovering the relative monotonicity condition. To see
-why this recovers what we had before, let us look at the naturality diagram of
+each \( \Gamma \) a subset of the substitutions \( \Gamma \rightarrow \tau \). It is tempting to
+dismiss the naturality of $q$ as bureaucracy, but naturality turns out to be
+essential to recovering the relative monotonicity condition. To see why this
+recovers what we had before, we need to look at the naturality diagram of
 \( q \):
 
   \[\begin{tikzcd}
@@ -1438,23 +1452,15 @@ why this recovers what we had before, let us look at the naturality diagram of
   It turns out that the category of \(\ren\)-Kripke relations is a full
   subcategory of the gluing category \( \renhat \downarrow \tm \).
 
-\begin{theorem}[Kripke full subcategory of gluing]
-  TODO: maybe, I don't really think I will use this result.
-  \end{theorem}
-  \begin{proof}
-    TODO
-  \end{proof}
-
   The perspective gained above allows for a more conceptual understanding of the
   objects in the gluing category: the presheaves $R$ define context-indexed
   families of \emph{witnesses} to the inclusion of terms in the predicate, and
   $q$ is a quotient map that forgets the difference between distinct witnesses
   \( w, w' \in R(\Gamma) \) and whose image just records those terms
   \( t \in \tm (\Delta)(\Gamma)\) taken to be in the predicate; insofar as $q$ is a mono,
-  these objects are exactly the variable-arity Kripke relations we considered
-  classically at the beginning of this chapter.
+  these objects are exactly variable-arity Kripke relations.
 
-  TODO: explain intuition for the morphisms of the gluing category
+
 \section{Stratified syntax, theories, presheaves, algebras}
 In this section, we will enlist a motely crew of \emph{presheaves of syntax}
 which more-or-less represent families of terms in the lambda calculus. These
@@ -1665,7 +1671,7 @@ After teasing out the latent binding structure enjoyed by the category of
 presheaves, we will find in Definition~\ref{def:strat-lam-alg}that the presheaves of neutrals and normals give rise
 to a \( \NN \)-algebra over \( \renhat \).
 
-\begin{remark}[Why the syntactic category just won't do]
+\begin{remark}[Why the syntactic category just won't do]\label{rmk:syntactic-cat-bad}
   talk about why neutrals and normals can't support a substitution action
 \end{remark}
 
