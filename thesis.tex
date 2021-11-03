@@ -48,6 +48,7 @@ citestyle=alphabetic
 \newtheorem{corollary}{Corollary}
 
 \include{autodelims}
+\include{reallywidetilde}
 \include{macros}
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
@@ -2133,6 +2134,7 @@ same semantics as the input term.
     \pi (\uparrow^{\tau}) = \id_{\tau} = \pi(\downarrow^{\tau})
   \]
 \end{theorem}
+
 \begin{proof}
   The proof proceeds, like the definitions of the reification/reflection maps, by induction on the structure of types:
   \begin{itemize}
@@ -2175,10 +2177,10 @@ same semantics as the input term.
           \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl}\] whence
 
             \begin{align*}
-              \semproj (\uparrow^{\tau \rightarrow \tau'}) &= \semproj (\widetilde{\uparrow^{\tau} \circ（\app_{\tau'}^{\tau}, \epsilon）\circ (\id \times \downarrow^{\tau})}) \\
-                                    &= \widetilde{\semproj (\uparrow^{\tau}) \circ \semproj (\app_{\tau'}^{\tau},\epsilon) \circ \semproj (\id \times \downarrow^{\tau})} && \textrm{(by functoriality of $\semproj$)} \\
-                                    &= \widetilde{\id \circ \epsilon \circ (\id \times \id)} && \textrm{(induction hypothesis, definition of $\semproj$)} \\
-                                    &= \widetilde{\id \circ \id} && \textrm{(UP of the transpose, and since $\tilde{\id} = \id$)} \\
+              \semproj (\uparrow^{\tau \rightarrow \tau'}) &= \semproj (\reallywidetilde{\uparrow^{\tau} \circ（\app_{\tau'}^{\tau}, \epsilon）\circ (\id \times \downarrow^{\tau})}) \\
+                                    &= \reallywidetilde{\semproj (\uparrow^{\tau}) \circ \semproj (\app_{\tau'}^{\tau},\epsilon) \circ \semproj (\id \times \downarrow^{\tau})} && \textrm{(by functoriality of $\semproj$)} \\
+                                    &= \reallywidetilde{\id \circ \epsilon \circ (\id \times \id)} && \textrm{(induction hypothesis, definition of $\semproj$)} \\
+                                    &= \reallywidetilde{\id \circ \id} && \textrm{(UP of the transpose, and since $\widetilde{\id} = \id$)} \\
                                     &= \widetilde{\id} \\
                                     &= \id \\
             \end{align*} as required.

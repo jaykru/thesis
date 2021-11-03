@@ -1,0 +1,10 @@
+% thanks to this guy https://tex.stackexchange.com/a/101138
+\usepackage{scalerel}
+\usepackage{stackengine,wasysym}
+
+\newcommand\reallywidetilde[1]{\ThisStyle{%
+  \setbox0=\hbox{$\SavedStyle#1$}%
+  \stackengine{-.1\LMpt}{$\SavedStyle#1$}{%
+    \stretchto{\scaleto{\SavedStyle\mkern.2mu\AC}{.5150\wd0}}{.6\ht0}%
+  }{O}{c}{F}{T}{S}%
+}}
