@@ -1754,11 +1754,11 @@ normalization (\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}).
 
 \begin{theorem}[Products in the gluing category]
   The terminal object (nullary product) is
-  \( (\termob : \renhat, t : \termob \rightarrow \tm(\termob), termob : \cl) \) where and
-  \( t \) is the unique map \( \termob \xrightarrow[\cong] \tm(\termob) \)
+  \( (\termob : \renhat, t : \termob \rightarrow \tm(\termob), \termob : \cl) \) where and
+  \( t \) is the unique map \( \termob \xrightarrow{\cong} \tm(\termob) \)
   guaranteed by cartesian closure of \( \tm \). The binary product
   \( (P, p, \Delta) \times (Q, q, \Gamma) \) of \( (P, p, \Delta)\) and \( (Q,q,\Gamma)\) is
-  \( (\P \times Q, r, \Delta \times \Gamma)\) where $r$ is the composite
+  \( (P \times Q, r, \Delta \times \Gamma)\) where $r$ is the composite
   \[ P \times Q \xrightarrow{p \times q} \tm(\Delta) \times \tm(\Gamma) \xrightarrow[\cong]{i_{\pi}} \tm(\Delta \times \Gamma)\]
 \end{theorem}
 
@@ -1917,6 +1917,10 @@ TODO:
   \item prove naturality
 \end{itemize}
 \end{proof}
+
+\begin{corollary}
+  The gluing category \( \gl \) is cartesian closed.
+\end{corollary}
 
 \subsection{Gluing syntax to semantics, and a glued algebra}
 We will define some objects in the gluing category which, in some sense, glue
