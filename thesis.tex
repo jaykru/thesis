@@ -1443,8 +1443,7 @@ again to our proposed Kripke predicate objects of the gluing category, we can
 see that the presheaf \( R \) together with the natural mono \( q \) define for
 each \( \Gamma \) a subset of the substitutions \( \Gamma \rightarrow \tau \). It is tempting to
 dismiss the naturality of $q$ as bureaucracy, but naturality turns out to be
-essential to recovering the relative monotonicity condition. To see why this
-recovers what we had before, we need to look at the naturality diagram of
+essential to recovering the relative monotonicity condition. To see this, we need to look at the naturality diagram of
 \( q \):
 
   \[\begin{tikzcd}
@@ -2132,10 +2131,34 @@ the normalization function computes for a term $t$ a normal form with the same
 \emph{semantics} as $t$; that is, as evident from the diagram, we will have an
 equality of morphisms \( t \equiv \nf(t)\) in the syntactic category.
 
-\subsection{Reify-reflect yoga}
-In this section we will actually define the reify-reflect maps for each type.
+To come up with such maps, we shall produce some intermediate maps
+\[
+  \mu_{\tau} \xrightarrow{\Uparrow^{\tau}} \sem{\tau}_{\gl} \xrightarrow{\Downarrow^{\tau}} \eta_{\tau}
+\]
+in the gluing category. We will set \( \downarrow^{\tau} = \Downarrow^{\tau}\) and \( \uparrow^{\tau} = \Uparrow^{\tau}\).
+Finally, the desired triangles above follow from demonstrating that the
+intermediate maps project in the semantics onto the identity:
+\( \semproj(\Downarrow^{\tau}) = id_{\sem{\tau}} = \semproj(\Uparrow^{\tau})\). This follows by
+considering the universal property of a gluing morphism. In the case of the
+reflect map, we get a diagram like this
 
-\begin{definition}[Reify-reflect yoga]
+% https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDAsIlxcbWF0aGZyYWt7Un1fXFx0YXUiXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMiwyLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXHBpX3tcXHRleHRybXtzZW19fShcXFVwYXJyb3dee1xcdGF1fSkpPVxcdGV4dHJte2lkfSIsMl0sWzAsMiwibV9cXHRhdSIsMl0sWzAsMSwiXFxwaV97XFx0ZXh0cm17c3lufX0oXFxVcGFycm93XlxcdGF1KSA9XFx1cGFycm93XlxcdGF1Il0sWzEsMywicl9cXHRhdSIsMV1d
+\[\begin{tikzcd}
+	{\mathfrak{Ne}_\tau} && {\mathfrak{R}_\tau} \\
+	\\
+	{\mathfrak{Tm}(\tau)} && {\mathfrak{Tm}(\tau)}
+	\arrow["{\mathfrak{Tm}(\pi_{\textrm{sem}}(\Uparrow^{\tau}))=\textrm{id}}"', from=3-1, to=3-3]
+	\arrow["{m_\tau}"', from=1-1, to=3-1]
+	\arrow["{\pi_{\textrm{syn}}(\Uparrow^\tau) =\uparrow^\tau}", from=1-1, to=1-3]
+	\arrow["{r_\tau}"{description}, from=1-3, to=3-3]
+\end{tikzcd}\]
+
+which is the required triangle. In the reification case, we get the desired
+triangle along the same lines. Convinced thus, we can set about defining the
+required gluing maps.
+
+\subsection{Introducing Elmer's Reify-reflect}
+\begin{definition}
   The maps are defined by induction on the type structure of \( \types \):
   \begin{itemize}
     \item For a base type \( \theta \in T \), we define \( \uparrow^{\theta} = \id_{\mu_{\theta}} \) and
