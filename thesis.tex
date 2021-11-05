@@ -1736,10 +1736,65 @@ The maps \( m_{\tau} \), \( n_{\tau}\) are the usual semantic interpretation
 precomposed with the relevant inclusion.
 \end{remark}
 
+\section{Desiderata for a normalization function}
+
+For all this talk of normalization, and blood sweat and tears expended for its
+benefit, we haven't talked much about what a normalization function must be. Of
+course, it should take a lambda term to a normal form, but the desiderata are
+far more than that. The following are some of the important properties a
+normalization function \( \nf_{\tau}^{\Gamma} : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should
+satisfy:
+\begin{itemize}
+  \item Compatibility with context renamings: For each morphism \( \rho : \Delta \rightarrow \Gamma \) of \( \ren \) and term \( t \in \opens_{\tau}(\Gamma)\),
+        \[ \rho^{*} \, \nf_{\tau}^{\Gamma}(t) = \nf_{\tau}^{\Delta}(\rho^{*} \, t)\]
+
+  \item Idempotence: For all normal terms \( n \in \nfpsh(\Gamma) \),
+  \[ \nf_{\tau}^{\Gamma}(n) = n \]
+
+  \item Semantics preservation: For all terms \( t \in \opens_{\tau}(\Gamma)\),
+  \[ \nf_{\tau}^{\Gamma} (t) \equiv_{\beta\eta} t\]
+
+  \item Equation preservation (TODO: not really sure I grok the importance of
+        this one, whence the stupid name): For all terms
+        \( t, t' \in \opens_{\tau}(\Gamma) \),
+        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau}^{\Gamma} (t) = \nf_{\tau}^{\Gamma} (t') \]
+\end{itemize}
+
+[TODO: say here something about how the proofs of each of these will ``fall
+out'' of the way we have constructed our normalization function with gluing. ]
+
 \section{Onward!}
+TODO: need an intro here. I should talk about how we will define the cartesian
+closed structure in order to give an interpretation into the gluing category by
+way of the interpretation of base types that I introduce later. I should hint at
+how gluing allows us to define reification and reflection maps as gluing
+morphisms that project into the semantics as the identity. Doing so lets us
+define maps which bring the syntax to normal forms while preserving the
+semantics, which is by far the most important property for a normalization
+function.
+\begin{definition}[Forgetful projections]
+  The assignments
+  \begin{align*}
+    \gl &\rightarrow \cl \\
+    (R, q, \Delta) &\mapsto \Delta \\\\
+    \gl[(R,q,\Delta), (R', q', \Delta')] &\rightarrow \cl[\Delta, \Delta'] \\
+    (d, \delta) &\mapsto \delta \\
+  \end{align*}
+
+  form a functor \(\semproj : \gl \rightarrow \cl \) which \emph{forgets the syntax}
+  leaving only the semantic components of a gluing object or gluing morphism.
+
+  We similarly get a functor \( \synproj : \gl \rightarrow \renhat \) which strips away
+  the semantics leaving only the syntax defined by
+  \begin{align*}
+    (R, q, \Delta) &\mapsto R \\
+    (d,\delta) &\mapsto d \\
+  \end{align*}
+\end{definition}
 
 \begin{theorem}[Relative hom functor is cartesian closed]
-  TODO
+  TODO. I'm also not really sure where to put this or if I even want to prove it
+  in full. It should basically follow from the Yoneda lemma.
 \end{theorem}
 
 \subsection{Cartesian closed structure for the gluing category}
@@ -2060,33 +2115,6 @@ of the category of presheaves. Now is a good time to take stock of what we have
 developed so far, and look ahead to where we're going.
 
 \subsection{Taking stock: charting a path to normalization}\label{sec:taking-stock}
-\newcommand{\opens}{\mathfrak{L}}
-
-For all this talk of normalization, and blood sweat and tears expended for its
-benefit, we haven't talked much about what a normalization function must be. Of
-course, it should take a lambda term to a normal form, but the desiderata are
-far more than that. The following are some of the important properties a
-normalization function \( \nf_{\tau}^{\Gamma} : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should
-satisfy:
-\begin{itemize}
-  \item Compatibility with context renamings: For each morphism \( \rho : \Delta \rightarrow \Gamma \) of \( \ren \) and term \( t \in \opens_{\tau}(\Gamma)\),
-        \[ \rho^{*} \, \nf_{\tau}^{\Gamma}(t) = \nf_{\tau}^{\Delta}(\rho^{*} \, t)\]
-
-  \item Idempotence: For all normal terms \( n \in \nfpsh(\Gamma) \),
-  \[ \nf_{\tau}^{\Gamma}(n) = n \]
-
-  \item Semantics preservation: For all terms \( t \in \opens_{\tau}(\Gamma)\),
-  \[ \nf_{\tau}^{\Gamma} (t) \equiv_{\beta\eta} t\]
-
-  \item Equation preservation (TODO: not really sure I grok the importance of
-        this one, whence the stupid name): For all terms
-        \( t, t' \in \opens_{\tau}(\Gamma) \),
-        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau}^{\Gamma} (t) = \nf_{\tau}^{\Gamma} (t') \]
-\end{itemize}
-
-[TODO: say here something about how the proofs of each of these will ``fall
-out'' of the way we have constructed our normalization function with gluing. ]
-
 We now have enough language to say exactly what it is we're hoping to acquire in
 this chapter. Let \( \tau \in \types \) and suppose
 \( \sem{\tau}_{\gl} = (\mathfrak{R}_{\tau}, q, \tau) \). We wish to come up with maps
@@ -2135,10 +2163,10 @@ To come up with such maps, we shall produce some intermediate maps
 \[
   \mu_{\tau} \xrightarrow{\Uparrow^{\tau}} \sem{\tau}_{\gl} \xrightarrow{\Downarrow^{\tau}} \eta_{\tau}
 \]
-in the gluing category. We will set \( \downarrow^{\tau} = \Downarrow^{\tau}\) and \( \uparrow^{\tau} = \Uparrow^{\tau}\).
-Finally, the desired triangles above follow from demonstrating that the
-intermediate maps project in the semantics onto the identity:
-\( \semproj(\Downarrow^{\tau}) = id_{\sem{\tau}} = \semproj(\Uparrow^{\tau})\). This follows by
+in the gluing category. Setting \( \downarrow^{\tau} = \synproj (\Downarrow^{\tau})\) and
+\( \uparrow^{\tau} = \synproj(\Uparrow^{\tau})\), we find that the triangles above follow from
+demonstrating that the intermediate maps project in the semantics onto the
+identity: \( \semproj(\Downarrow^{\tau}) = \id_{\sem{\tau}} = \semproj(\Uparrow^{\tau})\). This follows by
 considering the universal property of a gluing morphism. In the case of the
 reflect map, we get a diagram like this
 
@@ -2150,64 +2178,59 @@ reflect map, we get a diagram like this
 	\arrow["{\mathfrak{Tm}(\pi_{\textrm{sem}}(\Uparrow^{\tau}))=\textrm{id}}"', from=3-1, to=3-3]
 	\arrow["{m_\tau}"', from=1-1, to=3-1]
 	\arrow["{\pi_{\textrm{syn}}(\Uparrow^\tau) =\uparrow^\tau}", from=1-1, to=1-3]
-	\arrow["{r_\tau}"{description}, from=1-3, to=3-3]
+	\arrow["{r_\tau}", from=1-3, to=3-3]
 \end{tikzcd}\]
 
 which is the required triangle. In the reification case, we get the desired
 triangle along the same lines. Convinced thus, we can set about defining the
 required gluing maps.
 
-\subsection{Introducing Elmer's Reify-reflect}
+\subsection{Introducing Elmer's Reify-reflect}\label{def:reify-reflect}
+We begin by defining \emph{pairs} of maps without actually demonstrating that
+the pairs form gluing morphisms. We introduce this delay in order to allow for a
+more elegant verification of the gluing morphism condition using the fact, to be
+proven next, that the second component of each of the pairs is in the identity
+in the semantics.
+
 \begin{definition}
-  The maps are defined by induction on the type structure of \( \types \):
+  The pairs are defined by induction on the type structure of \( \types \):
   \begin{itemize}
-    \item For a base type \( \theta \in T \), we define \( \uparrow^{\theta} = \id_{\mu_{\theta}} \) and
-    \( \downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \)
-    \item For the empty product/unit type \( \termob \), we define \( \uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and \( \downarrow^{\termob} = (\termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob})\)
-    \item For types \( \tau, \tau' \in \types\), we define
-    \[ \uparrow^{\tau*\tau'} : \mu_{\tau*\tau'} \rightarrow \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl}\] as the pair of the following composites:
+    \item For a base type \( \theta \in T \), we define \( \Uparrow^{\theta} = \id_{\mu_{\theta}} \) and
+    \( \Downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \)
+    \item For the empty product/unit type \( \termob \), we define \( \Uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and \( \Downarrow^{\termob} = (\termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob})\)
+    \item For types \( \tau, \tau' \in \types\), we define 
+    \[ \Uparrow^{\tau*\tau'} : \mu_{\tau*\tau'} \rightarrow \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl}\] as the pair of the following composites:
     \begin{align*}
-      &\mu_{\tau*\tau'} \xrightarrow{(\fst_{\tau}^{\tau'}, \pi_{1})} \mu_{\tau} \xrightarrow{\uparrow^{\tau}} \sem{\tau}_{\gl} \\
-      &\mu_{tau*\tau'} \xrightarrow{(\snd_{\tau'}^{\tau}, \pi_{2})} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl} \\
+      &\mu_{\tau*\tau'} \xrightarrow{(\fst_{\tau}^{\tau'}, \pi_{1})} \mu_{\tau} \xrightarrow{\Uparrow^{\tau}} \sem{\tau}_{\gl} \\
+      &\mu_{\tau*\tau'} \xrightarrow{(\snd_{\tau'}^{\tau}, \pi_{2})} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl} \\
     \end{align*}
 
-    and define \( \downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) as the composite
-    \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\downarrow^{\tau}\times \downarrow^{\tau'}} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)}     \eta_{\tau*\tau'} \]
+    and define \( \Downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) as the composite
+    \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)}     \eta_{\tau*\tau'} \]
 
     \item For types \( \tau, \tau' \in \types \), we define the reflection map
-    \[ \uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
+    \[ \Uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
     as the exponential transpose of the composite
-    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
+    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
 
     and the reification map
-    \[ \downarrow^{\tau\rightarrow\tau'} : {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \rightarrow \eta_{\tau \rightarrow \tau'} \] as the composite
-    \[ {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \xrightarrow{(\downarrow^{\tau'})^{(\uparrow^{\tau} v_{\tau})}} {\eta_{\tau'}}^{\nu_{\tau}} \xrightarrow[\cong]{(\abs_{\tau\rightarrow\tau'} , \id)} \eta_{\tau\rightarrow\tau'}\]
+    \[ \Downarrow^{\tau\rightarrow\tau'} : {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \rightarrow \eta_{\tau \rightarrow \tau'} \] as the composite
+    \[ {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \xrightarrow{(\Downarrow^{\tau'})^{(\Uparrow^{\tau} v_{\tau})}} {\eta_{\tau'}}^{\nu_{\tau}} \xrightarrow[\cong]{(\abs_{\tau\rightarrow\tau'} , \id)} \eta_{\tau\rightarrow\tau'}\]
     where \( v_{\tau} = (\var_{\tau} , \id) : \nu_{\tau} \rightarrow \mu_{\tau}\).
   \end{itemize}
 \end{definition}
 
-\begin{definition}[Forgetful semantic projection]
-  The assignments
-  \begin{align*}
-    \pi : \gl &\rightarrow \cl \\
-    (R, q, \Delta) &\mapsto \Delta \\\\
-    \pi_{\textrm{mor}} : \gl[(R,q,\Delta), (R', q', \Delta')] &\rightarrow \cl[\Delta, \Delta'] \\
-    (d, \delta) &\mapsto \delta \\
-  \end{align*}
 
-  form a functor \( \gl \rightarrow \cl \) which \emph{forgets the syntax} leaving only
-  the semantics in objects and morphisms of the gluing category.
-\end{definition}
 
 The following theorem follows immediately from the definitions of the
-reification and reflection maps above, and will prove crucial when
-demonstrating that our normalization function computes normal forms with the
-same semantics as the input term.
+reification and reflection maps above, and will prove crucial when demonstrating
+that our normalization function computes normal forms with the same semantics as
+the input term.
 
-\begin{theorem}[Reification and reflection preserve semantics]\label{thm:reif-refl-sempres}
+\begin{theorem}[Reification and reflection are the identity in the semantics]\label{thm:reif-refl-sempres}
   For each type \( \tau \in \types \), we have the identities
   \[
-    \pi (\uparrow^{\tau}) = \id_{\tau} = \pi(\downarrow^{\tau})
+    \semproj (\Uparrow^{\tau}) = \id_{\tau} = \semproj(\Downarrow^{\tau})
   \]
 \end{theorem}
 
@@ -2215,56 +2238,56 @@ same semantics as the input term.
   The proof proceeds, like the definitions of the reification/reflection maps, by induction on the structure of types:
   \begin{itemize}
     \item For a base type \( \theta \in T\), the reflection map is
-          \( \uparrow^{\theta} = \id_{\mu_{\theta}}\). By functoriality of the interpretation
+          \( \Uparrow^{\theta} = \id_{\mu_{\theta}}\). By functoriality of the interpretation
           \( \sem{-}_{\gl} : \cl \rightarrow \gl \) and
           Lemma~\ref{lem:sem-pi-is-id-endofunctor}, we have that
           \( \semproj (\id_{\mu_{\theta}}) = \id_{\sem{\theta}_{\cl}}\), as required. The
           reification map is
-          \( \downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \) whose semantic
+          \( \Downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \) whose semantic
           component is the identity by Definition~\ref{def:glued-algebra}.
 
     \item For the empty product/unit type \( \termob \), the reflection map
-          \( \uparrow^{\termob} \) is the unique arrow from \( \mu_{\termob}\) into the
+          \( \Uparrow^{\termob} \) is the unique arrow from \( \mu_{\termob}\) into the
           terminal object of the gluing category. The interpretation
           \( \sem{-}_{\gl}\) preserves the cartesian closed structure so that
           \( \mu_{\theta} = \termob \) and unique arrow in question is forced to be the
           identity in \( \gl \), whose semantic component is also the identity
           in \( \cl \).
 
-          The reification map \( \downarrow^{\termob} \) is the \( \unit \) operation for
+          The reification map \( \Downarrow^{\termob} \) is the \( \unit \) operation for
           the glued algebra and has the identity as its semantic component by
           definition.
-    \item For \( \tau, \tau' \in \types\), the reflection map \( \uparrow^{\tau\times\tau'}\) for
+    \item For \( \tau, \tau' \in \types\), the reflection map \( \Uparrow^{\tau\times\tau'}\) for
           their product is defined as the pair of the following composites:
           \begin{align*}
-            &\mu_{\tau*\tau'} \xrightarrow{(\fst_{\tau}^{\tau'}, \pi_{1})} \mu_{\tau} \xrightarrow{\uparrow^{\tau}} \sem{\tau}_{\gl} \\
-            &\mu_{tau*\tau'} \xrightarrow{(\snd_{\tau'}^{\tau}, \pi_{2})} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl} \\
+            &\mu_{\tau*\tau'} \xrightarrow{(\fst_{\tau}^{\tau'}, \pi_{1})} \mu_{\tau} \xrightarrow{\Uparrow^{\tau}} \sem{\tau}_{\gl} \\
+            &\mu_{tau*\tau'} \xrightarrow{(\snd_{\tau'}^{\tau}, \pi_{2})} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl} \\
           \end{align*} so that
           \begin{align*}
-            \semproj (\uparrow^{\tau\times\tau'}) &= (\semproj (\uparrow^{\tau}) \circ \pi_{1}) \times (\semproj(\uparrow^{\tau'}) \circ \pi_{2}) \\
+            \semproj (\Uparrow^{\tau\times\tau'}) &= (\semproj (\Uparrow^{\tau}) \circ \pi_{1}) \times (\semproj(\Uparrow^{\tau'}) \circ \pi_{2}) \\
                                 &= (\id \circ \pi_{1}) \times (\id \circ \pi_{2}) && \textrm{(by the induction hypothesis)} \\
                                 &= \pi_{1} \times \pi_{2}
           \end{align*}
           which is the identity on \( \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl} \) as
           required.
 
-          The reification map \( \downarrow^{\tau\times\tau'}\) is defined as TODO
-          \item For \( \tau, \tau' \in \types \), the reflection map \( \uparrow^{\tau \rightarrow \tau'}\) for the function type over these is defined as the exponential transpose of the composite
-          \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\uparrow^{\tau'}} \sem{\tau'}_{\gl}\] whence
+          The reification map \( \Downarrow^{\tau\times\tau'}\) is defined as TODO
+          \item For \( \tau, \tau' \in \types \), the reflection map \( \Uparrow^{\tau \rightarrow \tau'}\) for the function type over these is defined as the exponential transpose of the composite
+          \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\] whence
 
             \begin{align*}
-              \semproj (\uparrow^{\tau \rightarrow \tau'}) &= \semproj (\reallywidetilde{\uparrow^{\tau} \circ（\app_{\tau'}^{\tau}, \epsilon）\circ (\id \times \downarrow^{\tau})}) \\
-                                    &= \reallywidetilde{\semproj (\uparrow^{\tau}) \circ \semproj (\app_{\tau'}^{\tau},\epsilon) \circ \semproj (\id \times \downarrow^{\tau})} && \textrm{(by functoriality of $\semproj$)} \\
+              \semproj (\Uparrow^{\tau \rightarrow \tau'}) &= \semproj (\reallywidetilde{\Uparrow^{\tau} \circ（\app_{\tau'}^{\tau}, \epsilon）\circ (\id \times \Downarrow^{\tau})}) \\
+                                    &= \reallywidetilde{\semproj (\Uparrow^{\tau}) \circ \semproj (\app_{\tau'}^{\tau},\epsilon) \circ \semproj (\id \times \Downarrow^{\tau})} && \textrm{(by functoriality of $\semproj$)} \\
                                     &= \reallywidetilde{\id \circ \epsilon \circ (\id \times \id)} && \textrm{(induction hypothesis, definition of $\semproj$)} \\
                                     &= \reallywidetilde{\id \circ \id} && \textrm{(UP of the transpose, and since $\widetilde{\id} = \id$)} \\
                                     &= \widetilde{\id} \\
                                     &= \id \\
             \end{align*} as required.
 
-            Now the reification map \( \downarrow^{\tau \rightarrow \tau'} \) is defined as the composite
-          \[ (\abs_{\tau \rightarrow \tau'}, \id) \circ (\downarrow^{\tau'})^{(\uparrow^{\tau} v_{\tau})}\] so that
+            Now the reification map \( \Downarrow^{\tau \rightarrow \tau'} \) is defined as the composite
+          \[ (\abs_{\tau \rightarrow \tau'}, \id) \circ (\Downarrow^{\tau'})^{(\Uparrow^{\tau} v_{\tau})}\] so that
           \begin{align*}
-            \semproj(\downarrow^{\tau\rightarrow\tau'}) &= \semproj(\abs_{\tau \rightarrow \tau'}, \id) \circ {(\semproj \downarrow^{\tau'})}^{\semproj(\uparrow^{\tau}) \circ \semproj(v_{\tau})} \\
+            \semproj(\Downarrow^{\tau\rightarrow\tau'}) &= \semproj(\abs_{\tau \rightarrow \tau'}, \id) \circ {(\semproj \Downarrow^{\tau'})}^{\semproj(\Uparrow^{\tau}) \circ \semproj(v_{\tau})} \\
                                &= \id \circ {(\id)}^{\id \circ \id} && \textrm{(induction hypothesis)} \\
                                &= {\id}^{\id} \\
                                &= \id^{*} \circ \id_{*} \\
@@ -2274,17 +2297,63 @@ same semantics as the input term.
   \end{itemize}
 \end{proof}
 
+\begin{corollary}
+  The pairs from Definition~\ref{def:reify-reflect} form maps in the gluing category.
+\end{corollary}
+\begin{proof}
+
+  TODO: this whole proof, gave up at the unit type case.
+
+  Following the definitions, the proof proceed by induction on \( \tau \in \types \).
+  Now that we have Theorem~\ref{thm:reif-refl-sempres} in hand however, the
+  gluing condition is simpler to prove. It suffices to show that the syntactic
+  component of each pair is a transformation of terms preserving definitional
+  equality.
+    \begin{itemize}
+      \item For a base type \( \theta \in T \), we have \( \Uparrow^{\theta} = \id_{\mu_{\theta}} \) and
+            \( \Downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \). The former
+            case is the identity and hence immediate. The latter case requires
+            noting that the inclusion of neutrals into the normals from the
+            typing rules in Definition~\ref{def:neut-norm-rules} does not change
+            the syntax, whence definitional equality is preserved.
+      \item For the empty product/unit type \( \termob \), we have
+            \( \Uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and
+            \( \Downarrow^{\termob} = (\termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob})\).
+            In the former case, I have no clue TODO. In the latter case, I have
+            no clue either...TODO
+    \item For types \( \tau, \tau' \in \types\), we define
+    \[ \Uparrow^{\tau*\tau'} : \mu_{\tau*\tau'} \rightarrow \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl}\] as the pair of the following composites:
+    \begin{align*}
+      &\mu_{\tau*\tau'} \xrightarrow{(\fst_{\tau}^{\tau'}, \pi_{1})} \mu_{\tau} \xrightarrow{\Uparrow^{\tau}} \sem{\tau}_{\gl} \\
+      &\mu_{\tau*\tau'} \xrightarrow{(\snd_{\tau'}^{\tau}, \pi_{2})} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl} \\
+    \end{align*}
+
+    and define \( \Downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) as the composite
+    \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)}     \eta_{\tau*\tau'} \]
+
+    \item For types \( \tau, \tau' \in \types \), we define the reflection map
+    \[ \Uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
+    as the exponential transpose of the composite
+    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
+
+    and the reification map
+    \[ \Downarrow^{\tau\rightarrow\tau'} : {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \rightarrow \eta_{\tau \rightarrow \tau'} \] as the composite
+    \[ {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \xrightarrow{(\Downarrow^{\tau'})^{(\Uparrow^{\tau} v_{\tau})}} {\eta_{\tau'}}^{\nu_{\tau}} \xrightarrow[\cong]{(\abs_{\tau\rightarrow\tau'} , \id)} \eta_{\tau\rightarrow\tau'}\]
+    where \( v_{\tau} = (\var_{\tau} , \id) : \nu_{\tau} \rightarrow \mu_{\tau}\).
+  \end{itemize}
+\end{proof}
+
 \subsection{A promise kept: a normalization function}
 Having performed reify-reflect yoga at each type, we have established the
 desired diagram from Section~\ref{sec:taking-stock}. We can now define a
 function \( \nf_{\tau}^{\Gamma} : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the
 composite
 
-\[ \mathfrak{L}_{\tau}(\Gamma) \xrightarrow{l_{\tau}} \tm(\tau)(\Gamma) \xrightarrow{\sem{-}} \gl [\sem{\Gamma}, \sem{\tau}] \xrightarrow{(\uparrow_{\Gamma} v_{\Gamma})^{*} \circ {\downarrow^{\tau}}_{*}} \gl [\yoneda(\Gamma), \eta_{\tau}] \xrightarrow[\cong]{(d,\delta) \mapsto d(\id_{\Gamma})} \nfpsh(\Gamma) \]
+\[ \mathfrak{L}_{\tau}(\Gamma) \xrightarrow{l_{\tau}} \tm(\tau)(\Gamma) \xrightarrow{\sem{-}} \gl [\sem{\Gamma}, \sem{\tau}] \xrightarrow{(\Uparrow_{\Gamma} v_{\Gamma})^{*} \circ {\Downarrow^{\tau}}_{*}} \gl [\yoneda(\Gamma), \eta_{\tau}] \xrightarrow[\cong]{(d,\delta) \mapsto d(\id_{\Gamma})} \nfpsh(\Gamma) \]
 
 where
 \begin{align*}
-  \uparrow_{\Gamma} &= \prod_{(x:\tau)\in\Gamma} \uparrow^{\tau} \\
+  \Uparrow_{\Gamma} &= \prod_{(x:\tau)\in\Gamma} \Uparrow^{\tau} \\
   v_{\Gamma} &= \yonedabar(\Gamma) \xrightarrow{\cong} \prod_{(x:\tau)\in\Gamma}\nu_{\tau} \xrightarrow{\prod_{(x:\tau)\in\Gamma} v_{\tau}} \prod_{(x:\tau)\in\Gamma}\mu_{\tau} \\
 \end{align*}
 
@@ -2293,7 +2362,7 @@ operation in the \( \NN \)-algebra on the gluing category.
 
 That is, since the final isomorphism in the composite is a form of the Yoneda
 lemma and hence given by evaluation at the identity, we have for each term $t$
-that \( \nf_{\tau,\Gamma}(t) = (\downarrow^{\tau} \sem{\Gamma \vdash t : \tau} \uparrow_{\Gamma} v_{\Gamma}) (\id_{\Gamma}) \)
+that \( \nf_{\tau,\Gamma}(t) = (\Downarrow^{\tau} \sem{\Gamma \vdash t : \tau} \Uparrow_{\Gamma} v_{\Gamma}) (\id_{\Gamma}) \)
 
 The function we've defined takes open terms to normal forms, but it remains to
 establish the various correctness properties characterizing a normalization
@@ -2341,13 +2410,13 @@ so with ease.
   have that the composite \( n_{\tau} \circ ((d, \delta) \mapsto d(\id))\) of the gluing map for
   normal forms with the isomorphism witnessing the Yoneda lemma is the semantic
   projection \( \semproj \). So it suffices to show that
-  \( \semproj (\downarrow^{\tau} \sem{\Gamma \vdash t : \tau}_{\gl} (\uparrow_{\Gamma}v_{\Gamma}) ) = \sem{\Gamma \vdash t : \tau}_{\cl} \).
+  \( \semproj (\Downarrow^{\tau} \sem{\Gamma \vdash t : \tau}_{\gl} (\Uparrow_{\Gamma}v_{\Gamma}) ) = \sem{\Gamma \vdash t : \tau}_{\cl} \).
   By Lemma~\ref{lem:sem-pi-is-id-endofunctor}, the interpretation of terms in
   the gluing category extends the interpretation of terms in the classifying
   category, so that
   \( \semproj (\sem{\Gamma \vdash t : \tau}_{\gl}) = \sem{\Gamma \vdash t : \tau}_{\cl}\). Now the desired
   equality follows from observing that the semantic component of each gluing
-  morphism \( \downarrow^{\tau} \), \( \uparrow^{\tau}\), and \( v_{\tau} \) each are the identity in the
+  morphism \( \Downarrow^{\tau} \), \( \Uparrow^{\tau}\), and \( v_{\tau} \) each are the identity in the
   semantic component, by Theorem~\ref{thm:reif-refl-sempres} and
   Definition~\ref{def:glued-algebra}.
 \end{proof}
