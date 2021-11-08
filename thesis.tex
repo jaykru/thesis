@@ -879,9 +879,17 @@ The typing rules are given as follows:
   \end{mathpar}
 \end{definition}
 
-\section{Lambda theories, beta-eta rules, and cartesian closed categories}
-We now define a notion which mediates between full-cartesian closed structure
-and having lambda abstraction at all. Our definition comes from Taylor
+\section{Raw cartesian closed structure, beta-eta rules, and cartesian closed structure}
+We begin by defining a notion which mediates between \emph{having lambda
+  abstraction} and the more structured situation enjoyed by usual presentations
+of the lambda calculus. The additional structure we refer to is precisely the
+\emph{$\beta$- and $\eta$- laws} which are the actual content of lambda abstraction.
+% Both the former and latter situations predictably have analogues in categories,
+% in which exponential objects will serve as function types, the counit of the
+% product-hom adjunction is the evaluation, and lambda abstraction is given by
+% exponential transposition. We will see that the less structured
+
+The definition comes from Taylor
 \cite{taylor_practical_1999}.
 
 \begin{definition}[Raw cartesian closed structure]
@@ -921,13 +929,19 @@ closed structure.
 These equations deserve some commentary. The beta rule says that application of
 an abstracted body $\mathfrak{p}$ to the identity gives you back the body you
 started with: the beta rule forces that application of lambda expressions does
-nothing more than substitute for the abstracted variable. TODO: explain eta.
+nothing more than substitute for the abstracted variable. The eta rule says that
+taking a function $f$, applying it to a variable $x$, then finally abstracting
+over that variable $x$ is the same operation as doing nothing to $f$. We will
+see the more familiar symbolic forms of these rules in the definition of the
+theory of the usual calculus below.
 
 We now define a notion more well-known outside of computer science. Cartesian
 closed structure endows a category with the ability to take products and
-function spaces over its objects in a suitable fashion. It will turn out that
-this familiar form is equivalent to the combination of raw cartesian closed
-structure and beta-eta rules.
+function spaces over its objects in a suitable fashion; as can be seen below,
+the notion of Cartesian product and function space in the category of sets are
+examples of suitable such constructions. It will turn out that this familiar
+situation is equivalent to the combination of raw cartesian closed structure and
+beta-eta rules.
 \begin{definition}[Cartesian closed structure]
   A category \( \mathfrak{C} \) is \emph{cartesian closed} if it has all
   products and exponentials.
@@ -939,7 +953,7 @@ function spaces: for sets $X$ and $Y$, \( Y^{X} = \{ \textrm{functions
 } f \mid \textrm{dom}(f) = X \wedge \textrm{cod}(f) = Y \}\). Another good source of
 example cartesian closed categories is topos theory. All elementary toposes,
 including categories of presheaves, are cartesian closed
-(\cite{leinster_informal_2011}.) It turns out that all of these examples of
+\cite{leinster_informal_2011}. It turns out that all of these examples of
 cartesian closed categories can also be characterized as the classifying
 categories of lambda theories satisfying the beta-eta rules.
 
@@ -957,7 +971,8 @@ categories of lambda theories satisfying the beta-eta rules.
 
 Finally, we will present the lambda calculus as a series of algebraic theories,
 each of which are identical except for the equations they admit. These theories
-will correspond to instances of the lambda calculus whose terms are
+correspond to instances of the lambda calculus whose notion of equality for
+lambda terms identifies more or fewer lambda terms.
 
 \begin{definition}[Algebraic theory of the lambda calculus]
   The \emph{$\alpha$-lambda calculus} is presented as the following algebraic theory:
@@ -1006,29 +1021,37 @@ will correspond to instances of the lambda calculus whose terms are
 
 \begin{definition}[Lambda calculus]\label{def:alpha_beta_eta_theory}
   The lambda calculus, or the $\alpha\beta\eta$-lambda calculus is defined as the algebraic
-  theory of the $\alpha$-lambda calculus with the following additional equational
-  laws:
+  theory of the $\alpha$-lambda calculus enriched with the following additional
+  equational laws:
   \begin{align*}
     \betalaw && (\beta)\\
     \etalaw && (\eta)\\
   \end{align*}
 \end{definition}
 
-\begin{theorem}[Lambda calculus is a lambda theory with beta-eta]
+The following result is immediate.
+\begin{theorem}
+  The lambda calculus is a raw cartesian closed algebraic theory with beta-eta.
 \end{theorem}
 
-\begin{corollary}[The classifying category of the lambda calculus is cartesian closed]
+\begin{corollary}
+  The classifying category of the lambda calculus is cartesian closed.
+\end{corollary}
+\begin{proof}
   Immediate by the previous result and Theorem~\ref{thm:rawbetaetaisccs}.
-\end{corollary}
+\end{proof}
 
-\begin{corollary}[$\lambda$-algebras are diagrams in cartesian closed categories]
-  Immediate by the previous result and Theorem~\ref{thm:classifying alg theory}.
+\begin{corollary}
+  Models of the lambda calculus are diagrams in cartesian closed categories
 \end{corollary}
+\begin{proof}
+  Immediate by the previous result and Theorem~\ref{thm:classifying alg theory}.
+\end{proof}
 
 \begin{corollary}[An interpretation of base types in a CCC gives rise to an interpretation of $\lambda$-terms]
 \end{corollary}
 
-This final result will prove important in \ref{chapter:gluing}
+This final result will prove important in Chapter~\ref{chapter:gluing}.
 
 \chapter{Normalization by evaluation: the classical perspective}
 In this chapter, we outline the technique of \emph{normalization by evaluation}
