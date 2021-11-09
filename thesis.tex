@@ -189,7 +189,7 @@ Normalization by gluing is based.
 Blah blah blah, I should write some stuff about how category theory helps us
 avoid insane proof heuristics in metatheory of type theory.
 
-\chapter{Functorial semantics: sketches and their models; algebraic theories and their algebras}
+\chapter{Functorial semantics: sketches and their models; algebraic theories and their algebras}\label{chapter:functorial_semantics}
 In this chapter we develop tools for reasoning about (syntactic)
 \emph{theories}, which are in some sense ``notions of'' abstract structure.
 Examples of theories include the theory of rings, and simple type theory. To
@@ -908,12 +908,43 @@ The definition comes from Taylor
           \]
           for each \( \mathfrak{u} : \Gamma \rightarrow \Delta \) and
           \( \mathfrak{p} : \Delta \times X \rightarrow Y \).
+
+          Looking closely at the naturality law, it essentially says that
+          substitutions ``not touching'' the bound variable commute with lambda
+          abstraction. Informally, this is a good expression to have in mind:
+          \( \mathfrak{u}^{*}(\lambda x\, . p) = \lambda x.\, (u^{*}p) \).
   \end{enumerate}
 \end{definition}
 
 We will say that an algebraic theory $\mathcal{L}$ \emph{has raw cartesian
   closed structure} if its classifying category \( \cnprod \) has raw cartesian
 closed structure.
+
+The following theorem
+
+\begin{theorem}\label{thm:rawccsinterp}
+  Let \( \mathcal{L}\) be an algebraic theory and $C$ be a category with raw
+  cartesian closed structure and an algebra for \( \mathcal{L}\). The algebra
+  for \( \mathcal{L}\) extends uniquely along the raw cartesian closed structure
+  to provide an interpretation of terms, which defines a functor
+  \( \sem{-} : \cn_{\mathcal{L}} \rightarrow C\)
+\end{theorem}
+\begin{proof}
+  Building on Definition~\ref{def:term model}, we define the interpretation by
+  structural recursion:
+  \begin{itemize}
+    \item The interpretation of base types are given by the algebra for \( \mathcal{L}\)
+    \item The interpretation of an exponential \( \Delta^{\Gamma}\) is
+          \( \sem{\Delta}^{\sem{\Gamma}}\) where the latter is the exponential entailed by
+          the raw cartesian closed structure.
+    \item Contexts are taken to products as in Definition~\ref{def:term model}.
+    \item The variables, operation symbols, and the laws are treated as in
+          Definition~\ref{def:term model}.
+    \item The last clause of the raw cartesian closed structure gives the notion
+          of lambda abstraction in $C$.
+  \end{itemize}
+\end{proof}
+
 
 \begin{definition}[Beta-eta rules]
   A raw cartesian closed algebraic theory $\mathcal{L}$ satisfies the
@@ -934,13 +965,14 @@ over that variable $x$ is the same operation as doing nothing to $f$. We will
 see the more familiar symbolic forms of these rules in the definition of the
 theory of the usual calculus below.
 
-We now define a notion more well-known outside of computer science. Cartesian
+We now define a notion more well-known outside of computing. Cartesian
 closed structure endows a category with the ability to take products and
 function spaces over its objects in a suitable fashion; as can be seen below,
 the notion of Cartesian product and function space in the category of sets are
 examples of suitable such constructions. It will turn out that this familiar
 situation is equivalent to the combination of raw cartesian closed structure and
 beta-eta rules.
+
 \begin{definition}[Cartesian closed structure]
   Let \( \mathfrak{C}\) be a category. An \emph{exponential} of objects \( X \)
   and \( Y \) is an object $E$ of \( \mathfrak{C} \) together with a morphism
@@ -973,7 +1005,7 @@ the universal property of the exponential transpose.
 \end{theorem}
 % \begin{proof}
 %   For the first direction, suppose that \( \mathfrak{C} \) is cartesian closed.
-%   Then \( \mathfrak{C} \) has all exponentials and all products. The map
+%   Then \( \mathfrak{C} \) has all exponential and all products. The map
 %   \( \abstr{\Gamma}{X}{Y} : \mathfrak{C}[\Gamma\times X, Y] \rightarrow \mathfrak{C}[\Gamma, Y ^{X}]\)
 %   required for raw cartesian closed structure is precisely given by the map
 %   which takes the exponential transpose: \( p \mapsto \tilde{p}\). The naturality law
@@ -1018,10 +1050,12 @@ lambda terms identifies more or fewer lambda terms.
           family of operation symbols defined mutually with the others. For each
           term \( \Gamma, x:\tau' \vdash t : \tau \), we add a new operation symbol
          \begin{align*}
-           \Gamma &\vdash (\lambda (x:\tau').\, t)(\overrightarrow{\gamma}) : \tau && \text{(where $\overrightarrow{\gamma}$ is the list of variables comprising $\Gamma$)}
+           \Gamma &\vdash (\lambda x.\, t)(\overrightarrow{\gamma}) : \tau && \text{(where $\overrightarrow{\gamma}$ is the list of variables comprising $\Gamma$)}
          \end{align*}
           The operation symbols are the least set closed under taking
-          abstractions in this way and containing the operation symbols already mentioned above.
+          abstractions in this way and containing the operation symbols already
+          mentioned above.
+
     \item The only equation is the $\alpha$-rule which says that terms can be
           identified up to renamings of their bound variables. We notably do not
           include the $\beta\eta$-rules in this version.
@@ -1041,12 +1075,21 @@ lambda terms identifies more or fewer lambda terms.
   sake of legibility. The exponential
   \[[{[x_{1} : X_{1},x_{2} : X_{2}\ldots, x_{j} : X_{j}]} \Rightarrow {[y_{1} : Y_{1},y_{2} : Y_{2},\ldots,y_{k} : Y_{k}]}]\]
   is the context \( [f_{1} : F_{1} ,f_{2} : F_{2}, \ldots, f_{k} : F_{k}]\) where the
-  \( f_{i}\) are new variables and
+  \( f_{i}\) are new variables
+  and \[ F_{i} = X_{1} \Rightarrow [X_{2} \Rightarrow \cdots [X_{j} \Rightarrow Y_{i}] \cdots] \] Finally, we define
   \begin{align*}
-    F_{i} &= X_{1} \Rightarrow [X_{2} \Rightarrow \cdots [X_{j} \Rightarrow Y_{i}] \cdots] \\
-    \ev{\overrightarrow{X},overrightarrow{Y}} &= [(\cdots(f_{1}(x_{1})x_{2}) \cdots x——]\circ[]
+    \textrm{ev}_{\overrightarrow{X},\overrightarrow{Y}} &= [(\cdots(f_{1}(x_{1})x_{2}) \cdots x_{j}) / y_{1}] \circ \cdots [(\cdots(f_{k}(x_{1})x_{2}) \cdots x_{j}) / y_{k}] \\
+    \lambda_{\Gamma, \overrightarrow{X}, \overrightarrow{Y}} [\overrightarrow{p} / \overrightarrow{y}] &= [(\lambda x_{1}.\,(\lambda x_{2}. \ldots (\lambda x_{k} .\, p_{1}) \ldots ))/f_{1}] \circ  \cdots [(\lambda x_{1}.\,(\lambda x_{2}.\, \ldots (\lambda x_{k} .\, p_{k}) \ldots ))/f_{k}] \\
   \end{align*}
-  \end{proof}
+
+  Naturality with respect to weakening and single substitution follows from the
+  fact that substitution for (or weakening by) a variable $x$ commutes with
+  abstraction of a distinct variable $y$: for any terms $p$ and $c$, we have
+  \( [c/y]^{*} (\lambda x.\, p ) \equiv \lambda x.\, ([c/y]^{*}p)\). The same situation
+  holds for weakening. The full naturality law follows from this and the fact
+  that single substitution and weakening are the generating morphisms of the
+  classifying category.
+\end{proof}
 
 \begin{definition}[Lambda calculus]\label{def:alpha_beta_eta_theory}
   The lambda calculus, or the $\alpha\beta\eta$-lambda calculus is defined as the algebraic
@@ -1057,34 +1100,35 @@ lambda terms identifies more or fewer lambda terms.
     \etalaw && (\eta)\\
   \end{align*}
 
-  We write \( \mathcal{L}_{\lambda\alpha\beta\eta}\) or simply \( \lambda \) for the new theory, and \( \cl \) for its classifying category.
+  We write \( \mathcal{L}_{\lambda\alpha\beta\eta}\) or simply \( \lambda \) for the new theory, and
+  \( \cl \) for its classifying category.
 \end{definition}
 
 \begin{definition}[Lambda algebra]
   By a \emph{lambda algebra}, we mean an algebra for the theory \( \mathcal{L}_{\lambda\alpha\beta\eta}\)
 \end{definition}
 
-The following result is immediate.
+The following results quickly follow the definition of the theory of the lambda
+calculus and the work we did in Chapter~\ref{chapter:functorial_semantics}.
 \begin{theorem}
   The lambda calculus is a raw cartesian closed algebraic theory with beta-eta.
 \end{theorem}
 
-\begin{corollary}
-  The classifying category of the lambda calculus is cartesian closed.
-\end{corollary}
+\begin{theorem}
+  The classifying category \( \cl \) of the theory \( mathcal{L}_{\lambda\alpha\beta\eta} \) is
+  cartesian closed and has a lambda algebra. Further, if $C$ is any cartesian
+  closed category with a lambda algebra then there is a unique functor
+  \( \sem{-} : \cl \rightarrow C \) that preserves the cartesian closed structure and the
+  lambda algebra.
+\end{theorem}
 \begin{proof}
-  Immediate by the previous result and Theorem~\ref{thm:rawbetaetaisccs}.
+  Cartesian closure follows immediately from the previous result and
+  Theorem~\ref{thm:rawbetaetaisccs}. The rest is given essentially as in
+  Theorem~\ref{thm:classifying alg theory}, except that we must handle the new
+  exponentials with more care. Theorem~\label{thm:rawccsinterp} provides the
+  requisite care and extends the functor defined in Definition~\ref{def:term
+    model} to provide one which preserves exponentials as required.
 \end{proof}
-
-\begin{corollary}
-  Models of the lambda calculus are diagrams in cartesian closed categories
-\end{corollary}
-\begin{proof}
-  Immediate by the previous result and Theorem~\ref{thm:classifying alg theory}.
-\end{proof}
-
-\begin{corollary}[An interpretation of base types in a CCC gives rise to an interpretation of $\lambda$-terms]
-\end{corollary}
 
 This final result will prove important in Chapter~\ref{chapter:gluing}.
 
