@@ -328,12 +328,14 @@ continue, we should decide what our term composition will be.
 
 With our notion of composition in hand, we can now handwave an argument for our
 revised claim that the terms of the sketch form the elements of a free monoid.
-The reader will recall from our early discussions of basic type theory that
-substitution is associative [TODO in Ch 1]. As a consequence, any elementary
-sketch, including this one, satisfies that axiom for free. The identity term is
+It is well-known that substitution operation is associative; see, for example,
+Chapter 1 of \cite{taylor_practical_1999} for a fantastic treatment of the
+theory of subtitution. As a consequence, any elementary sketch, including this
+one, satisfies the associativity axiom of monoids for free. The identity term is
 given by zero composable unary operation-symbols applied to a variable. It's
 just a variable; when composing the identity term with any other term, we end up
-getting exactly that original term.
+getting exactly that original term. Freedom comes from the fact that the sketch
+has no equations.
 
 This loose argument is somewhat satisfying, but we can do better. To get there,
 we will first develop a notion generalizing \emph{actions} from algebra. After
@@ -565,15 +567,14 @@ out of the category in question.
 \section{Algebraic theories and their algebras}
 Having defined elementary sketches, which give us a way to define multi-sorted
 theories, it's obvious to request the ability to define multi-input
-operations\footnote{Here's a little known statistic: At least one in two readers
-  of this draft will observe that the doctrine of algebraic theory can be
-  rephrased in terms of operards: algebraic theories are operads for which the
-  tensor product used in forming the operation domains happens to be the plain
-  ol' Cartesian product~\cite{TODO: Nlab}}. Algebraic theories generalize the
-doctrine of elementary sketches and allow us to do so. As we upgrade our
-doctrine to allow products, many of the notions (\emph{terms, clones, syntactic
-  category, etc.}) which we developed in the simplified world of elementary
-sketches will come along for the ride.
+operations\footnote{Some readers may appreciate that the doctrine of algebraic
+  theory can be rephrased in terms of operards: algebraic theories are operads
+  for which the tensor product used in forming the operation domains happens to
+  be the (Cartesian-style) product~\cite{TODO: Nlab}}. Algebraic theories
+generalize the doctrine of elementary sketches and allow us to do so. As we
+upgrade our doctrine to allow products, many of the notions (\emph{terms,
+  clones, syntactic category, etc.}) which we developed in the simplified world
+of elementary sketches will come along for the ride.
 
 \begin{definition}[Algebraic theory]\label{def:alg theory}
   A (finitary many-sorted) \textbf{algebraic theory} $\mathcal{L}$ has
@@ -645,8 +646,6 @@ algebraic theory:
 We are now in good shape to give an example of an algebra (in the category of
 sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
 \begin{example}\label{ex:integer ring}
-  % TODO: maybe need to explicate the product structure here, though I think we
-  % really should get that for free with an algebraic theory.
   \begin{enumerate}
     \item For the sorts, we set $A_{S} = \mathbb{Z}$ and $A_{\mathbbm{1}} = \{\star\}$
     \item For the operations, we set
@@ -1487,7 +1486,7 @@ essential to recovering the relative monotonicity condition. To see this, we nee
   these objects are exactly variable-arity Kripke relations.
 
 
-\section{Stratified syntax, theories, presheaves, algebras}
+\section{Presheaves of stratified neutral and normal syntax}
 In this section, we will enlist a motely crew of \emph{presheaves of syntax}
 which more-or-less represent families of terms in the lambda calculus. These
 presheaves are defined over $\ren$ for reasons that will become apparent later.
@@ -1751,12 +1750,11 @@ precomposed with the relevant inclusion.
 
 \section{Desiderata for a normalization function}
 
-For all this talk of normalization, and blood sweat and tears expended for its
-benefit, we haven't talked much about what a normalization function must be. Of
-course, it should take a lambda term to a normal form, but the desiderata are
-far more than that. The following are some of the important properties a
-normalization function \( \nf_{\tau}^{\Gamma} : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should
-satisfy:
+For all this talk of normalization, we haven't said much about what a
+normalization function must be. Of course, it should take a lambda term to a
+normal form, but the desiderata are far more than that. The following are some
+of the important properties a normalization function
+\( \nf_{\tau}^{\Gamma} : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should satisfy:
 \begin{itemize}
   \item Compatibility with context renamings: For each morphism \( \rho : \Delta \rightarrow \Gamma \) of \( \ren \) and term \( t \in \opens_{\tau}(\Gamma)\),
         \[ \rho^{*} \, \nf_{\tau}^{\Gamma}(t) = \nf_{\tau}^{\Delta}(\rho^{*} \, t)\]
@@ -2116,18 +2114,42 @@ Finally we can give an interpretation of base types in the gluing category in te
   \theta &\mapsto \mu_{\theta}\\
 \end{align*}
 
-Let \(\sem{-}_{\cl} : \types \rightarrow \cl \) be the interpretation of terms in the
-syntactic category induced by the usual interpretation of types as singleton
-contexts. By (TODO: $\pi_2$ second component gluing projection), the
-interpretation of terms induced by \( \bar{s} \) according to
-Definition~\ref{def:term model} extends the interpretation of terms in the
-syntactic category in the following sense: \( \bar{s}\sem{\Gamma \vdash t : \tau} \) is a
-pair of the form $(s'\sem{ \Gamma \vdash t : \tau}, s\sem{\Gamma \vdash t : \tau })$ where
-\( s' : \cl \rightarrow \renhat \) is the unique functor induced by the $\renhat-$lambda
-algebra of neutral and normals from Definition~\ref{def:glued-algebra} and the
-cartesian closed structure of the category of presheaves. Now is a good time to
-take stock of what we have developed so far, and look ahead to where we're
-going.
+Together with a suitable interpretation of base constructors and eliminators
+(which are taken to be a parameter of this development) as glued morphisms, this
+interpretation defines a lambda algebra of glued neutrals. Initiality of the
+classifying category and its lambda algebra in turn induces a unique functor
+\( \sem{-}_{\gl} : \cl \rightarrow \gl \) essentially as in Theorem~\ref{thm:classifying
+  alg theory}. We write \( \sem{-}_{\gl} : \cl \rightarrow \gl \) for both this functor
+and the interpretation of terms acquired by precomposing the functor with the
+usual interpretation of terms in the classifying category. It is crucial to
+understand that though \( \sem{\theta}_{\gl} \) and \( \mu_{\theta}\) are the same for base
+types $\theta$, but are \emph{not} the same for higher types \( \tau \in \types\). In the
+case of products, the interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the actual
+product \( \mu_{\theta} \times \mu_{\theta'}\) and not \( \mu_{\theta\times\theta'} \). In what follows, we still
+allow ourselves to write \( \sem{-} \) for the usual interpretation of terms in
+the classifying category, distinguishing the new interpretation only by a
+subscript. The induced interpretation \( \sem{-}_{\gl}\) extends the usual
+interpretation of terms in the syntactic category in the following sense:
+\( \sem{\Gamma \vdash t : \tau}_{\gl} \) is a pair of the form
+$(\sem{\Gamma \vdash t : \tau}_{\renhat}, \sem{\Gamma \vdash t : \tau })$ where
+\( \sem{-}_{\renhat} : \cl \rightarrow \renhat \) functor induced by the
+\(\renhat\)-lambda algebra over the family \( \{ \nepsh \}_{\tau\in\types}\) and
+initiality of the classifying category.
+
+\begin{lemma}\label{lem:sem-pi-is-id-endofunctor}
+  The composite \( \semproj \circ \sem{-}_{\gl} : \cl \rightarrow \cl \) is the identity endofunctor on \( \cl \).
+\end{lemma}
+\begin{proof}
+  This follows from Theorem~\ref{thm:classifying alg theory}. In particular,
+  since \( \cl \) is the initial category with a model of the lambda calculus,
+  we have that there is a unique functor \( \cl \rightarrow \cl \) preserving the
+  cartesian closed structure and the lambda algebra. The identity preserves the
+  cartesian closed structure and the lambda algebra, so that uniqueness forces
+  the desired equality.
+\end{proof}
+
+Now is a good time look ahead to where we're going, and see how what we've done
+so far will get us there.
 
 \subsection{Taking stock: charting a path to normalization}\label{sec:taking-stock}
 We now have enough language to say exactly what it is we're hoping to acquire in
@@ -2137,9 +2159,10 @@ this chapter. Let \( \tau \in \types \) and suppose
 \( \downarrow_{\tau}\) (pronounced ``reify'', or for the LISPer ``quote'') at each type
 \( \tau \in \types \) to fill in the dotted arrows in the upper diagram such that the
 lower diagram commutes. In classical approaches to normalization by evaluation,
-reflection can be construed as ``lifting'' syntax into a semantic domain, while
-reification is thought of as ``lowering'' semantic objects to a syntactic
-representation.
+reflection can be construed as lifting syntax into a semantic domain: in
+practice, this looks like, say, taking syntactic functions in the object
+language to \emph{actual functions} in the host language. Dually, reification is
+thought of as lowering semantic objects to a syntactic representation.
 
 % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDAsIlxcbWF0aGZyYWt7Un1fXFx0YXUiXSxbNCwwLCJcXG1hdGhmcmFre05mfV9cXHRhdSJdLFsyLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiXFx1cGFycm93X1xcdGF1IiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzEsMiwiXFxkb3duYXJyb3dfXFx0YXUiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XSxbMiwzLCJuX1xcdGF1Il0sWzAsMywibV9cXHRhdSIsMl0sWzEsMywicl9cXHRhdSIsMl1d
 \[\begin{tikzcd}
@@ -2180,9 +2203,9 @@ To come up with such maps, we shall produce some intermediate maps
 \]
 in the gluing category. Setting \( \downarrow^{\tau} = \synproj (\Downarrow^{\tau})\) and
 \( \uparrow^{\tau} = \synproj(\Uparrow^{\tau})\), we find that the triangles above follow from
-demonstrating that the intermediate maps project in the semantics onto the
-identity: \( \semproj(\Downarrow^{\tau}) = \id_{\sem{\tau}} = \semproj(\Uparrow^{\tau})\). This follows by
-considering the universal property of a gluing morphism. In the case of the
+demonstrating that the above gluing maps project in the semantics onto the
+identity: \( \semproj(\Downarrow^{\tau}) = \id_{\sem{\tau}} = \semproj(\Uparrow^{\tau})\). This follows
+by considering the universal property of a gluing morphism. In the case of the
 reflect map, we get a diagram like this
 
 % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDAsIlxcbWF0aGZyYWt7Un1fXFx0YXUiXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMiwyLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXHBpX3tcXHRleHRybXtzZW19fShcXFVwYXJyb3dee1xcdGF1fSkpPVxcdGV4dHJte2lkfSIsMl0sWzAsMiwibV9cXHRhdSIsMl0sWzAsMSwiXFxwaV97XFx0ZXh0cm17c3lufX0oXFxVcGFycm93XlxcdGF1KSA9XFx1cGFycm93XlxcdGF1Il0sWzEsMywicl9cXHRhdSIsMV1d
@@ -2200,7 +2223,7 @@ which is the required triangle. In the reification case, we get the desired
 triangle along the same lines. Convinced thus, we can set about defining the
 required gluing maps.
 
-\subsection{Introducing Elmer's Reify-reflect}\label{def:reify-reflect}
+\subsection{Glued reification and reflection}\label{def:reify-reflect}
 We begin by defining \emph{pairs} of maps without actually demonstrating that
 the pairs form gluing morphisms. We introduce this delay in order to allow for a
 more elegant verification of the gluing morphism condition using the fact, to be
@@ -2406,7 +2429,7 @@ where
 \end{align*}
 
 recalling that \( \nu_{\tau} \xrightarrow{v_{\tau}} \mu_{\tau}\) is the \( \var_{\tau} \)
-operation in the \( \NN \)-algebra on the gluing category.
+operation from the \( \NN \)-algebra on the gluing category.
 
 That is, since the final isomorphism in the composite is a form of the Yoneda
 lemma and hence given by evaluation at the identity, we have for each term $t$
@@ -2428,18 +2451,6 @@ so with ease.
   equality. Symbolically, we have \( l_{\tau}(t) = l_{\tau}(t')\) from which the
   required equality is immediate by the definition of the normalization function
   as a composite starting with \( l_{\tau}\).
-\end{proof}
-
-\begin{lemma}\label{lem:sem-pi-is-id-endofunctor}
-  The composite \( \semproj \circ \sem{-}_{\gl} : \cl \rightarrow \cl \) is the identity endofunctor on \( \cl \).
-\end{lemma}
-\begin{proof}
-  This follows from Theorem~\ref{thm:classifying alg theory}. In particular,
-  since \( \cl \) is the initial category with a model of the lambda calculus,
-  we have that there is a unique functor \( \cl \rightarrow \cl \) preserving the
-  cartesian closed structure and the lambda algebra. The identity preserves the
-  cartesian closed structure and the lambda algebra, so that uniqueness forces
-  the desired equality.
 \end{proof}
 
 \begin{theorem}[Semantics preservation]
