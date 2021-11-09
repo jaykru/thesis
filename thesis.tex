@@ -942,8 +942,14 @@ examples of suitable such constructions. It will turn out that this familiar
 situation is equivalent to the combination of raw cartesian closed structure and
 beta-eta rules.
 \begin{definition}[Cartesian closed structure]
-  A category \( \mathfrak{C} \) is \emph{cartesian closed} if it has all
-  products and exponentials.
+  Let \( \mathfrak{C}\) be a category. An \emph{exponential} of objects \( X \)
+  and \( Y \) is an object $E$ of \( \mathfrak{C} \) together with a morphism
+  \( \epsilon : E \times X \rightarrow Y \) such that for each object \( \Gamma \) of \( \mathfrak{C}\) and
+  morphism \( p : \Gamma \times X \rightarrow Y \) there is a unique morphism
+  \( \tilde{p} : \Gamma \rightarrow E \) called the \emph{exponential transpose} such that
+  \( p = \epsilon \circ (\tilde{p} \times \id)\). This is a universal property: exponentials are
+  unique up to unique isomorphism. A category is \emph{cartesian closed} if it
+  has all products and exponentials.
 \end{definition}
 
 The category \( \catset \) is the prototypical cartesian closed category whose
@@ -954,7 +960,10 @@ example cartesian closed categories is topos theory. All elementary toposes,
 including categories of presheaves, are cartesian closed
 \cite{leinster_informal_2011}. It turns out that all of these examples of
 cartesian closed categories can also be characterized as the classifying
-categories of lambda theories satisfying the beta-eta rules.
+categories of lambda theories satisfying the beta-eta rules. The proof is
+inspired again by Taylor \cite{taylor_practical_1999} but ours is a tad shorter
+because we take liberties in using more sophisticated language than he affords
+himself at the point in the book.
 
 \begin{theorem}[Finite-product category + raw CCS + beta-eta $\iff$ cartesian closed]\label{thm:rawbetaetaisccs}
   Let \( \mathfrak{C} \) be a category. Then \( \mathfrak{C}\) is cartesian
@@ -963,7 +972,20 @@ categories of lambda theories satisfying the beta-eta rules.
   laws.
 \end{theorem}
 \begin{proof}
-  TODO
+  For the first direction, suppose that \( \mathfrak{C} \) is cartesian closed.
+  Then \( \mathfrak{C} \) has all exponentials and all products. The map
+  \( \abstr{\Gamma}{X}{Y} : \mathfrak{C}[\Gamma\times X, Y] \rightarrow \mathfrak{C}[\Gamma, Y ^{X}]\)
+  required for raw cartesian closed structure is precisely given by the map
+  which takes the exponential transpose: \( p \mapsto \tilde{p}\). The naturality law
+  for the map is given by the The \( \beta\) rule is the universal property of the exponential
+  transpose, and is hence satisfied.
+
+
+  required for raw cartesian closed structure. Its \emph{naturality law} is
+  precisely expressed by the naturality of the isomorphism witnessing the
+  adjunction. The \emph{application} or \emph{evaluation} map is given by the
+  counit \( \epsilon_{X,Y} : (- \times X) \circ ({-}^{X}) \rightarrow \id_{\mathfrak{C}}\) associated with
+  the above adjunction.
 \end{proof}
 
 \subsection{An algebraic theory of the lambda calculus}
