@@ -960,10 +960,10 @@ example cartesian closed categories is topos theory. All elementary toposes,
 including categories of presheaves, are cartesian closed
 \cite{leinster_informal_2011}. It turns out that all of these examples of
 cartesian closed categories can also be characterized as the classifying
-categories of lambda theories satisfying the beta-eta rules. The proof is
-inspired again by Taylor \cite{taylor_practical_1999} but ours is a tad shorter
-because we take liberties in using more sophisticated language than he affords
-himself at the point in the book.
+categories of lambda theories satisfying the beta-eta rules. We will not repeat
+the proof found in Taylor \cite{taylor_practical_1999}, but it largely amounts
+to the replication of the \( \beta \) law as well as the uniqueness requirement in
+the universal property of the exponential transpose.
 
 \begin{theorem}[Finite-product category + raw CCS + beta-eta $\iff$ cartesian closed]\label{thm:rawbetaetaisccs}
   Let \( \mathfrak{C} \) be a category. Then \( \mathfrak{C}\) is cartesian
@@ -971,22 +971,23 @@ himself at the point in the book.
   terminal object, and both is raw cartesian closed and satisfies the beta-eta
   laws.
 \end{theorem}
-\begin{proof}
-  For the first direction, suppose that \( \mathfrak{C} \) is cartesian closed.
-  Then \( \mathfrak{C} \) has all exponentials and all products. The map
-  \( \abstr{\Gamma}{X}{Y} : \mathfrak{C}[\Gamma\times X, Y] \rightarrow \mathfrak{C}[\Gamma, Y ^{X}]\)
-  required for raw cartesian closed structure is precisely given by the map
-  which takes the exponential transpose: \( p \mapsto \tilde{p}\). The naturality law
-  for the map is given by the The \( \beta\) rule is the universal property of the exponential
-  transpose, and is hence satisfied.
+% \begin{proof}
+%   For the first direction, suppose that \( \mathfrak{C} \) is cartesian closed.
+%   Then \( \mathfrak{C} \) has all exponentials and all products. The map
+%   \( \abstr{\Gamma}{X}{Y} : \mathfrak{C}[\Gamma\times X, Y] \rightarrow \mathfrak{C}[\Gamma, Y ^{X}]\)
+%   required for raw cartesian closed structure is precisely given by the map
+%   which takes the exponential transpose: \( p \mapsto \tilde{p}\). The naturality law
+%   for the map is given by the product-hom adjunction. The \( \beta\) rule is the
+%   universal property of the exponential transpose, and is hence satisfied.
 
 
-  required for raw cartesian closed structure. Its \emph{naturality law} is
-  precisely expressed by the naturality of the isomorphism witnessing the
-  adjunction. The \emph{application} or \emph{evaluation} map is given by the
-  counit \( \epsilon_{X,Y} : (- \times X) \circ ({-}^{X}) \rightarrow \id_{\mathfrak{C}}\) associated with
-  the above adjunction.
-\end{proof}
+
+%   required for raw cartesian closed structure. Its \emph{naturality law} is
+%   precisely expressed by the naturality of the isomorphism witnessing the
+%   adjunction. The \emph{application} or \emph{evaluation} map is given by the
+%   counit \( \epsilon_{X,Y} : (- \times X) \circ ({-}^{X}) \rightarrow \id_{\mathfrak{C}}\) associated with
+%   the above adjunction.
+% \end{proof}
 
 \subsection{An algebraic theory of the lambda calculus}
 Finally, we will present the lambda calculus as a series of algebraic theories,
@@ -1036,8 +1037,16 @@ lambda terms identifies more or fewer lambda terms.
   The theory \( \mathcal{L}_{\lambda\alpha}\) is raw cartesian closed
 \end{theorem}
 \begin{proof}
-  TODO see Taylor
-\end{proof}
+  In the following we write \( [ X \Rightarrow Y ]\) for the exponential \( Y ^{X}\), for the
+  sake of legibility. The exponential
+  \[[{[x_{1} : X_{1},x_{2} : X_{2}\ldots, x_{j} : X_{j}]} \Rightarrow {[y_{1} : Y_{1},y_{2} : Y_{2},\ldots,y_{k} : Y_{k}]}]\]
+  is the context \( [f_{1} : F_{1} ,f_{2} : F_{2}, \ldots, f_{k} : F_{k}]\) where the
+  \( f_{i}\) are new variables and
+  \begin{align*}
+    F_{i} &= X_{1} \Rightarrow [X_{2} \Rightarrow \cdots [X_{j} \Rightarrow Y_{i}] \cdots] \\
+    \ev{\overrightarrow{X},overrightarrow{Y}} &= [(\cdots(f_{1}(x_{1})x_{2}) \cdots x——]\circ[]
+  \end{align*}
+  \end{proof}
 
 \begin{definition}[Lambda calculus]\label{def:alpha_beta_eta_theory}
   The lambda calculus, or the $\alpha\beta\eta$-lambda calculus is defined as the algebraic
@@ -1078,159 +1087,6 @@ The following result is immediate.
 \end{corollary}
 
 This final result will prove important in Chapter~\ref{chapter:gluing}.
-
-\chapter{Normalization by evaluation: the classical perspective}
-In this chapter, we outline the technique of \emph{normalization by evaluation}
-which exploits an existing programming language evaluator to produce a
-normalization function for the \emph{open terms} of some other language. Our
-intent is merely to communicate the ideas involved with a view to drawing
-analogies to normalization by evaluation in our later discussion of gluing. In
-light of this, we describe the technique in full detail but omit all proofs of
-correctness (in the literature called ``soundness'') % TODO: explain what
-                                                     % soundness is here;
-                                                     % mention other nbe
-                                                     % desiderata?
-The chapter will follow our OCaml implementation of normalization by evaluation
-for G\"odel's System T. Our implementation was inspired by the habilitation of
-Andreas Abel and the Wikipedia page on normalization by evaluation written by a
-number of authors.
-
-\begin{verbatim}
-open Core
-
-type ty = Arrow of ty * ty
-        | Prod of ty * ty
-        | Nat [@@deriving sexp]
-
-type var = string [@@deriving sexp]
-
-let cur : int ref = ref 0
-
-let fresh () : var = let res = Printf.sprintf "var%d" !cur in
-                     cur := !cur + 1;
-                     res
-
-type syn = Lam of var * ty * syn
-         | App of syn * syn
-
-         | Pair of syn * syn
-         | P1 of syn
-         | P2 of syn
-
-         | Zero
-         | Succ of syn
-         | Rec of ty * syn * syn * syn (* rec : forall (T: ty), T -> (N -> T -> T) -> N -> T *)
-
-         | Var of var [@@deriving sexp]
-
-(* Note: There are no elimination forms in the semantics; they are represented
-   as syntax through the SYN embedding. *)
-type sem = LAM of (sem -> sem)
-         | PAIR of sem * sem
-         | SYN of syn
-[@@deriving sexp]
-
-(* reflect is a type-indexed family of functions taking the syntax into the
-   semantics *)
-let rec reflect (tau : ty) : syn -> sem =
-  fun t ->
-  match tau with
-  | Arrow (a, b) ->
-    LAM (fun s -> reflect b (App (t, (reify a s)) ))
-  | Prod (a, b) ->
-    PAIR ((reflect a (P1 t), (reflect b (P1 t))))
-  | Nat ->
-    SYN t
-
-and reify (tau : ty) : sem -> syn =
-  fun t ->
-  match (t, tau) with
-  | (LAM s, Arrow (a, b)) ->
-    let x = fresh () in
-    Lam (x, tau, reify b (s (reflect a (Var x))))
-  | (PAIR (l, r), Prod(a,b)) ->
-    Pair (reify a l, reify b r)
-  | (SYN b, _) ->
-    b
-  | _ ->
-    raise (Failure (Printf.sprintf "Reification failed on (%s : %s)"
-                      ([%sexp_of : sem] t |> Sexp.to_string)
-                      ([%sexp_of: ty] tau |> Sexp.to_string)))
-
-
-let rec metarec (tau : ty) (z : 'a) (s : syn -> 'a -> 'a) : syn -> 'a =
-  fun n ->
-  match n with
-  | Zero -> z
-  | Succ n ->
-    s n (metarec tau z s n)
-  | u ->
-    let v_z = reify tau z in
-    let v_s = reify (Arrow(Nat, (Arrow (tau, tau)))) (LAM (fun n -> match n with
-                                                            | SYN n -> LAM(s n)
-                                                            | _ -> raise (Failure "in metarec"))) in
-    reflect tau (Rec (tau, v_z, v_s, u))
-
-type context = (var * ty) list
-
-(* A valuation is a list semantic terms to be interpreted as an assignment of
-   terms to variables in an ordered context *)
-type valuation = (var * sem) list
-
-
-(* we assume that a bad lookup is never performed; this will end up being the
-   case as long as we only take the meaning in the valuation generated by the
-   context closing a well-typed term. *)
-let lookup (x : var) (rho : valuation) : sem =
-  List.rev (List.filter ~f:(fun entry -> String.equal (fst entry) x) rho)
-  |> fun l -> List.nth_exn l 0
-  |> snd
-
-(* Given a context gamma, produces a valuation of reflected variables *)
-let reflect_ctx (gamma : context) : valuation =
-  List.map ~f:(fun (x,tau) -> (x, reflect tau (Var x))) gamma
-
-(* interprets into the semantics an open term t with respect to a valuation rho
-   which closes it *)
-let rec interp (t : syn) (rho : valuation): sem =
-  match t with
-  | Var x ->
-    lookup x rho
-  | Lam(x, _, b) ->
-    LAM (fun s -> interp b (List.append rho [(x,s)]))
-  | App(e1, e2) ->
-    let LAM e1f = interp e1 rho in
-    e1f (interp e2 rho)
-  | Pair(e1, e2) ->
-    PAIR(interp e1 rho, interp e2 rho)
-  | P1 e ->
-
-    let PAIR (l,_) = interp e rho in
-    l
-  | P2 e ->
-    let PAIR (_,r) = interp e rho in
-    r
-  | Zero -> SYN Zero
-  | Succ n ->
-    SYN (Succ n)
-  | Rec(tau, z, s, n) ->
-    let LAM si = interp s rho in (* s : nat -> A -> A *)
-    let zi = interp z rho in
-    let SYN ni = interp n rho in
-    metarec tau zi (fun m -> let LAM(f) = si (SYN m) in f) ni
-    [@@warning "-8"]
-(* the above incomplete matches are irrefutable on well-typed terms t *)
-
-let nbe (gamma : context) (tau : ty) : syn -> syn =
-  fun t -> interp t (reflect_ctx gamma) |> reify tau
-
-(* EXAMPLES:
-    nbe [("y", Nat); ("z", Nat)] Nat (App (Lam("x", Nat, Var("y")), Var ("z")));;
-    - : syn = Var "y"
-
-   nbe [] Nat (App ((Lam ("z", Nat, (Rec(Nat, Zero, Lam("x",Nat,Lam("y",Nat,(Var "x"))), (Var "z"))))), (Succ Zero)));;
-   - : syn = Zero*)
-\end{verbatim}
 
 \chapter{Normalization by gluing}\label{chapter:gluing}
 \epigraph{You, you were like glue\\
