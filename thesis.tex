@@ -691,7 +691,7 @@ ask is how we might encode a ring homomorphism in this framework. To answer this
 question, we define a more general notion:
 
 \begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
-  A \emph{homomorphism} \( A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
+  A \emph{homomorphism} \( \phi: A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
   category $\mathfrak{C}$ with finite-products is an assignment to each sort $X$
   of a $\mathfrak{C}$-morphism \( \phi_{X} : A_{X} \rightarrow B_{X}\) between the
   corresponding objects in each algebra such that diagrams of the following form
@@ -748,7 +748,8 @@ makes no commentary on terms besides the action on the clones given in
 Theorem~\ref{thm:clone model}. Our models so far have only given meaning to the
 individual \emph{sorts} (types) and individual \emph{operation symbols}
 (constructors) of the theory considered. In fact, this is enough: our models
-extend canonically to contexts and substitutions and thus give meaning to terms.
+extend canonically \emph{along the product structure} to contexts and
+substitutions and thus give meaning to terms.
 
 \DeclarePairedDelimiter{\sem}{\llbracket}{\rrbracket}
 
@@ -1626,7 +1627,38 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
 \( \renhat \).
 
 \begin{remark}[Why the syntactic category just won't do]\label{rmk:syntactic-cat-bad}
-  TODO: talk about why neutrals and normals can't support a substitution action
+  As mentioned earlier, a major motivation for defining the category of
+  renamings in the first place (to which we went to considerable trouble!) is
+  that the syntactic category is an unsuitable base category over which to
+  define presheaves like the ones above. Let's go back to basics and recall that
+  a presheaf is not just a fancy family of sets, but crucially comes with a
+  faithful contravariant action taking a morphism in the base category to a
+  function of sets in the family going in the opposite direction. If we take the
+  example of the presheaf of opens of type \(\tau\), \( \mathfrak{L}_{\tau}\), there
+  are no apparent problems. We could define the family
+  \( \{ \mathfrak{L}_{\tau}(\Delta)\}_{\Delta\in\cl}\) essentially as before, and use the
+  following presheaf action:
+  \begin{align*}
+    \cl[\Delta,\Gamma] &\rightarrow \catset[\mathfrak{L}_{\tau}(\Gamma), \mathfrak{L}_{\tau}(\Delta)] \\
+    \delta &\mapsto (t \mapsto \delta^{*} t)
+  \end{align*}
+  which acts by actually performing the substitution on a term in the set. This
+  action's utility breaks down however, when considering the presheaves
+  \( \nfpsh \). Supposing we were able to define \( \nfpsh \) instead over the
+  classifying category, with the same family as before but with the natural
+  substitution action shown above we would have for each substitution
+  \( \delta : \Delta \rightarrow \Gamma\) a function of sets \( \nfpsh(\Gamma) \rightarrow \nfpsh(\Delta) \). For a variable
+  \( (x : \tau) \in \Gamma \), then, the substitution
+  \( [ (\lambda x: \termob.\, x) \textrm{\unit} / y ] \) is taken to a function of
+  sets \( \nfpsh(\Gamma, y : \termob) \rightarrow \nfpsh(\Gamma)\) performing that substitution on
+  terms. The term \( (\lambda x.\, x) \textrm{\unit} \) is evidently not a normal form
+  (since a \( \beta \)-reduction step applies) but \( x \) is a normal form in
+  \( \nfpsh(\Gamma, y : \termob)\) so that this action forces
+  \( (\lambda x: \termob.\, x) \textrm{\unit} \in \nfpsh(\Gamma) \). The essence of the
+  problem is that normal forms are not closed under substitutions, so the
+  natural substitution action is ruled out. Whether there is a different
+  suitable action by the classifying category on this family is a good question
+  to ponder.
 \end{remark}
 
 \subsection{A stratified lambda-algebra of neutrals and normals in Renhat}
