@@ -698,13 +698,13 @@ question, we define a more general notion:
   commute:
 
   \[\begin{tikzcd}
-      {A_{X_1}\times\cdots \times A_{X_k}} &&& {A_{X_0}} \\
+      {A_{X_1}\times\cdots \times A_{X_k}} &&& {A_{X}} \\
       \\
-      {B_{X_1}\times\cdots\times B_{X_k}} &&& {B_{X_0}}
+      {B_{X_1}\times\cdots\times B_{X_k}} &&& {B_{X}}
       \arrow["{r_A}", from=1-1, to=1-4]
       \arrow["{r_B}", from=3-1, to=3-4]
-      \arrow["{\phi_{X_0}}"', from=1-1, to=3-1]
-      \arrow["{\phi_{X_1}\times \cdots \times \phi_{X_k}}", from=1-4, to=3-4]
+      \arrow["{\phi_{X_1}\times \cdots \times \phi_{X_k}}"', from=1-1, to=3-1]
+      \arrow["{\phi_{X}}", from=1-4, to=3-4]
     \end{tikzcd}\]
 
 \end{definition}
@@ -920,8 +920,11 @@ We will say that an algebraic theory $\mathcal{L}$ \emph{has raw cartesian
   closed structure} if its classifying category \( \cnprod \) has raw cartesian
 closed structure.
 
-The following theorem
-
+The following theorem extends Definition~\ref{def:term model} and shows how to
+construct and interpretation of terms from an algebra in a raw cartesian closed
+category. The essence is that we extend the assignments of base types and
+operation symbols along products as before and along the new exponential
+objects as well.
 \begin{theorem}\label{thm:rawccsinterp}
   Let \( \mathcal{L}\) be an algebraic theory and $C$ be a category with raw
   cartesian closed structure and an algebra for \( \mathcal{L}\). The algebra
@@ -1623,7 +1626,7 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
 \( \renhat \).
 
 \begin{remark}[Why the syntactic category just won't do]\label{rmk:syntactic-cat-bad}
-  talk about why neutrals and normals can't support a substitution action
+  TODO: talk about why neutrals and normals can't support a substitution action
 \end{remark}
 
 \subsection{A stratified lambda-algebra of neutrals and normals in Renhat}
@@ -1644,7 +1647,8 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
   \( \NN\)-algebra \( \{ (\mathfrak{Ne_{\tau}}, \mathfrak{Nf_{\tau}}) \}_{\tau\in\types} \)
   just presented and the \( \NN\)-algebra on
   \( \{ \mathfrak{L}_{\tau} \}_{\tau\in\types} \) induce for each \( \tau \in \types \)
-  interpretations \( l_{\tau} : \mathfrak{L}_{\tau} \rightarrow \tm(\tau) \) and
+  \(NN\)-homomorphisms (in the sense of Definition~\ref{def:homomorphism})
+  \( l_{\tau} : \mathfrak{L}_{\tau} \rightarrow \tm(\tau) \) and
   \( (m_{\tau},n_{\tau}) : (\mathfrak{Ne}_{\tau}, \mathfrak{Nf}_{\tau}) \rightarrow (\tm(\tau), \tm(\tau)) \)
   such that the following diagram commutes:
 
@@ -1667,7 +1671,7 @@ interpretation of terms in the syntactic category:
 \end{align*}
 
 The maps \( m_{\tau} \), \( n_{\tau}\) are the usual semantic interpretation
-precomposed with the relevant inclusion.
+precomposed with the respective inclusions into open terms.
 \end{remark}
 
 \section{Desiderata for a normalization function}
@@ -2258,7 +2262,6 @@ input term.
   The pairs from Definition~\ref{def:reify-reflect} form maps in the gluing category.
 \end{corollary}
 \begin{proof}
-
   TODO: this whole proof, gave up at the unit type case.
 
   Following the definitions, the proof proceed by induction on \( \tau \in \types \).
