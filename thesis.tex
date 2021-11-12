@@ -10,7 +10,6 @@
 
 % font stuff
 \usepackage{bbm, stmaryrd}
-%\usepackage{unicode-math} % TODO: $this is incompatible with Coloneqq for some reason, but I think I need it for multi-letter mathcal :( need to fix!
 \usepackage{luatexja} % for memes
 
 \usepackage{amsmath}
@@ -2083,9 +2082,52 @@ algebra we define will be constructed by gluing together the syntactic
     \item For each \( \tau, \tau' \in \types\), the pair of maps
     \[ (\var_{\tau} : \varpsh \rightarrow \mathfrak{Ne}_{\tau} , \id_{\sem{\tau}})\]
     is a map \( \nu_{\tau} \rightarrow \mu_{\tau} \) in \( \renhat \downarrow \tm \).
+
+    The gluing property for this pair follows from the fact that
+    \( (m,n) : (\mathfrak{Ne},\mathfrak{Nf}) \rightarrow (\tm, \tm)\) is a
+    \( NN \)-homomorphism. In particular, we have that the following
+    diagram commutes:
+
+    % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre1Z9XFx0YXUiXSxbMiwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDIsIlxcbWF0aGZyYWt7VG19KFxcdGF1KSJdLFsxLDFdLFswLDEsIlxcdGV4dHJte3Zhcn1fXFx0YXUiXSxbMSwyLCJtIl0sWzAsMiwiXFxzZW17LX0iLDJdXQ==
+    \[\begin{tikzcd}
+        {\mathfrak{V}\tau} && {\mathfrak{Ne}_\tau} \\
+        & {} \\
+        && {\mathfrak{Tm}(\tau)}
+        \arrow["{\textrm{var}_\tau}", from=1-1, to=1-3]
+        \arrow["m", from=1-3, to=3-3]
+        \arrow["{\sem{-}}"', from=1-1, to=3-3]
+      \end{tikzcd}\]
+
+    Inserting the lifted identity map at the bottom gives precisely the
+    required square.
+
     \item For each \( \tau, \tau' \in \types\), the pair of maps
     \[ (\fst_{\tau}^{\tau'} : \mathfrak{Ne}_{\tau*\tau'} \rightarrow \mathfrak{Ne}_{\tau}, \pi_{1} : \sem{\tau} \times \sem{\tau'} \rightarrow \sem{\tau}) \]
     is a map \( \mu_{\tau*\tau'} \rightarrow \mu_{\tau} \) in \( \renhat \downarrow \tm \).
+
+    The gluing property for this pair again follows from the fact that
+    \( (m,n) : (\mathfrak{Ne},\mathfrak{Nf}) \rightarrow (\tm, \tm)\) is a
+    \( NN \)-homomorphism. In particular, we have that the following
+    diagram commutes:
+
+    % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV97XFx0YXUgXFx0aW1lcyBcXHRhdSd9Il0sWzIsMCwiXFxtYXRoZnJha3tOZX1fXFx0YXUiXSxbMiwyLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXHRhdSBcXHRpbWVzIFxcdGF1JykiXSxbMCwxLCJcXHRleHRybXtmc3R9X1xcdGF1XntcXHRhdSd9Il0sWzEsMiwibV9cXHRhdSJdLFswLDMsIm1fe1xcdGF1XFx0aW1lc1xcdGF1J30iLDJdLFszLDIsIlxcdG0oXFxwaV8xKSIsMl1d
+    \[\begin{tikzcd}
+        {\mathfrak{Ne}_{\tau \times \tau'}} && {\mathfrak{Ne}_\tau} \\
+        \\
+        {\mathfrak{Tm}(\tau \times \tau')} && {\mathfrak{Tm}(\tau)}
+        \arrow["{\textrm{fst}_\tau^{\tau'}}", from=1-1, to=1-3]
+        \arrow["{m_\tau}", from=1-3, to=3-3]
+        \arrow["{m_{\tau\times\tau'}}"', from=1-1, to=3-1]
+        \arrow["{\tm(\pi_1)}"', from=3-1, to=3-3]
+      \end{tikzcd}\]
+
+    Which is exactly the required square. In fact, each of the remaining
+    cases work out in this unsurprising way, so we will stop mentioning
+    it. It is worth noting that one reason these squares line up so
+    cleanly is that we defined the lambda algebra on \( \tm \) by lifting
+    the relevant operations from \( \cl \) into \( \renhat \) along
+    \( \tm \).
+
     \item For each \( \tau, \tau' \in \types\), the pair of maps
     \[ (\snd_{\tau}^{\tau'} : \mathfrak{Ne}_{\tau'*\tau} \rightarrow \mathfrak{Ne}_{\tau}, \pi_{2} : \sem{\tau'} \times \sem{\tau} \rightarrow \sem{\tau}) \]
     is a map \( \mu_{\tau'*\tau} \rightarrow \mu_{\tau} \) in \( \renhat \downarrow \tm \).
@@ -2094,7 +2136,7 @@ algebra we define will be constructed by gluing together the syntactic
     is a map \( \mu_{\tau'\rightarrow\tau} \times \eta_{\tau'} \rightarrow \mu_{\tau}\) in \( \renhat \downarrow \tm \).
 
 
-    \item For each base type \( \theta \in T\), the pair of \emph{isomorphisms}
+    \item For each base type \( \theta \in T\), the pair of isomorphisms
           \[ \mathfrak{Ne}_{\theta} \cong \mathfrak{Nf}_{\theta} , \id_{\sem{\theta}}\] is an
           isomorphism \( \mu_{\theta} \cong \eta_{\theta}\) in \( \renhat \downarrow \tm \).
     \item The pair of isomorphisms
@@ -2128,14 +2170,14 @@ classifying category and its lambda algebra in turn induces a unique functor
   alg theory}. We write \( \sem{-}_{\gl} : \cl \rightarrow \gl \) for both this functor
 and the interpretation of terms acquired by precomposing the functor with the
 usual interpretation of terms in the classifying category. It is crucial to
-understand that though \( \sem{\theta}_{\gl} \) and \( \mu_{\theta}\) are the same for base
-types $\theta$, but are \emph{not} the same for higher types \( \tau \in \types\). In the
-case of products, the interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the actual
-product \( \mu_{\theta} \times \mu_{\theta'}\) and not \( \mu_{\theta\times\theta'} \). In what follows, we still
-allow ourselves to write \( \sem{-} \) for the usual interpretation of terms in
-the classifying category, distinguishing the new interpretation only by a
-subscript. The induced interpretation \( \sem{-}_{\gl}\) extends the usual
-interpretation of terms in the syntactic category in the following sense:
+understand that though we have \( \sem{\theta}_{\gl} = \mu_{\theta}\) for base types $\theta$,
+this equality does \emph{not} hold at higher types \( \tau \in \types\). In the case
+of products, the interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the actual product
+\( \mu_{\theta} \times \mu_{\theta'}\) and not \( \mu_{\theta\times\theta'} \). In what follows, we still allow
+ourselves to write \( \sem{-} \) for the usual interpretation of terms in the
+classifying category, distinguishing the new interpretation only by a subscript.
+The induced interpretation \( \sem{-}_{\gl}\) extends the usual interpretation
+of terms in the syntactic category in the following sense:
 \( \sem{\Gamma \vdash t : \tau}_{\gl} \) is a pair of the form
 $(\sem{\Gamma \vdash t : \tau}_{\renhat}, \sem{\Gamma \vdash t : \tau })$ where
 \( \sem{-}_{\renhat} : \cl \rightarrow \renhat \) functor induced by the
@@ -2227,21 +2269,23 @@ reflect map, we get a diagram like this
 
 which is the required triangle. In the reification case, we get the desired
 triangle along the same lines. Convinced thus, we can set about defining the
-required gluing maps.
+required glued maps.
 
 \subsection{Glued reification and reflection}\label{def:reify-reflect}
-We begin by defining \emph{pairs} of maps without actually demonstrating that
-the pairs form gluing morphisms. We introduce this delay in order to allow for a
-more elegant verification of the gluing morphism condition using the fact, to be
-proven next, that the second component of each of the pairs is in the identity
-in the semantics.
-
+While defining these glued maps as pairs of suitable morphisms, we must take
+care to verify that the pairs satisfy the gluing condition. Fortunately, the
+careful setup in the preceding pages makes this process almost automatic.
 \begin{definition}
-  The pairs are defined by induction on the type structure of \( \types \):
+  The glued maps are defined by induction on the type structure of \( \types \):
   \begin{itemize}
     \item For a base type \( \theta \in T \), we define \( \Uparrow^{\theta} = \id_{\mu_{\theta}} \) and
     \( \Downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \)
     \item For the empty product/unit type \( \termob \), we define \( \Uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and \( \Downarrow^{\termob} = (\termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob})\)
+
+    The former is the identity which is a map in the gluing category by
+    definition. The latter is an already defined glued map from
+    Definition~\ref{def:glued-algebra}.
+
     \item For types \( \tau, \tau' \in \types\), we define 
     \[ \Uparrow^{\tau*\tau'} : \mu_{\tau*\tau'} \rightarrow \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl}\] as the pair of the following composites:
     \begin{align*}
@@ -2252,21 +2296,41 @@ in the semantics.
     and define \( \Downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) as the composite
     \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)}     \eta_{\tau*\tau'} \]
 
+    In each case, the first pair in the composite is a glued map from
+    Definition~ref{def:glued-algebra} while the second pair is a glued map
+    by the induction hypothesis, so that the composite itself is a glued
+    map. The product of these glued maps is a glued map by the universal
+    property of products.
+
     \item For types \( \tau, \tau' \in \types \), we define the reflection map
     \[ \Uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
     as the exponential transpose of the composite
     \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
 
-    and the reification map
+    By the universal property of the transpose, it suffices to  show that
+    the composite is a glued map of the appropriate domain and codomain.
+    This follows from the induction hypothesis, the universal property
+    of products (as in the previous induction step), and since
+    \( （\app_{\tau'}^{\tau}, \epsilon） \) is a glued map from
+    Definition~\ref{def:glued-algebra}.
+
+    We define the reification map as
     \[ \Downarrow^{\tau\rightarrow\tau'} : {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \rightarrow \eta_{\tau \rightarrow \tau'} \] as the composite
     \[ {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \xrightarrow{(\Downarrow^{\tau'})^{(\Uparrow^{\tau} v_{\tau})}} {\eta_{\tau'}}^{\nu_{\tau}} \xrightarrow[\cong]{(\abs_{\tau\rightarrow\tau'} , \id)} \eta_{\tau\rightarrow\tau'}\]
     where \( v_{\tau} = (\var_{\tau} , \id) : \nu_{\tau} \rightarrow \mu_{\tau}\).
+
+    That this is a glued map follows from
+    Definition~\ref{def:glued-algebra} and definition of the
+    post/pre-composition functors TODO: what are these actually called,
+    maybe check out topos theory book?
   \end{itemize}
 \end{definition}
 
-The following theorem follows will prove crucial when demonstrating that our
+With the glued maps in hand, we can prove that they do nothing in the semantics.
+Naturally, the following theorem will prove crucial when demonstrating that our
 normalization function computes normal forms with the same semantics as the
-input term.
+input term. This result is stated but not proven in Fiore's extended abstract
+\cite{fiore_semantic_2002}, and the proof is our own.
 
 \begin{theorem}[Reification and reflection are the identity in the semantics]\label{thm:reif-refl-sempres}
   For each type \( \tau \in \types \), we have the identities
@@ -2335,66 +2399,6 @@ input term.
           \end{align*}
           which is the identity on the exponential
           \( \sem{{\tau'}}_{\cl}^{\sem{\tau}_{\cl}}\) in the classifying category.
-  \end{itemize}
-\end{proof}
-
-\begin{corollary}
-  The pairs from Definition~\ref{def:reify-reflect} form maps in the gluing category.
-\end{corollary}
-\begin{proof}
-  Following the definitions, the proof proceed by induction on \( \tau \in \types \).
-  Now that we have Theorem~\ref{thm:reif-refl-sempres} in hand however, the
-  gluing condition is simpler to prove. It suffices to show that the syntactic
-  component of each pair is a transformation of terms preserving definitional
-  equality.
-    \begin{itemize}
-      \item For a base type \( \theta \in T \), we have \( \Uparrow^{\theta} = \id_{\mu_{\theta}} \) and
-            \( \Downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \). The former is
-            the identity which is a map in the gluing category by definition.
-            The latter is a glued map from Definition~\ref{def:glued-algebra}.
-      \item For the empty product/unit type \( \termob \), we have
-            \( \Uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and
-            \( \Downarrow^{\termob} = (\termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob})\).
-
-            The former is a glued map as guaranteed by the universal property of
-            the terminal object in the gluing category. The latter is a glued map from Definition~\ref{def:glued-algebra}.
-
-      \item For types \( \tau, \tau' \in \types\), we have that
-            \[ \Uparrow^{\tau*\tau'} : \mu_{\tau*\tau'} \rightarrow \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl}\] is the
-            product of the following composites:
-            \begin{align*}
-              &\mu_{\tau*\tau'} \xrightarrow{(\fst_{\tau}^{\tau'}, \pi_{1})} \mu_{\tau} \xrightarrow{\Uparrow^{\tau}} \sem{\tau}_{\gl} \\
-              &\mu_{\tau*\tau'} \xrightarrow{(\snd_{\tau'}^{\tau}, \pi_{2})} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl} \\
-            \end{align*}
-
-            In each case, the first pair in the composite is a glued map from
-            Definition~ref{def:glued-algebra} while the second pair is a glued
-            map by the induction hypothesis, so that the composite itself is a
-            glued map. The product of these glued maps is a glued map by the
-            universal property of products.
-
-    \item For types \( \tau, \tau' \in \types \), we define the reflection map
-    \[ \Uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
-    as the exponential transpose of the composite
-    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
-
-    By the universal property of the transpose, it suffices to  show that
-    the composite is a glued map of the appropriate domain and codomain.
-    This follows from the induction hypothesis, the universal property
-    of products (as in the previous induction step), and since
-    \( （\app_{\tau'}^{\tau}, \epsilon） \) is a glued map from
-    Definition~\ref{def:glued-algebra}.
-
-    The reification map
-    \[ \Downarrow^{\tau\rightarrow\tau'} : {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \rightarrow \eta_{\tau \rightarrow \tau'} \] is
-    defined as the composite
-    \[ {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \xrightarrow{(\Downarrow^{\tau'})^{(\Uparrow^{\tau} v_{\tau})}} {\eta_{\tau'}}^{\nu_{\tau}} \xrightarrow[\cong]{(\abs_{\tau\rightarrow\tau'} , \id)} \eta_{\tau\rightarrow\tau'}\]
-    where \( v_{\tau} = (\var_{\tau} , \id) : \nu_{\tau} \rightarrow \mu_{\tau}\)
-
-    That this is a glued map follows from
-    Definition~\ref{def:glued-algebra} and definition of the
-    post/pre-composition functors TODO: what are these actually called,
-    maybe check out topos theory book?
   \end{itemize}
 \end{proof}
 
