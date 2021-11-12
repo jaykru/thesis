@@ -10,7 +10,7 @@
 
 % font stuff
 \usepackage{bbm, stmaryrd}
-\usepackage{unicode-math} % $this is incompatible with Coloneqq for some reason, and I'm not sure why I used it in the first place...
+%\usepackage{unicode-math} % TODO: $this is incompatible with Coloneqq for some reason, but I think I need it for multi-letter mathcal :( need to fix!
 \usepackage{luatexja} % for memes
 
 \usepackage{amsmath}
@@ -89,21 +89,67 @@ citestyle=alphabetic
 % Acknowledgements (Acceptable American spelling) are optional
 % So are Acknowledgments (proper English spelling)
 \chapter*{Acknowledgements}
-% Jaclyn, My parents, Uncle Jay, Grandma, Aunt Susie, Jim Fix for teaching me
-% SML what feels like a decade ago and starting me off on this adventure, and
-% for being a wonderful advisor throughout my college experience and thesis;
-% Ang\'elica Osorno, Irena Swanson, Kyle Ormsby, Albyn Jones, Jaclyn, Nick
-% Chaiyachakorn, Ms.\ King, 柳老師 (Hyong Rhew), Mrs.\ Leitsch, Mr. Cool even if
-% you couldn't get the team to switch from LabView, Mr.\ Raveli, Noah Koster,
-% Shulav, Aditya, Francis, Alec Forget, Joebob, Jit, Eli, Gabe and Ciara, Murali
-% Vijayaraghavan, 吳老師, Ian Desai, Becca, Andres, Sara Rosenberger in the
-% business office, the GNU project and free software foundation along with the
-% developers of so many other free software projects whose generously donated
-% works were instrumental in the production of this thesis.
+% I've spent the last few months slowly accumulating a list of people I'd like to
+% thank, whether for their direct impact on making this thesis possible or just
+% for having had an outsized impact on my life. I'd like to start by thanking my
+% advisors Ang\'elica and Jim for taking my mountains of enthusiasm to learn some
+% neat modern approaches to type theory and forcing me to channel it in a narrow
+% direction. I am also indebted to Ang\'elica's spooky ability to instantly grasp
+% at understanding in an area relatively unknown to her. Without her hints at how
+% to tackle an opaque construction every now and then, I think I'd probably be
+% still fumbling around with the basic definitions involved in the argument
+% presented in this thesis. Jim also has had an outsized direct influence on the
+% direction my intellectual life has taken. Jim's SML class was my first exposure
+% to rich, static typing and opened me up to a world that had until then had
+% seemed inaccessible to me. Jim has also served as a great mentor in matters of
+% personal taste and style in intellectual matters (his course webpages are always
+% out of this world cool) and for that I am very fortunate!
 
-% I'd like to thank Noah Koster for being one of my very first friends at Reed
-% and a wonderful companion as I explored the world on my own for the very first
-% time. You may not be the next Bill Gates, but you're a great guy.
+% I'd also like to give special thanks to Albyn Jones and Irena Swanson who guided
+% my early explorations of mathematics. Having been brought from complete
+% ignorance to a great appreciation for proof and mathematical exploration under
+% their careful guidance was a great privilege! I am also grateful to Kyle Ormsby
+% for always being an absolute chiller and encouraging me in early ambitions.
+
+% Now come the personal ones. Thank you to Jaclyn for being everything to me over
+% the past two years. I cannot put into words the way your loves has touched my
+% life and turned an ugly pandemic into a beautiful one.
+
+% I would like to thank my parents for having let me be and encouraging me to grow
+% into the person I am today. That is a rare thing, and has made all the
+% difference to me!
+
+% Thank you to Uncle Jay for your constant encouragement for my interests in
+% computers. To Grandma, Aunt Susie, Aunt Julie, and all my extended family for
+% your continued support!
+
+% My first grade teacher Ms.\ King, 柳老師 (Hyong Rhew) for getting me to chill
+% out a bit freshman year, Mrs.\ Leitsch for extensive encouragement in 9th grade
+% English, Mr. Cool for encouragement on the robotics team (even if you couldn't
+% get the team to switch from LabView), Mr.\ Raveli for reassuring me that it's
+% okay to not know all the answers, Shulav and Aditya for many fine hours of good
+% lad time.
+
+% Thanks to the hyperbolic crew: Francis Baer, Alec Forget, Usman Hafiz, Kiana
+% McBride, and Luke Doms for helping to make Kyle's wild ride a dummy good time.
+
+% The many friendbobs of pika: Joebob, Jit, Eli, Gabe and Ciara, Becca, Andres,
+% Nathan, Chloe. The time I spent with you all in Boston was enriching and
+% precious to me beyond measure!
+
+% Thanks to Murali Vijayaraghavan for mentorship
+
+% 吳老師, Ian Desai, Sara Rosenberger in the business office, the GNU project and
+% free software foundation along with the developers of so many other free
+% software projects whose generously donated works were instrumental in the
+% production of this thesis.
+
+% Thank you to all the Reed friends who made my first two years at the college one
+% of the greatest times of my life. Nick Chaiyachakorn, Max, Holden.
+
+% I'd also like to thank Noah Koster for being one of my very first friends at Reed and
+% a wonderful companion as I explored the world on my own for the very first time.
+% You may not be the next Bill Gates, but you're a great guy.
 
 % Alice McKean
 
@@ -111,16 +157,12 @@ citestyle=alphabetic
 
 % Megan, Luke, Ryan, Kathleen
 
-% Young Kim for corrupting my soul
-% Salma, Mary, Carter, Dan Genya, Tristan, Max
-% Holden
+% Young Kim for corrupting my soul Salma, Mary, Carter, Dan Genya, Tristan
 
-% Hyperbolic gang: Francis, Alec, Kiana, Usman, Luke Doms
-
-% Curtis, Cody Roux and Dan McArdle at the Charles Stark Draper Laboratory for
+% Thanks to Curtis, Cody Roux and Dan McArdle at the Charles Stark Draper Laboratory for
 % early encouragement!
 
-% I would like to give special thanks to Paul Taylor who, though I do not know
+% Finally, I would like to give special thanks to Paul Taylor who, though I do not know
 % him personally, wrote the book that made this thesis possible. Almost every
 % day spent on this project I learned from Paul's book a new awesome perspective
 % on the the lambda calculus or mathematics in general. Paul's Practical
@@ -723,7 +765,7 @@ question, we define a more general notion:
 \begin{remark}
   Predictably, the $\mathfrak{C}$-valued algebras and homomorphisms of an
   algebraic theory $\mathcal{L}$ form a category, called
-  $\mathscr{Mod}_{\mathfrak{C}}(\mathcal{L})$.
+  $\textrm{Mod}_{\mathfrak{C}}(\mathcal{L})$.
   \begin{proof}
     Per Remark~\ref{rmk:alg_func}, we consider algebras and their homomorphisms
     as functors and natural transformations respectively. The identity morphisms
@@ -1458,7 +1500,7 @@ section, which allow for a more fine-grained discussion of normal terms.
 
 \subsection{Stratifying neutral and normal terms}
 We introduce a new type system over the syntax and type structure of the lambda
-calculus as defined in Chapter-\ref{chapter:stlc}. This new type system will
+calculus as defined in Chapter~\ref{chapter:stlc}. This new type system will
 distinguish between \emph{neutral terms}, a special class of \emph{normal terms}
 which are in some sense beta-redexes whose reduction is \emph{blocked} by a
 variable in the head term, and all other normal terms. In some sense,
@@ -1508,14 +1550,15 @@ because they're ``stuck.''
 
 \begin{remark}\label{rmk:upgrade_to_stratified}
   Any \( \renhat-\) lambda algebra over the family
-  \( \{ \mathfrak{X}_{\tau} \}_{\tau \in \types}\) gives rise to an algebra over the
-  family \(\{ \mathfrak{A}_\tau \}_{\tau\in\types}\) of the algebraic theory \( \NN \)
+  \( \{ \mathfrak{X}_{\tau} \}_{\tau \in \types}\) gives rise to an algebra for the
+  algebraic theory \( \NN \) over the family \(\{ \mathfrak{A}_\tau \}_{\tau\in\types}\)
   by setting
   \begin{align*}
     \mathfrak{A}_{\mathcal{M}_{\tau}} &= \mathfrak{X}_{\tau} \\
     \mathfrak{A}_{\mathcal{N}_{\tau}} &= \mathfrak{X}_{\tau} \\
     \mathfrak{A}_{\mathcal{V}_{\tau}} &= \varpsh \\
   \end{align*}
+  and setting the operation symbols as in the lambda algebra.
 \end{remark}
 
 \begin{remark}[A lambda algebra of open substitutions]\label{rmk:tm-lam-alg}
@@ -1545,7 +1588,7 @@ because they're ``stuck.''
     \tm(\tau')^{\varpsh} &\xrightarrow{\cong} \tm((\tau')^{\tau})
   \end{align*}
   where \( i_\termob \) and \( i_{\pi}\) are isomorphisms induced by \( \tm \)'s
-  status as a cartesian closed functor.
+  status as a Cartesian closed functor. We write \( \tm \) for this algebra.
 \end{remark}
 
 \begin{remark}\label{rmk:tm-nn-alg}
@@ -1559,7 +1602,8 @@ because they're ``stuck.''
   \end{align*}
   and letting the operations be exactly those of the lambda algebra: since the
   \( \mathcal{M}_{\tau} = \mathcal{N}_{\tau} = \tm(\tau)\), the signatures of the
-  required operations are exactly the same.
+  required operations are exactly the same. We write \( (\tm, \tm) \) for this
+  induced algebra.
 \end{remark}
 
 \subsection{Presheaves of syntax over the category of renamings}
@@ -1589,7 +1633,8 @@ because they're ``stuck.''
   Definition~\ref{def:alpha_beta_eta_theory}.
 
   The operations are given by the usual typing rules for the simply typed lambda
-  calculus, as in Definition~\ref{def:stlc_rules}.
+  calculus, as in Definition~\ref{def:stlc_rules}. We write \( \mathfrak{L} \)
+  for this algebra.
 \end{remark}
 
 \begin{remark}[A stratified-lambda algebra on the presheaves of open syntax]
@@ -1672,31 +1717,35 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
 
   The operations correspond to the typing rules of
   Definition~\ref{def:neut-norm-rules}.
+
+  We write \( (\mathfrak{Ne}, \mathfrak{Nf})\) for this algebra.
 \end{definition}
 
 \begin{remark}\label{rmk:interpretations-into-tm}
-  The \( \NN \)-algebra over \( \{ (\tm(\tau), \tm(\tau)) \}_{\tau} \) together with the
-  \( \NN\)-algebra \( \{ (\mathfrak{Ne_{\tau}}, \mathfrak{Nf_{\tau}}) \}_{\tau\in\types} \)
-  just presented and the \( \NN\)-algebra on
-  \( \{ \mathfrak{L}_{\tau} \}_{\tau\in\types} \) induce for each \( \tau \in \types \)
-  \(NN\)-homomorphisms (in the sense of Definition~\ref{def:homomorphism})
-  \( l_{\tau} : \mathfrak{L}_{\tau} \rightarrow \tm(\tau) \) and
-  \( (m_{\tau},n_{\tau}) : (\mathfrak{Ne}_{\tau}, \mathfrak{Nf}_{\tau}) \rightarrow (\tm(\tau), \tm(\tau)) \)
-  such that the following diagram commutes:
+  It turns out that the algebra \( (\mathfrak{Ne}, \mathfrak{Nf})\) is initial
+  in the category \( \textrm{Mod}_{\renhat}(NN) \) \cite{fiore_semantic_2002}.
+  With this fact, the \( \NN \)-algebra \( (\tm, \tm) \) over
+  \( \{ (\tm(\tau), \tm(\tau)) \}_{\tau} \) together with the \( \NN\)-algebra over
+  \( \{ (\mathfrak{Ne_{\tau}}, \mathfrak{Nf_{\tau}}) \}_{\tau\in\types} \) just presented
+  and the \( \NN\)-algebra on \( \{ \mathfrak{L}_{\tau} \}_{\tau\in\types} \) induce,
+  for each \( \tau \in \types \), \(NN\)-homomorphisms~\footnote{in the sense of
+    Definition~\ref{def:homomorphism}} \( l : \mathfrak{L} \rightarrow \tm \) and
+  \( (m,n) : (\mathfrak{Ne}, \mathfrak{Nf}) \rightarrow (\tm, \tm )\) such that the
+  following diagram commutes:
 
   % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfSJdLFsxLDAsIlxcbWF0aGZyYWt7TH0iXSxbMiwwLCJcXG1hdGhmcmFre05mfSJdLFsxLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFsyLDEsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMCwzLCJtIiwyXSxbMSwzLCJsIiwyXSxbMiwzLCJuIl1d
 \[\begin{tikzcd}
-	{\mathfrak{Ne_{\tau}}} & {\mathfrak{L_{\tau}}} & {\mathfrak{Nf_{\tau}}} \\
+	{\mathfrak{Ne}} & {\mathfrak{L}} & {\mathfrak{Nf}} \\
 	& {\mathfrak{Tm(\tau)}}
 	\arrow[tail, from=1-1, to=1-2]
 	\arrow[tail, from=1-3, to=1-2]
-	\arrow["m_{\tau}"', from=1-1, to=2-2]
-	\arrow["l_{\tau}"', from=1-2, to=2-2]
-	\arrow["n_{\tau}", from=1-3, to=2-2]
+	\arrow["m"', from=1-1, to=2-2]
+	\arrow["l"', from=1-2, to=2-2]
+	\arrow["n", from=1-3, to=2-2]
 \end{tikzcd}\]
 
-The map \( l_{\tau} \) for each \( \tau \in \types \) is the usual semantic
-interpretation of terms in the syntactic category:
+In explicit terms, the map \( l_{\tau} \) for each \( \tau \in \types \) is the usual
+semantic interpretation of terms in the syntactic category:
 \begin{align*}
   l_{\tau}(\Gamma) : \mathfrak{L}_{\tau}(\Gamma) &\rightarrow \tm(\tau)(\Gamma) \\
   t &\mapsto \sem{\Gamma \vdash t : \tau} \\
@@ -1707,7 +1756,6 @@ precomposed with the respective inclusions into open terms.
 \end{remark}
 
 \section{Desiderata for a normalization function}
-
 For all this talk of normalization, we haven't said much about what a
 normalization function must be. Of course, it should take a lambda term to a
 normal form, but the desiderata are far more than that. The following are some
@@ -1763,9 +1811,9 @@ function.
 
 \begin{theorem}[Relative hom functor is cartesian closed]
   TODO. I'm also not really sure where to put this or if I even want to prove it
-  in full. It should basically follow from the Yoneda lemma. It also requires us
-  to state the cartesian closed structure of the category \( \renhat \), which
-  is well-known but should be stated nonetheless.
+  in full. It should basically follow from the same result for Yoneda embedding.
+  It also requires us to state the cartesian closed structure of the categorya
+  \( \renhat \), which is well-known but should be stated nonetheless.
 \end{theorem}
 
 \subsection{Cartesian closed structure for the gluing category}
@@ -2294,8 +2342,6 @@ input term.
   The pairs from Definition~\ref{def:reify-reflect} form maps in the gluing category.
 \end{corollary}
 \begin{proof}
-  TODO: this whole proof, gave up at the unit type case.
-
   Following the definitions, the proof proceed by induction on \( \tau \in \types \).
   Now that we have Theorem~\ref{thm:reif-refl-sempres} in hand however, the
   gluing condition is simpler to prove. It suffices to show that the syntactic
@@ -2303,71 +2349,52 @@ input term.
   equality.
     \begin{itemize}
       \item For a base type \( \theta \in T \), we have \( \Uparrow^{\theta} = \id_{\mu_{\theta}} \) and
-            \( \Downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \). The former
-            case is the identity and hence immediate. The latter case requires
-            noting that the inclusion of neutrals into the normals from the
-            typing rules in Definition~\ref{def:neut-norm-rules} does not change
-            the syntax, whence definitional equality is preserved.
+            \( \Downarrow^{\theta} = \mu_{\theta} \xrightarrow[\cong]{\incl_{\theta}} \eta_{\theta} \). The former is
+            the identity which is a map in the gluing category by definition.
+            The latter is a glued map from Definition~\ref{def:glued-algebra}.
       \item For the empty product/unit type \( \termob \), we have
             \( \Uparrow^{\termob} = (\mu_{\termob} \xrightarrow[\cong]{!} \termob )\) and
             \( \Downarrow^{\termob} = (\termob \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob})\).
-            In the former case, the unique map
-            \[ \mu_{\termob} = (\mathfrak{Ne}_{\termob}, m_{\termob}, \termob) \rightarrow (\termob = (\Gamma \mapsto \{\unit\}) : \renhat, t : \termob \rightarrow \tm(\termob), \termob : \cl) \]
-            has as its syntactic component the natural transformation whose
-            component \emph{functions} send every neutral term of type
-            \( \termob \) to the actual \( \unit \) operation symbol. The
-            interpretation \( m_{\termob} \) takes a syntactic term in
-            \( \mathfrak{Ne}_{\termob}(\Gamma) \) to a substitution
-            \( \cl[\Gamma, \termob]\); because \( \termob \) is the terminal object
-            in the classifying category, the substitution can only be the
-            substitution represented by the operation symbol \( \unit \) so that
-            the syntactic transformation is valid with respect to definitional
-            equality. TODO: kinda sketchy. Says nothing about what t must be. But I don't want to agonize over this for now.
 
-            In the latter case, the
-            morphism \[ (\termob = (\Gamma \mapsto \{\unit\}) : \renhat, t : \termob \rightarrow \tm(\termob), \termob : \cl) \xrightarrow[\cong]{(\unit, \id)} \eta_{\termob} \]
-
-            has as its syntactic component the operation
-            \( \unit : \termob \rightarrow \mathfrak{Nf}_{\termob}\) from the \( \NN \)
-            algebra on \( \renhat \). Its components are
-            \[ \unit_{\Gamma} : \termob(\Gamma) = \{ \unit \} \xrightarrow{\id} \{ \unit \}  = \mathfrak{Nf}_{\termob} \]
-            and we see that the definitional equality is trivially preserved.
+            The former is a glued map as guaranteed by the universal property of
+            the terminal object in the gluing category. The latter is a glued map from Definition~\ref{def:glued-algebra}.
 
       \item For types \( \tau, \tau' \in \types\), we have that
             \[ \Uparrow^{\tau*\tau'} : \mu_{\tau*\tau'} \rightarrow \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl}\] is the
-            pair of the following composites:
+            product of the following composites:
             \begin{align*}
               &\mu_{\tau*\tau'} \xrightarrow{(\fst_{\tau}^{\tau'}, \pi_{1})} \mu_{\tau} \xrightarrow{\Uparrow^{\tau}} \sem{\tau}_{\gl} \\
               &\mu_{\tau*\tau'} \xrightarrow{(\snd_{\tau'}^{\tau}, \pi_{2})} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl} \\
             \end{align*}
 
-            so that the requisite preservation of definitional equality is
-            provided by the \( \eta \) law for product types and the induction
-            hypothesis.
-
-            We have that
-            \( \Downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) is the
-            composite
-            \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)} \eta_{\tau*\tau'} \]
-
-            for which preservation of definitional equality in the syntax is
-            given by the induction hypothesis.
+            In each case, the first pair in the composite is a glued map from
+            Definition~ref{def:glued-algebra} while the second pair is a glued
+            map by the induction hypothesis, so that the composite itself is a
+            glued map. The product of these glued maps is a glued map by the
+            universal property of products.
 
     \item For types \( \tau, \tau' \in \types \), we define the reflection map
     \[ \Uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
     as the exponential transpose of the composite
     \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
 
-    so that the requisite preservation of definitional equality is
-    provided by the \( \eta \) law for function types and the induction
-    hypothesis.
+    By the universal property of the transpose, it suffices to  show that
+    the composite is a glued map of the appropriate domain and codomain.
+    This follows from the induction hypothesis, the universal property
+    of products (as in the previous induction step), and since
+    \( （\app_{\tau'}^{\tau}, \epsilon） \) is a glued map from
+    Definition~\ref{def:glued-algebra}.
 
     The reification map
     \[ \Downarrow^{\tau\rightarrow\tau'} : {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \rightarrow \eta_{\tau \rightarrow \tau'} \] is
     defined as the composite
     \[ {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \xrightarrow{(\Downarrow^{\tau'})^{(\Uparrow^{\tau} v_{\tau})}} {\eta_{\tau'}}^{\nu_{\tau}} \xrightarrow[\cong]{(\abs_{\tau\rightarrow\tau'} , \id)} \eta_{\tau\rightarrow\tau'}\]
     where \( v_{\tau} = (\var_{\tau} , \id) : \nu_{\tau} \rightarrow \mu_{\tau}\)
-    so that
+
+    That this is a glued map follows from
+    Definition~\ref{def:glued-algebra} and definition of the
+    post/pre-composition functors TODO: what are these actually called,
+    maybe check out topos theory book?
   \end{itemize}
 \end{proof}
 
