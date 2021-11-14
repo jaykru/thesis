@@ -104,11 +104,12 @@ citestyle=alphabetic
 % personal taste and style in intellectual matters (his course webpages are always
 % out of this world cool) and for that I am very fortunate!
 
-% I'd also like to give special thanks to Albyn Jones and Irena Swanson who guided
-% my early explorations of mathematics. Having been brought from complete
+% I'd also like to give special thanks to Albyn Jones and Irena Swanson who
+% guided my early explorations of mathematics. Having been brought from complete
 % ignorance to a great appreciation for proof and mathematical exploration under
-% their careful guidance was a great privilege! I am also grateful to Kyle Ormsby
-% for always being an absolute chiller and encouraging me in early ambitions.
+% their careful guidance was a great privilege! I am also grateful to Kyle
+% Ormsby for always being an absolute chiller, encouraging me in early
+% ambitions, and for giving me a taste of category theory.
 
 % Now come the personal ones. Thank you to Jaclyn for being everything to me over
 % the past two years. I cannot put into words the way your loves has touched my
@@ -168,6 +169,8 @@ citestyle=alphabetic
 % Foundations of Mathemtics is a love letter to the type of computer scientist
 % who wants to understand how the world works, and I'm indebted to Paul for
 % having created it.
+
+% TODO: remember to thank stackexchange people for macros
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -2296,11 +2299,11 @@ careful setup in the preceding pages makes this process almost automatic.
     and define \( \Downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) as the composite
     \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)}     \eta_{\tau*\tau'} \]
 
-    In each case, the first pair in the composite is a glued map from
-    Definition~ref{def:glued-algebra} while the second pair is a glued map
-    by the induction hypothesis, so that the composite itself is a glued
-    map. The product of these glued maps is a glued map by the universal
-    property of products.
+          In each case, the first pair in the composite is a glued map from
+          Definition~\ref{def:glued-algebra} while the second pair is a glued
+          map by the induction hypothesis, so that the composite itself is a
+          glued map. The product of these glued maps is a glued map by the
+          universal property of products.
 
     \item For types \( \tau, \tau' \in \types \), we define the reflection map
     \[ \Uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
@@ -2376,7 +2379,14 @@ input term. This result is stated but not proven in Fiore's extended abstract
           which is the identity on \( \sem{\tau}_{\cl} \times \sem{\tau'}_{\cl} \) as
           required.
 
-          The reification map \( \Downarrow^{\tau\times\tau'}\) is defined as TODO
+          The reification map
+          \( \Downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) is defined
+          as the composite
+          \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)} \eta_{\tau*\tau'} \].
+
+          whose semantic component is the identity by the induction hypothesis
+          and the definition of the product functor in the gluing category.
+
           \item For \( \tau, \tau' \in \types \), the reflection map \( \Uparrow^{\tau \rightarrow \tau'}\) for the function type over these is defined as the exponential transpose of the composite
           \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\] whence
 
