@@ -444,8 +444,24 @@ set of its clones:
   behavior of substitutions in sequence.
 \end{proof}
 
-\begin{theorem}[The canonical elementary
-  language]\label{thm:canonical_elementary_language} Every elementary sketch
+Recalling our sketch of a monoid from Example~\ref{ex:monoid sketch}, the
+substance of this covariant action morally amounts to saying that the sketch
+acts on its terms by left multiplication (here ``multiplication'' is actually
+just juxtaposition plus some parentheses) which gives the robust version of the
+handwavy argument we provided above.
+
+\begin{joke}
+  A couple of type theorists walk into a Michelin starred restaurant. The menu
+  reads in blackboard bold letters $\mathbbm{``NO\, SUBSTITUTIONS''}$. They promptly leave.
+\end{joke}
+
+The reader might have noted that there is a strong resemblance between the
+notion of a sketch and that of a category. Indeed, the following result uses the
+clone action defined above to show that we can associate to every sketch a
+category and that to every category we can associate a sketch. These assignments
+moreover induce an isomorphism.
+
+\begin{theorem}[The canonical elementary language]\label{thm:canonical_elementary_language} Every elementary sketch
   \( \mathcal{L} \) presents a category \( \cn_{\mathcal{L}}\) via the for-free
   action on its clones, and conversely any small category $C$ is presented by
   some sketch $\mathcal{L}$ in the sense that \( C \cong \cn_{\mathcal{L}}\). We
@@ -458,20 +474,8 @@ set of its clones:
     \item The operation symbols \( \lceil f \rceil \) are the morphisms \( f \) of \( C \) and
     \item The laws are \( \lceil \id \rceil (x) = x \) and \( \lceil g \rceil (\lceil f \rceil (x)) = \lceil g \circ f \rceil (x) \)
   \end{itemize}
-
   and the isomorphism is clear.
 \end{theorem}
-
-Recalling our sketch of a monoid from Example~\ref{ex:monoid sketch}, the
-substance of this covariant action morally amounts to saying that the sketch
-acts on its terms by left multiplication (here ``multiplication'' is actually
-just juxtaposition plus some parentheses) which gives the robust version of the
-handwavy argument we provided above.
-
-\begin{joke}
-  A couple of type theorists walk into a Michelin starred restaurant. The menu
-  reads in blackboard bold letters $\mathbbm{``NO\, SUBSTITUTIONS''}$. They promptly leave.
-\end{joke}
 
 \subsection{The category of contexts and substitutions}
 We now introduce a very special category. This category is special in both the
@@ -545,8 +549,6 @@ out of the category in question.
 % TODO: need to have some corollary or theorem saying how the classifying
 % category acts on the clones by substitution of the term
 
-% TODO: must include Theorem 4.2.12 from Taylor, it is essential to the
-% statement of this theorem.
 \subsection{Models are essentially set-valued functors out of the category of a sketch}
 \begin{theorem}[The classifying category]\label{thm:classify_elem_sketch}
   Let $\mathcal{L}$ be an elementary sketch and \( \cn_{\mathcal{L}} \) the
