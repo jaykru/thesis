@@ -1216,8 +1216,7 @@ instance of the gluing construction used in and outside of type theory. The
   normalization} however, as the scone is generally concerned with properties of
 \emph{closed terms} with no free variables, whereas our construction will apply
 to terms in any context.
-\section{Variable-arity Kripke relations}
-TODO
+
 \section{The comma construction and friends}
 This section introduces a general construction that will, among other things,
 allow us to define the gluing construction from which this chapter gets its
@@ -1323,6 +1322,53 @@ The category of renamings has a nice presentation as a comma category.
   \emph{subcategory} of the syntactic category.
 \end{remark}
 
+\subsection{Variable-arity Kripke relations}
+In order to motivate the next, example of a comma construction, we will
+introduce the notion of \emph{variable-arity Kripke relations}. Variable-arity
+Kripke relations are sort of like relations parameterized by the objects of some
+category for which inclusion in a relation respects, in a sense to be defined,
+the morphisms of that category.
+\begin{definition}[$C$-Kripke relation]
+  Let $C$ and $S$ be categories. For a functor \( \varsigma : C \rightarrow S \), a
+  \emph{$C$-Kripke relation} $R$ of \emph{arity} $\varsigma$ over an object \( A \) of
+  \( S \) is a family of sets \( \{ R(c) \subseteq S[\varsigma(c), A]\}_{c \in C}\) satisfying the
+  following \emph{monotonicity} condition:
+
+  For each morphism \( \rho : c' \rightarrow c \) in \( C \) and every \( a : \varsigma(c) \rightarrow A \) in
+  $R(c)$, the map \( a \circ \varsigma(\rho) : \varsigma(c') \rightarrow A\) is in $R(c')$.
+\end{definition}
+
+In order to disentangle this admittedly abstract definition, we specialize to
+the case of \( \ren\)-Kripke relations which are perhaps more graspable.
+
+\begin{example}[A class of \( \ren \)-Kripke relations over \( \cl \)]
+  Consider the inclusion functor \( \iota : \ren \rightarrow \cl \). Following the definition
+  above, we can define a \( \ren\)-Kripke relation $R$ of \emph{arity} $\iota$ over
+  any type\footnote{i.e., a singleton context} \( \tau \) of \( \cl \) by producing
+  a family of sets \( \{ R(\Gamma) \subseteq \cl[\Gamma, \tau]\}_{\Gamma \in \ren}\), namely a selection of
+  terms of type \( \tau \) in each context \( \Gamma \), along with a proof of the
+  monotonicity condition: for each \emph{renaming} \( \rho : \Gamma' \rightarrow \Gamma \) in
+  \( \ren \) and every \emph{term} \( t : \Gamma \rightarrow \tau \) in $R(\Gamma)$, the map
+  \( t \circ \iota(\rho) : \Gamma' \rightarrow \tau\) is in $R(\Gamma')$. This example demonstrates that we can
+  think of Kripke relations as families of unary relations for which inclusion
+  in any of the relations in the family, say $R(\Gamma)$, those unary relations of
+  terms which can be \emph{lifted} along a renaming to yield a proof of
+  inclusion in the relation at any other context \( \Gamma' \) enjoying a renaming
+  into \( \Gamma \).
+\end{example}
+
+Even with a more concrete example, it can be hard to understand what the utility
+of a construction like this is without knowing how to map between such
+$C$-Kripke relations of a given arity. In fact, we will not say explicitly what
+a $C$-Kripke morphism is at all. Instead we turn directly to the work of
+defining the \emph{gluing category} which turns out to generalize $C$-Kripke
+relations to \emph{proof relevant logical predicates}. Indeed, there is a a
+category of $C$-Kripke relations whose objects are defined as above; that
+category can be found to be a full subcategory of the gluing category which we
+introduce next. We refer the reader to \cite{fiore_semantic_2002} for more
+commentary on this result and for a more detailed treatment of Kripke relations
+in general.
+
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
 With the category of renamings in hand, we can now introduce as a comma the
 gluing category which will star as an instrumental semantic domain in our
@@ -1418,15 +1464,15 @@ quotient map $q$ is a component-wise monomorphism; i.e., for each
 \( \Gamma \in \ren \), we have that \( q_{\Gamma} : D(\Gamma) \rightarrowtail \tm (\Delta)(\Gamma) \) is a monomorphism.
 Here's why. Recalling the definition of $\ren$-Kripke relations over $\tau \in \cl$,
 we need to find in these data a $\ren$-indexed family \( \{ R_{\Gamma}\}_{\Gamma \in \ren}\)
-of sets of $\cl$-morphisms into \( \tau \) subject to the following relative
-monotonicity condition: for any renaming \( \rho : \Gamma' \rightarrow \Gamma \), if \( t : \Gamma \rightarrow \tau \) is
-in \( R_{\Gamma}\), then we have that \( t \circ \rho : \Gamma' \rightarrow \tau \) is in \( R_{\Gamma'}\). Looking
+of sets of $\cl$-morphisms into \( \tau \) subject to the following monotonicity
+condition: for any renaming \( \rho : \Gamma' \rightarrow \Gamma \), if \( t : \Gamma \rightarrow \tau \) is in
+\( R_{\Gamma}\), then we have that \( t \circ \rho : \Gamma' \rightarrow \tau \) is in \( R_{\Gamma'}\). Looking
 again to our proposed Kripke predicate objects of the gluing category, we can
 see that the presheaf \( R \) together with the natural mono \( q \) define for
 each \( \Gamma \) a subset of the substitutions \( \Gamma \rightarrow \tau \). It is tempting to
 dismiss the naturality of $q$ as bureaucracy, but naturality turns out to be
-essential to recovering the relative monotonicity condition. To see this, we need to look at the naturality diagram of
-\( q \):
+essential to recovering the monotonicity condition. To see this, we
+need to look at the naturality diagram of \( q \):
 
   \[\begin{tikzcd}
       {R (\Gamma)} &&& {\tm(\Delta) (\Gamma)} & t \\
@@ -1443,11 +1489,11 @@ essential to recovering the relative monotonicity condition. To see this, we nee
   morphisms with their images. We write \( |q_{\Gamma}| \subseteq \tm(\Delta)(\Gamma) \) for the image,
   for each \( \Gamma \). Now what this diagram says is that for any
   \( q_{\Gamma }(r \in R(\Gamma)) = t \in |q_{\Gamma}|\), we have that
-  \( t \circ \rho = q_{\Gamma'}(R(\rho)(r)) \in |q_{\Gamma'}|\). This is precisely the relative
-  monotonicity condition for $\mathfrak{C}$-Kripke relations: containment in
-  each predicate is functorial with respect to renaming \emph{up to renaming}.
-  It turns out that the category of \(\ren\)-Kripke relations is a full
-  subcategory of the gluing category \( \renhat \downarrow \tm \).
+  \( t \circ \rho = q_{\Gamma'}(R(\rho)(r)) \in |q_{\Gamma'}|\). This is precisely the monotonicity
+  condition for $\mathfrak{C}$-Kripke relations: containment in each predicate
+  is functorial with respect to renaming \emph{up to renaming}. It turns out
+  that the category of \(\ren\)-Kripke relations is a full subcategory of the
+  gluing category \( \renhat \downarrow \tm \).
 
   The perspective gained above allows for a more conceptual understanding of the
   objects in the gluing category: the presheaves $R$ define context-indexed
