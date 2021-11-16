@@ -782,15 +782,15 @@ question, we define a more general notion:
 
 \end{remark}
 
-Most questions in type theory are concerned with the \emph{terms} of the theory
-at hand. Normalization theorems talk about the accessibility (under some
-reduction relation) of a certain class of terms from any arbitrary term.
-Canonicity, a stronger property implying normalization, talks about the
-accessibility of another more strict class of terms from arbitrary start terms.
-These are but two examples of a broad spectrum of properties one might desire of
-the terms of a theory. Considering the primacy of term properties in type
-theory, it is rather strange that the notion of semantics we have built so far
-makes no commentary on terms besides the action on the clones given in
+Most things you'd like to prove about a type theory are concerned with the
+\emph{terms} of the theory at hand. Normalization theorems talk about the
+accessibility (under some reduction relation) of a certain class of terms from
+any arbitrary open term. \emph{Canonicity} theorems talk about the accessibility
+of a different class of terms from arbitrary \emph{closed} terms. These are but
+two examples of a broad spectrum of properties one might desire of the terms of
+a theory. Considering the primacy of term properties in type theory, it is
+rather strange that the notion of semantics we have built so far makes no
+commentary on terms besides the action on the clones given in
 Theorem~\ref{thm:clone model}. Our models so far have only given meaning to the
 individual \emph{sorts} (types) and individual \emph{operation symbols}
 (constructors) of the theory considered. In fact, this is enough: our models
@@ -2032,11 +2032,12 @@ With our maps in hand, we can verify that they form a bijection:
 
 Because we have defined \( d' \) by the universal property of the pullback, we
 have that \( d' \circ r = \tilde{d} \) whence
-\( \psi_{1}(\phi_{1}(d)) = \epsilon \circ (\tilde{d} \times \id) \) by the universal property of the
-transpose in \( \renhat \). The second equality is a little trickier.
+\( \psi_{1}(\phi_{1}(d)) = \epsilon \circ (\tilde{d} \times \id) \) so that \( \psi_{1}(\psi_{1}(\d)) = d \)
+by the universal property of the transpose in \( \renhat \).
 
-Both of these are the universal property for the relevant transpose up to
-squinting, so I think they should be the identity...
+The second equality is a little trickier. Both of these are the universal
+property for the relevant transpose up to squinting, so I think they should be
+the identity...
 
 TODO:
 \begin{itemize}
@@ -2240,7 +2241,8 @@ $(\sem{\Gamma \vdash t : \tau}_{\renhat}, \sem{\Gamma \vdash t : \tau })$ where
 initiality of the classifying category.
 
 \begin{lemma}\label{lem:sem-pi-is-id-endofunctor}
-  The composite \( \semproj \circ \sem{-}_{\gl} : \cl \rightarrow \cl \) is the identity endofunctor on \( \cl \).
+  The composite \( \semproj \circ \sem{-}_{\gl} : \cl \rightarrow \cl \) is the identity
+  endofunctor on \( \cl \).
 \end{lemma}
 \begin{proof}
   This follows from Theorem~\ref{thm:classifying alg theory}. In particular,
