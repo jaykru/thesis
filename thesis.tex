@@ -650,8 +650,8 @@ algebraic theory.
   operations out of a distinguished sort $\mathbbm{1}$.
   \begin{enumerate}
     \item Sorts: The sorts are \( \mathbbm{1}, S\). The variable collections for
-          each sort are \( \set{\square} \cup \set{\square_{i}}_{i} \) and
-          \( \set{s_{i}}_{i} \cup {x,y,z} \) respectively.
+          each sort are \( \set{\square} \cup \set{\square_{i}}_{i\in\mathbb{N}} \) and
+          \( \{x,y,z\} \cup \set{s_{i}}_{i\in\mathbb{N}}  \) respectively.
 
     \item Operations: \begin{align*}
                         \cdot &: S \times S \rightarrow S, \\
@@ -670,10 +670,17 @@ algebraic theory.
                   \cdot(x, +(y,z)) &= +(\cdot(x,y), \cdot(x,z))
                 \end{align*}
   \end{enumerate}
+  Note that the countably infinite sets of variables \( \{ \square\}_{i\in\mathbb{N}}\)
+  and \( \{ s\}_{i\in\mathbb{N}}\) are added so that we may have deeply nested
+  expressions, even if we had no need for them when stating the laws above. In
+  fact, such countable variable sets are \emph{required} when defining an
+  algebraic theory for precisely this reason. That this requirement was not
+  imposed for elementary sketches is because there can only be one variable in a
+  term, even heavily nested ones, by construction.
 \end{example}
 
-Having given the obligatory concrete example, we now have permission to proceed
-with another abstract definition: that of an \emph{$\mathcal{L}$-algebra} for an
+Having given the obligatory concrete example of a theory, we now allow ourselves
+another abstract definition: that of an \emph{$\mathcal{L}$-algebra} for an
 algebraic theory:
 
 \begin{definition}[$\mathcal{L}$-algebra]\label{def:algebra}
@@ -732,9 +739,12 @@ sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
 
 The reader familiar with algebra will observe that this example amounts to
 verifying that the integers form a ring under the standard multiplication and
-addition operations we learn in elementary school. A natural next question to
-ask is how we might encode a ring homomorphism in this framework. To answer this
-question, we define a more general notion:
+addition operations we learn in elementary school. In general, the reader will
+find that all \emph{rings} (in the conventional sense of abstract algebra) are
+\( \mathfrak{Set}\)-valued \emph{algebras} of the algebraic theory of
+\emph{ring}. The reader may also verify that the usual ring-homomorphisms in
+\( \mathfrak{Set}\) are an instance of the following generalized notion of
+homomorphism:
 
 \begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
   A \emph{homomorphism} \( \phi: A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
@@ -767,8 +777,8 @@ question, we define a more general notion:
 \end{remark}
 
 \begin{remark}
-  Predictably, the $\mathfrak{C}$-valued algebras and homomorphisms of an
-  algebraic theory $\mathcal{L}$ form a category, called
+  Perhaps predictably, the $\mathfrak{C}$-valued algebras and homomorphisms of
+  an algebraic theory $\mathcal{L}$ form a category, called
   $\textrm{Mod}_{\mathfrak{C}}(\mathcal{L})$.
   \begin{proof}
     Per Remark~\ref{rmk:alg_func}, we consider algebras and their homomorphisms
@@ -779,7 +789,6 @@ question, we define a more general notion:
     the associativity condition to that guaranteed by the categorical structure
     of $\mathfrak{C}$.
   \end{proof}
-
 \end{remark}
 
 Most things you'd like to prove about a type theory are concerned with the
@@ -1406,7 +1415,7 @@ Remark~\ref{rmk:reninclusioncl} gives us a functor
 \end{align*}
 which can be construed as taking a syntactic context to a presheaf of open
 terms. This is a confusing idea at first, and it helps to consider the simple
-cases to understand it. Consider any singleton context \( \tau : \cl \). $\tm$
+cases to undaerstand it. Consider any singleton context \( \tau : \cl \). $\tm$
 takes $\tau$ to the presheaf \( \cl(-, \tau)\) which takes any renaming context
 \( \Gamma \) to \( \cl(\Gamma, \tau)\). Recalling the definition of the syntactic category
 and its generating morphisms, the latter set comprises the terms of type \( \tau \)
