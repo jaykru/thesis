@@ -37,15 +37,15 @@ citestyle=alphabetic
 }
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}
-\newtheorem{example}{Example}
-\newtheorem{joke}{Joke}
-\newtheorem{notation}{Notation}
-\newtheorem{remark}{Remark}
-\newtheorem{lemma}{Lemma}
-\newtheorem{recall}{Recall}
-\newtheorem{theorem}{Theorem}
-\newtheorem{corollary}{Corollary}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{joke}[theorem]{Joke}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{Recall}[theorem]{recall}
+\newtheorem{corollary}[theorem]{Corollary}
 
 \include{autodelims}
 \include{reallywidetilde}
@@ -267,8 +267,7 @@ out some of his examples, add some of our own, and make parts of the
 presentation more palatable and quickly digestible to the reader already
 acquainted with basic category theory and type theory.
 
-\section{Elementary sketches and their models}
-\subsection{An algebraic prelude}
+\section{An algebraic prelude}
 We begin by recalling from algebra the notion of an \emph{action} of, say, a
 group or a monoid. Actions are, from our perspective, a way of giving meaning,
 or \emph{semantics} to elements of a set which enjoys some algebraic structure.
@@ -316,7 +315,7 @@ to the development of the doctrines of \emph{elementary sketch} and
 \emph{algebraic theory} which will allow us to generalize both sets with
 algebraic structures and their actions to new settings.
 
-\subsection{Elementary sketches}
+\section{Elementary sketches and their models}
 As promised, we begin with the definition.
 \begin{definition}\label{def:elem sketch}
   An \textbf{elementary sketch} is comprised of the following data:
@@ -477,14 +476,14 @@ moreover induce an isomorphism of categories.
   and the isomorphism \( C \cong \cn_{\mathcal{L}} \) is clear.
 \end{theorem}
 
-\subsection{The category of contexts and substitutions}
-We now introduce a very special category. This category is special in both the
-structure it enjoys as well as the central role it will play in the rest of the
-thesis. This category goes by many names: \emph{syntactic category}, the (rather
-verbose) \emph{category of contexts and substitutions}, and the elusive
-\emph{classifying category}. We endeavor to explain the meaning behind each of
-these names over the course of the thesis, but for now we adopt the name most
-closely describing its presentation.
+\section{The category of contexts and substitutions}
+We now introduce a category which is special in both the structure it enjoys as
+well as the central role it will play in the rest of this thesis. This category
+goes by many names: \emph{syntactic category}, the verbose \emph{category of
+  contexts and substitutions}, and the elusive \emph{classifying category}. We
+endeavor to explain the meaning behind each of these names over the course of
+the thesis, but for now we adopt the name most closely describing its
+presentation.
 
 % TODO: say something about what it means to present a category?
 \begin{definition}[The category of contexts and substitutions]\label{def:syn cat}
@@ -554,7 +553,7 @@ out of the category in question.
 
 % TODO: make model object notation agree with earlier defintion. I think I want to go with X_A instead of A_X for the valuation of sort X in the algebra A.
 
-\subsection{Models are essentially set-valued functors out of the category of a sketch}
+\section{Models are essentially functors}
 \begin{theorem}[The classifying category]\label{thm:classify_elem_sketch}
   Let $\mathcal{L}$ be an elementary sketch and \( \cn_{\mathcal{L}} \) the
   category it presents. Then the models of $\mathcal{L}$ correspond to functors
@@ -1096,11 +1095,13 @@ requirement in the universal property of the exponential transpose.
 %   the above adjunction.
 % \end{proof}
 
-\subsection{An algebraic theory of the lambda calculus}
+\section{An algebraic treatment of the lambda calculus}
 Finally, we will present the lambda calculus as a series of algebraic theories,
 each of which are identical except for the equations they admit. These theories
 correspond to instances of the lambda calculus whose notion of equality for
-lambda terms identifies more or fewer lambda terms.
+lambda terms identifies more or fewer lambda terms. We will see that algebras of
+these theories are essentially functors valued in specially structured
+categories.
 
 \begin{definition}[Algebraic theory of the lambda calculus]
   The \emph{$\alpha$-lambda calculus} is presented as the following algebraic theory called \( \mathcal{L}_{\lambda\alpha}\):
@@ -1286,15 +1287,21 @@ proof-relevant version of the category of contexts and substitutions in the
 following sense: if there exists a substitution relating two contexts in
 syntactic category, then there exists a renaming relating the same contexts. The
 upshot is that renamings allow us to track changes in context \emph{due to a
-  substitution} without actually using substitutions which, because
+  substitution} without actually working with substitutions which, because
 substitutions are identified up to computation, are problematic in a development
 requiring distinguishing between terms at various stages of reduction (e.g.
 distinguishing between a term and its normal form.) We will understand this
 problem in greater detail in Remark~\ref{rmk:syntactic-cat-bad}. Concisely, the
 category of renamings allows us to define the presheaves we need while not
-losing track of how contexts evolve by substitution. We now present the category
-abstractly as a comma and at the same time spell out concretely its morphisms in
-terms of the substitutions of the syntactic category:
+losing track of how contexts evolve by substitution\footnote{The reader might
+  complain now, as I did, that if we only care about tracking how contexts
+  evolve by substitutionsn then we should simply work with the category of
+  context \emph{weakenings}. The problem here is that the category of weakenings
+  lacks finite products, which precludes the use of a trick (which we will soon
+  see \emph{does} work in the case of the category of renamings) for explicating
+  the binding structure of its category of presheaves}. We now present the
+category abstractly as a comma and at the same time spell out concretely its
+morphisms in terms of the substitutions of the syntactic category:
 
 The category of renamings has a nice presentation as a comma category.
 \begin{definition}[Category of renamings]
