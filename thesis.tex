@@ -274,14 +274,14 @@ group or a monoid. Actions are, from our perspective, a way of giving meaning,
 or \emph{semantics} to elements of a set which enjoys some algebraic structure.
 \begin{definition}\label{def:covariant action}
   Recall that a \textbf{covariant action} of a group or monoid \((M, id, \cdot)\) on
-  a set \(A\) is a binary operation \((-)_* (=) : M ‌\times A \rightarrow A\) such that
+  a set \(A\) is a function \((-)_* (=) : M ‌\times A \rightarrow A\) such that
   \(\text{id}_* a = a\) and \( (g \circ f)_* a = g_* (f_* a) \). We can similarly a
   define the notion of a \textbf{contravariant action} which similarly requires
   the identity action to do nothing, but instead flips the order of action for
   compositions: $(g \circ f)^{*}a = f^{*}(g^{*} a)$
 \end{definition}
 
-For example, in algebra we learn that the dihedral group of order 8, written
+For example, in algebra we learn that the dihedral group of size 8, written
 $D_{4}$, acts on the square (with uniquely identified points) by reflections and
 rotations\footnote{https://groupprops.subwiki.org/wiki/Dihedral\_group:D8}; each
 of the operations encoded by the action results in the same image of the square
@@ -296,11 +296,11 @@ trivially defined. We now turn to the definition of an important property of
 actions: \emph{faithfulness}.
 
 \begin{definition}\label{def:faithful}
-  A \textbf{faithful} action $(-)_{*}$ is one for which things are
-  \emph{semantically} equal (or, act the same) only when they are
-  \emph{syntactically} equal (or, \emph{are} the same as far as your eyeballs
-  are concerned.) More precisely rendered, we
-  require: \[ \forall (a:A)\ldotp f_* a = g_* a \Longrightarrow f = g \]
+  A \textbf{faithful} action $(-)_{*}$ is one for which we have
+  \[ \forall (a:A)\ldotp f_* a = g_* a \Longrightarrow f = g \] for all \( f, g \) in $M$. Morally,
+  this requirement says that elements are \emph{semantically} equal (or, act the
+  same) only when they are \emph{syntactically} equal (or, \emph{look}
+  identical.)
 \end{definition}
 
 It can now be seen that the crucial property enjoyed by the natural action of
@@ -376,10 +376,10 @@ It is well-known that substitution operation is associative; see, for example,
 Chapter 1 of \cite{taylor_practical_1999} for a fantastic treatment of the
 theory of subtitution. As a consequence, any elementary sketch, including this
 one, satisfies the associativity axiom of monoids for free. The identity term is
-given by zero composable unary operation-symbols applied to a variable. It's
-just a variable; when composing the identity term with any other term, we end up
-getting exactly that original term. Freedom comes from the fact that the sketch
-has no equations.
+given by zero composable unary operation-symbols (i.e., the empty string)
+applied to a variable. Because composition is given by substitution for the
+variable, a lone variable does indeed work function as the identity. Freedom
+comes from the fact that the sketch has no equations.
 
 This loose argument is somewhat satisfying, but we can do better. To get there,
 we will first develop a notion generalizing \emph{actions} from algebra. After
@@ -459,7 +459,7 @@ The reader might have noted that there is a strong resemblance between the
 notion of a sketch and that of a category. Indeed, the following result uses the
 clone action defined above to show that we can associate to every sketch a
 category and that to every category we can associate a sketch. These assignments
-moreover induce an isomorphism.
+moreover induce an isomorphism of categories.
 
 \begin{theorem}[The canonical elementary language]\label{thm:canonical_elementary_language} Every elementary sketch
   \( \mathcal{L} \) presents a category \( \cn_{\mathcal{L}}\) via the for-free
@@ -474,7 +474,7 @@ moreover induce an isomorphism.
     \item The operation symbols \( \lceil f \rceil \) are the morphisms \( f \) of \( C \) and
     \item The laws are \( \lceil \id \rceil (x) = x \) and \( \lceil g \rceil (\lceil f \rceil (x)) = \lceil g \circ f \rceil (x) \)
   \end{itemize}
-  and the isomorphism is clear.
+  and the isomorphism \( C \cong \cn_{\mathcal{L}} \) is clear.
 \end{theorem}
 
 \subsection{The category of contexts and substitutions}
@@ -486,8 +486,9 @@ verbose) \emph{category of contexts and substitutions}, and the elusive
 these names over the course of the thesis, but for now we adopt the name most
 closely describing its presentation.
 
+% TODO: say something about what it means to present a category?
 \begin{definition}[The category of contexts and substitutions]\label{def:syn cat}
-  Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \text{Cn}^{\times}_{\mathcal{L}}\) is presented as follows:
+  Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \text{Cn}_{\mathcal{L}}\) is presented as follows:
   \begin{outline}
     \1 The objects are the contexts of \( \mathcal{L} \), i.e., finite lists of
     distinct variables and their types.
@@ -503,9 +504,9 @@ closely describing its presentation.
     variable $x:X$.
 
     \1 The laws are given by an extended version of the familiar substitution
-    lemma from type theory. The following laws are added for each collection of
-    terms $a,b$ and distinct variables $x$ and $y$ such that $x$ does not appear
-    free in $a$ and $y$ appears free in neither $a$ or $b$:
+    lemma from type theory. The following laws are imposed for each collection
+    of terms $a,b$ and distinct variables $x$ and $y$ such that $x$ does not
+    appear free in $a$ and $y$ appears free in neither $a$ or $b$:
     \begin{align*}
       % declaration follow by drop does nothing
       [a/x] ; \hat{x} &= \id \\
@@ -539,7 +540,7 @@ closely describing its presentation.
   then un-renaming it results in the same term.
 \end{definition}
 
-This category serves to allow us to define a special class of functor. In our
+This category allows us to define a special class of functor. In our
 case, that class of functor captures what it means to produce a model of an
 elementary sketch. The proof of this theorem is rather bureaucratic, but its
 importance is that it teaches us that the canonical elementary language of a
@@ -548,6 +549,8 @@ out of the category in question.
 
 % TODO: need to have some corollary or theorem saying how the classifying
 % category acts on the clones by substitution of the term
+
+% TODO: make model object notation agree with earlier defintion. I think I want to go with X_A instead of A_X for the valuation of sort X in the algebra A.
 
 \subsection{Models are essentially set-valued functors out of the category of a sketch}
 \begin{theorem}[The classifying category]\label{thm:classify_elem_sketch}
@@ -569,7 +572,7 @@ out of the category in question.
     (X \xrightarrow{r} Y) &\mapsto \ceil{r}_{A}
   \end{align*}.
 
-  It remains to show functoriality of these assignments which follow from the
+  It remains to show functoriality of these assignments which follows from the
   laws of the canonical elementary language and faithfulness of the model. \\
 
   \( (\Leftarrow) \) Suppose we have a functor
@@ -611,16 +614,14 @@ out of the category in question.
 % term $t$, we have \( [t/x]^{*} : \clone{}{x:X}{T} \longrightarrow \clone{}{\emptyset}{T}\).
 
 \section{Algebraic theories and their algebras}
-Having defined elementary sketches, which give us a way to define multi-sorted
-theories, it's obvious to request the ability to define multi-input
-operations\footnote{Some readers may appreciate that the doctrine of algebraic
-  theory can be rephrased in terms of operards: algebraic theories are operads
-  for which the tensor product used in forming the operation domains happens to
-  be the (Cartesian-style) product~\cite{TODO: Nlab}}. Algebraic theories
-generalize the doctrine of elementary sketches and allow us to do so. As we
-upgrade our doctrine to allow products, many of the notions (\emph{terms,
-  clones, syntactic category, etc.}) which we developed in the simplified world
-of elementary sketches will come along for the ride.
+While conjuring up example elementary sketches, the reader will find that the
+unary operation requirement regularly gets in the way of representing familiar
+gadgets like rings or type theories. To address this deficiency, we introduce
+the doctrine of \emph{algebraic theories} which generalizes the doctrine of
+elementary sketches and allows for multi-input operation symbols. As we work
+through this upgrade in doctrine, many of the notions (\emph{terms, clones,
+  syntactic category, etc.}) we developed in the simplified world of elementary
+sketches will come along for the ride without much changed.
 
 \begin{definition}[Algebraic theory]\label{def:alg theory}
   A (finitary many-sorted) \textbf{algebraic theory} $\mathcal{L}$ has
@@ -628,8 +629,9 @@ of elementary sketches will come along for the ride.
     \item a collection $\Sigma$ of base types or \textbf{sorts} $X$
     \item an inexhaustible collection of variables $x_{i}:X$ of each sort;
     \item a collection of \textbf{operation symbols},
-          $X_{1},\dots , X_{k} \vdash r : Y$ each having an \textbf{arity}, namely a
-          list of input sorts $X_{i}$, and an output sort $Y$; and
+          $x_{1}: X_{1},\dots , x_{k} : X_{k} \vdash r(x_{1},\dots, x_{k}) : Y$ each
+          having an \textbf{arity}, namely a list of input sorts $X_{i}$, and an
+          output sort $Y$; and
     \item a collection of \textbf{laws}, posed as equalities between different
           terms (in the sense defined before)
   \end{enumerate}
@@ -705,8 +707,8 @@ sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
     \begin{enumerate}
       \item $\cdot_A = *$ where $*$ is the ordinary multiplication of integers
       \item $+_{A} = +$ where the second plus is ordinary addition of integers
-      \item $0_{A}$ to the constant function $x \mapsto 0 \in \mathbb{Z}$
-      \item $1_{A}$ to the constant function $x \mapsto 1 \in \mathbb{Z}$
+      \item $0_{A}$ to the function $* \mapsto 0 \in \mathbb{Z}$
+      \item $1_{A}$ to the constant function $* \mapsto 1 \in \mathbb{Z}$
       \item $-_{A}$ to the function $x \mapsto -x$ taking an integer to its additive inverse
     \end{enumerate}
     \item Verifying the rest of the laws is routine after understanding how to
@@ -791,20 +793,20 @@ homomorphism:
   \end{proof}
 \end{remark}
 
-Most things you'd like to prove about a type theory are concerned with the
-\emph{terms} of the theory at hand. Normalization theorems talk about the
+Many things you'd like to prove about a type theory are concerned with the
+\emph{terms} of the theory at hand. \emph{Normalization} theorems talk about the
 accessibility (under some reduction relation) of a certain class of terms from
-any arbitrary open term. \emph{Canonicity} theorems talk about the accessibility
-of a different class of terms from arbitrary \emph{closed} terms. These are but
-two examples of a broad spectrum of properties one might desire of the terms of
-a theory. Considering the primacy of term properties in type theory, it is
-rather strange that the notion of semantics we have built so far makes no
-commentary on terms besides the action on the clones given in
-Theorem~\ref{thm:clone model}. Our models so far have only given meaning to the
-individual \emph{sorts} (types) and individual \emph{operation symbols}
-(constructors) of the theory considered. In fact, this is enough: our models
-extend canonically \emph{along the product structure} to contexts and
-substitutions and thus give meaning to terms.
+any arbitrary open term. \emph{Canonicity} or \emph{closed normalization}
+theorems talk about the accessibility of a different class of terms from
+arbitrary \emph{closed} terms. These are but two examples of a broad spectrum of
+properties one might desire of the terms of a theory. Considering the primacy of
+term properties in type theory, it is rather strange that the notion of
+semantics we have built so far makes no commentary on terms besides the action
+on the clones given in Theorem~\ref{thm:clone model}. Our models so far have
+only given meaning to the individual \emph{sorts} (types) and individual
+\emph{operation symbols} (constructors) of the theory considered. In fact, this
+is enough: our models extend canonically \emph{along the product structure} to
+contexts and substitutions and thus give meaning to terms.
 
 \DeclarePairedDelimiter{\sem}{\llbracket}{\rrbracket}
 
@@ -826,16 +828,16 @@ substitutions and thus give meaning to terms.
   Recalling more from the definition of an algebra, we know that $A$ gives
   meaning to each operation symbol \( Y_{1},\dots , Y_{k} \vdash r : Z \) as a
   morphism \( r_{A} : A_{Y_{1}} \times \cdots \times A_{Y_{k}} \rightarrow A_{Z} \) and gives meaning to
-  each constant \( c : Z \) by a morphism \( 1_{\mathfrak{C}} \rightarrow A_{Z} \). We can
+  each constant \( c : Z \) by a morphism \( \termob_{\mathfrak{C}} \rightarrow A_{Z} \). We can
   extend this to arbitrary terms in the context
   \( \Gamma \equiv \sem{x_{1} : X_{1}, \dots , x_{n} : X_{n}} \) by the following
   recursive definition:
-  \begin{align}
+  \begin{align*}
     \label{eq:term interp}
     \sem{x_{i}} &: \sem{\Gamma} \equiv A_{X_{1}} \times \cdots \times A_{X_{n}} \xrightarrow{\pi_{i}} A_{X_{i}} \\
-    \sem{c} &: \sem{\Gamma} \xrightarrow{<_{!}} \mathbbm{1}_{C} \xrightarrow{c_{A}} A_{Z} \\
+    \sem{c} &: \sem{\Gamma} \xrightarrow{<_{!}} \mathbbm{1}_{\mathfrak{C}} \xrightarrow{c_{A}} A_{Z} \\
     \sem{r(u_{1}, \dots , u_{k})} &: \sem{\Gamma} \xrightarrow{\braket{\sem{u_{1}}, \dots, \sem{u_{k}}}} A_{Y_{1}} \times \cdots \times A_{Y_{k}} \xrightarrow{r_{A}} A_{Z}
-  \end{align}
+  \end{align*}
   where the $\sem{u_{i}}$ are the interpretations of the sub-expressions of the
   expression in the final line, $\pi_{i}$ is the $i$th projection guaranteed to us
   by the universal property of products, and $<_{!}$ is the unique map into the
@@ -851,39 +853,47 @@ substitutions and thus give meaning to terms.
 
 \begin{theorem}[The classifying category of an algebraic
   theory]\label{thm:classifying alg theory}
-  Let \( \mathcal{L} \) be an algebraic theory. Then
+  Let \( \mathcal{L} \) be an algebraic theory. Then $\cn_{\mathcal{L}}$ has
+  finite products and
   \begin{enumerate}
-    \item $\cn_{\mathcal{L}}^{\times}$ has finite products and an
-          $\mathcal{L}$-algebra.
-    \item Let $\mathfrak{C}$ be another category with a choice of finite
-          products and an $\mathcal{L}$-algebra. Then the functor
-          $\sem{-} : \cn_{\mathcal{L}}^{\times} \rightarrow \mathfrak{C}$ preserves finite
-          products and the $\mathcal{L}$-algebra, and is the unique such
-          functor.
+    \item there exists in \( \cn_{\mathcal{L}}\) an $\mathcal{L}$-algebra which
+          satisfies the following universal property:
+    \item Let $\mathfrak{C}$ be another category with finite products and its
+          own an $\mathcal{L}$-algebra. Then the functor
+          $\sem{-} : \cn_{\mathcal{L}} \rightarrow \mathfrak{C}$ preserves finite products
+          and the $\mathcal{L}$-algebra, and is the unique such functor.
   \end{enumerate}
 \end{theorem}
-\begin{proof}\,\\
-  \begin{enumerate}
-    \item We first show that the syntactic category has finite products. Recall
-    that the objects of the syntactic category are variable contexts \([x : X, y
-    : Y, z : Z, \dots]\). For any other context \( [t : T, u : U, v : V, \dots]
-    \) we have the product \[ [x : X, y : Y, z : Z, \dots] \times [t : T, u : U,
-    v : V] = [x : X, y : Y, z : Z, \dots, t : T, u : U, v : V, \dots]\] That
-    is, products are given by concatenation of contexts. Now the model is given
-    as follows:
+\begin{proof}
+  We first show that the syntactic category has finite products. Recall that the
+  objects of the syntactic category are variable contexts
+  \([x : X, y : Y, \dots]\). For any other context \( [t : T, u : U, \dots] \)
+  we have the
+  product \[ [x : X, y : Y, \dots] \times [t : T, u : U, \dots] = [x : X, y : Y, \dots, t : T, u : U, \dots]\]
+  That is, products are given by concatenation of contexts. The projections are
+  given by weakening by all the variables in either context: that is, the second
+  projection is \( \Gamma \times \Delta \xrightarrow{\hat{\gamma_{1}}\circ\cdots\circ\hat{\gamma_{k}}} \Delta \) where the
+  \( \gamma_{i} \) are the variables of \( \Gamma \). We define the first projection
+  similarly. The universal property for products is upheld by the equational
+  laws concerned with weakenings in the category of contexts.
+    % TODO: clean up proof
+
+    Now come the more interesting promised results:
     \begin{enumerate}
-      \item The sorts $X$ of $\mathcal{L}$ are interpreted as single variable
-      contexts $[x:X] \in \ob C$ where the variable $x$ is arbitrary.
-      \item The operation symbols \( X_1, X_2, \dots \vdash r : Y \) of
-      $\mathcal{L}$ are interpreted as substitutions \( [r(x_1, x_2, \dots)/y] :
-      [x_1:X_1, x_2:X_2,\dots] \rightarrow [y : Y]\) 
+      \item
+      \begin{enumerate}
+        \item The sorts $X$ of $\mathcal{L}$ are interpreted as single variable
+        contexts $[x:X] \in \ob C$ where the variable $x$ is arbitrary.
+        \item The operation symbols \( X_1, X_2, \dots \vdash r : Y \) of
+        $\mathcal{L}$ are interpreted as substitutions \( [r(x_1, x_2, \dots)/y] :
+        [x_1:X_1, x_2:X_2,\dots] \rightarrow [y : Y]\)
+      \end{enumerate}
+      \item The functor promised is precisely the one defined by
+      Definition~\ref{def:term model}. Preservation of the model and of
+      finite products both follow from the definition of the interpretation
+      by induction on contexts. Uniqueness of the functor is in turn forced
+      by preservation of the model and finite products.
     \end{enumerate}
-    \item The functor promised is precisely the one defined by
-          Definition~\ref{def:term model}. Preservation of the model and of
-          finite products both follow from the definition of the interpretation
-          by induction on contexts. Uniqueness of the functor is in turn forced
-          by preservation of the model and finite products.
-  \end{enumerate}
 \end{proof}
 \chapter[Syntax and (functorial) semantics of the lambda calculus]{Functorial
   semantics of the simply typed lambda calculus in cartesian closed
