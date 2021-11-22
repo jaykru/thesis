@@ -348,8 +348,8 @@ monoid on some set $S$:
 \end{example}
 
 To really buy that this sketch generates a free monoid, we need an intervening
-definition of a concept we will get a lot of mileage out of in this thesis. The
-idea should already be familiar from our study of type theory, despite the
+concept which makes more concrete what we mean when saying ``generates.'' The
+idea should be familiar to the reader acquainted with type theory, despite the
 drastically simplified setting.
 
 \begin{definition}\label{def:term}
@@ -503,10 +503,12 @@ closely describing its presentation.
     \2 Single omissions or \emph{drops} \( \hat{x} : [\Gamma, x : X] \rightarrow \Gamma \) for each
     variable $x:X$.
 
-    \1 The laws are given by an extended version of the familiar substitution
-    lemma from type theory. The following laws are imposed for each collection
-    of terms $a,b$ and distinct variables $x$ and $y$ such that $x$ does not
-    appear free in $a$ and $y$ appears free in neither $a$ or $b$:
+    \1 The laws are given by an extended version of the substitution lemma from
+    type theory \cite{pierce_types_2002}. When talking about these laws, we will
+    often call them ``the extended substitution lemma.'' The following laws are
+    imposed for each collection of terms $a,b$ and distinct variables $x$ and
+    $y$ such that $x$ does not appear free in $a$ and $y$ appears free in
+    neither $a$ or $b$:
     \begin{align*}
       % declaration follow by drop does nothing
       [a/x] ; \hat{x} &= \id \\
