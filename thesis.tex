@@ -234,38 +234,41 @@ Blah blah blah, I should write some stuff about how category theory helps us
 avoid insane proof heuristics in metatheory of type theory.
 
 \chapter[Functorial semantics]{Functorial semantics: sketches and their models; algebraic theories and their algebras}\label{chapter:functorial_semantics}
-In this chapter we develop tools for reasoning about (syntactic)
-\emph{theories}, which are in some sense ``notions of'' abstract structure.
-Examples of theories include the theory of rings, and simple type theory. To
-discuss how we write down our theories, we need another level of abstraction. We
-will work with several \emph{notions of} (syntactic) theory, and we will more
-laconically refer to a notion of syntactic theory as a \emph{doctrine}. A
-\emph{doctrine} is something like a meta-framework specifying how we are to
-write down a theory. The first doctrine we will consider is that of the
-\emph{elementary sketch}. % The reader familiar with and/or traumatized by
+In this chapter we will develop tools for reasoning about (syntactic)
+\emph{theories}, which are ``notions of'' abstract structure. As an example,
+this chapter will present a theory encoding the structure of a ring (as in
+algebra.) A more complicated example will come in Chapter~\ref{chapter:stlc}
+which will apply the ideas of this chapter to simple type theory. To discuss how
+we write down our theories, we need another level of abstraction. We will work
+with several \emph{notions of} (syntactic) theory. We will more laconically
+refer to a notion of syntactic theory as a \emph{doctrine}. A \emph{doctrine} is
+something like a framework specifying how we are to write down a theory. The
+first doctrine we will consider is that of the \emph{elementary
+  sketch}. % The reader familiar with and/or traumatized by
 % experience with pencils of geodesics in hyperbolic geometry need not be scared
 % away by this terminology; there is nothing non-Euclidean afoot here.
-The doctrine of the \emph{elementary sketch} allows us to write down theories
-involving \emph{unary} operations (those defined over a single argument.) This
+The doctrine of the \emph{elementary sketch} allows us to specify theories
+involving \emph{unary} operations (those defined over a single parameter.) This
 restriction on the arity of operations turns out to be quite limiting. To
 address this, we will later upgrade the doctrine of elementary sketches to the
 doctrine of \emph{algebraic theories} which allow encoding operations with any
-finite number of arguments, thus covering a broad variety of theories. Algebraic
-theories are known more famously as \emph{Lawvere theories} after categorical
-logic superstar (and former Reed College professor!) William Lawvere who
-originally studied them while building his functorial treatment of universal
-algebra. Keeping with our sketchy terminology and emphasizing the doctrinal
-upgrade, algebraic theories are also called \emph{finite product sketches}. As
-an example of the strength of algebraic theories, we will show how to write down
-(as an algebraic theory) what it means to be a ring, with no reference to sets
-or functions. In the following chapter, we will use the doctrine of algebraic
-theories to develop categorical semantics of the lambda calculus. This chapter
-is strictly expository in nature. Much of the following presentation draws
-heavily from Paul Taylor's \emph{Practical Foundations of
-  Mathematics}~\cite{taylor_practical_1999}. Our humble contribution is to flesh
-out some of his examples, add some of our own, and make parts of the
-presentation more palatable and quickly digestible to the reader already
-acquainted with basic category theory and type theory.
+finite number of parameters, thus covering a broad variety of gadgets one might
+encounter in mathematics and computing. Algebraic theories are known more
+famously as \emph{Lawvere theories} after categorical logic superstar (and
+former Reed College professor!) William Lawvere who originally presented them
+while building his functorial treatment of universal algebra. Emphasizing the
+doctrinal upgrade, some authors refer to algebraic theories as \emph{finite
+  product sketches} \cite{wells_sketches_2009} though we will tend to stick with
+Lawvere's original terminology. As an example of the strength of algebraic
+theories, we will show how to write down (as an algebraic theory) what it means
+to be a ring, with no reference to sets or functions. In the following chapter,
+we will use the doctrine of algebraic theories to develop categorical semantics
+of the lambda calculus. This chapter is strictly expository in nature; indeed,
+much of what follows draws heavily from Paul Taylor's \emph{Practical
+  Foundations of Mathematics}~\cite{taylor_practical_1999}. My contribution is
+to flesh out some of the examples found there, add some of my own, and make
+other parts of the presentation more palatable and quickly digestible to the
+reader already acquainted with basic category theory and type theory.
 
 \section{An algebraic prelude}
 We begin by recalling from algebra the notion of an \emph{action} of, say, a
@@ -904,11 +907,23 @@ contexts and substitutions and thus give meaning to terms.
 
 This chapter exploits the heavy machinery developed in the previous chapter to
 give meaning, in specially structured categories, to the types and terms of the
-simply typed lambda calculus. In particular, we will present the lambda calculus
-as an \emph{algebraic theory} and leverage our existing theory to give an
-interpretation of lambda terms in any \emph{cartesian closed} category with an
-interpretation of the base types. We will begin by presenting the term language
-and type system for the calculus under consideration.
+simply typed lambda calculus. Here is how we shall do so: First, we will present
+various a suite of simple type theories as a series of \emph{algebraic theories}
+differing only in their equational laws. One of these type theories will be the
+typical simply typed lambda calculus with the full gamut of equational laws,
+including \( \beta \)-conversion and \( \eta \)-conversion and \( \alpha \)-renaming.
+Second, we present an interesting perspective on a well known type of
+categorical structure, namely \emph{cartesian closedness}, by explicitly
+defining it in terms of the definitional \( \beta\) and \( \eta \) laws from type
+theory. We will find that this characterization exactly coincides with the one
+found in typical books on category theory. Finally, we will show that any
+interpretation of base types of the lambda calculus\footnote{as above} gives
+rise to an interpretation of lambda terms in any \emph{cartesian closed}
+category with an interpretation of the base types. Unless otherwise noted, what
+follows is an adaptation of \cite{taylor_practical_1999} (Chapter 4.7). We begin
+by presenting the term language and type system for the calculus under
+consideration.
+
 
 \section{The simply typed lambda calculus}
 We'll work with the simply typed lambda calculus with some collection $T$ of
@@ -928,7 +943,7 @@ the full story.
   not a base type but rather can be considered a nullary product of types.
 \end{definition}
 
-\begin{definition}[Terms]
+\begin{definition}[Terms]\label{def:stlc_terms}
   The terms of the simply typed lambda calculus (with booleans) are generated by the
   foallowing grammar:
   \[
@@ -948,14 +963,18 @@ The typing rules are given as follows:
 \end{definition}
 
 \section[Raw CCS and beta-eta is exactly CCS]{Raw cartesian closed structure, beta-eta rules, and cartesian closed structure}
-We begin by defining a notion which mediates between \emph{having lambda
-  abstraction} and the more structured situation enjoyed by usual presentations
-of the lambda calculus. The additional structure we refer to is precisely the
-\emph{$\beta$- and $\eta$- laws} which are the actual content of lambda abstraction.
-% Both the former and latter situations predictably have analogues in categories,
-% in which exponential objects will serve as function types, the counit of the
-% product-hom adjunction is the evaluation, and lambda abstraction is given by
-% exponential transposition. We will see that the less structured
+The following notion mediates between \emph{having lambda abstraction} and the
+more structured situation enjoyed by usual presentations of the lambda calculus.
+The mediating notion, namely \emph{raw cartesian closed structure}, merely
+requires that one be able to write down lambda abstractions, and that they
+behave nicely with respect to substitutions that don't interfere with the bound
+variable. Notably lacking in \emph{raw cartesian closed structure} from the more
+structure situation referred to above are the \emph{$\beta$- and $\eta$-laws} which
+explain how to \emph{compute} with lambda abstraction.
+% Both the former and latter situations predictably have analogues in
+% categories, in which exponential objects will serve as function types, the
+% counit of the product-hom adjunction is the evaluation, and lambda abstraction
+% is given by exponential transposition. We will see that the less structured
 
 The definition comes from Taylor
 \cite{taylor_practical_1999}.
@@ -980,8 +999,8 @@ The definition comes from Taylor
 
           Looking closely at the naturality law, it essentially says that
           substitutions ``not touching'' the bound variable commute with lambda
-          abstraction. Informally, this is a good expression to have in mind:
-          \( \mathfrak{u}^{*}(\lambda x\, . p) = \lambda x.\, (u^{*}p) \).
+          abstraction. Informally, this is a good equation to have in mind:
+          \( \mathfrak{u}^{*}(\lambda x\, . p) = \lambda x.\, (\mathfrak{u}^{*}p) \).
   \end{enumerate}
 \end{definition}
 
@@ -990,10 +1009,10 @@ We will say that an algebraic theory $\mathcal{L}$ \emph{has raw cartesian
 closed structure.
 
 The following theorem extends Definition~\ref{def:term model} and shows how to
-construct and interpretation of terms from an algebra in a raw cartesian closed
+construct an interpretation of terms from an algebra in a raw cartesian closed
 category. The essence is that we extend the assignments of base types and
-operation symbols along products as before and along the new exponential
-objects as well.
+operation symbols along products (as we did before when dealing with ordinary
+algebraic theories) and along the new exponential objects as well.
 \begin{theorem}\label{thm:rawccsinterp}
   Let \( \mathcal{L}\) be an algebraic theory and $C$ be a category with raw
   cartesian closed structure and an algebra for \( \mathcal{L}\). The algebra
@@ -1064,12 +1083,9 @@ example cartesian closed categories is topos theory. All elementary toposes,
 including categories of presheaves, are cartesian closed
 \cite{leinster_informal_2011}.
 
-It turns out that all of these examples of
-cartesian closed categories can also be characterized as the classifying
-categories of raw cartesian closed theories that satisfy the beta-eta rules. We
-will not repeat the proof found in Taylor \cite{taylor_practical_1999}, but it
-largely amounts to the replication of the \( \beta \) law as well as the uniqueness
-requirement in the universal property of the exponential transpose.
+It turns out that all of these examples of cartesian closed categories can also
+be characterized as raw cartesian closed categories that satisfy the beta-eta
+rules.
 
 \begin{theorem}[Finite-product category + raw CCS + beta-eta $\iff$ cartesian closed]\label{thm:rawbetaetaisccs}
   Let \( \mathfrak{C} \) be a category. Then \( \mathfrak{C}\) is cartesian
@@ -1077,6 +1093,11 @@ requirement in the universal property of the exponential transpose.
   terminal object, and both is raw cartesian closed and satisfies the beta-eta
   laws.
 \end{theorem}
+
+We will not repeat Taylor's proof \cite{taylor_practical_1999}, but we will say
+that the proof largely comes down to these two facts: that exponential
+transposes are unique and that the characterizing proprety of the transpose is
+exactly the \( \beta \) rule.
 % \begin{proof}
 %   For the first direction, suppose that \( \mathfrak{C} \) is cartesian closed.
 %   Then \( \mathfrak{C} \) has all exponential and all products. The map
@@ -1098,18 +1119,20 @@ requirement in the universal property of the exponential transpose.
 \section{An algebraic treatment of the lambda calculus}
 Finally, we will present the lambda calculus as a series of algebraic theories,
 each of which are identical except for the equations they admit. These theories
-correspond to instances of the lambda calculus whose notion of equality for
-lambda terms identifies more or fewer lambda terms. We will see that algebras of
+correspond to instances of the lambda calculus whose respective definitional
+equalities identify more or fewer lambda terms. We will see that algebras of
 these theories are essentially functors valued in specially structured
 categories.
 
 \begin{definition}[Algebraic theory of the lambda calculus]
   The \emph{$\alpha$-lambda calculus} is presented as the following algebraic theory called \( \mathcal{L}_{\lambda\alpha}\):
   \begin{enumerate}
-    \item Sorts: We define the sorts \( \Sigma_{\lambda}\) to be the set
-    \( \types \) given in Definition \ref{def:stlc_types}.
-    \item Variables: The variables are drawn from some countably infinite set
-          $V$ as in the definition of terms.
+    \item Sorts: We define the sorts to be the set \( \types \) given in
+          Definition \ref{def:stlc_types}.
+    \item Variables: The variables are defined as the collection
+          \( \{ v : \tau \mid (v, \tau) \in V \times \types \} \) where $V$ is the countably
+          infinite set $V$ of untyped variables as in
+          Definition~\ref{def:stlc_terms}.
     \item We define the following operation symbols for each
           \(\tau_{1},\tau_{2},\tau,\tau' \in \Sigma_{\lambda}\):
           \begin{align*}
@@ -1144,6 +1167,12 @@ categories.
           \( \Gamma, x : X \vdash t : \tau \) and \( \Gamma \vdash t' : X\).
   \end{enumerate}
 \end{definition}
+
+With this theory in hand, we first show that it is raw cartesian closed (i.e.
+that it supports a reasonably coherent notion of lambda abstraction.) After
+that, we will add to the theory the \( \beta\) and \(\eta \) laws. Finally, we will use
+the preceding theorems to argue \emph{from $\beta$ and $\eta$} to show that the
+resulting theory of the typical lambda calculus is cartesian closed.
 
 \begin{theorem}[$\alpha$-lambda calculus is raw cartesian closed ]
   The theory \( \mathcal{L}_{\lambda\alpha}\) is raw cartesian closed
@@ -1193,11 +1222,11 @@ calculus and the work we did in Chapter~\ref{chapter:functorial_semantics}.
 \end{theorem}
 
 \begin{theorem}
-  The classifying category \( \cl \) of the theory \( mathcal{L}_{\lambda\alpha\beta\eta} \) is
-  cartesian closed and has a lambda algebra. Further, if $C$ is any cartesian
-  closed category with a lambda algebra then there is a unique functor
-  \( \sem{-} : \cl \rightarrow C \) that preserves the cartesian closed structure and the
-  lambda algebra.
+  The syntactic category \( \cl \) of the theory \( \mathcal{L}_{\lambda\alpha\beta\eta} \) is
+  cartesian closed and has a lambda algebra satisfying the following universal
+  property: if $C$ is a cartesian closed category with a lambda algebra then
+  there is a unique functor \( \sem{-} : \cl \rightarrow C \) that preserves the cartesian
+  closed structure and the lambda algebra.
 \end{theorem}
 \begin{proof}
   Cartesian closure follows immediately from the previous result and
@@ -1839,6 +1868,7 @@ The maps \( m_{\tau} \), \( n_{\tau}\) are the usual semantic interpretation
 precomposed with the respective inclusions into open terms.
 \end{remark}
 
+\chapter{Obtaining a normalization function}
 \section{Desiderata for a normalization function}
 For all this talk of normalization, we haven't said much about what a
 normalization function must be. Of course, it should take a lambda term to a
@@ -1864,7 +1894,6 @@ of the important properties a normalization function
 [TODO: say here something about how the proofs of each of these will ``fall
 out'' of the way we have constructed our normalization function with gluing. ]
 
-\section{Onward!}
 TODO: need an intro here. I should talk about how we will define the cartesian
 closed structure in order to give an interpretation into the gluing category by
 way of the interpretation of base types that I introduce later. I should hint at
@@ -1900,7 +1929,7 @@ function.
   \( \renhat \), which is well-known but should be stated nonetheless.
 \end{theorem}
 
-\subsection{Cartesian closed structure for the gluing category}
+\section{Cartesian closed structure for the gluing category}
 In order to give an interpretation of terms in the gluing category, we must give
 an explicit account of its cartesian closed structure. We will say what its
 products are, but not prove the universal property: we send the reader to
@@ -2080,10 +2109,11 @@ TODO:
   The gluing category \( \gl \) is cartesian closed.
 \end{corollary}
 
-\subsection{Gluing syntax to semantics, and a glued algebra}
+\section{Gluing syntax to semantics}
 We will define some objects in the gluing category which, in some sense, glue
 the presheaves of syntax we have defined in \( \renhat \) together with their
-semantics in the classifying category.
+semantics in the classifying category. These glued objects will ultimately
+assemble into the objects for an algebra of the theory \( NN \).
 
 \begin{definition}\label{def:yonedabar}
   The relative hom functor induces the embedding
@@ -2286,7 +2316,7 @@ initiality of the classifying category.
 Now is a good time look ahead to where we're going, and see how what we've done
 so far will get us there.
 
-\subsection{Taking stock: charting a path to normalization}\label{sec:taking-stock}
+\section{Taking stock: charting a path to normalization}\label{sec:taking-stock}
 We now have enough language to say exactly what it is we're hoping to acquire in
 this chapter. Let \( \tau \in \types \) and suppose
 \( \sem{\tau}_{\gl} = (\mathfrak{R}_{\tau}, q, \tau) \). We wish to come up with maps
@@ -2358,7 +2388,7 @@ which is the required triangle. In the reification case, we get the desired
 triangle along the same lines. Convinced thus, we can set about defining the
 required glued maps.
 
-\subsection{Glued reification and reflection}\label{def:reify-reflect}
+\section{Glued reification and reflection}\label{def:reify-reflect}
 While defining these glued maps as pairs of suitable morphisms, we must take
 care to verify that the pairs satisfy the gluing condition. Fortunately, the
 careful setup in the preceding pages makes this process almost automatic.
@@ -2496,7 +2526,7 @@ input term. This result is stated but not proven in Fiore's extended abstract
   \end{itemize}
 \end{proof}
 
-\subsection{A promise kept: a normalization function}
+\section{A promise kept: a function from open terms to normal terms}
 Having performed reify-reflect yoga at each type, we have established the
 desired diagram from Section~\ref{sec:taking-stock}. We can now define a
 function \( \nf_{\tau}^{\Gamma} : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the
@@ -2522,7 +2552,7 @@ establish the various correctness properties characterizing a normalization
 function. The laborious setup work of this chapter turns out to allow us to do
 so with ease.
 
-\subsection{Reaping what we've sown: easy proofs of correctness properties}
+\section{Reaping what we've sown: easy proofs of the correctness properties}
 \begin{theorem}[Normalization respects computational equality]
   For every pair of terms \( t, t' \in \mathfrak{L}_{\tau}(\Gamma) \), if
   \( t \equiv_{\beta\eta\alpha} t' \) then \( {\nf}\,_{\tau}^{\Gamma}(t) = \nf\,_{\tau}^{\Gamma}(t')\).
