@@ -1311,9 +1311,9 @@ intuition perhaps underlies the name for the gluing construction. Our specific
 use of the gluing construction will involve gluing presheaves of syntactic terms
 (as you would write them down on paper) together with presheaves of semantic
 terms (which are \emph{substitutions}.) That is, the extra data we glob on is
-the semantic of terms, and the notion of extra-data-preserving morphism is a
-pair of a syntactic transformation and a substitution which preserve the
-semantic interpretation of the syntax.
+the semantics of terms, and the notion of extra-data-preserving morphism is a
+pair of a syntactic transformation and a substitution which commute with the
+semantic interpretations of the syntax.
 
 \begin{definition}[Comma category]
   Let $E,D,C$ be categories and $F: D \rightarrow C \leftarrow E : G$ be a pair of functors sharing
@@ -1335,31 +1335,30 @@ semantic interpretation of the syntax.
 \subsection{An easy comma: the category of renamings}
 As a warm-up example, we present the \emph{category of renamings} which can be
 nicely expressed as an instance of the comma. In elementary terms, the category
-has the same objects as the syntactic category (contexts, which are finite lists
-of types) but the morphisms are a restricted class of substitutions, which in
-simple terms are only allowed to substitute for a variable \emph{by a variable
-  of the same type}. Thus the category of renamings is something like a less
-proof-relevant version of the category of contexts and substitutions in the
-following sense: if there exists a substitution relating two contexts in
-syntactic category, then there exists a renaming relating the same contexts. The
-upshot is that renamings allow us to track changes in context \emph{due to a
-  substitution} without actually working with substitutions which, because
-substitutions are identified up to computation, are problematic in a development
-requiring distinguishing between terms at various stages of reduction (e.g.
-distinguishing between a term and its normal form.) We will understand this
-problem in greater detail in Remark~\ref{rmk:syntactic-cat-bad}. Concisely, the
-category of renamings allows us to define the presheaves we need while not
-losing track of how contexts evolve by substitution\footnote{The reader might
-  complain now, as I did, that if we only care about tracking how contexts
-  evolve by substitutionsn then we should simply work with the category of
-  context \emph{weakenings}. The problem here is that the category of weakenings
-  lacks finite products, which precludes the use of a trick (which we will soon
-  see \emph{does} work in the case of the category of renamings) for explicating
-  the binding structure of its category of presheaves}. We now present the
-category abstractly as a comma and at the same time spell out concretely its
-morphisms in terms of the substitutions of the syntactic category:
-
-The category of renamings has a nice presentation as a comma category.
+has the same objects as the syntactic category (i.e., contexts) but the
+morphisms are a restricted class of substitutions, which are only allowed to
+substitute for a variable \emph{by a variable of the same type} or weaken by a
+variable. Thus the category of renamings is something like a less proof-relevant
+version of the category of contexts and substitutions in the following sense: if
+there exists a substitution relating two contexts in syntactic category, then
+there exists a renaming relating the same contexts. The upshot is that renamings
+allow us to track changes in context \emph{due to a substitution} without
+actually working with substitutions directly. Working over \( \cl \) is
+problematic because substitutions (and thus the terms they represent) are
+identified up to computational equality, whereas we would like to distinguish
+between terms at differing stages of reduction (e.g. distinguishing between a
+term and its normal form.) We will understand this problem in greater detail in
+Remark~\ref{rmk:syntactic-cat-bad}. Concisely, the category of renamings allows
+us to define the presheaves we need while not losing track of how contexts
+evolve by substitution\footnote{The reader might complain now, as I did, that if
+  we only care about tracking how contexts evolve by substitutionsn then we
+  should simply work with the category of context \emph{weakenings}. The problem
+  here is that the category of weakenings lacks finite products, which precludes
+  the use of a trick (which we will soon see \emph{does} work in the case of the
+  category of renamings) for explicating the binding structure of its category
+  of presheaves}. We present the category abstractly as a comma and at the
+same time spell out concretely its morphisms in terms of the substitutions of
+the syntactic category:
 \begin{definition}[Category of renamings]
   Recall from Chapter~\ref{chapter:stlc} that \( V \) is some countably infinite
   set of variables and \( \types \) is the set of all types in the simply typed
@@ -1389,10 +1388,10 @@ The category of renamings has a nice presentation as a comma category.
           The reason the comma morphisms are single functions and not pairs is
           that the second function would not communicate any data, it would just
           be taken by \( \mathbb{T}\) to the identity no matter what it is. We
-          now unpack this means. The functions \( \rho \) are \emph{type-preserving
-          renamings}: for each variable \( x \in V\), we have that
-          \( \Gamma'(\rho x) = \Gamma(x)\). In particular, this restricts \( \rho \) to the
-          following classes of morphisms in the classifying category:
+          now unpack what this means. The functions \( \rho \) are
+          \emph{type-preserving renamings}: for each variable \( x \in V\), we
+          have that \( \Gamma'(\rho x) = \Gamma(x)\). In particular, this restricts \( \rho \)
+          to the following classes of morphisms in the classifying category:
           substitutions of variables for variables of the same type, context
           extension with new variables, and all compositions of these. The
           equations are given by the substitution lemma, as in the syntactic
@@ -1406,18 +1405,20 @@ The category of renamings has a nice presentation as a comma category.
 \begin{remark}\label{rmk:reninclusioncl}
   There is an obvious inclusion \( \iota : \ren \rightarrow \cl \) which takes contexts to
   contexts and casts renamings as change-of-variable substitutions. When going
-  between \( \ren \) and \( \cl \), we will take liberty to implicitly insert
-  this coercion as needed without further warning. It turns out that this
+  between \( \ren \) and \( \cl \), we will take the liberty to implicitly
+  insert this coercion as needed without further warning. It turns out that this
   inclusion is \emph{faithful} and thus witnesses \( \ren \) as a
   \emph{subcategory} of the syntactic category.
 \end{remark}
 
 \subsection{Variable-arity Kripke relations}
-In order to motivate the next, example of a comma construction, we will
-introduce the notion of \emph{variable-arity Kripke relations}. Variable-arity
-Kripke relations are sort of like relations parameterized by the objects of some
-category for which inclusion in a relation respects, in a sense to be defined,
-the morphisms of that category.
+In order to motivate the next example of a comma construction, we will define
+\emph{variable-arity Kripke relations}. Variable-arity Kripke relations are,
+loosely speaking, families of relations parameterized by the objects of some
+\emph{category} (c.f. the Kripke logical relations mentioned in the
+introduction, which vary over the objects of a \emph{poset}) for which inclusion
+in the relations respects, in a sense to be defined, the morphisms of that
+category.
 \begin{definition}[$C$-Kripke relation]
   Let $C$ and $S$ be categories. For a functor \( \varsigma : C \rightarrow S \), a
   \emph{$C$-Kripke relation} $R$ of \emph{arity} $\varsigma$ over an object \( A \) of
@@ -1452,19 +1453,18 @@ of a construction like this is without knowing how to map between such
 $C$-Kripke relations of a given arity. In fact, we will not say explicitly what
 a $C$-Kripke morphism is at all. Instead we turn directly to the work of
 defining the \emph{gluing category} which turns out to generalize $C$-Kripke
-relations to \emph{proof relevant logical predicates}. Indeed, there is a a
-category of $C$-Kripke relations whose objects are defined as above; that
+relations to \emph{proof relevant Kripke logical predicates}. Indeed, there is a
+a category of $C$-Kripke relations whose objects are defined as above; that
 category can be found to be a full subcategory of the gluing category which we
 introduce next. We refer the reader to \cite{fiore_semantic_2002} for more
 commentary on this result and for a more detailed treatment of Kripke relations
 in general.
 
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
-With the category of renamings in hand, we can now introduce as a comma the
-gluing category which will star as an instrumental semantic domain in our
-development. To define it, we first need to define a functor along which to take
-the comma. In a loose sense that will be explained in due course, this functor
-defines \( \ren \)-presheaves of \emph{open} (semantic) terms.
+With the category of renamings in hand, we can now define \emph{as a comma} the
+gluing category. To define it, we first need to define a functor along which to
+take the comma. In a loose sense that will be explained in due course, this
+functor defines \( \ren \)-presheaves of \emph{open} (semantic) terms.
 \subsubsection{The relative hom functor}
 Every functor \( \varsigma : \mathcal{R} \rightarrow \mathcal{S} \) induces the following
 situation:
@@ -1526,9 +1526,9 @@ renamings along the relative hom functor \( \tm \) just defined.
   The gluing category \( \gl \) is defined as the comma \( \renhat \downarrow \tm \).
   Explicitly, its objects are triples
   \( (R : \renhat, q : R \Rightarrow \tm(\Delta), \Delta : \cl) \). The objects of the gluing
-  category are \emph{proof relevant logical predicates}, in a sense that will be
-  more clear after a digression to follow. Following the definition of the comma
-  construction, the morphisms \( (R, q, \Delta) \rightarrow (R', q', \Delta') \) are pairs
+  category are \emph{proof relevant Kripke logical predicates}, in a sense that
+  will be more clear after a digression to follow. Following the definition of
+  the comma construction, the morphisms \( (R, q, \Delta) \rightarrow (R', q', \Delta') \) are pairs
   $(d : R \rightarrow R', \delta: \cl[\Delta', \Delta])$ are pairs of a $\renhat$ natural transformation
   and a substitution making the following diagram commute:
   % https://q.uiver.app/?q=WzAsNCxbMCwwLCJEIl0sWzIsMCwiRCciXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhKSJdLFsyLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGEnKSJdLFswLDEsImQiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXGRlbHRhKSJdLFswLDIsInFfe1xcRGVsdGF9IiwyXSxbMSwzLCJxX3tcXERlbHRhJ30iXV0=
@@ -1541,12 +1541,15 @@ renamings along the relative hom functor \( \tm \) just defined.
       \arrow["{q}"', from=1-1, to=3-1]
       \arrow["{q'}", from=1-3, to=3-3]
     \end{tikzcd}\]
+
+  We will refer to objects and morphisms in the gluing category as \emph{glued
+    objects} and \emph{glued morphisms} respectively.
 \end{definition}
 
 We can get a foothold understanding of the objects of the gluing category by
 considering them as a presheaf together with, for each \( \Gamma \), an
 interpretation \( q_{\Gamma} \) of the sets of the presheaf into the set of semantic
-terms \( \tm(\Delta)(\Gamma)\), such that the interpretation commutes with renamings, in a
+terms \( \tm(\Delta)(\Gamma)\), such that the interpretation commutes with renamings in a
 way that will be further explained in just a bit.
 
 Holding off our desire to further understand the objects, we can already
@@ -1570,17 +1573,17 @@ Kripke relations arise as those objects
 \( (D : \renhat, q : D \Longrightarrow \tm (\Delta), \Delta : \cl) \) of the gluing category whose
 quotient map $q$ is a component-wise monomorphism; i.e., for each
 \( \Gamma \in \ren \), we have that \( q_{\Gamma} : D(\Gamma) \rightarrowtail \tm (\Delta)(\Gamma) \) is a monomorphism.
-Here's why. Recalling the definition of $\ren$-Kripke relations over $\tau \in \cl$,
+Here's why: recalling the definition of $\ren$-Kripke relations over $\tau \in \cl$,
 we need to find in these data a $\ren$-indexed family \( \{ R_{\Gamma}\}_{\Gamma \in \ren}\)
 of sets of $\cl$-morphisms into \( \tau \) subject to the following monotonicity
 condition: for any renaming \( \rho : \Gamma' \rightarrow \Gamma \), if \( t : \Gamma \rightarrow \tau \) is in
 \( R_{\Gamma}\), then we have that \( t \circ \rho : \Gamma' \rightarrow \tau \) is in \( R_{\Gamma'}\). Looking
 again to our proposed Kripke predicate objects of the gluing category, we can
 see that the presheaf \( R \) together with the natural mono \( q \) define for
-each \( \Gamma \) a subset of the substitutions \( \Gamma \rightarrow \tau \). It is tempting to
-dismiss the naturality of $q$ as bureaucracy, but naturality turns out to be
-essential to recovering the monotonicity condition. To see this, we
-need to look at the naturality diagram of \( q \):
+each \( \Gamma \) a subset of the substitutions \( \Gamma \rightarrow \tau \).
+It is tempting to dismiss the naturality of $q$ as bureaucracy, but naturality
+turns out to be essential to recovering the monotonicity condition. To see this,
+we need to look at the naturality diagram of \( q \):
 
   \[\begin{tikzcd}
       {R (\Gamma)} &&& {\tm(\Delta) (\Gamma)} & t \\
@@ -1598,10 +1601,8 @@ need to look at the naturality diagram of \( q \):
   for each \( \Gamma \). Now what this diagram says is that for any
   \( q_{\Gamma }(r \in R(\Gamma)) = t \in |q_{\Gamma}|\), we have that
   \( t \circ \rho = q_{\Gamma'}(R(\rho)(r)) \in |q_{\Gamma'}|\). This is precisely the monotonicity
-  condition for $\mathfrak{C}$-Kripke relations: containment in each predicate
-  is functorial with respect to renaming \emph{up to renaming}. It turns out
-  that the category of \(\ren\)-Kripke relations is a full subcategory of the
-  gluing category \( \renhat \downarrow \tm \).
+  condition for $\ren$-Kripke relations over \( \Delta \): containment in each
+  predicate is functorial with respect to renaming \emph{up to renaming}.
 
   The perspective gained above allows for a more conceptual understanding of the
   objects in the gluing category: the presheaves $R$ define context-indexed
@@ -1609,16 +1610,17 @@ need to look at the naturality diagram of \( q \):
   $q$ is a quotient map that forgets the difference between distinct witnesses
   \( w, w' \in R(\Gamma) \) and whose image just records those terms
   \( t \in \tm (\Delta)(\Gamma)\) taken to be in the predicate; insofar as $q$ is a mono,
-  these objects are exactly variable-arity Kripke relations.
-
+  these objects are exactly variable-arity Kripke relations over the context
+  \( \Delta \).
 
 \section{Presheaves of stratified neutral and normal syntax}
-In this section, we will enlist a motely crew of \emph{presheaves of syntax}
-which more-or-less represent families of terms in the lambda calculus. These
-presheaves are defined over $\ren$ for reasons that will become apparent later.
-We will ultimately define lambda algebras over these presheaves, for which we
-require some understanding of how to represent variables in $\renhat$ and how
-exponentiation in $\renhat$ corresponds to lambda abstraction.
+In this section, we will enlist a motley crew of \emph{presheaves of syntax}
+which more-or-less represent certain classes of terms in the lambda calculus.
+These presheaves are defined over $\ren$ rather than $\cl$ for reasons that will
+be detailed in Remark~\ref{rmk:syntactic-cat-bad}. We will ultimately define
+lambda algebras over these presheaves, for which we require some understanding
+of how to represent variables in $\renhat$ and how exponentiation in $\renhat$
+corresponds to lambda abstraction.
 \subsection{Variables and binding in Renhat}
 \begin{definition}[Variable presheaf]\label{def:varpsh}
   We can define a presheaf of \emph{typed variables} in $\renhat$ with the Yoneda embedding on $\ren$:
@@ -1662,7 +1664,7 @@ distinguish between \emph{neutral terms}, a special class of \emph{normal terms}
 which are in some sense beta-redexes whose reduction is \emph{blocked} by a
 variable in the head term, and all other normal terms. In some sense,
 \emph{neutral terms} can be regarded as those terms which are normal only
-because they're ``stuck.''
+because they are stuck waiting on the value of a variable.
 
 \begin{definition}[Neutral and normal judgments]\label{def:neut-norm-rules}
   \begin{mathpar}
@@ -1701,8 +1703,8 @@ because they're ``stuck.''
     \end{align*}
     \item The laws are the usual $\alpha-$, $\beta-$, and $\eta-$rules.
   \end{enumerate}
-  Note that the domain of the unit operation symbol is merely the nullary
-  product of sorts.
+  Note that the domain of the unit operation symbol is the nullary product of
+  sorts.
 \end{definition}
 
 \begin{remark}\label{rmk:upgrade_to_stratified}
@@ -1835,11 +1837,11 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
   define presheaves like the ones above. Let's go back to basics and recall that
   a presheaf is not just a fancy family of sets, but crucially comes with a
   faithful contravariant action taking a morphism in the base category to a
-  function of sets in the family going in the opposite direction. If we take the
-  example of the presheaf of opens of type \(\tau\), \( \mathfrak{L}_{\tau}\), there
-  are no apparent problems. We could define the family
-  \( \{ \mathfrak{L}_{\tau}(\Delta)\}_{\Delta\in\cl}\) essentially as before, and use the
-  following presheaf action:
+  function of \emph{sets of the family} going in the opposite direction. If we
+  take the example of the presheaf of opens of type \(\tau\),
+  \( \mathfrak{L}_{\tau}\), there are no apparent problems. We could define the
+  family \( \{ \mathfrak{L}_{\tau}(\Delta)\}_{\Delta\in\cl}\) essentially as before, and use
+  the following presheaf action:
   \begin{align*}
     \cl[\Delta,\Gamma] &\rightarrow \catset[\mathfrak{L}_{\tau}(\Gamma), \mathfrak{L}_{\tau}(\Delta)] \\
     \delta &\mapsto (t \mapsto \delta^{*} t)
@@ -2158,15 +2160,15 @@ TODO:
 \end{corollary}
 
 \section{Gluing syntax to semantics}
-We will define some objects in the gluing category which, in some sense, glue
-the presheaves of syntax we have defined in \( \renhat \) together with their
-semantics in the classifying category. These glued objects will ultimately
-assemble into the objects for an algebra of the theory \( NN \).
+We will define some glued objects which, in some sense, glue the presheaves of
+syntax we have defined in \( \renhat \) together with their semantics in the
+classifying category. These glued objects will ultimately assemble into the
+objects for an algebra of the theory \( NN \).
 
 \begin{definition}\label{def:yonedabar}
   The relative hom functor induces the embedding
   \begin{align*}
-    \overline{\yoneda} : \ren &↪ \gl \\
+    \overline{\yoneda} : \ren &\hookrightarrow \gl \\
     \Gamma &\mapsto (\yoneda(\Gamma), \yoneda(\Gamma) \xrightarrow{\underline{\iota}_{\Gamma}} \tm(\Gamma), \Gamma) \\
   \end{align*}
   where
@@ -2318,7 +2320,7 @@ algebra we define will be constructed by gluing together the syntactic
 
 Note that the glued operations are given by pairs of syntactic operations and
 \emph{semantic operations} for elimination forms, and pairs of syntactic
-operations and the \emph{identity} in the for introduction forms.
+operations and the \emph{identity} for introduction forms.
 
 Finally we can give an interpretation of base types in the gluing category in terms of the glued neutrals
 \begin{align*}
@@ -2328,15 +2330,16 @@ Finally we can give an interpretation of base types in the gluing category in te
 
 Together with a suitable interpretation of base constructors and eliminators
 (which are taken to be a parameter of this development) as glued morphisms, this
-interpretation defines a lambda algebra of glued neutrals. Initiality of the
-classifying category and its lambda algebra in turn induces a unique functor
-\( \sem{-}_{\gl} : \cl \rightarrow \gl \) essentially as in Theorem~\ref{thm:classifying
-  alg theory}. We write \( \sem{-}_{\gl} : \cl \rightarrow \gl \) for both this functor
-and the interpretation of terms acquired by precomposing the functor with the
-usual interpretation of terms in the classifying category. It is crucial to
-understand that though we have \( \sem{\theta}_{\gl} = \mu_{\theta}\) for base types $\theta$,
-this equality does \emph{not} hold at higher types \( \tau \in \types\). In the case
-of products, the interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the actual product
+interpretation defines a lambda algebra of glued neutrals. The universal
+property of the classifying category and its lambda algebra in turn induces a
+unique functor
+\[ \sem{-}_{\gl} : \cl \rightarrow \gl \] as in Theorem~\ref{thm:classifying alg theory}.
+We write \( \sem{-}_{\gl} : \cl \rightarrow \gl \) for both this functor and the
+interpretation of terms acquired by precomposing the functor with the usual
+interpretation of terms in the classifying category. It is crucial to understand
+that though we have \( \sem{\theta}_{\gl} = \mu_{\theta}\) for base types $\theta$, this equality
+does \emph{not} hold at higher types \( \tau \in \types\). In the case of products,
+the interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the actual product
 \( \mu_{\theta} \times \mu_{\theta'}\) and not \( \mu_{\theta\times\theta'} \). In what follows, we still allow
 ourselves to write \( \sem{-} \) for the usual interpretation of terms in the
 classifying category, distinguishing the new interpretation only by a subscript.
@@ -2345,8 +2348,8 @@ of terms in the syntactic category in the following sense:
 \( \sem{\Gamma \vdash t : \tau}_{\gl} \) is a pair of the form
 $(\sem{\Gamma \vdash t : \tau}_{\renhat}, \sem{\Gamma \vdash t : \tau })$ where
 \( \sem{-}_{\renhat} : \cl \rightarrow \renhat \) functor induced by the
-\(\renhat\)-lambda algebra over the family \( \{ \nepsh \}_{\tau\in\types}\) and
-initiality of the classifying category.
+\(\renhat\)-lambda algebra over the family \( \{ \nepsh \}_{\tau\in\types}\) and the
+universal property of the classifying category.
 
 \begin{lemma}\label{lem:sem-pi-is-id-endofunctor}
   The composite \( \semproj \circ \sem{-}_{\gl} : \cl \rightarrow \cl \) is the identity
@@ -2495,15 +2498,13 @@ With the glued maps in hand, we can prove that they do nothing in the semantics.
 Naturally, the following theorem will prove crucial when demonstrating that our
 normalization function computes normal forms with the same semantics as the
 input term. This result is stated but not proven in Fiore's extended abstract
-\cite{fiore_semantic_2002}, and the proof is our own.
-
+\cite{fiore_semantic_2002}. The proof is my own.
 \begin{theorem}[Reification and reflection are the identity in the semantics]\label{thm:reif-refl-sempres}
   For each type \( \tau \in \types \), we have the identities
   \[
     \semproj (\Uparrow^{\tau}) = \id_{\tau} = \semproj(\Downarrow^{\tau})
   \]
 \end{theorem}
-
 \begin{proof}
   The proof proceeds, like the definitions of the reification/reflection maps, by induction on the structure of types:
   \begin{itemize}
@@ -2573,11 +2574,11 @@ input term. This result is stated but not proven in Fiore's extended abstract
           \( \sem{{\tau'}}_{\cl}^{\sem{\tau}_{\cl}}\) in the classifying category.
   \end{itemize}
 \end{proof}
-
+\newcommand{\normalize}{{\nf}\,_{\tau}^{\Gamma}}
 \section{A promise kept: a function from open terms to normal terms}
-Having performed reify-reflect yoga at each type, we have established the
-desired diagram from Section~\ref{sec:taking-stock}. We can now define a
-function \( \nf_{\tau}^{\Gamma} : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the
+Having defined our glued reify-reflect maps at each type, we have established
+the desired diagram from Section~\ref{sec:taking-stock}. We can now define a
+function \( \normalize : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the
 composite
 
 \[ \mathfrak{L}_{\tau}(\Gamma) \xrightarrow{l_{\tau}} \tm(\tau)(\Gamma) \xrightarrow{\sem{-}} \gl [\sem{\Gamma}, \sem{\tau}] \xrightarrow{(\Uparrow_{\Gamma} v_{\Gamma})^{*} \circ {\Downarrow^{\tau}}_{*}} \gl [\yoneda(\Gamma), \eta_{\tau}] \xrightarrow[\cong]{(d,\delta) \mapsto d(\id_{\Gamma})} \nfpsh(\Gamma) \]
@@ -2588,12 +2589,13 @@ where
   v_{\Gamma} &= \yonedabar(\Gamma) \xrightarrow{\cong} \prod_{(x:\tau)\in\Gamma}\nu_{\tau} \xrightarrow{\prod_{(x:\tau)\in\Gamma} v_{\tau}} \prod_{(x:\tau)\in\Gamma}\mu_{\tau} \\
 \end{align*}
 
-recalling that \( \nu_{\tau} \xrightarrow{v_{\tau}} \mu_{\tau}\) is the \( \var_{\tau} \)
+and recalling that \( \nu_{\tau} \xrightarrow{v_{\tau}} \mu_{\tau}\) is the \( \var_{\tau} \)
 operation from the \( \NN \)-algebra on the gluing category.
 
-That is, since the final isomorphism in the composite is a form of the Yoneda
-lemma and hence given by evaluation at the identity, we have for each term $t$
-that \( \nf_{\tau,\Gamma}(t) = (\Downarrow^{\tau} \sem{\Gamma \vdash t : \tau} \Uparrow_{\Gamma} v_{\Gamma}) (\id_{\Gamma}) \)
+Since the final isomorphism in the composite is a form of the Yoneda lemma and
+hence given by evaluation at the identity, we have the following explicit
+formula for each term $t$:
+\[ \normalize (t) = (\Downarrow^{\tau} \sem{\Gamma \vdash t : \tau} \Uparrow_{\Gamma} v_{\Gamma}) (\id_{\Gamma}) \]
 
 The function we've defined takes open terms to normal forms, but it remains to
 establish the various correctness properties characterizing a normalization
