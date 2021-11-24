@@ -1255,33 +1255,51 @@ I slept through July\\
 while you made lines in the heather}{Fleet Foxes, ``Lorelai''}
 
 This chapter will consider the normalization problem for the simply typed lambda
-calculus using all of the magic technology we've developed so far. Normalization
-comes in both weak and strong flavors, but both are properties of a formal
-system together with a \emph{reduction} relation, say, \( - \rightarrow = \). By a
-\emph{normal form} we mean a term $t$ for which there is no other $t'$ such that
-\( t \rightarrow t' \). Writing \( - \rightarrow^{*} = \) for the least transitive, reflexive
+calculus using the technology we've developed so far. Normalization comes in
+both weak and strong flavors, but both are properties of a \emph{reduction}
+relation, say, \( - \rightarrow = \) defined over the terms of a theory. By a \emph{normal
+  form} we mean a term $t$ for which there is no other $t'$ such that
+\( t \rightarrow t' \). Writing \( - \rightarrow^{*}\, = \) for the least transitive, reflexive
 closure of this relation, we say the reduction system enjoys \emph{weak
   normalization} if for any well-typed term \( e \), there exists a normal form
 \( n \) such that \( e \red n\). A reduction system enjoying \emph{Strong
   normalization} is one for which \emph{every} reduction sequence ends in a
 normal term. \emph{Metatheorems} of this kind tend to resist standard techniques
-like straight-forward induction over the types of the lambda calculus. Instead,
-metatheoreticians resort to the \emph{occult} technique of logical relations.
-The method of logical relations is, broadly speaking, opaque even to experienced
-practitioners. The construction is easy to use in simple settings like that of
-the simply-typed lambda calculus (see \cite{pierce_types_2002}) but becomes
-devilishly complicated when working with more complex lambda calculi.
-
-The method of \emph{Artin gluing}, torn from the topos theorist's cookbook, is a
-more transparent encoding of the mechanics of logical relations. Where the
-method of logical relations is ad-hoc and mysterious, gluing regularizes the
-thought involved and makes the choices involved in proofs by logical relations
-completely automatic. The \emph{scone} or \emph{Sierpinski cone} is a famous
-instance of the gluing construction used in and outside of type theory. The
-\emph{scone} is not suited to our particular problem of \emph{(open)
-  normalization} however, as the scone is generally concerned with properties of
-\emph{closed terms} with no free variables, whereas our construction will apply
-to terms in any context.
+like straightforward induction over the term structure of the theory under
+consideration. Instead, metatheoreticians resort to \emph{occult} techniques
+like logical relations. The method of logical relations is, broadly speaking,
+opaque even to experienced practitioners. In short, a logical relation is a
+relation of terms indexed by the types of the theory whose inclusion criteria in
+some vague sense mirror the type structure of the theory. Such logical relations
+are easy to work with in simple settings like that of the closed normalization
+(which asks whether closed terms all have a normal form) problem for the
+simply-typed lambda calculus (see \cite{pierce_types_2002}) but logical
+relations are well known to become devilishly complicated when working with
+theories whose type structure is more complicated [TODO: is this legit]. Still
+more complication arise when attempting to apply logical relations to more
+complicated metatheoretic problems such as the \emph{open normalization} problem
+for the simply typed lambda calculus. Open normalization generalizes the closed
+normalization problem to terms with free variables. Such problems demand that
+the relation be indexed not just by sorts, but also by the elements of some
+poset \cite{harper_kripke-style_nodate}. That poset might be, as in the case of
+this problem, the poset of contexts \( \Gamma \) ordered by weakenings \( \hat{x}\).
+Such a relation indexed by a poset is called a Kripke relation if it
+additionally satisfies a monotonicity condition. In the example of the previous
+sentence, these conditions amount to saying that a term which has a normal form
+when considered as a term under the context \( \Gamma \) should also have a normal
+form when considered as a term under any extended context \( \Gamma, x', \dots, z'\).
+The \emph{Artin gluing} construction, torn from the topos theorist's cookbook,
+is a more transparent encoding of the mechanics of Kripke logical relations.
+Where the method of Kripke logical relations is ad-hoc and mysterious, gluing
+regularizes the thought involved and delivers more conceptual proofs and theory.
+The gluing construction is perhaps overshadowed in fame by one of its instances:
+The \emph{scone} or \emph{Sierpinski cone} is well-known outside of type
+theoretic circles for its use in proving results similar to closed
+normalization. Because we are interested in open normalization, the scone
+construction is not suited to the problem at hand. The reader interested in the
+broader context is encouraged to read on in Section 22 of Part II of Lambek and
+Scott's \emph{Introduction to higher order categorical logic}
+\cite{lambek_introduction_1989}.
 
 \section{The comma construction and friends}
 This section introduces a general construction that will, among other things,
