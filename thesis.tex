@@ -1600,9 +1600,7 @@ which more-or-less represent families of terms in the lambda calculus. These
 presheaves are defined over $\ren$ for reasons that will become apparent later.
 We will ultimately define lambda algebras over these presheaves, for which we
 require some understanding of how to represent variables in $\renhat$ and how
-exponentiation in $\renhat$ corresponds to lambda abstraction. TODO: more
-discussion: why presheaves of syntax? explain why we even want algebras in the
-first place --- it is in order to glue them to the semantic algebra on $\tm$
+exponentiation in $\renhat$ corresponds to lambda abstraction.
 \subsection{Variables and binding in Renhat}
 \begin{definition}[Variable presheaf]\label{def:varpsh}
   We can define a presheaf of \emph{typed variables} in $\renhat$ with the Yoneda embedding on $\ren$:
@@ -2618,10 +2616,9 @@ so with ease.
   the gluing category extends the interpretation of terms in the classifying
   category, so that
   \( \semproj (\sem{\Gamma \vdash t : \tau}_{\gl}) = \sem{\Gamma \vdash t : \tau}_{\cl}\). Now the desired
-  equality follows from observing that the semantic component of each gluing
-  morphism \( \Downarrow^{\tau} \), \( \Uparrow^{\tau}\), and \( v_{\tau} \) each are the identity in the
-  semantic component, by Theorem~\ref{thm:reif-refl-sempres} and
-  Definition~\ref{def:glued-algebra}.
+  equality follows from observing that the glued morphisms \( \Downarrow^{\tau} \),
+  \( \Uparrow^{\tau}\), and \( v_{\tau} \) are all the identity in their semantic component,
+  by Theorem~\ref{thm:reif-refl-sempres} and Definition~\ref{def:glued-algebra}.
 \end{proof}
 
 \section{Looking forward: ``blah'' by gluing}
