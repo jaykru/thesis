@@ -50,6 +50,7 @@ citestyle=alphabetic
 \include{autodelims}
 \include{reallywidetilde}
 \include{macros}
+\include{bsymbol}
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 
@@ -88,97 +89,111 @@ citestyle=alphabetic
 % Acknowledgements (Acceptable American spelling) are optional
 % So are Acknowledgments (proper English spelling)
 \chapter*{Acknowledgements}
-% I've spent the last few months slowly accumulating a list of people I'd like to
-% thank, whether for their direct impact on making this thesis possible or just
-% for having had an outsized impact on my life. I'd like to start by thanking my
-% advisors Ang\'elica and Jim for taking my mountains of enthusiasm to learn some
-% neat modern approaches to type theory and forcing me to channel it in a narrow
-% direction. I am also indebted to Ang\'elica's spooky ability to instantly grasp
-% at understanding in an area relatively unknown to her. Without her hints at how
-% to tackle an opaque construction every now and then, I think I'd probably be
-% still fumbling around with the basic definitions involved in the argument
-% presented in this thesis. Jim also has had an outsized direct influence on the
-% direction my intellectual life has taken. Jim's SML class was my first exposure
-% to rich, static typing and opened me up to a world that had until then had
-% seemed inaccessible to me. Jim has also served as a great mentor in matters of
-% personal taste and style in intellectual matters (his course webpages are always
-% out of this world cool) and for that I am very fortunate!
+I've spent the last few months slowly accumulating a list of people I'd like to
+thank, whether for their direct impact in making this thesis possible or just
+for having had an outsized impact on my life at one point or another. I can only
+start by by thanking my advisors Ang\'elica and Jim for taking my enthusiasm to
+learn modern approaches to type theory and helping me channel it productively. I
+am indebted to Ang\'elica's spooky ability to instantly grasp at understanding
+in an area relatively unknown to her. Without her hints at how to tackle an
+opaque construction every now and then, I think I'd probably be still fumbling
+around with the basics. Jim has had an outsized direct influence on the
+direction my intellectual life has taken. Jim's intro CS course taught partially
+in Standard ML was my first real exposure to mathematically structure
+programming and opened me up to a world that had until then had seemed
+inaccessible to me. Jim has also served as a great mentor in matters of personal
+taste and style (his course webpages are always out of this world cool.) I'll
+really miss thesis meetings with you two!
 
-% I'd also like to give special thanks to Albyn Jones and Irena Swanson who
-% guided my early explorations of mathematics. Having been brought from complete
-% ignorance to a great appreciation for proof and mathematical exploration under
-% their careful guidance was a great privilege! I am also grateful to Kyle
-% Ormsby for always being an absolute chiller, encouraging me in early
-% ambitions, and for giving me a taste of category theory.
+Next I have to thank the rest of the faculty and students in the Mathematics
+department who have made the last few years such an enriching experience. Albyn
+Jones and Irena Swanson, who taught my intro courses freshman year, are singled
+out for special thanks. Having been brought from complete ignorance to a great
+appreciation for proof and mathematical exploration under their careful guidance
+was a great privilege! I am also grateful to Kyle Ormsby for always being an
+absolute chiller, encouraging me in early ambitions, and for giving me a taste
+of category theory before I fled from his topology class.
 
-% Now come the personal ones. Thank you to Jaclyn for being everything to me over
-% the past two years. I cannot put into words the way your loves has touched my
-% life and turned an ugly pandemic into a beautiful one.
+Now come the personal ones. Thank you to Jaclyn for being everything to me over
+the past two years. I cannot put into words the way your loves has touched my
+life and turned an ugly pandemic into a beautiful one.
 
-% I would like to thank my parents for having let me be and encouraging me to grow
-% into the person I am today. That is a rare thing, and has made all the
-% difference to me!
+I would like to thank my parents for having let me be and encouraging me to
+grow into the person I am today. That is a rare thing, and has made all the
+difference to me!
 
-% Thank you to Uncle Jay for your constant encouragement for my interests in
-% computers. To Grandma, Aunt Susie, Aunt Julie, and all my extended family for
-% your continued support!
+Thank you to Uncle Jay for your constant encouragement for my interests in
+computers. To Grandma, Aunt Susie, Aunt Julie, and all my extended family for
+your continued support!
 
-% My first grade teacher Ms.\ King, 柳老師 (Hyong Rhew) for getting me to chill
-% out a bit freshman year, Mrs.\ Leitsch for extensive encouragement in 9th grade
-% English, Mr. Cool for encouragement on the robotics team (even if you couldn't
-% get the team to switch from LabView), Mr.\ Raveli for reassuring me that it's
-% okay to not know all the answers, Shulav and Aditya for many fine hours of good
-% lad time.
+I would like to thank the following teachers in my life. My first grade teacher
+Ms.\ King, 柳老師 (Hyong Rhew) for getting me to chill out a bit freshman year,
+Mrs.\ Leitsch for extensive encouragement in 9th grade English, Mr. Cool for
+encouragement on the robotics team (even if you couldn't get the team to switch
+from LabView), Mr.\ Raveli for reassuring me that it's okay to not know all the
+answers, Shulav and Aditya for many fine hours of good lad time.
 
-% Thanks to the hyperbolic crew: Francis Baer, Alec Forget, Usman Hafiz, Kiana
-% McBride, and Luke Doms for helping to make Kyle's wild ride a dummy good time.
+Thanks to the hyperbolic crew: Francis Baer, Alec Forget, Usman Hafiz, Kiana
+McBride, and Luke Doms for helping to make Kyle's wild ride a dummy good time.
 
-% The many friendbobs of pika: Joebob, Jit, Eli, Gabe and Ciara, Becca, Andres,
-% Nathan, Chloe. The time I spent with you all in Boston was enriching and
-% precious to me beyond measure!
+Thanks to the many friendbobs of pika: Joebob, Jit, Eli, Gabe and Ciara, Becca,
+Andres, Nathan, Chloe. The time I spent with you all in Boston was and remains
+precious to me beyond measure!
 
-% Thanks to Murali Vijayaraghavan for mentorship
+Thanks to Murali Vijayaraghavan for his mentorship and patient instruction while
+I was learning the ropes the ropes of CPU and hardware design.
 
-% 吳老師, Ian Desai, Sara Rosenberger in the business office, the GNU project and
-% free software foundation along with the developers of so many other free
-% software projects whose generously donated works were instrumental in the
-% production of this thesis.
+吳老師, Ian Desai, Sara Rosenberger in the business office, the GNU project and
+free software foundation along with the developers of so many other free
+software projects whose generously donated works were instrumental in the
+production of this thesis.
 
-% Thank you to all the Reed friends who made my first two years at the college one
-% of the greatest times of my life. Nick Chaiyachakorn, Max, Holden.
+Thank you to all the Reed friends who made my first two years at the college one
+of the greatest times of my life. Nick Chaiyachakorn, Max, Holden.
 
-% I'd also like to thank Noah Koster for being one of my very first friends at Reed and
-% a wonderful companion as I explored the world on my own for the very first time.
-% You may not be the next Bill Gates, but you're a great guy.
+I'd also like to thank Noah Koster for being one of my very first friends at Reed and
+a wonderful companion as I explored the world on my own for the very first time.
+You may not be the next Bill Gates, but you're a great guy.
 
-% Alice McKean
+Alice McKean
 
-% My van
+My van
 
-% Richard Fox at NKU
+Richard Fox at NKU
 
-% Megan, Luke, Ryan, Kathleen
+Megan, Luke, Ryan, Kathleen
 
-% Young Kim for corrupting my soul Salma, Mary, Carter, Dan Genya, Tristan
+Young Kim for corrupting my soul Salma, Mary, Carter, Dan Genya, Tristan
 
-% Thanks to Curtis, Cody Roux and Dan McArdle at the Charles Stark Draper Laboratory for
-% early encouragement!
+Thanks to Curtis, Cody Roux and Dan McArdle at the Charles Stark Draper Laboratory for
+early encouragement!
 
-% Thank you to Steve Awodey for listening to me deliver a draft version of the
-% argument laid out in Chapter 3 and for helpful comments. Thanks to Carlo
-% Angiulini for helpfully answering my questions. Thank you to Ivan Di Liberti
-% for many fun and useful mentorship Zoom meetings throughout the last few
-% months!
+Thank you to the composers of Breath of the Wild and lofi girl for the
+soundtrack.
 
-% Finally, I would like to give special thanks to Paul Taylor who, though I do not know
-% him personally, wrote the book that made this thesis possible. Almost every
-% day spent on this project I learned from Paul's book a new awesome perspective
-% on the the lambda calculus or mathematics in general. Paul's Practical
-% Foundations of Mathemtics is a love letter to the type of computer scientist
-% who wants to understand how the world works, and I'm indebted to Paul for
-% having created it.
+Thank you to Steve Awodey for listening to me deliver a draft version of the
+argument laid out in Chapter 3 and for helpful comments. Thanks to Carlo
+Angiulini for helpfully answering my questions. Thank you to Ivan Di Liberti
+for many fun and useful mentorship Zoom meetings throughout the last few
+months!
 
-% TODO: remember to thank stackexchange people for macros
+Finally, I would like to give special thanks to Paul Taylor who, though I do not
+know him personally, wrote the book that made this thesis possible. Paul's
+\emph{Practical Foundations of Mathematics} is one of the great books of
+computing, in the same league as Knuth's \emph{Art of Computer Programming} in
+that it is not just a useful centralization of human knowledge but that the
+presentation is painstakingly beautiful. On nearly all of the early days spent
+on this project I learned from Paul's book a profound perspective on programming
+or mathematics in general.
+
+I also owe massive debts to the great people of the \TeX StackExchange for \TeX
+macros used in the production of this document. Thank you to user4586 for their
+automatically-sized delimeters macro, to Steven B. Segletes for their really
+wide tildes macro, and to user13907 for their stylized B symbol.
+
+Thank you to Aaron Weiss for being a constant companion (even over discord),
+theory B homie, and an absolute pogchamp over the last 3 years of knowing you.
+Stay fresh, king.
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -209,7 +224,7 @@ particular convention.
 % if you want a list of tables, optional
 \listoftables
 % if you want a list of figures, also optional
-\listoffigures
+% \listoffigures
 
 % The abstract is not required if you're writing a creative thesis (but aren't they all?)
 % If your abstract is longer than a page, there may be a formatting issue.
@@ -449,7 +464,7 @@ set of its clones:
     \zeta_{m}(\cdots\zeta_{2}(\zeta_{1}(\tau(x)))) \in
     \text{Cn}_{\mathcal{L}}(X,\Theta)\)
   \end{itemize}
-  where \(\sigma : \Gamma, x : X, \text { and }, y:Y\). Covariance of the
+  where \(\sigma : \Gamma, x : X \text{ and } y:Y\). Covariance of the
   former is clear. Contravariance of the latter follows by considering the
   behavior of substitutions in sequence.
 \end{proof}
@@ -649,6 +664,10 @@ sketches will come along for the ride without much changed.
   \end{enumerate}
 \end{definition}
 
+We will write \( \termob \) for the nullary product of sorts, and moreover when
+working with a \emph{constant} operation symbol \( \termob \vdash c() : X \), we will
+often allow ourselves to simply write $c$ rather than $c()$.
+
 The next major concept we will introduce generalizes to algebraic theories the
 notion of \emph{action} or \emph{model} we saw previously for elementary
 sketches. As expected, the definition will be essentially the same up to taking
@@ -660,12 +679,13 @@ algebraic theory.
   abstract algebra. The presentation should look familiar (when squinting) to
   anyone with a background in abstract algebra, except that we force the
   existence of multiplicative and additive identities by requiring any model (to
-  be defined!) of this theory to provide \emph{global elements}, namely
-  operations out of a distinguished sort $\mathbbm{1}$.
+  be defined!) of this theory to 1) provide \emph{global elements}, namely
+  morphisms out of the terminal object of the category hosting the model and 2)
+  satisfy the defining equations of the identity.
+
   \begin{enumerate}
-    \item Sorts: The sorts are \( \mathbbm{1}, S\). The variable collections for
-          each sort are \( \set{\square} \cup \set{\square_{i}}_{i\in\mathbb{N}} \) and
-          \( \{x,y,z\} \cup \set{s_{i}}_{i\in\mathbb{N}}  \) respectively.
+    \item Sorts: The only sort is \( S \). The variable collection for the sort
+          is \( \{x,y,z\} \cup \set{s_{i}}_{i\in\mathbb{N}} \).
 
     \item Operations: \begin{align*}
                         \cdot &: S \times S \rightarrow S, \\
@@ -677,25 +697,83 @@ algebraic theory.
 
     \item Laws: \begin{align*}
                   +(x,y) &= +(y,x)\\
-                  +(0(\square), x) &= x\\
-                  +(x, -(x)) &= 0(\square)\\
+                  +(0(), x) &= x\\
+                  +(x, -(x)) &= 0()\\
                   \cdot(x,y) &= \cdot(y,x)\\
-                  \cdot(1(\square), x) &= x\\
+                  \cdot(1(), x) &= x\\
                   \cdot(x, +(y,z)) &= +(\cdot(x,y), \cdot(x,z))
                 \end{align*}
   \end{enumerate}
-  Note that the countably infinite sets of variables \( \{ \square\}_{i\in\mathbb{N}}\)
-  and \( \{ s\}_{i\in\mathbb{N}}\) are added so that we may have deeply nested
-  expressions, even if we had no need for them when stating the laws above. In
-  fact, such countable variable sets are \emph{required} when defining an
-  algebraic theory for precisely this reason. That this requirement was not
-  imposed for elementary sketches is because there can only be one variable in a
-  term, even heavily nested ones, by construction.
+  Note that the countably infinite set of variables \( \{ s\}_{i\in\mathbb{N}}\)
+  are added so that we may have deeply nested expressions, even if we had no
+  need for them when stating the laws above. In fact, such countable variable
+  sets are \emph{required} when defining an algebraic theory for precisely this
+  reason. That this requirement was not imposed for elementary sketches is
+  because there can only be one variable in a term, even in heavily nested terms,
+  by construction.
 \end{example}
 
-Having given the obligatory concrete example of a theory, we now allow ourselves
-another abstract definition: that of an \emph{$\mathcal{L}$-algebra} for an
-algebraic theory:
+The following example is meant for readers with a background in computer
+science, and in particular in digital logic. An interesting aspect of this
+example is that it admits some very practical algebras.
+
+\begin{example}[The algebraic theory of digital logic circuits]
+  We can encode the language of digital logic circuits as an algebraic theory, presented as follows:
+
+  \begin{enumerate}
+    \item The single sort is \( \bitcoin \). We will write \( \bitcoin^{k} \)
+          for the $k$-wide product \( \bitcoin \times \bitcoin \times \cdots \times \bitcoin \) for
+          finite \( k \).
+    \item The variable collection is \( \{ b_{k} \mid k \in \mathbbm{N} \} \).
+    \item The operations, for each finite $k \in \nat$, are:
+      \begin{align*}
+        \texttt{AND}_{k} &: \bitcoin^{k} \rightarrow \bitcoin \\
+        \texttt{OR}_{k} &: \bitcoin^{k} \rightarrow \bitcoin \\
+        \texttt{NOT} &: \bitcoin \rightarrow \bitcoin \\
+        \top &: \termob \rightarrow \bitcoin \\
+        \bot &: \termob \rightarrow \bitcoin \\
+      \end{align*}
+    \item The laws, for each finite $k \in \nat$, are:
+    \begin{align*}
+      \texttt{AND}_{k} (b_{1},b_{2},\dots,\bot, \dots, b_{k}) = \bot \\
+      \texttt{OR}_{k} (b_{1},b_{2},\dots,\top, \dots, b_{k}) = \top \\ \\
+      \texttt{AND}_{k} (\top,\dots,\top) = \top \\
+      \texttt{OR}_{k} (\bot, \dots, \bot) = \bot \\ \\
+      \texttt{NOT}(\top) = \bot \\
+      \texttt{NOT}(\bot) = \top \\
+    \end{align*}
+  \end{enumerate}
+\end{example}
+
+A mundane algebra for this theory is given as follows: We assign the the single
+sort to be the set \( \{0,1\} \). For the operation symbols, we assign \( \top \)
+to the function \( * \mapsto 1\); \( \bot \) to function \( * \mapsto 0 \); $\texttt{AND}_{k}$
+to the function whose value is $1$ iff its input bitstring (i.e., tuple of ones
+and zeroes) contains only ones and $0$ otherwise; and $\texttt{OR}_{k}$ to the
+function whose value is $0$ iff its input bitstring contains only zeroes and $1$
+otherwise.
+
+A more interesting algebra comes from practical engineering. We can give an
+algebra of the theory above by implementing the \emph{logic gate} operations
+NOT, AND, and OR as component circuits using transistors. The exact details of
+how semiconductors work are beyond the scope of this thesis; it suffices to
+understand that a transistor is an electrical device which allows current to
+flow conditionally. Below is a diagram of a \emph{metal oxide semiconductor}
+transistor to illustrate this point. When the \emph{gate} input (labeled G
+below) is high, electrons are able to flow from the \emph{source} input (labeled
+S below) to the \emph{drain} output.
+
+\begin{figure}[h]
+  \caption{A diagram of a MOSFET, by Brews ohare - CC BY-SA 3.0,
+    https://commons.wikimedia.org/w/index.php?curid=18796795}
+\centering
+\includegraphics[width=0.5\textwidth]{mosfet}
+\end{figure}
+
+The upshot is that we can
+
+Having given some concrete examples, we now allow ourselves another abstract
+definition: that of an \emph{$\mathcal{L}$-algebra} for an algebraic theory:
 
 \begin{definition}[$\mathcal{L}$-algebra]\label{def:algebra}
   Given an algebraic theory $\mathcal{L}$ and a category $C$ with finite
@@ -712,15 +790,15 @@ algebraic theory:
 
 We are now in good shape to give an example of an algebra (in the category of
 sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
-\begin{example}\label{ex:integer ring}
-  \begin{enumerate}
+\begin{example}[The ring of integers]\label{ex:integer ring}
+  \begin{enumerate} \,
     \item For the sorts, we set $A_{S} = \mathbb{Z}$ and $A_{\mathbbm{1}} = \{\star\}$
     \item For the operations, we set
     \begin{enumerate}
       \item $\cdot_A = *$ where $*$ is the ordinary multiplication of integers
       \item $+_{A} = +$ where the second plus is ordinary addition of integers
       \item $0_{A}$ to the function $* \mapsto 0 \in \mathbb{Z}$
-      \item $1_{A}$ to the constant function $* \mapsto 1 \in \mathbb{Z}$
+      \item $1_{A}$ to the function $* \mapsto 1 \in \mathbb{Z}$
       \item $-_{A}$ to the function $x \mapsto -x$ taking an integer to its additive inverse
     \end{enumerate}
     \item Verifying the rest of the laws is routine after understanding how to
