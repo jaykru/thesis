@@ -755,13 +755,11 @@ otherwise.
 
 A more interesting algebra comes from practical engineering. We can give an
 algebra of the theory above by implementing the \emph{logic gate} operations
-NOT, AND, and OR as component circuits using transistors. The exact details of
-how semiconductors work are beyond the scope of this thesis; it suffices to
+NOT, AND, and OR as component circuits built with transistors. The exact details
+of how semiconductors work are beyond the scope of this thesis; it suffices to
 understand that a transistor is an electrical device which allows current to
 flow conditionally. Below is a diagram of a \emph{metal oxide semiconductor}
-transistor to illustrate this point. When the \emph{gate} input (labeled G
-below) is high, electrons are able to flow from the \emph{source} input (labeled
-S below) to the \emph{drain} output.
+field effect transistor (MOSFET). You probably own a couple billion of them.
 
 \begin{figure}[h]
   \caption{A diagram of a MOSFET, by Brews ohare - CC BY-SA 3.0,
@@ -770,10 +768,27 @@ S below) to the \emph{drain} output.
 \includegraphics[width=0.5\textwidth]{mosfet}
 \end{figure}
 
-The upshot is that we can
+The conditional flow of current works like this: if there is a current flowing
+from \emph{gate} input (labeled G below) to the \emph{drain} input (labeled S
+below), then the transistor is \emph{on} and current may also flow from the
+\emph{source} to the \emph{drain} output. We can use this conditional flow
+behavior to implement each of the operations of the theory presented above. We
+will consider the simplest case of the NOT operation and leave the others (as
+well as the full details) to the experts~\cite{eater_making_2015}. The NOT
+operation is given by an \emph{inverter} circuit which is easily constructed
+using a single MOSFET.\@ Abstracting the details a bit the construction goes
+something like this: the single input to the NOT gate circuit is attached to a
+switch which when closed allows current to flow from the \emph{gate} to the
+\emph{drain}, and the \emph{source} and \emph{drain} are involved in a circuit which always has current in it when the transistor is on.
 
-Having given some concrete examples, we now allow ourselves another abstract
-definition: that of an \emph{$\mathcal{L}$-algebra} for an algebraic theory:
+  \iem the \emph{source} of the
+    transistor to a wire that always sees high voltage, and, finally, the
+\emph{drain} of the transistor serves at the output for the NOT circuit.
+\end{enumerate}
+ When
+the input line is unset, the output is set; when the input is. Having given some
+concrete examples, we now allow ourselves another abstract definition: that of
+an \emph{$\mathcal{L}$-algebra} for an algebraic theory:
 
 \begin{definition}[$\mathcal{L}$-algebra]\label{def:algebra}
   Given an algebraic theory $\mathcal{L}$ and a category $C$ with finite
