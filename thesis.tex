@@ -17,6 +17,8 @@
 \usepackage{braket}
 \usepackage{epigraph} % funny quotes
 \usepackage{tikz-cd} % diagrams
+\usepackage{circuitikz} % circuit diagrams
+\usepackage{emoji}
 \usepackage{quiver} % fancy arrows
 
 \usepackage{mathpartir} % inference rules
@@ -671,8 +673,26 @@ often allow ourselves to simply write $c$ rather than $c()$.
 The next major concept we will introduce generalizes to algebraic theories the
 notion of \emph{action} or \emph{model} we saw previously for elementary
 sketches. As expected, the definition will be essentially the same up to taking
-some products. Before doing so, we will give an intervening example of an
-algebraic theory.
+some products.
+
+\begin{definition}[$\mathcal{L}$-algebra]\label{def:algebra}
+  Given an algebraic theory $\mathcal{L}$ and a category $C$ with finite
+  products (in the sense of the universal property as treated in the chapter on
+  basic category theory) an \emph{$\mathcal{L}$-algebra in $C$} is comprised of
+  \begin{enumerate}
+    \item an object $A_{X}$ of $C$ for each sort $X$ of $\mathcal{L}$, and
+    \item for each operation symbol $X_{1}, \dots , X_{k} \vdash r : Y$, an
+          assignment of a map \(r_{A} : A_{X_{1}} \times \cdots \times A_{X_{k}} \rightarrow A_{Y}\) in
+          $C$.
+  \end{enumerate}
+  such that the assignments respect the laws of $\mathcal{L}$.
+\end{definition}
+
+With these, we can give some prototypical example theories and algebras. The
+first such pair we consider is the familiar structure of a ring from abstract
+algebra, one of whose algebras is the ring of integers under addition and
+multiplication.
+
 \begin{example}[Algebraic theory of \emph{ring}]\label{ex:theory of ring}
 
   We sketch an algebraic theory encoding the familiar structure of a ring from
@@ -713,9 +733,51 @@ algebraic theory.
   by construction.
 \end{example}
 
-The following example is meant for readers with a background in computer
-science, and in particular in digital logic. An interesting aspect of this
-example is that it admits some very practical algebras.
+
+ Having given
+some concrete examples, we now allow ourselves another abstract definition: that
+of an \emph{$\mathcal{L}$-algebra} for an algebraic theory:
+
+\begin{example}[The ring of integers]\label{ex:integer ring}
+  \begin{enumerate} \,
+    \item For the single sort, we set $A_{S} = \mathbb{Z}$
+    \item For the operations, we set
+    \begin{enumerate}
+      \item $\cdot_{A}$ to be the ordinary multiplication of integers
+      \item $+_{A} = +$ where the second plus is ordinary addition of integers
+      \item $0_{A}$ to the function $* \mapsto 0 \in \mathbb{Z}$
+      \item $1_{A}$ to the function $* \mapsto 1 \in \mathbb{Z}$
+      \item $-_{A}$ to the function $x \mapsto -x$ taking an integer to its additive inverse
+    \end{enumerate}
+    \item Verifying the rest of the laws is routine after understanding how to
+          verify any of them, so we demonstrate just one. We show that the $0$
+          selected by the model indeed serves as the left identity of addition
+          in the model.
+          \begin{proof}
+            \begin{align*}
+              +_{A} \circ \braket{0_{A}(*), \id} &= (y : \mathbb{Z}) \mapsto 0_{A}(*) + \id(y)\\
+                                          &= (y : \mathbb{Z}) \mapsto 0_{\mathbb{Z}} + y \\
+                                          &= (y : \mathbb{Z}) \mapsto y\\
+                                          &= \id_{S_{A}} \\
+            \end{align*}
+            which is the interpretation of the variable $x$, as required.
+          \end{proof}
+  \end{enumerate}
+\end{example}
+
+The reader familiar with algebra will observe that this example amounts to
+verifying that the integers form a ring under the standard multiplication and
+addition operations we learn in elementary school. In general, the reader will
+find that all \emph{rings} (in the conventional sense of abstract algebra) are
+\( \mathfrak{Set}\)-valued \emph{algebras} of the algebraic theory of
+\emph{ring}. The reader may also verify that the usual ring-homomorphisms in
+\( \mathfrak{Set}\) are an instance of the generalized notion of
+\( \mathcal{L}\)-algebra homomorphism that we introduce following an intervening
+example theory-algebra pair from computing.
+
+This example is meant for readers with a basic background in digital logic. An
+interesting aspect of this example is that it admits some very practical
+algebras.
 
 \begin{example}[The algebraic theory of digital logic circuits]
   We can encode the language of digital logic circuits as an algebraic theory, presented as follows:
@@ -745,21 +807,19 @@ example is that it admits some very practical algebras.
   \end{enumerate}
 \end{example}
 
-A mundane algebra for this theory is given as follows: We assign the the single
-sort to be the set \( \{0,1\} \). For the operation symbols, we assign \( \top \)
-to the function \( * \mapsto 1\); \( \bot \) to function \( * \mapsto 0 \); $\texttt{AND}_{k}$
-to the function whose value is $1$ iff its input bitstring (i.e., tuple of ones
-and zeroes) contains only ones and $0$ otherwise; and $\texttt{OR}_{k}$ to the
-function whose value is $0$ iff its input bitstring contains only zeroes and $1$
-otherwise.
+A mundane but useful algebra for this theory is given as follows: We assign the
+the single sort to be the set \( \{0,1\} \). For the operation symbols, we
+assign \( \top \) to the function \( * \mapsto 1\); \( \bot \) to function \( * \mapsto 0 \);
+$\texttt{AND}_{k}$ to the function which multiplies all of its inputs; and
+$\texttt{OR}_{k}$ to be the function which adds (modulo 2) its inputs. This
+algebra provides a convenient way of writing down and quickly reducing boolean
+circuits according to the familiar symbolic language of algebra.
 
 A more interesting algebra comes from practical engineering. We can give an
 algebra of the theory above by implementing the \emph{logic gate} operations
-NOT, AND, and OR as component circuits built with transistors. The exact details
-of how semiconductors work are beyond the scope of this thesis; it suffices to
-understand that a transistor is an electrical device which allows current to
-flow conditionally. Below is a diagram of a \emph{metal oxide semiconductor}
-field effect transistor (MOSFET). You probably own a couple billion of them.
+NOT, AND, and OR as component circuits built with \emph{metal oxide
+  semiconductor field effect transistors}, also known as \emph{MOSFETs}. You
+probably own a couple billion of them.
 
 \begin{figure}[h]
   \caption{A diagram of a MOSFET, by Brews ohare - CC BY-SA 3.0,
@@ -768,90 +828,103 @@ field effect transistor (MOSFET). You probably own a couple billion of them.
 \includegraphics[width=0.5\textwidth]{mosfet}
 \end{figure}
 
-The conditional flow of current works like this: if there is a current flowing
-from \emph{gate} input (labeled G below) to the \emph{drain} input (labeled S
-below), then the transistor is \emph{on} and current may also flow from the
-\emph{source} to the \emph{drain} output. We can use this conditional flow
-behavior to implement each of the operations of the theory presented above. We
-will consider the simplest case of the NOT operation and leave the others (as
-well as the full details) to the experts~\cite{eater_making_2015}. The NOT
-operation is given by an \emph{inverter} circuit which is easily constructed
-using a single MOSFET.\@ Abstracting the details a bit the construction goes
-something like this: the single input to the NOT gate circuit is attached to a
-switch which when closed allows current to flow from the \emph{gate} to the
-\emph{drain}, and the \emph{source} and \emph{drain} are involved in a circuit which always has current in it when the transistor is on.
+The exact details of how a MOSFET is used to construct such circuits are beyond
+the scope of this thesis; we refer the interested reader to Ben Eater's videos
+on the constructions~\cite{eater_making_2015}. The upshot of this construction
+is that we get, for say the NOT operation, a circuit component
 
-  \iem the \emph{source} of the
-    transistor to a wire that always sees high voltage, and, finally, the
-\emph{drain} of the transistor serves at the output for the NOT circuit.
-\end{enumerate}
- When
-the input line is unset, the output is set; when the input is. Having given some
-concrete examples, we now allow ourselves another abstract definition: that of
-an \emph{$\mathcal{L}$-algebra} for an algebraic theory:
+\begin{center}
+  \begin{circuitikz}
+    \draw (0,0) node[not port] (mynot) {};
+  \end{circuitikz}
+\end{center}
 
-\begin{definition}[$\mathcal{L}$-algebra]\label{def:algebra}
-  Given an algebraic theory $\mathcal{L}$ and a category $C$ with finite
-  products (in the sense of the universal property as treated in the chapter on
-  basic category theory) an \emph{$\mathcal{L}$-algebra in $C$} is comprised of
-  \begin{enumerate}
-    \item an object $A_{X}$ of $C$ for each sort $X$ of $\mathcal{L}$, and
-    \item for each operation symbol $X_{1}, \dots , X_{k} \vdash r : Y$, an
-          assignment of a map \(r_{A} : A_{X_{1}} \times \cdots \times A_{X_{k}} \rightarrow A_{Y}\) in
-          $C$.
-  \end{enumerate}
-  such that the assignments respect the laws of $\mathcal{L}$.
-\end{definition}
+which has low voltage on its output when it has high voltage applied to its
+input, and vice versa. This behavior is precisely the equational law
+characterizing the NOT operation symbol, and suggests that we interpret the
+\( \top \) operation symbol as a source of high voltage and the \( \bot \) operation
+symbol as a wire with no voltage applied. The AND and OR operations also enjoy
+physical realizations in term of MOSFETs, as do the finite-input generalizations
+of all of these operations.
 
-We are now in good shape to give an example of an algebra (in the category of
-sets) for the theory of a ring given in Example~\ref{ex:theory of ring}.
-\begin{example}[The ring of integers]\label{ex:integer ring}
-  \begin{enumerate} \,
-    \item For the sorts, we set $A_{S} = \mathbb{Z}$ and $A_{\mathbbm{1}} = \{\star\}$
-    \item For the operations, we set
-    \begin{enumerate}
-      \item $\cdot_A = *$ where $*$ is the ordinary multiplication of integers
-      \item $+_{A} = +$ where the second plus is ordinary addition of integers
-      \item $0_{A}$ to the function $* \mapsto 0 \in \mathbb{Z}$
-      \item $1_{A}$ to the function $* \mapsto 1 \in \mathbb{Z}$
-      \item $-_{A}$ to the function $x \mapsto -x$ taking an integer to its additive inverse
-    \end{enumerate}
-    \item Verifying the rest of the laws is routine after understanding how to
-          verify any of them, so we demonstrate just one. We show that the $0$
-          selected by the model indeed serves as the left identity of addition
-          in the model.
-          \begin{proof}
-            \begin{align*}
-              +_{A} \circ \braket{0_{A}, \id} &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0_{A}(x) + \id(y)\\
-                                          &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto 0_{\mathbb{Z}} + y \\
-                                          &= (x : \{ \star \}, y : \mathbb{Z}) \mapsto y\\
-                                          &= \id_{\mathbbm{1}_{Z} \times S_{A}} \\
-            \end{align*}
+The reader suspicious of abstract nonsense will complain that we have merely
+dressed up in abstract nonsensical terms the well-known fact that electrical
+circuits can implement combinational logic. Indeed, the utility of this example
+lies not in some new exciting insight about digital circuits but rather, as we
+will soon see, in leveraging our visual intuition about digital circuits to
+better understand how substitution works, and why substituting for a variable is
+a contravariant operation.
 
-            Our proof is almost done, but we must justify that the final
-            identity morphism is actually the interpretation of the variable
-            (regarded as a term) $x$. This fact will be validated by results
-            later in this section. In particular, Definition~\ref{def:term
-              model} will give a proper treatment to the interpretation of terms
-            in an algebraic theory and allow us to justify the equivalence of
-            the terms $x$ and $\hat{\square}^{*} x$ by\footnote{recall from
-              Definition~\ref{def:syn cat} that $\square$ is the variable we settled
-              on for the sort $\mathbbm{1}$ and substitution by the hat is
-              context weakening or adding the variable} way of our construction
-            of the syntactic category. With the clearing of that remaining
-            goal-post deferred, we have shown what is required for this law.
-          \end{proof}
-  \end{enumerate}
-\end{example}
+The circuit interpretation also provides a neat intuition for weakening.
+Weakening by a variable is drawing a new input wire with the appropriate label,
+and then not connecting it to anything. As an example, we get a situation like
+this:
 
-The reader familiar with algebra will observe that this example amounts to
-verifying that the integers form a ring under the standard multiplication and
-addition operations we learn in elementary school. In general, the reader will
-find that all \emph{rings} (in the conventional sense of abstract algebra) are
-\( \mathfrak{Set}\)-valued \emph{algebras} of the algebraic theory of
-\emph{ring}. The reader may also verify that the usual ring-homomorphisms in
-\( \mathfrak{Set}\) are an instance of the following generalized notion of
-homomorphism:
+\[  \widehat{b_{4}^{*}} (\tikz{ \draw (0,0) node[and port, number inputs=3](myand){}
+    (myand.in 1) node [anchor=east] {\( b_{1} \)}
+    (myand.in 2) node [anchor=east] {\( b_{2} \)}
+    (myand.in 3) node [anchor=east] {\( b_{3} \)};
+  }) = \tikz{ \draw (0,0) node[and port, number inputs=3](myand){}
+    (myand.in 1) node [anchor=east] {\( b_{1} \)}
+    (myand.in 2) node [anchor=east] {\( b_{2} \)}
+    (myand.in 3) node [anchor=east] {\( b_{3} \)}
+    (myand) ++(-1.725,-.75) node[](b4){\( b_{4}\)}
+    (b4) ++(1,0) node [ground](myground){}
+    (b4) -- (myground)
+    ; } \]
+
+Allowing ourselves to identify the
+operations of the algebra with the operations of the theory for a moment,
+consider the morphism
+\[ [ \tikz{ \draw node[and port, number inputs=3](myand){}
+    (myand.in 1) node [anchor=east] {\( b_{1} \)}
+    (myand.in 2) node [anchor=east] {\( b_{2} \)}
+    (myand.in 3) node [anchor=east] {\( b_{3} \)};
+  } \middle/ b_{4}] : [b_1 : \bitcoin, b_2:\bitcoin, b_3 : \bitcoin] \rightarrow [b_1:\bitcoin,b_2:\bitcoin,b_3:\bitcoin,b_4 :\bitcoin]\]
+in the syntactic category of the theory given above.
+
+We can now consider a concrete example of substituting according to this
+morphism:
+
+\[
+  [ \tikz{ \draw node[and port, number inputs=3](myand){}
+    (myand.in 1) node [anchor=east] {\( b_{1} \)}
+    (myand.in 2) node [anchor=east] {\( b_{2} \)}
+    (myand.in 3) node [anchor=east] {\( b_{3} \)};
+  } \middle/ b_{4}]^* (\tikz { \draw node[or port](myor){}
+    (myor.in 1) node [anchor=east] { \(b_{4}\) }
+  (myor.in 2) node [anchor=east] { \( b_{5}\) };})
+\]
+
+which results in the circuit
+
+\[
+\tikz{ \draw (0,2) node[and port, number inputs=3](myand){}
+    (myand.in 1) node [anchor=east] {\( b_{1} \)}
+    (myand.in 2) node [anchor=east] {\( b_{2} \)}
+    (myand.in 3) node [anchor=east] {\( b_{3} \)}
+
+    (2,0) node[or port](myor){}
+
+    (myor.in 2) node [anchor=east] { \( b_{5}\) }
+    (myand.out) -| (myor.in 1);
+    }
+\]
+
+Looking back at the morphism encoding this substitution operation, we should
+remind ourselves that the \( b_{1}, b_{2}, b_{3}\) in the codomain context were
+not necessarily \emph{used} in the original circuit; indeed, those variables
+could be (as in this case) merely inputs connected to ground which were added by
+a weakening operation. What is essential is that such a weakening \emph{has put
+  the input wires in place} before we slot the 3-wide AND into place.
+
+\begin{circuitikz} \draw
+  (0,2) node[and port] (myand1) {}
+  (0,0) node[and port] (myand2) {}
+  (2,1) node[xnor port] (myxnor) {}
+  (myand1.out) -| (myxnor.in 1)
+  (myand2.out) -| (myxnor.in 2)
+  ;\end{circuitikz}
 
 \begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
   A \emph{homomorphism} \( \phi: A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
