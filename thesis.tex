@@ -401,7 +401,7 @@ With our notion of composition in hand, we can now handwave an argument for our
 revised claim that the terms of the sketch form the elements of a free monoid.
 It is well-known that substitution operation is associative; see, for example,
 Chapter 1 of \cite{taylor_practical_1999} for a fantastic treatment of the
-theory of subtitution. As a consequence, any elementary sketch, including this
+theory of substitution. As a consequence, any elementary sketch, including this
 one, satisfies the associativity axiom of monoids for free. The identity term is
 given by zero composable unary operation-symbols (i.e., the empty string)
 applied to a variable. Because composition is given by substitution for the
@@ -514,8 +514,9 @@ the thesis, but for now we adopt the name most closely describing its
 presentation.
 
 % TODO: say something about what it means to present a category?
+\newcommand{\syncat}[1]{\text{Cn}_#1^{\times}}
 \begin{definition}[The category of contexts and substitutions]\label{def:syn cat}
-  Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \text{Cn}_{\mathcal{L}}\) is presented as follows:
+  Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \syncat{\mathcal{L}} \) is presented as follows:
   \begin{outline}
     \1 The objects are the contexts of \( \mathcal{L} \), i.e., finite lists of
     distinct variables and their types.
@@ -568,6 +569,21 @@ presentation.
   concisely at the expense of precision, renaming a free variable in a term and
   then un-renaming it results in the same term.
 \end{definition}
+
+
+We can give the syntactic category a model in the clones by acting by
+substituting for variables, along the lines of Theorem~\ref{thm:clone model}.
+The reader unfamiliar with substitution will find relief in
+Example~\ref{ex:digital_logic}, where we show how this action works in terms of
+a concrete (and visual) example from digital logic.
+\begin{remark}
+  The category of contexts and substitutions \( \syncat{\mathcal{L}} \) for some
+  sketch \( \mathcal{L} \) acts contravariantly on the clones
+  \( \mathcal{H}^{Y} = \cup_{X}\cn_{\mathcal{L}}(Y,X)\). In the case of single
+  substitution \( [a/x]\), the action is by substituting the term $a$ for the
+  variable $x$. In the case of weakenings, the action has no operational or
+  syntactic significance.
+\end{remark}
 
 This category allows us to define a special class of functor. In our
 case, that class of functor captures what it means to produce a model of an
@@ -669,6 +685,12 @@ sketches will come along for the ride without much changed.
 We will write \( \termob \) for the nullary product of sorts, and moreover when
 working with a \emph{constant} operation symbol \( \termob \vdash c() : X \), we will
 often allow ourselves to simply write $c$ rather than $c()$.
+
+\begin{remark}
+  The syntactic category \(\syncat{\mathcal{L}}\) of an algebraic theory is
+  given essentially as before.
+  % TODO: fix this
+\end{remark}
 
 The next major concept we will introduce generalizes to algebraic theories the
 notion of \emph{action} or \emph{model} we saw previously for elementary
@@ -778,7 +800,7 @@ This example is meant for readers with a basic background in digital logic. An
 interesting aspect of this example is that it admits some very practical
 algebras.
 
-\begin{example}[The algebraic theory of digital logic circuits]
+\begin{example}[The algebraic theory of digital logic circuits]\label{ex:digital_logic}
   We can encode the language of digital logic circuits as an algebraic theory, presented as follows:
 
   \begin{enumerate}
@@ -856,21 +878,24 @@ a contravariant operation.
 
 The circuit interpretation also provides a neat intuition for weakening.
 Weakening by a variable is drawing a new input wire with the appropriate label,
-and then not connecting it to anything. As an example, we get a situation like
-this:
-
-\[  \widehat{b_{4}^{*}} (\tikz{ \draw (0,0) node[and port, number inputs=3](myand){}
+and then not connecting it to anything. As an example, we have the following
+equality.
+\begin{align*}
+ \widehat{b_{4}}^{*} \bigg({\tikz[baseline=-0.5ex]{ \draw (0,0) node[and port, number inputs=3](myand){}
     (myand.in 1) node [anchor=east] {\( b_{1} \)}
     (myand.in 2) node [anchor=east] {\( b_{2} \)}
     (myand.in 3) node [anchor=east] {\( b_{3} \)};
-  }) = \tikz{ \draw (0,0) node[and port, number inputs=3](myand){}
+  }}\bigg) &= \tikz[baseline=-0.5ex]{ \draw (0,0) node[and port, number inputs=3](myand){}
     (myand.in 1) node [anchor=east] {\( b_{1} \)}
     (myand.in 2) node [anchor=east] {\( b_{2} \)}
     (myand.in 3) node [anchor=east] {\( b_{3} \)}
     (myand) ++(-1.725,-.75) node[](b4){\( b_{4}\)}
     (b4) ++(1,0) node [ground](myground){}
     (b4) -- (myground)
-    ; } \]
+    ; }
+\end{align*}
+
+where we represent an unused input as one connected straight to ground.
 
 Allowing ourselves to write the operations of the algebra for the operation
 symbols of the theory for a moment, consider the morphism
@@ -879,10 +904,10 @@ symbols of the theory for a moment, consider the morphism
     (myand.in 2) node [anchor=east] {\( b_{2} \)}
     (myand.in 3) node [anchor=east] {\( b_{3} \)};
   } \middle/ b_{4}] : [b_1 : \bitcoin, b_2:\bitcoin, b_3 : \bitcoin] \rightarrow [b_1:\bitcoin,b_2:\bitcoin,b_3:\bitcoin,b_4 :\bitcoin]\]
-in the syntactic category of the theory given above.
 
-We can now consider a concrete example of substituting according to this
-morphism:
+in the syntactic category. We can now consider a concrete example of a concrete
+example of substitution in action by substituting along this morphism. Ignoring
+the requisite intermediate weakenings, we have that
 
 \[
   [ \tikz{ \draw node[and port, number inputs=3](myand){}
@@ -912,17 +937,9 @@ which results in the circuit
 Looking back at the morphism encoding this substitution operation, we should
 remind ourselves that the \( b_{1}, b_{2}, b_{3}\) in the codomain context were
 not necessarily \emph{used} in the original circuit; indeed, those variables
-could be (as in this case) merely inputs connected to ground which were added by
-a weakening operation. What is essential is that such a weakening \emph{has put
-  the input wires in place} before we slot the 3-wide AND into place.
-
-\begin{circuitikz} \draw
-  (0,2) node[and port] (myand1) {}
-  (0,0) node[and port] (myand2) {}
-  (2,1) node[xnor port] (myxnor) {}
-  (myand1.out) -| (myxnor.in 1)
-  (myand2.out) -| (myxnor.in 2)
-  ;\end{circuitikz}
+could be (as in this case) merely unused inputs which were added by a weakening
+operation. What is essential is that such a weakening \emph{has put the input
+  wires in place} before we slot the 3-wide AND into place.
 
 \begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
   A \emph{homomorphism} \( \phi: A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
