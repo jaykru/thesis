@@ -644,7 +644,7 @@ out of the category in question.
 
 \section{Algebraic theories and their algebras}
 While conjuring up example elementary sketches, the reader will find that the
-unary operation requirement regularly gets in the way of representing familiar
+regime of unary operations regularly gets in the way of representing familiar
 gadgets like rings or type theories. To address this deficiency, we introduce
 the doctrine of \emph{algebraic theories} which generalizes the doctrine of
 elementary sketches and allows for multi-input operation symbols. As we work
@@ -688,10 +688,9 @@ some products.
   such that the assignments respect the laws of $\mathcal{L}$.
 \end{definition}
 
-With these, we can give some prototypical example theories and algebras. The
-first such pair we consider is the familiar structure of a ring from abstract
-algebra, one of whose algebras is the ring of integers under addition and
-multiplication.
+We now give some prototypical example theories and algebras. The first such pair
+we consider is the familiar structure of a ring from abstract algebra, one of
+whose algebras is the ring of integers under addition and multiplication.
 
 \begin{example}[Algebraic theory of \emph{ring}]\label{ex:theory of ring}
 
@@ -704,8 +703,8 @@ multiplication.
   satisfy the defining equations of the identity.
 
   \begin{enumerate}
-    \item Sorts: The only sort is \( S \). The variable collection for the sort
-          is \( \{x,y,z\} \cup \set{s_{i}}_{i\in\mathbb{N}} \).
+    \item Sorts: The single sort is \( S \). The variable collection for the
+          sort is \( \{x,y,z\} \cup \set{s_{i}}_{i\in\mathbb{N}} \).
 
     \item Operations: \begin{align*}
                         \cdot &: S \times S \rightarrow S, \\
@@ -725,12 +724,12 @@ multiplication.
                 \end{align*}
   \end{enumerate}
   Note that the countably infinite set of variables \( \{ s\}_{i\in\mathbb{N}}\)
-  are added so that we may have deeply nested expressions, even if we had no
-  need for them when stating the laws above. In fact, such countable variable
-  sets are \emph{required} when defining an algebraic theory for precisely this
+  is added so that we may have deeply nested expressions, even if we had no need
+  for them when stating the laws above. In fact, such countable variable sets
+  are \emph{required} when defining an algebraic theory for precisely this
   reason. That this requirement was not imposed for elementary sketches is
-  because there can only be one variable in a term, even in heavily nested terms,
-  by construction.
+  because there can only be one variable in a term, even in heavily nested
+  terms, by construction.
 \end{example}
 
 
@@ -750,9 +749,9 @@ of an \emph{$\mathcal{L}$-algebra} for an algebraic theory:
       \item $-_{A}$ to the function $x \mapsto -x$ taking an integer to its additive inverse
     \end{enumerate}
     \item Verifying the rest of the laws is routine after understanding how to
-          verify any of them, so we demonstrate just one. We show that the $0$
-          selected by the model indeed serves as the left identity of addition
-          in the model.
+          verify any one of them, so we demonstrate just one. We show that the
+          $0$ selected by the model indeed serves as the left identity of
+          addition in the model.
           \begin{proof}
             \begin{align*}
               +_{A} \circ \braket{0_{A}(*), \id} &= (y : \mathbb{Z}) \mapsto 0_{A}(*) + \id(y)\\
@@ -873,9 +872,8 @@ this:
     (b4) -- (myground)
     ; } \]
 
-Allowing ourselves to identify the
-operations of the algebra with the operations of the theory for a moment,
-consider the morphism
+Allowing ourselves to write the operations of the algebra for the operation
+symbols of the theory for a moment, consider the morphism
 \[ [ \tikz{ \draw node[and port, number inputs=3](myand){}
     (myand.in 1) node [anchor=east] {\( b_{1} \)}
     (myand.in 2) node [anchor=east] {\( b_{2} \)}
