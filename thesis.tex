@@ -64,7 +64,7 @@ citestyle=alphabetic
 
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
 
-\title{慣性ドリフト: From 0 to Normalization by Gluing in 4.9 seconds\\ A Brisk Drift through Categorical Semantics of Lambda Calculi}
+\title{The Way of Glue\\ A Head-First Dive into the Categorical Semantics of Lambda Calculi}
 \author{Jay Kruer}
 % The month and year that you submit your FINAL draft TO THE LIBRARY (May or December)
 \date{December 2021}
@@ -91,111 +91,126 @@ citestyle=alphabetic
 % Acknowledgements (Acceptable American spelling) are optional
 % So are Acknowledgments (proper English spelling)
 \chapter*{Acknowledgements}
-I've spent the last few months slowly accumulating a list of people I'd like to
-thank, whether for their direct impact in making this thesis possible or just
-for having had an outsized impact on my life at one point or another. I can only
-start by by thanking my advisors Ang\'elica and Jim for taking my enthusiasm to
-learn modern approaches to type theory and helping me channel it productively. I
-am indebted to Ang\'elica's spooky ability to instantly grasp at understanding
-in an area relatively unknown to her. Without her hints at how to tackle an
-opaque construction every now and then, I think I'd probably be still fumbling
-around with the basics. Jim has had an outsized direct influence on the
-direction my intellectual life has taken. Jim's intro CS course taught partially
-in Standard ML was my first real exposure to mathematically structure
-programming and opened me up to a world that had until then had seemed
-inaccessible to me. Jim has also served as a great mentor in matters of personal
-taste and style (his course webpages are always out of this world cool.) I'll
-really miss thesis meetings with you two!
+% It's not often in life one gets a chance to thank the many people who have
+% helped him on his way, so I've spent the last few months slowly accumulating a
+% list of people I'd like to thank whether for their direct impact in making this
+% thesis possible or just for having had an outsized impact on my life at one
+% point or another. I can only start by thanking my advisors Ang\'elica and Jim
+% for their part in making my thesis year one of my favorite's in my time at Reed
+% and for making this thesis possible. I am first of all indebted to Ang\'elica's
+% spooky ability to instantly grasp at understanding in an area relatively unknown
+% to her. Without her hints at how to tackle an opaque construction every now and
+% then, I think I'd probably be still fumbling around with the basics. Jim has had
+% an outsized influence on the direction my intellectual life has taken. Jim's
+% intro CS course taught partially in Standard ML was my first real exposure to
+% mathematically structure programming and opened me up to a world that had until
+% then had seemed inaccessible to me. Jim has also served as a great mentor in
+% matters of personal taste and style (his course webpages are always out of this
+% world cool.) I'll really miss our wacky math-cs crossover meetings, you two!
 
-Next I have to thank the rest of the faculty and students in the Mathematics
-department who have made the last few years such an enriching experience. Albyn
-Jones and Irena Swanson, who taught my intro courses freshman year, are singled
-out for special thanks. Having been brought from complete ignorance to a great
-appreciation for proof and mathematical exploration under their careful guidance
-was a great privilege! I am also grateful to Kyle Ormsby for always being an
-absolute chiller, encouraging me in early ambitions, and for giving me a taste
-of category theory before I fled from his topology class.
+% The students and faculty in the Math department have the last few years a
+% tremendously enriching experience. Albyn Jones and Irena Swanson, who taught my
+% intro courses freshman year, are singled out for special thanks. I was not by
+% any stretch a likely math major by the time I came to Reed. Having been brought
+% from complete ignorance to a great appreciation for mathematics under Albyn and
+% Irena's careful guidance was a great privilege and one I'll remember all my
+% life! I am also grateful to Kyle Ormsby for always being an absolute chiller,
+% encouraging me in early ambitions, and for giving me a taste of category theory
+% before I fled from his topology class.
 
-Now come the personal ones. Thank you to Jaclyn for being everything to me over
-the past two years. I cannot put into words the way your loves has touched my
-life and turned an ugly pandemic into a beautiful one.
+% Mom and Dad.
 
-I would like to thank my parents for having let me be and encouraging me to
-grow into the person I am today. That is a rare thing, and has made all the
-difference to me!
+% Jaclyn, my love, thank you for being everything to me over the past (almost) two
+% years and for your friendship for the last (almost) 4. You turned an ugly
+% pandemic into a beautiful one, and I can't wait to spend the rest of it (and
+% more!) with you.
 
-Thank you to Uncle Jay for your constant encouragement for my interests in
-computers. To Grandma, Aunt Susie, Aunt Julie, and all my extended family for
-your continued support!
 
-I would like to thank the following teachers in my life. My first grade teacher
-Ms.\ King, 柳老師 (Hyong Rhew) for getting me to chill out a bit freshman year,
-Mrs.\ Leitsch for extensive encouragement in 9th grade English, Mr. Cool for
-encouragement on the robotics team (even if you couldn't get the team to switch
-from LabView), Mr.\ Raveli for reassuring me that it's okay to not know all the
-answers, Shulav and Aditya for many fine hours of good lad time.
+% Thank you to Uncle Jay for your constant encouragement for my interests in
+% computers. To Grandma, Aunt Susie, Aunt Julie, and all my extended family for
+% your continued support!
 
-Thanks to the hyperbolic crew: Francis Baer, Alec Forget, Usman Hafiz, Kiana
-McBride, and Luke Doms for helping to make Kyle's wild ride a dummy good time.
+% A few other teachers in my life also made a big impact on me. My first grade teacher Ms.\ King, 柳老師 (Hyong Rhew) for getting me to chill
+% out a bit freshman year, Mrs.\ Leitsch for extensive encouragement in 9th grade
+% English, Mr. Cool for encouragement on the robotics team (even if you couldn't
+% get the team to switch from LabView), Mr.\ Raveli for reassuring me that it's
+% okay to not know all the answers, Yuta, Shulav and Aditya for many fine hours of good
+% lad time.
 
-Thanks to the many friendbobs of pika: Joebob, Jit, Eli, Gabe and Ciara, Becca,
-Andres, Nathan, Chloe. The time I spent with you all in Boston was and remains
-precious to me beyond measure!
+% Jake Buck
 
-Thanks to Murali Vijayaraghavan for his mentorship and patient instruction while
-I was learning the ropes the ropes of CPU and hardware design.
+% Thanks to the hyperbolic crew: Francis Baer, Alec Forget, Usman Hafiz, Kiana
+% McBride, and Luke Doms for helping to make Kyle's wild ride a dummy good time.
 
-吳老師, Ian Desai, Sara Rosenberger in the business office, the GNU project and
-free software foundation along with the developers of so many other free
-software projects whose generously donated works were instrumental in the
-production of this thesis.
+% Thanks to the many friendbobs of pika: Joebob, Jit, Eli, Gabe and Ciara, Becca,
+% Andres, Nathan, Chloe. The time I spent with you all in Boston was and remains
+% precious to me beyond measure!
 
-Thank you to all the Reed friends who made my first two years at the college one
-of the greatest times of my life. Nick Chaiyachakorn, Max, Holden.
+% Thanks to Murali Vijayaraghavan for his mentorship and patient instruction while
+% I was learning the ropes the ropes of CPU and hardware design.
 
-I'd also like to thank Noah Koster for being one of my very first friends at Reed and
-a wonderful companion as I explored the world on my own for the very first time.
-You may not be the next Bill Gates, but you're a great guy.
+% 吳老師, Ian Desai, Sara Rosenberger in the business office, the GNU project and
+% free software foundation along with the developers of so many other free
+% software projects whose generously donated works were instrumental in the
+% production of this thesis.
 
-Alice McKean
+% The following people made my freshman year at Reed. Thank you to Holden and Max
+% for making WP117 home. Special thanks to Max for not holding against me my
+% having thrown a mug at him. Thanks to Noah Koster for being one of my very first
+% friends at Reed and for always truckin. You may not be the next Bill Gates, but
+% you're a great guy. Thanks to Nick Chaiyachakorn for being the best boo. To
+% Carter, Dan, Mary, and Salma for good times.
 
-My van
+% The following people made my sophomore year much more tolerable. Thanks to Alice
+% McKean for good times, and to Genya, Tristan, and the rest of the crew for so
+% many great nights in Polytopia. Special thanks go to Young Kim for
+% corrupting my soul. This thesis is in some sense a tribute to you, because I
+% know how much you love category theory.
 
-Richard Fox at NKU
+% Alice McKean
 
-Megan, Luke, Ryan, Kathleen
+% My van
 
-Young Kim for corrupting my soul Salma, Mary, Carter, Dan Genya, Tristan
+% Richard Fox at NKU
 
-Thanks to Curtis, Cody Roux and Dan McArdle at the Charles Stark Draper Laboratory for
-early encouragement!
+% Megan, Luke, Ryan, Kathleen
 
-Thank you to the composers of Breath of the Wild and lofi girl for the
-soundtrack.
+% Thanks to Curtis, Cody Roux and Dan McArdle at the Charles Stark Draper Laboratory for
+% early encouragement!
 
-Thank you to Steve Awodey for listening to me deliver a draft version of the
-argument laid out in Chapter 3 and for helpful comments. Thanks to Carlo
-Angiulini for helpfully answering my questions. Thank you to Ivan Di Liberti
-for many fun and useful mentorship Zoom meetings throughout the last few
-months!
+% Thank you to the composers of Breath of the Wild and lofi girl for the
+% soundtrack.
 
-Finally, I would like to give special thanks to Paul Taylor who, though I do not
-know him personally, wrote the book that made this thesis possible. Paul's
-\emph{Practical Foundations of Mathematics} is one of the great books of
-computing, in the same league as Knuth's \emph{Art of Computer Programming} in
-that it is not just a useful centralization of human knowledge but that the
-presentation is painstakingly beautiful. On nearly all of the early days spent
-on this project I learned from Paul's book a profound perspective on programming
-or mathematics in general.
+% Thank you to Steve Awodey for listening to me deliver a draft version of the
+% argument laid out in Chapter 3 and for helpful comments. Thanks to Carlo
+% Angiulini for helpfully answering my questions. Thank you to Ivan Di Liberti
+% for many fun and useful mentorship Zoom meetings throughout the last few
+% months!
 
-I also owe massive debts to the great people of the \TeX StackExchange for \TeX
-macros used in the production of this document. Thank you to user4586 for their
-automatically-sized delimeters macro, to Steven B. Segletes for their really
-wide tildes macro, and to user13907 for their stylized B symbol.
+% Finally, I would like to give special thanks to Paul Taylor who, though I do not
+% know him personally, wrote the book that made this thesis possible. Paul's
+% \emph{Practical Foundations of Mathematics} is one of the great books of
+% computing, in the same league as Knuth's \emph{Art of Computer Programming} in
+% that it is not just a useful centralization of human knowledge but that the
+% presentation is painstakingly beautiful. On nearly all of the early days spent
+% on this project I learned from Paul's book a profound perspective on programming
+% or mathematics in general.
 
-Thank you to Aaron Weiss for being a constant companion (even over discord),
-theory B homie, and an absolute pogchamp over the last 3 years of knowing you.
-Stay fresh, king.
+% I also owe massive debts to the great people of the \TeX StackExchange for \TeX
+% macros used in the production of this document. Thank you to user4586 for their
+% automatically-sized delimeters macro, to Steven B. Segletes for their really
+% wide tildes macro, and to user13907 for their stylized B symbol. Thank you to
+% the various people involved in the creation of the Lua \LaTeX system. And to the
+% authors of the following packages:
+
+
+% Thank you to Aaron Weiss for being a constant companion (even over discord),
+% theory B homie, and an absolute pogchamp over the last 3 years of knowing you.
+% Stay fresh, king.
+
+% Many thanks to Jon Erickson, author of \emph{Hacking: The rt of Exploitation}
+% for having gotten me started on this road so many years ago. What a strange
+% route to gluing!
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -255,8 +270,123 @@ Normalization by gluing is based.
 % \onehalfspacing
 % \doublespacing
 
-Blah blah blah, I should write some stuff about how category theory helps us
-avoid insane proof heuristics in metatheory of type theory.
+Though we encounter many interesting objects and ideas along the way, this
+thesis is primarily concerned with the \emph{open normalization} problem  for the simply typed lambda calculus. Some explaining is in order. First, we talk about the simply typed lambda calculus. The reader might be familiar with the \emph{untyped} lambda calculus. That mathematical object is the following system.
+
+LAMBDA CALCULUS HERE
+
+The Church-Turing thesis says that the lambda calculus and the Turing machine, a
+more typical model of universal computation are equivalent: any Turing machine
+can be simulated by the lambda calculus, and consequently any decidable problem
+can be decided by the lambda calculus.
+
+That the lambda calculus is so powerful is exciting, but some consider working
+with that full power unwieldy. Indeed, there are programs that one can write
+down in the lambda calculus which get ``stuck'' before computing a value,
+meaning that there are lambda programs $p$ which reduce to a $p'$ which isn't a
+value but cannot be reduced to some $p''$.
+
+The usual solution to this problem is to tie our own hands a bit, but imposing a
+regime of \emph{types}. The simplest example of such a regime is, appropriately,
+\emph{simple types}. The simply-typed lambda calculus enriches the lambda
+calculus with some base types, say booleans and natural numbers, and derived
+types \( A \times B\) representing \emph{pairs of terms} of the types $A$ and $B$
+along with \( A \Rightarrow B\) representing \emph{functions} taking an $A$ and giving a
+$B$. For example, the type \( \mathbbm{B} \times \mathbbm{N}\) is inhabited by pairs
+of a boolean and some natural number. Along with this type structure comes
+\emph{rules} stipulating how it may be used. We will not explain this story in
+depth in this thesis, but we will soon see these rules. The desired result
+indeed follows from this setup: lambda terms that follow the typing rules do not
+get stuck when evaluated. This is the famed \emph{type safety} property from
+programming language theory. Another family of properties, namely
+\emph{normalization} properties, follows from this type regime. It turns out
+that any program in the lambda calculus will reduce to a value in a finite
+number of evaluation steps. This property is called \emph{closed normalization}.
+In the language of Turing machines, this means that programs written in the
+simply typed lambda calculus always halt. In particular, the lambda calculus is
+\emph{not} Turing complete and can only simulate deciding Turing machines. This
+can be a problem for some applications. If you want, say, your web server to run
+indefinitely without bound; the simply lambda calculus can't do that. You could,
+however, make your program loop until the projected death of the sun and deploy
+a new version of your server shortly thereafter. Beyond silly considerations
+like this, the halting property of languages like the simply typed lambda
+calculus is actually required for some applications.
+
+An \emph{interactive theorem prover} is a computer program that allows a
+computer user to state theorems and input proofs\footnote{individual systems
+  vary in how manual this process is}, which are then checked by the program.
+Many interactive proof systems, such as Coq or Agda, are based on
+type\footnote{in the same sense as above, only with much more complicated type
+  formers and rules} theory. Such proof systems leverage a principle called the
+\emph{Curry-Howard isomorphism}, which allows one to represent theorems as
+\emph{types} and proofs as \emph{programs}. The advanced type theories of such
+systems allow one to state the sort of universally and existentially quantified
+propositions one often encounters in mathematics. An \emph{absolutely critical}
+property for systems like this is that the proof construction language (remember
+that this is analogous to a programming language according to the Curry-Howard
+isomorphism) be terminating for the following reason. Suppose you have stated a
+proposition $P$. The Curry-Howard isomorphism allows us to represent $P$ by a
+type $T_{P}$ such that constructing a term (a program potentially with
+parameters) $t$ with type $T_{P}$ amounts to proving the proposition $P$. Given
+any type, I can give you a non-terminating program of that type. This is easiest
+to see by putting unguarded termination in the language as a form of
+non-termination. The program simply calls itself recursively forever, infinitely
+passing the buck but ostensibly having the desired type. Below we demonstrate
+how this can be done by manually deactivating in the Coq proof assistant safety
+features expressly intended to rule out such definitions.
+
+\begin{verbatim}
+j@computer ~ % coqtop
+Welcome to Coq 8.14.0
+
+Coq < Unset Guard Checking.
+
+Coq < Fixpoint falso (u : unit) : False := falso tt.
+falso is defined
+falso is recursively defined (guarded on 1st argument)
+\end{verbatim}
+
+If we reset \emph{guard checking}, which places restrictions on the allowed
+forms of recursive definitions so that they are \emph{well-founded}, we find
+that Cod refuses this definition.
+
+\begin{verbatim}
+Coq < Set Guard Checking.
+
+Coq < Fixpoint falso (u : unit) : False := falso tt.
+Toplevel input, characters 0-46:
+> Fixpoint falso (u : unit) : False := falso tt.
+> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error:
+Recursive definition of falso is ill-formed.
+In environment
+falso : unit -> False
+u : unit
+Recursive call to falso has principal argument equal to
+"tt" instead of a subterm of "u".
+Recursive definition is: "fun _ : unit => falso tt".
+\end{verbatim}
+
+With this fact in mind, normalization proofs for the underlying proof language
+are required of a trustworthy interactive theorem proving system, otherwise one
+can easily prove false.
+
+[TODO: Talk about how closed normalization is typically proved using ordinary logical predicates]
+
+[TODO: Talk about open normalization somewhere nearby, and its importance in proof
+assistants. Carefully express the difference between closed and open
+normalization, why one would want such theorems. Open normalization is strictly stronger than closed normalization, but why is it useful? What's the difference between saying that all closed instances are normalizing vs. an open term itself is normalizing...]
+
+[TODO: Our method + assumed background; mea culpa]
+
+[TODO: method+: more constructive and more conceptual; the structure of our
+constructions reflect the result we attempt to prove in a very clear way]
+
+[TODO: method+: our method is constructive, which, together with the fact that
+the result is open normlization means that we are giving a term reducer]
+
+
+
 
 \chapter[Functorial semantics]{Functorial semantics: sketches and their models; algebraic theories and their algebras}\label{chapter:functorial_semantics}
 In this chapter we will develop tools for reasoning about (syntactic)
