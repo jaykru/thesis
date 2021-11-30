@@ -2,7 +2,7 @@
 
 \usepackage{graphicx,latexsym}
 \usepackage{amssymb,amsthm}
-\usepackage{longtable,booktabs,setspace} 
+\usepackage{longtable,booktabs,setspace}
 \usepackage[hyphens]{url}
 \usepackage{rotating}
 \usepackage{outlines}
@@ -48,6 +48,9 @@ citestyle=alphabetic
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{Recall}[theorem]{recall}
 \newtheorem{corollary}[theorem]{Corollary}
+
+% \newcommand{\sslash}{\mathbin{/\mkern-6mu/}}
+\newenvironment{sketch}{\textit{Sketch.}  }{\hfill$\sslash$}
 
 \include{autodelims}
 \include{reallywidetilde}
@@ -1822,12 +1825,16 @@ closed structure of \( \cl \) and that \( \tm \) preserve this structure.
   meaning that for contexts \( \Gamma \) and \( \Delta \) we have the following
   isomorphisms of presheaves:
   \begin{enumerate}
-    \item \( \tm(\Gamma \times \Delta) \cong \tm(\Gamma) \times \tm(\Delta) \)
-    \item \( \tm(\Gamma^{\Delta}) \cong {\tm(\Gamma)}^{\tm(\Delta)} \)
+    \item \(  \tm(\Gamma) \times \tm(\Delta) \cong \tm(\Gamma \times \Delta) \)
+    \item \( {\tm(\Gamma)}^{\tm(\Delta)} \cong \tm(\Gamma^{\Delta}) \)
   \end{enumerate}
 
+  We write \[ \tm(\Gamma \times \Delta) \xrightarrow{i_{\pi}} \tm(\Gamma) \times \tm(\Delta) \] for the first
+  isomorphism and \( \tm(\Gamma)^{\tm(\Delta)} \xrightarrow{i_{e}} \tm(\Gamma^{\Delta} )\) for the
+  second.
+
   The reader should consult Chapter 8 of Awodey's \emph{Category Theory}
-  \cite{awodey_category_2010} for more on these results.
+  \cite{awodey_category_2010} for more information about these results.
 \end{remark}
 
 \subsubsection{Gluing syntax to semantics along the relative hom functor}
@@ -2338,7 +2345,7 @@ taken with a grain of salt.
   \( \tm \), and \( \tilde{p} \) is its exponential transpose.
 \end{theorem}
 
-\begin{proof}
+\begin{sketch}
   The universal property for exponentials is encoded by the product-hom
   adjunction. It suffices to show an isomorphism
   \[ \gl[(R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \cong \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \]
@@ -2375,7 +2382,7 @@ taken with a grain of salt.
 	\arrow["d", from=1-1, to=1-4]
 	\arrow["{q_Z}", from=1-4, to=3-4]
 	\arrow["{i_\pi \circ (q_X\times q_Y)}"', from=1-1, to=3-1]
-	\arrow["\delta"', from=3-1, to=3-4]
+	\arrow["\tm(\delta)"', from=3-1, to=3-4]
 	\arrow["r", from=6-2, to=6-4]
 	\arrow["{{q_Z}_*}", from=6-4, to=8-4]
 	\arrow["q"', from=6-2, to=8-2]
@@ -2390,16 +2397,15 @@ taken with a grain of salt.
 where \( \tm(\Delta_{Z})^{\tm(\Delta_{Y})} \xrightarrow{i_{e}} \tm(\Delta_{Z}^{\Delta_{Y}})\) is the
 isomorphism witnessing that the relative hom functor preserves exponentials as
 in Remark~\ref{rmk:tm-cartesian-closed}. Observing the arrows in sight, a
-plausible choice for \( \delta' \) is
-\[ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \]
+plausible choice for \( \delta' \) is \( \tilde{\delta} \).
 
 The choice for \( d' \) is a more tricky question. \( d' \) should be an arrow
 into the pullback \( R \). We know nothing about nothing about \( R \) except
-that it fits into the pullback diagram above. The up-side of our ignorance is
+that it fits into the pullback diagram above. The upside of our ignorance is
 that it makes our choice of \( d' \) automatic: it must be one of the mediators
 required by the universal property of the pullback, in particular the dotted
 arrow in the diagram below. To get this dotted arrow, we need to verify that the
-diagram commutes.
+outer square of the following diagram commutes.
 % https://q.uiver.app/?q=WzAsNixbMSwxLCJSIl0sWzAsMCwiUl9YIl0sWzEsMywiXFxtYXRoZnJha3tUbX0oe1xcRGVsdGFfWn1ee1xcRGVsdGFfWX0pIl0sWzMsMywiXFxtYXRoZnJha3tUbX0oXFxEZWx0YV9aKV57Ul9ZfSJdLFszLDEsIntSX1p9XntSX1l9Il0sWzIsMl0sWzAsNCwiciJdLFs0LDMsIntxX1p9XyoiXSxbMCwyLCJxIiwyXSxbMiwzLCJ7cV9ZfV4qIFxcY2lyYyBcXHdpZGV0aWxkZXtcXG1hdGhmcmFre1RtfShcXGVwc2lsb24pIFxcY2lyYyBpX1xccGl9IiwyXSxbMCw1LCIiLDIseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XSxbMSwyLCJcXGRlbHRhJyBcXGNpcmMgcV9YIiwyLHsiY3VydmUiOjN9XSxbMSw0LCJcXHRpbGRle2R9IiwwLHsiY3VydmUiOi0zfV0sWzEsMCwiXFxleGlzdHMhZCciLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XV0=
 \[\begin{tikzcd}
 	{R_X} \\
@@ -2409,44 +2415,53 @@ diagram commutes.
 	\arrow["r", from=2-2, to=2-4]
 	\arrow["{{q_Z}_*}", from=2-4, to=4-4]
 	\arrow["q"', from=2-2, to=4-2]
-	\arrow["{{q_Y}^* \circ \widetilde{\mathfrak{Tm}(\epsilon) \circ i_\pi}}"', from=4-2, to=4-4]
+	\arrow["{{q_Y}^* \circ \reallywidetilde{\mathfrak{Tm}(\epsilon) \circ i_\pi}}"', from=4-2, to=4-4]
 	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-2, to=3-3]
-	\arrow["{\delta' \circ q_X}"', curve={height=18pt}, from=1-1, to=4-2]
+	\arrow["{\tm(\delta') \circ q_X}"', curve={height=18pt}, from=1-1, to=4-2]
 	\arrow["{\tilde{d}}", curve={height=-18pt}, from=1-1, to=2-4]
 	\arrow["{\exists!d'}"', dotted, from=1-1, to=2-2]
 \end{tikzcd}\]
 
-To verify that the outer square commutes, We need to demonstrate
-that \[ q_{Y}^{*} \circ \reallywidetilde{\tm(\epsilon) \circ i_{\pi}} \circ i_{e} \circ \reallywidetilde{\delta \circ i_{\pi}} \circ q_{X} = {q_{Z}}_{*} \circ \tilde{d} \]
+We need to show
+that \[ q_{Y}^{*} \circ \reallywidetilde{\tm(\epsilon) \circ i_{\pi}} \circ \tm(\tilde{\delta}) \circ q_{X} = {q_{Z}}_{*} \circ \tilde{d} \]
 which should strike the reader as suspiciously similar to the characterizing
 property of the glued morphism \( (d,\delta)\), namely
-that \[ \delta \circ i_{\pi} \circ (q_{X} \times q_{Y}) = q_{Z} \circ d \]. In what follows, we call
-this equation the gluing equation.
+that \[ \tm(\delta) \circ i_{\pi} \circ (q_{X} \times q_{Y}) = q_{Z} \circ d. \] In what follows, we
+call this equation the gluing equation.
 
 To untangle this mess, we pass to the lambda notation for the transpose as in
-Chapter~\ref{chapter:TLC}. We can express the left-hand side of the desired
-equality in this notation (dropping the typing annotations and adding explicit
-variables) as
+Chapter~\ref{chapter:stlc}. We can express the left-hand side of the desired
+equality in this notation (dropping the explicit type annotations and adding
+explicit variables for both abstracted variables and ordinary free variables
+representing morphism inputs) as
 \begin{align*}
-  &\lambda y'.\, (\lambda y.\, \delta ((q_{X}(x:R_{x}, y)))) q_{Y}(y') \\
-  = &\lambda y.\, \delta (q_{X}(x: R_{X}), q_{Y}(y)) && (\textrm{by the $\beta$ rule}) \\
+  q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(f,y))) \circ \tm(\delta)(x) \circ q_{X} &= q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(\tm(\delta(x)),y))) \circ q_{X}\\
+
+                                                               &= q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(\tm(\delta(x)),y))) \circ q_{X} \\
+                                                               &= q_{Y}^{*} \circ (\lambda y.\, \tm(\delta)(i_{\pi}(x,y))) \circ q_{X} \\
+                                                               &= \lambda y.\, \tm(\delta)(i_{\pi}(q_{X}(x),q_{Y}(y)))
+
+
 \end{align*}
-where the beta rule holds because \( \renhat \) is cartesian closed. This turns
-out to be exactly the transpose of the the left-hand side of the gluing
-equation: the transpose is
-\[ \reallywidetilde{\delta \circ i_{\pi} \circ (q_{X} \times q_{Y})} \] which can be rendered in the
-lambda notation as \[ \lambda y.\, \delta(q_{X}\times q_{Y} (x : R_{X}, y)) \] so that by the
-definition of the product functor, the left-hand side of our desired equality is
-precisely the transpose of left-hand side of the gluing equation. The right-hand
-side of the desired equality is evidently the transpose of the right-hand side
-of the gluing equation. Finally, since taking transposes is well-defined, we
-have the desired equality.
+where the second and third steps respectively follow from associativity of
+composition and the lifting along \( \tm \) of the universal property of
+transposes in \( \cl \). We are also using the fact that the universal property
+of exponentials forces \( i_{\pi} \) to be the unique isomorphism which acts as a
+syntactic pair constructor, i.e., it takes genuine pairs to syntactic pairs.
+What we are left with is exactly the transpose of the left-hand side of the
+gluing equation:
+\begin{align*}
+  \reallywidetilde{\tm(\delta) \circ i_{\pi} \circ (q_{X} \times q_{Y})} &= \lambda y.\, \tm(\delta) (i_{\pi}((q_{X}\times q_{Y}) (x, y))) \\
+                                                     &= \lambda y.\, \tm(\delta (i_{\pi}(q_{X}(x),q_{Y}(y))))
+\end{align*}
+Moreover, the right-hand side of the desired equality is evidently the transpose
+of the right-hand side of the gluing equation. Because taking transposes is
+well-defined, the preceding two facts gives us the desired equality.
 
-We now summarize the rightward map for the isomorphism:
-
+We can now summarize the rightward map for the isomorphism:
 \begin{align*}
   \phi_{1}(d) &= d' && (\textrm{the unique mediating arrow from the argument above})\\
-  \phi_{2}(\delta) &= i_{e} \circ \reallywidetilde{\delta \circ i_{\pi}}
+  \phi_{2}(\delta) &= \tilde{\delta}
 \end{align*}
 
 
@@ -2455,31 +2470,22 @@ because we don't need to interact much with the pullback. We define
 
 \begin{align*}
   \psi_{1}(d') &= \epsilon \circ ((d' \circ r) \times \id)  \\
-  \psi_{2}(\delta') &= \tm(\epsilon) \circ (\delta' \times \id) \\
+  \psi_{2}(\delta') &= \tm(\epsilon) \circ (i_{\pi} \circ (\delta' \times \id) \circ i_{\pi}^{-1}) \\
 \end{align*}
 
-With our maps in hand, we can verify that they form a bijection:
+With our maps in hand, we can verify that they form a bijection. Because we have
+defined \( d' \) by the universal property of the pullback, we have that
+\( d' \circ r = \tilde{d} \) whence \( \psi_{1}(\phi_{1}(d)) = \epsilon \circ (\tilde{d} \times \id) \) so
+that \( \psi_{1}(\psi_{1}(d)) = d \) by the universal property of the transpose in
+\( \renhat \). The second required equality also follows by the universal
+property of the transpose, this time in \( \cl \). We have
+\( \psi_{2}(\phi_{2}(\delta)) = \epsilon \circ (\tilde{\delta} \times \id) \) so that \( \psi_{2}(\phi_{1}(\delta)) = \delta \)
+as required.
 
-\begin{align*}
-  \psi_{1}(\phi_{1}(d)) &= \epsilon \circ ((d' \circ r) \times \id) \\
-  \psi_{2}(\phi_{2}(\delta)) &= \tm(\epsilon) \circ ((i_{e} \circ \reallywidetilde{\delta \circ i_{\pi}}) \times \id) \\
-\end{align*}
-
-Because we have defined \( d' \) by the universal property of the pullback, we
-have that \( d' \circ r = \tilde{d} \) whence
-\( \psi_{1}(\phi_{1}(d)) = \epsilon \circ (\tilde{d} \times \id) \) so that \( \psi_{1}(\psi_{1}(\d)) = d \)
-by the universal property of the transpose in \( \renhat \).
-
-The second equality is a little more tricky. Both of these are the universal
-property for the relevant transpose up to squinting, so I think they should be
-the identity...
-
-TODO:
-\begin{itemize}
-  \item finish up the bijection proof
-  \item prove naturality
-\end{itemize}
-\end{proof}
+With that, we have sketched the bijection. The full details, along with the
+naturality condition are left to the reader\footnote{who should email me when
+  they figure it out.}.
+\end{sketch}
 
 \begin{corollary}
   The gluing category \( \gl \) is cartesian closed.
