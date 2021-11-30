@@ -707,8 +707,9 @@ The reader unfamiliar with substitution will find relief in
 Example~\ref{ex:digital_logic}, where we show how this action works in terms of
 a concrete (and visual) example from digital logic.
 \begin{remark}
-  The category of contexts and substitutions \( \syncat{\mathcal{L}} \) for some
-  sketch \( \mathcal{L} \) acts contravariantly on the clones
+  The morphisms of the category of contexts and substitutions
+  \( \syncat{\mathcal{L}} \) for some sketch \( \mathcal{L} \) acts
+  contravariantly on the clones
   \( \mathcal{H}^{Y} = \cup_{X}\cn_{\mathcal{L}}(Y,X)\). In the case of single
   substitution \( [a/x]\), the action is by substituting the term $a$ for the
   variable $x$. In the case of weakenings, the action has no operational or
@@ -2299,10 +2300,12 @@ this intro]
 In order to give an interpretation of terms in the gluing category, we must give
 an explicit account of its cartesian closed structure. We will say what its
 products are, but not prove the universal property: we send the reader to
-\cite{sterling_normalization_2018} for that part. We will however give a new
-proof of the universal property for the exponentials, which is not shown in
-either of the sources we consulted on connections between gluing and
-normalization (\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}).
+\cite{sterling_normalization_2018} for that part. We will however give a sketch
+of the universal property for the exponentials, which is not shown in either of
+the sources we consulted on connections between gluing and normalization
+(\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}). The result
+itself is well-known, but the sketch has not been fully verified and should be
+taken with a grain of salt.
 
 \begin{theorem}[Products in the gluing category]
   The terminal object (nullary product) is
@@ -2351,10 +2354,13 @@ normalization (\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}).
     &E = \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \\
   \end{align*}
 
-  To come up with this isomorphism, it helps to recognize what the morphisms of
-  the relevant glued objects are. Some consideration reveals that the
-  components of the map \( \phi \) are given by the dotted arrows in the diagram
-  below.
+  To come up with this isomorphism, it helps to consider what the morphisms in
+  $P$ and $E$ are. Looking back to the definition of products and our proposed
+  definition for the exponentials reveals that a morphism $(d,\delta) \in P$ must fit
+  into the upper half of the diagram below, where any morphism \( (d',\delta') \in E\)
+  must fit into the lower half of the diagram. As such, the components of the
+  map \( \phi \) evaluated at some \((d, \delta) \in P \) must be the dotted arrows in
+  the lower half of the diagram below.
 
   % https://q.uiver.app/?q=WzAsMTksWzAsMCwiUl9YXFx0aW1lcyBSX1kiXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhX1hcXHRpbWVzXFxEZWx0YV9ZKSJdLFszLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGFfWikiXSxbMywwLCJSX1oiXSxbMCw3LCJcXG1hdGhmcmFre1RtfShcXERlbHRhX1gpIl0sWzEsNywiXFxtYXRoZnJha3tUbX0oe1xcRGVsdGFfWn1ee1xcRGVsdGFfWX0pIl0sWzEsNSwiUiJdLFszLDUsIntSX1p9XntSX1l9Il0sWzMsNywiXFxtYXRoZnJha3tUbX0oXFxEZWx0YV9aKV57Ul9ZfSJdLFs1LDFdLFswLDUsIlJfWCJdLFsxLDBdLFsxLDJdLFs1LDBdLFs1LDJdLFswLDNdLFsyLDZdLFsxLDRdLFsxLDNdLFswLDMsImQiXSxbMywyLCJxX1oiXSxbMCwxLCJpX1xccGkgXFxjaXJjIChxX1hcXHRpbWVzIHFfWSkiLDJdLFsxLDIsIlxcZGVsdGEiLDJdLFs2LDcsInIiXSxbNyw4LCJ7cV9afV8qIl0sWzYsNSwicSIsMl0sWzUsOCwie3FfWX1eKiBcXGNpcmMgXFx3aWRldGlsZGV7XFxtYXRoZnJha3tUbX0oXFxlcHNpbG9uKSBcXGNpcmMgaV9cXHBpfSIsMl0sWzEwLDYsImQnIiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzEwLDQsInFfWCIsMl0sWzQsNSwiXFxkZWx0YSciLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbNiwxNiwiIiwwLHsic3R5bGUiOnsibmFtZSI6ImNvcm5lciJ9fV0sWzE4LDE3LCIiLDAseyJsYWJlbF9wb3NpdGlvbiI6NDAsIm9mZnNldCI6LTUsImxldmVsIjoyLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
 \[\begin{tikzcd}
@@ -2381,16 +2387,19 @@ normalization (\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}).
 	\arrow["{\phi}", shift left=5, Rightarrow, dashed, from=4-2, to=5-2]
 \end{tikzcd}\]
 
-where
-\( \tm(\Delta_{Z})^{\tm(\Delta_{Y})} \xrightarrow{i_{e}} \tm(\Delta_{Z}^{\Delta_{Y}})\) is the
-isomorphism witnessing exponential preservation for the relative hom functor. Observing the arrows in sight, a clear choice for \( \delta' \) is
-\[ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \] The choice for \( d' \) is a more tricky
-question. \( d' \) should be an arrow into the pullback \( R \). We know nothing
-about nothing about \( R \) except that it fits into the pullback diagram above.
-The up-side of our limited knowledge of \( R \) is that it makes our choice of
-\( d' \) automatic: it must be one of the mediators required by the universal
-property of the pullback. In particular, we will want to choose \( d' = ! \) in
-the diagram below after verifying that the outer square commutes.
+where \( \tm(\Delta_{Z})^{\tm(\Delta_{Y})} \xrightarrow{i_{e}} \tm(\Delta_{Z}^{\Delta_{Y}})\) is the
+isomorphism witnessing that the relative hom functor preserves exponentials as
+in Remark~\ref{rmk:tm-cartesian-closed}. Observing the arrows in sight, a
+plausible choice for \( \delta' \) is
+\[ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \]
+
+The choice for \( d' \) is a more tricky question. \( d' \) should be an arrow
+into the pullback \( R \). We know nothing about nothing about \( R \) except
+that it fits into the pullback diagram above. The up-side of our ignorance is
+that it makes our choice of \( d' \) automatic: it must be one of the mediators
+required by the universal property of the pullback, in particular the dotted
+arrow in the diagram below. To get this dotted arrow, we need to verify that the
+diagram commutes.
 % https://q.uiver.app/?q=WzAsNixbMSwxLCJSIl0sWzAsMCwiUl9YIl0sWzEsMywiXFxtYXRoZnJha3tUbX0oe1xcRGVsdGFfWn1ee1xcRGVsdGFfWX0pIl0sWzMsMywiXFxtYXRoZnJha3tUbX0oXFxEZWx0YV9aKV57Ul9ZfSJdLFszLDEsIntSX1p9XntSX1l9Il0sWzIsMl0sWzAsNCwiciJdLFs0LDMsIntxX1p9XyoiXSxbMCwyLCJxIiwyXSxbMiwzLCJ7cV9ZfV4qIFxcY2lyYyBcXHdpZGV0aWxkZXtcXG1hdGhmcmFre1RtfShcXGVwc2lsb24pIFxcY2lyYyBpX1xccGl9IiwyXSxbMCw1LCIiLDIseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XSxbMSwyLCJcXGRlbHRhJyBcXGNpcmMgcV9YIiwyLHsiY3VydmUiOjN9XSxbMSw0LCJcXHRpbGRle2R9IiwwLHsiY3VydmUiOi0zfV0sWzEsMCwiXFxleGlzdHMhZCciLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XV0=
 \[\begin{tikzcd}
 	{R_X} \\
@@ -2409,28 +2418,29 @@ the diagram below after verifying that the outer square commutes.
 
 To verify that the outer square commutes, We need to demonstrate
 that \[ q_{Y}^{*} \circ \reallywidetilde{\tm(\epsilon) \circ i_{\pi}} \circ i_{e} \circ \reallywidetilde{\delta \circ i_{\pi}} \circ q_{X} = {q_{Z}}_{*} \circ \tilde{d} \]
-which should strike the reader as suspiciously similar to our glued morphism
-hypothesis that \[ \delta \circ i_{\pi} \circ (q_{X} \times q_{Y}) = q_{Z} \circ d \]
+which should strike the reader as suspiciously similar to the characterizing
+property of the glued morphism \( (d,\delta)\), namely
+that \[ \delta \circ i_{\pi} \circ (q_{X} \times q_{Y}) = q_{Z} \circ d \]. In what follows, we call
+this equation the gluing equation.
 
-Passing to our higher order notation in \( \renhat \), we can express the
-left-hand side of the desired equality as a ``lambda expression'' (TODO phrasing)
+To untangle this mess, we pass to the lambda notation for the transpose as in
+Chapter~\ref{chapter:TLC}. We can express the left-hand side of the desired
+equality in this notation (dropping the typing annotations and adding explicit
+variables) as
 \begin{align*}
   &\lambda y'.\, (\lambda y.\, \delta ((q_{X}(x:R_{x}, y)))) q_{Y}(y') \\
-  = &\lambda y.\, \delta (q_{X}(x: R_{X}), q_{Y}(y)) && (\alpha, \beta) \\
+  = &\lambda y.\, \delta (q_{X}(x: R_{X}), q_{Y}(y)) && (\textrm{by the $\beta$ rule}) \\
 \end{align*}
-
-The transpose of the lower composite in the original glued morphism diagram is
-\( \reallywidetilde{\delta \circ i_{\pi} \circ (q_{X} \times q_{Y})}\); it can be rendered as a lambda
-expression as \( \lambda y: R_{Y}.\, \delta(q_{X}\times q_{Y} (x : R_{X}, y))\) hence by the
+where the beta rule holds because \( \renhat \) is cartesian closed. This turns
+out to be exactly the transpose of the the left-hand side of the gluing
+equation: the transpose is
+\[ \reallywidetilde{\delta \circ i_{\pi} \circ (q_{X} \times q_{Y})} \] which can be rendered in the
+lambda notation as \[ \lambda y.\, \delta(q_{X}\times q_{Y} (x : R_{X}, y)) \] so that by the
 definition of the product functor, the left-hand side of our desired equality is
-precisely the transpose of the lower composite in the original glued morphism
-diagram.
-
-The right-hand side of the desired equality is the transpose of the upper
-composite in the glued morphism diagram so that the desired equality holds
-because transposition preserves equality of morphisms (TODO: cite? this is
-obviously true by an appeal to the lambda calculus, but I'm not sure whether
-this is a well-known theorem in cat theory.)
+precisely the transpose of left-hand side of the gluing equation. The right-hand
+side of the desired equality is evidently the transpose of the right-hand side
+of the gluing equation. Finally, since taking transposes is well-defined, we
+have the desired equality.
 
 We now summarize the rightward map for the isomorphism:
 
