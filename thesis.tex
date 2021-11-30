@@ -226,9 +226,8 @@ I don't know what to put here, but this is certainly a funny quote that should
 find a home somewhere in the thesis.
 
 \chapter*{Notation}
-Following the great masters\footnote{\(\mathfrak{Kale\,\, Ormsby}\)}, the face
-\( \mathfrak{Mathfrak} \) is used liberally and wherever possible without any
-particular convention.
+The face \( \mathfrak{Mathfrak}\) is used to denote presheaves, namely, objects
+in the category \( {\catset}^{C^{\textrm{op}}}\) for any category \( C \).
 
 
 % \chapter*{List of Abbreviations}
@@ -974,7 +973,11 @@ A more interesting algebra comes from practical engineering. We can give an
 algebra of the theory above by implementing the \emph{logic gate} operations
 NOT, AND, and OR as component circuits built with \emph{metal oxide
   semiconductor field effect transistors}, also known as \emph{MOSFETs}. You
-probably own a couple billion of them.
+probably own a couple billion of them. The reader more familiar with computer
+games than MOSFETs might be interested in Nguyen's work which exhibits an
+algebra for the same theory in \emph{Minecraft}
+\cite{nguyen_incremental_nodate}. We do not consider this algebra here, instead
+focusing on the physical algebra.
 
 \begin{figure}[h]
   \caption{A diagram of a MOSFET, by Brews ohare - CC BY-SA 3.0,
@@ -1077,8 +1080,8 @@ operation. What is essential is that such a weakening \emph{has put the input
 
 \begin{definition}[$\mathcal{L}$-algebra homomorphism]\label{def:homomorphism}
   A \emph{homomorphism} \( \phi: A \rightarrow B\) of $\mathcal{L}$-algebras $A$ and $B$ in some
-  category $\mathfrak{C}$ with finite-products is an assignment to each sort $X$
-  of a $\mathfrak{C}$-morphism \( \phi_{X} : A_{X} \rightarrow B_{X}\) between the
+  category $C$ with finite-products is an assignment to each sort $X$
+  of a $C$-morphism \( \phi_{X} : A_{X} \rightarrow B_{X}\) between the
   corresponding objects in each algebra such that diagrams of the following form
   commute:
 
@@ -1106,17 +1109,17 @@ operation. What is essential is that such a weakening \emph{has put the input
 \end{remark}
 
 \begin{remark}
-  Perhaps predictably, the $\mathfrak{C}$-valued algebras and homomorphisms of
+  Perhaps predictably, the $C$-valued algebras and homomorphisms of
   an algebraic theory $\mathcal{L}$ form a category, called
-  $\textrm{Mod}_{\mathfrak{C}}(\mathcal{L})$.
+  $\textrm{Mod}_{C}(\mathcal{L})$.
   \begin{proof}
     Per Remark~\ref{rmk:alg_func}, we consider algebras and their homomorphisms
     as functors and natural transformations respectively. The identity morphisms
     are the identity natural transformations whose component morphisms are the
-    identities of $\mathfrak{C}$. Composition of natural transformations is
+    identities of $C$. Composition of natural transformations is
     given by composition of their component morphisms, hence we may out-source
     the associativity condition to that guaranteed by the categorical structure
-    of $\mathfrak{C}$.
+    of $C$.
   \end{proof}
 \end{remark}
 
@@ -1138,7 +1141,7 @@ contexts and substitutions and thus give meaning to terms.
 \DeclarePairedDelimiter{\sem}{\llbracket}{\rrbracket}
 
 \begin{definition}[Extending a model to terms]\label{def:term model}
-  Let $A$ be an $\mathcal{L}$-algebra in a category $\mathfrak{C}$. This algebra
+  Let $A$ be an $\mathcal{L}$-algebra in a category $C$. This algebra
   extends canonically to an interpretation $\sem{-}$ of contexts by the
   following definition recursive in the structure of contexts:
   \begin{align}
@@ -1146,30 +1149,30 @@ contexts and substitutions and thus give meaning to terms.
     \sem{\varnothing} &= \mathbbm{1}_{C} \\
     \sem{\Gamma, x : X} &= \sem{\Gamma} \times A_{X}
   \end{align}
-  The (overly) careful reader will complain that $\mathfrak{C}$ doesn't
+  The (overly) careful reader will complain that $C$ doesn't
   necessarily feature a terminal object, but it turns out that a terminal object
   is guaranteed\footnote{as the nullary finite product} by the finite product
-  closure we imposed on $\mathfrak{C}$ in our definition of algebras. We are
+  closure we imposed on $C$ in our definition of algebras. We are
   good to go.
 
   Recalling more from the definition of an algebra, we know that $A$ gives
   meaning to each operation symbol \( Y_{1},\dots , Y_{k} \vdash r : Z \) as a
   morphism \( r_{A} : A_{Y_{1}} \times \cdots \times A_{Y_{k}} \rightarrow A_{Z} \) and gives meaning to
-  each constant \( c : Z \) by a morphism \( \termob_{\mathfrak{C}} \rightarrow A_{Z} \). We can
+  each constant \( c : Z \) by a morphism \( \termob_{C} \rightarrow A_{Z} \). We can
   extend this to arbitrary terms in the context
   \( \Gamma \equiv \sem{x_{1} : X_{1}, \dots , x_{n} : X_{n}} \) by the following
   recursive definition:
   \begin{align*}
     \label{eq:term interp}
     \sem{x_{i}} &: \sem{\Gamma} \equiv A_{X_{1}} \times \cdots \times A_{X_{n}} \xrightarrow{\pi_{i}} A_{X_{i}} \\
-    \sem{c} &: \sem{\Gamma} \xrightarrow{<_{!}} \mathbbm{1}_{\mathfrak{C}} \xrightarrow{c_{A}} A_{Z} \\
+    \sem{c} &: \sem{\Gamma} \xrightarrow{<_{!}} \mathbbm{1}_{C} \xrightarrow{c_{A}} A_{Z} \\
     \sem{r(u_{1}, \dots , u_{k})} &: \sem{\Gamma} \xrightarrow{\braket{\sem{u_{1}}, \dots, \sem{u_{k}}}} A_{Y_{1}} \times \cdots \times A_{Y_{k}} \xrightarrow{r_{A}} A_{Z}
   \end{align*}
   where the $\sem{u_{i}}$ are the interpretations of the sub-expressions of the
   expression in the final line, $\pi_{i}$ is the $i$th projection guaranteed to us
   by the universal property of products, and $<_{!}$ is the unique map into the
   terminal object. The angle bracket notion is used to express the product
-  functor's action on morphisms in $\mathfrak{C}$. For clarity, we write out
+  functor's action on morphisms in $C$. For clarity, we write out
   explicitly the composites for the reader:
   \begin{align*}
     \sem{x_{i}} &\equiv \pi_{i} \\
@@ -1185,9 +1188,9 @@ contexts and substitutions and thus give meaning to terms.
   \begin{enumerate}
     \item there exists in \( \cn_{\mathcal{L}}\) an $\mathcal{L}$-algebra which
           satisfies the following universal property:
-    \item Let $\mathfrak{C}$ be another category with finite products and its
+    \item Let $C$ be another category with finite products and its
           own an $\mathcal{L}$-algebra. Then the functor
-          $\sem{-} : \cn_{\mathcal{L}} \rightarrow \mathfrak{C}$ preserves finite products
+          $\sem{-} : \cn_{\mathcal{L}} \rightarrow C$ preserves finite products
           and the $\mathcal{L}$-algebra, and is the unique such functor.
   \end{enumerate}
 \end{theorem}
@@ -1316,15 +1319,15 @@ The definition comes from Taylor
           \( \lambda_{\Gamma, X, Y} : C[\Gamma \times X, Y] \rightarrow C[\Gamma, Y^{X}] \) obeying the naturality
           law:
           \[
-            \lambda_{\Gamma, X, Y} ( \mathfrak{p} \circ (\mathfrak{u} \times \id_{X})) = \lambda_{\Gamma, X, Y}(\mathfrak{p}) \circ \mathfrak{u}
+            \lambda_{\Gamma, X, Y} ( b \circ (u \times \id_{X})) = \lambda_{\Gamma, X, Y}(b) \circ u
           \]
-          for each \( \mathfrak{u} : \Gamma \rightarrow \Delta \) and
-          \( \mathfrak{p} : \Delta \times X \rightarrow Y \).
+          for each \( u : \Gamma \rightarrow \Delta \) and
+          \( b : \Delta \times X \rightarrow Y \).
         \end{enumerate}
         Looking closely, the naturality law essentially says that substitutions
         ``not touching'' the bound variable commute with lambda abstraction.
         Informally, this is a good equation to have in mind:
-        \( \mathfrak{u}^{*}(\lambda x\, . p) = \lambda x.\, (\mathfrak{u}^{*}p) \).
+        \( u^{*}(\lambda x\, . b) = \lambda x.\, (u^{*}b) \).
 \end{definition}
 
 We will say that an algebraic theory $\mathcal{L}$ \emph{has raw cartesian
@@ -1364,21 +1367,21 @@ algebraic theories) and along the new exponential objects as well.
 \begin{definition}[Beta-eta rules]
   A raw cartesian closed algebraic theory $\mathcal{L}$ satisfies the
   \emph{$\beta$-$\eta$ rules} if for all
-  \( \mathfrak{p} \in \cn_{\mathcal{L}}(\Gamma \times X,Y) \) we have the equations
+  \( b \in \cn_{\mathcal{L}}(\Gamma \times X,Y) \) we have the equations
   \begin{align*}
-    \ev{X}{Y} \circ (\lambda_{\Gamma,X,Y}(\mathfrak{p}) \times \id_{X}) &= \mathfrak{p} && (\beta) \\
+    \ev{X}{Y} \circ (\lambda_{\Gamma,X,Y}(b) \times \id_{X}) &= b && (\beta) \\
     \lambda_{Y^{X},X,Y}(\ev{X}{Y}) &= \id_{Y^{X}} && (\eta)\\
   \end{align*}
 \end{definition}
 
 These equations deserve some commentary. The beta rule says that application of
-an abstracted body $\mathfrak{p}$ to the identity gives you back the body you
-started with: the beta rule forces that application of lambda expressions does
-nothing more than substitute for the abstracted variable. The eta rule says that
-taking a function $f$, applying it to a variable $x$, then finally abstracting
-over that variable $x$ is the same operation as doing nothing to $f$. We will
-see the more familiar symbolic forms of these rules in the definition of the
-theory of the usual calculus below.
+an abstracted body $b$ to the identity gives you back the body you started with:
+the beta rule forces that application of lambda expressions does nothing more
+than substitute for the abstracted variable. The eta rule says that taking a
+function $f$, applying it to a variable $x$, then finally abstracting over that
+variable $x$ is the same operation as doing nothing to $f$. We will see the more
+familiar symbolic forms of these rules in the definition of the theory of the
+usual calculus below.
 
 We now define a notion more well-known outside of computing. Cartesian
 closed structure endows a category with the ability to take products and
@@ -1391,10 +1394,10 @@ beta-eta rules.
 \begin{definition}[Cartesian closed structure]
   Let \( C \) be a category. An \emph{exponential} of objects \( X \) and
   \( Y \) is an object $Y^{X}$ of \( C \) together with a morphism
-  \( \epsilon : Y^{X} \times X \rightarrow Y \) such that for each object \( \Gamma \) of \( \mathfrak{C}\)
-  and morphism \( p : \Gamma \times X \rightarrow Y \) there is a unique morphism
+  \( \epsilon : Y^{X} \times X \rightarrow Y \) such that for each object \( \Gamma \) of \( C \) and
+  morphism \( b : \Gamma \times X \rightarrow Y \) there is a unique morphism
   \( \tilde{p} : \Gamma \rightarrow Y^{X} \) called the \emph{exponential transpose} such that
-  \( p = \epsilon \circ (\tilde{p} \times \id_{X})\). This is a universal property: exponentials
+  \( p = \epsilon \circ (\tilde{b} \times \id_{X})\). This is a universal property: exponentials
   are unique up to unique isomorphism. A category is \emph{cartesian closed} if
   it has all finite products and all exponentials.
 \end{definition}
@@ -1412,8 +1415,8 @@ be characterized as raw cartesian closed categories that satisfy the beta-eta
 rules.
 
 \begin{theorem}[Finite-product category + raw CCS + beta-eta $\iff$ cartesian closed]\label{thm:rawbetaetaisccs}
-  Let \( \mathfrak{C} \) be a category. Then \( \mathfrak{C}\) is cartesian
-  closed if and only if \( \mathfrak{C} \) has finite products and is both raw
+  Let \( C \) be a category. Then \( C\) is cartesian
+  closed if and only if \( C \) has finite products and is both raw
   cartesian closed and satisfies the beta-eta laws.
 \end{theorem}
 
@@ -1565,9 +1568,9 @@ This final result will prove important in Chapter~\ref{chapter:gluing}.
 
 \chapter{Normalization by gluing}\label{chapter:gluing}
 \epigraph{You, you were like glue\\
-holding each of us together\\
-I slept through July\\
-while you made lines in the heather}{Fleet Foxes, ``Lorelai''}
+  holding each of us together\\
+  I slept through July\\
+  while you made lines in the heather}{Fleet Foxes, ``Lorelai''}
 
 This chapter will consider the normalization problem for the simply typed lambda
 calculus using the technology we've developed so far. Normalization comes in
@@ -1645,7 +1648,14 @@ semantic interpretations of the syntax.
             \end{tikzcd}
           \]
   \end{enumerate}
+
 \end{definition}
+
+\begin{remark}[The gluing construction]
+  When in the above we have $D=C$ and $F = \id_{C}$, we will write \( C \downarrow G\)
+  for the comma category and we will say that we have \emph{glued $C$ to $E$
+    along $G$}.
+\end{remark}
 
 \subsection{An easy instance of the comma construction: the category of renamings}
 As a warm-up example, we present the \emph{category of renamings} which can be
@@ -1680,16 +1690,18 @@ of the syntactic category:
   lambda calculus generated from a set of base types \( T \). Let \( \fin \) be
   the category whose objects are finite subsets of \( V \) and whose morphisms
   are all functions between the underlying sets. Let
-  \( \mathbb{T} : \termob_{\mathfrak{Cat}} \rightarrow \catset \) be the functor which is
-  constantly . Let \( U : \fin \rightarrow \catset \) be the forgetful functor taking
-  finite variable sets to their underlying sets and functions to functions. Now
-  by the \emph{category of renamings} we mean the \emph{opposite category} of
-  the comma category \( U \downarrow \mathbb{T} \) whose
+  \( \mathbb{T} : \termob_{\mathfrak{Cat}} \rightarrow \catset \) be the functor sending
+  the single object of the terminal category to the set \( \types\). Let
+  \( U : \fin \rightarrow \catset \) be the forgetful functor taking finite variable sets
+  to their underlying sets and functions to functions. Now by the \emph{category
+    of renamings} we mean the \emph{opposite category} of the comma category
+  \( U \downarrow \mathbb{T} \) whose
   \begin{itemize}
     \item Objects are \emph{pairs} \( (V : \fin, \Gamma : V \rightarrow \types) \), i.e.,
           finite variable list together with an assignments of types to a each
           variable. Note that we elide the final entry of the triple, since it
-          adds no extra information. These objects are precisely the contexts of
+          is always the object \( * : \termob_{\mathfrak{Cat}}\) and is
+          therefore uninformative. These objects are precisely the contexts of
           the familiar classifying category.
     \item Morphisms of contexts \( (V , \Gamma) \rightarrow (V', \Gamma')\) are functions
     \( \rho : V \rightarrow V' \) making the following diagram commute:
@@ -1700,7 +1712,7 @@ of the syntactic category:
       \end{tikzcd}
     \]
           The reason the morphisms are single functions and not pairs is that
-          the second function would not communicate any data, it would just be
+          the second function would not communicate any data, it would simply be
           taken by \( \mathbb{T}\) to the identity no matter what it is. We now
           unpack what this means. The functions \( \rho \) are
           \emph{type-preserving renamings}: for each variable \( x \in V\), we
@@ -1849,8 +1861,8 @@ defined.
   category are \emph{proof relevant Kripke logical predicates}, in a sense that
   will be more clear after a digression to follow. Following the definition of
   the comma construction, the morphisms \( (R, q, \Delta) \rightarrow (R', q', \Delta') \) are pairs
-  $(d : R \rightarrow R', \delta: \cl(\Delta', \Delta))$ are pairs of a $\renhat$ natural transformation
-  and a substitution making the following diagram commute:
+  $(d : R \rightarrow R', \delta: \cl(\Delta', \Delta))$ of a $\renhat$ natural transformation and a
+  substitution making the following diagram commute:
   % https://q.uiver.app/?q=WzAsNCxbMCwwLCJEIl0sWzIsMCwiRCciXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhKSJdLFsyLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGEnKSJdLFswLDEsImQiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXGRlbHRhKSJdLFswLDIsInFfe1xcRGVsdGF9IiwyXSxbMSwzLCJxX3tcXERlbHRhJ30iXV0=
   \[\begin{tikzcd}
       R && {R'} \\
@@ -1873,9 +1885,9 @@ defined.
 
 We can get a foothold understanding of the objects of the gluing category by
 considering them as a presheaf together with, for each \( \Gamma \), an
-interpretation \( q_{\Gamma} \) of the sets of the presheaf into the set of semantic
-terms \( \tm(\Delta)(\Gamma)\), such that the interpretation commutes with renamings in a
-way that will be further explained in just a bit.
+\emph{interpretation} \( q_{\Gamma} \) of each element in \( R(\Gamma)\) as a semantic
+term in \( \tm(\Delta)(\Gamma) = \cl(\Gamma,\Delta)\) such that the interpretation commutes with
+renamings in a way that will be further explained in just a bit.
 
 Holding off our desire to further understand the objects, we can already
 understand the morphisms. A morphism \( (d, \delta) \) is a natural transformation of
@@ -1885,7 +1897,7 @@ of the resultant presheaf \( R' \) by interpreting along \( q' \) is the same as
 interpreting the semantics of the original presheaf \( R \) along \( q \) and
 then performing a semantic transformation by substituting with \( \delta \). This
 intuition will become more clear when we define glued objects over
-\emph{presheaves of syntax} for which the interpretation \( q : R \rightarrow \tm(\Delta)\) is
+\emph{presheaves of syntax} for which the interpretation \( q : R \Rightarrow \tm(\Delta)\) is
 the actual \emph{interpretation of syntax} in the classifying category.
 
 We can now better understand the objects by understanding how the gluing
@@ -1921,10 +1933,10 @@ at the naturality diagram of \( q \):
       \arrow[from=1-5, to=3-5, mapsto]
     \end{tikzcd}\]
 
-  As mentioned before, because they are monos we may identify the component
-  morphisms with their images. We write \( |q_{\Gamma}| \subseteq \tm(\Delta)(\Gamma) \) for the image,
-  for each \( \Gamma \). Now what this diagram says is that for any
-  \( q_{\Gamma }(r \in R(\Gamma)) = t \in |q_{\Gamma}|\), we have that
+  As mentioned before, because the components \( q_{\Gamma}\) of the interpretation
+  are monos we may identify the component morphisms with their images. We write
+  \( |q_{\Gamma}| \subseteq \tm(\Delta)(\Gamma) \) for the image, for each \( \Gamma \). Now what this
+  diagram says is that for any \( q_{\Gamma }(r \in R(\Gamma)) = t \in |q_{\Gamma}|\), we have that
   \( t \circ \rho = q_{\Gamma'}(R(\rho)(r)) \in |q_{\Gamma'}|\). This is precisely the monotonicity
   condition for $\ren$-Kripke relations over \( \Delta \): containment in each
   predicate is functorial with respect to renaming \emph{up to renaming}.
@@ -1932,11 +1944,11 @@ at the naturality diagram of \( q \):
   The perspective gained above allows for a more conceptual understanding of the
   objects in the gluing category: the presheaves $R$ define context-indexed
   families of \emph{witnesses} to the inclusion of terms in the predicate, and
-  $q$ is a quotient map that forgets the difference between distinct witnesses
-  \( w, w' \in R(\Gamma) \) and whose image just records those terms
-  \( t \in \tm (\Delta)(\Gamma)\) taken to be in the predicate; insofar as $q$ is a mono,
-  these objects are exactly variable-arity Kripke relations over the context
-  \( \Delta \).
+  each \( q_{\Gamma}\) is a quotient map \emph{into its image} that forgets the
+  difference between distinct witnesses \( w, w' \in R(\Gamma) \) and whose image just
+  records those terms \( t \in \tm (\Delta)(\Gamma)\) taken to be in the predicate; insofar
+  as $q$ is a mono, these objects are exactly variable-arity Kripke relations
+  over the context \( \Delta \).
 
 \section{Presheaves of stratified neutral and normal syntax}
 In this section, we will enlist a motley crew of \emph{presheaves of syntax}
