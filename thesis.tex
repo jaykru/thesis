@@ -1619,8 +1619,8 @@ Scott's \emph{Introduction to higher order categorical logic}
 \section{The comma construction and friends}
 This section introduces a general construction that will, among other things,
 allow us to define the gluing construction from which this chapter gets its
-name. The loose idea of the comma is to glob some extra data to the objects of a
-category in a way that supports a well-defined notion of an
+name. The loose idea of the comma construction is to glob some extra data to the
+objects of a category in a way that supports a well-defined notion of an
 object-with-extra-data-morphism which preserves the attached data. This
 intuition perhaps underlies the name for the gluing construction. Our specific
 use of the gluing construction will involve gluing presheaves of syntactic terms
@@ -1647,11 +1647,11 @@ semantic interpretations of the syntax.
   \end{enumerate}
 \end{definition}
 
-\subsection{An easy comma: the category of renamings}
+\subsection{An easy instance of the comma construction: the category of renamings}
 As a warm-up example, we present the \emph{category of renamings} which can be
-nicely expressed as an instance of the comma. In elementary terms, the category
-has the same objects as the syntactic category (i.e., contexts) but the
-morphisms are a restricted class of substitutions, which are only allowed to
+nicely expressed as an instance of the comma construction. In elementary terms,
+the category has the same objects as the syntactic category (i.e., contexts) but
+the morphisms are a restricted class of substitutions, which are only allowed to
 substitute for a variable \emph{by a variable of the same type} or weaken by a
 variable. Thus the category of renamings is something like a less proof-relevant
 version of the category of contexts and substitutions in the following sense: if
@@ -1671,26 +1671,26 @@ evolve by substitution\footnote{The reader might complain now, as I did, that if
   here is that the category of weakenings lacks finite products, which precludes
   the use of a trick (which we will soon see \emph{does} work in the case of the
   category of renamings) for explicating the binding structure of its category
-  of presheaves.}. We present the category abstractly as a comma and at the
-same time spell out concretely its morphisms in terms of the substitutions of
-the syntactic category:
+  of presheaves.}. We present the category abstractly as a comma category and at
+the same time spell out concretely its morphisms in terms of the substitutions
+of the syntactic category:
 \begin{definition}[Category of renamings]
   Recall from Chapter~\ref{chapter:stlc} that \( V \) is some countably infinite
   set of variables and \( \types \) is the set of all types in the simply typed
   lambda calculus generated from a set of base types \( T \). Let \( \fin \) be
   the category whose objects are finite subsets of \( V \) and whose morphisms
   are all functions between the underlying sets. Let
-  \( \mathbb{T} : \termob_{\mathfrak{Cat}} \rightarrow \catset \) be the functor which is constantly . Let
-  \( U : \fin \rightarrow \catset \) be the forgetful functor taking finite variable sets
-  to their underlying sets and functions to functions. Now by the \emph{category
-    of renamings} we mean the \emph{opposite category} of the comma
-  \( U \downarrow \mathbb{T} \) whose
+  \( \mathbb{T} : \termob_{\mathfrak{Cat}} \rightarrow \catset \) be the functor which is
+  constantly . Let \( U : \fin \rightarrow \catset \) be the forgetful functor taking
+  finite variable sets to their underlying sets and functions to functions. Now
+  by the \emph{category of renamings} we mean the \emph{opposite category} of
+  the comma category \( U \downarrow \mathbb{T} \) whose
   \begin{itemize}
     \item Objects are \emph{pairs} \( (V : \fin, \Gamma : V \rightarrow \types) \), i.e.,
-    finite variable list together with an assignments of types to a each
-    variable. Note that we elide the final entry of the triple of the
-    comma objects, since it adds no extra information. These objects are
-    precisely the contexts of the familiar classifying category.
+          finite variable list together with an assignments of types to a each
+          variable. Note that we elide the final entry of the triple, since it
+          adds no extra information. These objects are precisely the contexts of
+          the familiar classifying category.
     \item Morphisms of contexts \( (V , \Gamma) \rightarrow (V', \Gamma')\) are functions
     \( \rho : V \rightarrow V' \) making the following diagram commute:
     \[
@@ -1699,10 +1699,10 @@ the syntactic category:
         \types \arrow{r}[swap]{\id_{\types}} & \types\\
       \end{tikzcd}
     \]
-          The reason the comma morphisms are single functions and not pairs is
-          that the second function would not communicate any data, it would just
-          be taken by \( \mathbb{T}\) to the identity no matter what it is. We
-          now unpack what this means. The functions \( \rho \) are
+          The reason the morphisms are single functions and not pairs is that
+          the second function would not communicate any data, it would just be
+          taken by \( \mathbb{T}\) to the identity no matter what it is. We now
+          unpack what this means. The functions \( \rho \) are
           \emph{type-preserving renamings}: for each variable \( x \in V\), we
           have that \( \Gamma'(\rho x) = \Gamma(x)\). In particular, this restricts \( \rho \)
           to the following classes of morphisms in the classifying category:
@@ -1775,10 +1775,11 @@ commentary on this result and for a more detailed treatment of Kripke relations
 in general.
 
 \subsection{A harder example: the gluing category; or, the category of proof-relevant Ren-Kripke relations over types}
-With the category of renamings in hand, we can now define \emph{as a comma} the
-gluing category. To define it, we first need to define a functor along which to
-take the comma. In a loose sense that will be explained in due course, this
-functor defines \( \ren \)-presheaves of \emph{open} (semantic) terms.
+With the category of renamings in hand, we can now define \emph{by the comma
+  construction} the gluing category. To define it, we first need to define a
+functor along which to take the comma. In a loose sense that will be explained
+in due course, this functor defines \( \ren \)-presheaves of \emph{open}
+(semantic) terms.
 \subsubsection{The relative hom functor}
 Every functor \( \varsigma : \mathcal{R} \rightarrow \mathcal{S} \) induces the following
 situation:
@@ -1837,12 +1838,13 @@ closed structure of \( \cl \) and that \( \tm \) preserve this structure.
 \end{remark}
 
 \subsubsection{Gluing syntax to semantics along the relative hom functor}
-We at last define the \emph{gluing category} as the comma of the category of
-renamings along the relative hom functor \( \tm \) just defined.
+We at last define the \emph{gluing category} as the comma category of the
+category of renamings taken along the relative hom functor \( \tm \) just
+defined.
 
 \begin{definition}[The gluing category]
-  The gluing category \( \gl \) is defined as the comma \( \renhat \downarrow \tm \).
-  Explicitly, its objects are triples
+  The gluing category \( \gl \) is defined as the comma category
+  \( \renhat \downarrow \tm \). Explicitly, its objects are triples
   \( (R : \renhat, q : R \Rightarrow \tm(\Delta), \Delta : \cl) \). The objects of the gluing
   category are \emph{proof relevant Kripke logical predicates}, in a sense that
   will be more clear after a digression to follow. Following the definition of
