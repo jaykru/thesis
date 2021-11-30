@@ -1854,7 +1854,12 @@ renamings along the relative hom functor \( \tm \) just defined.
     \end{tikzcd}\]
 
   We will refer to objects and morphisms in the gluing category as \emph{glued
-    objects} and \emph{glued morphisms} respectively.
+    objects} and \emph{glued morphisms} respectively. We do not have a great
+  name for the maps \( q : R \Rightarrow \tm(\Delta) \) that form part of the data of a glued
+  object. In practice, these maps will often be the semantic interpretation of
+  syntactic terms in \( \cl \), so for glued objects in general we will call
+  \( q \) the \emph{interpretation} even if $q$ is not necessarily the usual
+  semantic interpretation.
 \end{definition}
 
 We can get a foothold understanding of the objects of the gluing category by
@@ -1870,7 +1875,7 @@ on \( R \) the transformation \( d \) and then looking at the \emph{semantics}
 of the resultant presheaf \( R' \) by interpreting along \( q' \) is the same as
 interpreting the semantics of the original presheaf \( R \) along \( q \) and
 then performing a semantic transformation by substituting with \( \delta \). This
-intuition will become more clear when we define gluing objects over
+intuition will become more clear when we define glued objects over
 \emph{presheaves of syntax} for which the interpretation \( q : R \rightarrow \tm(\Delta)\) is
 the actual \emph{interpretation of syntax} in the classifying category.
 
@@ -2247,10 +2252,10 @@ these are the ones we shall prove about the normalization we plan to construct.
 The strength of the approach we have built towards so far is that the proofs of
 the above properties will essentially fall out of having constructed the
 normalization function as a composite (with the right domain and codomain) of
-some maps in the gluing category. It should be said that the above are not a
-complete enumeration of the properties one might request of a normalization
-function. Some theoreticians might demands that normal forms are \emph{fixed} by
-the normalization function; that is, \( \nf_{\tau}^{\Gamma}(N) = N\) for any normal form
+some glued maps. It should be said that the above are not a complete enumeration
+of the properties one might request of a normalization function. Some
+theoreticians might demands that normal forms are \emph{fixed} by the
+normalization function; that is, \( \nf_{\tau}^{\Gamma}(N) = N\) for any normal form
 $N$. We do not show this; for that, refer the reader to Fiore
 \cite{fiore_semantic_2002}.
 
@@ -2280,7 +2285,7 @@ this intro]
   \end{align*}
 
   form a functor \(\semproj : \gl \rightarrow \cl \) which \emph{forgets the syntax}
-  leaving only the semantic components of a gluing object or gluing morphism.
+  leaving only the semantic components of a glued object or glued morphism.
 
   We similarly get a functor \( \synproj : \gl \rightarrow \renhat \) which strips away
   the semantics leaving only the syntax defined by
@@ -2347,7 +2352,7 @@ normalization (\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}).
   \end{align*}
 
   To come up with this isomorphism, it helps to recognize what the morphisms of
-  the relevant gluing objects are. Some consideration reveals that the
+  the relevant glued objects are. Some consideration reveals that the
   components of the map \( \phi \) are given by the dotted arrows in the diagram
   below.
 
@@ -2368,7 +2373,7 @@ normalization (\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}).
 	\arrow["r", from=6-2, to=6-4]
 	\arrow["{{q_Z}_*}", from=6-4, to=8-4]
 	\arrow["q"', from=6-2, to=8-2]
-	\arrow["{{q_Y}^* \circ \widetilde{\mathfrak{Tm}(\epsilon) \circ i_\pi}}"', from=8-2, to=8-4]
+	\arrow["{{q_Y}^* \circ \reallywidetilde{\mathfrak{Tm}(\epsilon) \circ i_\pi}}"', from=8-2, to=8-4]
 	\arrow["{d'}", dashed, from=6-1, to=6-2]
 	\arrow["{q_X}"', from=6-1, to=8-1]
 	\arrow["{\delta'}"', dashed, from=8-1, to=8-2]
@@ -2379,7 +2384,7 @@ normalization (\cite{sterling_normalization_2018}, \cite{fiore_semantic_2002}).
 where
 \( \tm(\Delta_{Z})^{\tm(\Delta_{Y})} \xrightarrow{i_{e}} \tm(\Delta_{Z}^{\Delta_{Y}})\) is the
 isomorphism witnessing exponential preservation for the relative hom functor. Observing the arrows in sight, a clear choice for \( \delta' \) is
-\[ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \] The choice for \( d' \) is a trickier
+\[ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \] The choice for \( d' \) is a more tricky
 question. \( d' \) should be an arrow into the pullback \( R \). We know nothing
 about nothing about \( R \) except that it fits into the pullback diagram above.
 The up-side of our limited knowledge of \( R \) is that it makes our choice of
@@ -2403,8 +2408,8 @@ the diagram below after verifying that the outer square commutes.
 \end{tikzcd}\]
 
 To verify that the outer square commutes, We need to demonstrate
-that \[ q_{Y}^{*} \circ \widetilde{\tm(\epsilon) \circ i_{\pi}} \circ i_{e} \circ \widetilde{\delta \circ i_{\pi}} \circ q_{X} = {q_{Z}}_{*} \circ \tilde{d} \]
-which should strike the reader as suspiciously similar to our gluing morphism
+that \[ q_{Y}^{*} \circ \reallywidetilde{\tm(\epsilon) \circ i_{\pi}} \circ i_{e} \circ \reallywidetilde{\delta \circ i_{\pi}} \circ q_{X} = {q_{Z}}_{*} \circ \tilde{d} \]
+which should strike the reader as suspiciously similar to our glued morphism
 hypothesis that \[ \delta \circ i_{\pi} \circ (q_{X} \times q_{Y}) = q_{Z} \circ d \]
 
 Passing to our higher order notation in \( \renhat \), we can express the
@@ -2414,15 +2419,15 @@ left-hand side of the desired equality as a ``lambda expression'' (TODO phrasing
   = &\lambda y.\, \delta (q_{X}(x: R_{X}), q_{Y}(y)) && (\alpha, \beta) \\
 \end{align*}
 
-The transpose of the lower composite in the original gluing morphism diagram is
-\( \widetilde{\delta \circ i_{\pi} \circ (q_{X} \times q_{Y})}\); it can be rendered as a lambda
+The transpose of the lower composite in the original glued morphism diagram is
+\( \reallywidetilde{\delta \circ i_{\pi} \circ (q_{X} \times q_{Y})}\); it can be rendered as a lambda
 expression as \( \lambda y: R_{Y}.\, \delta(q_{X}\times q_{Y} (x : R_{X}, y))\) hence by the
 definition of the product functor, the left-hand side of our desired equality is
-precisely the transpose of the lower composite in the original gluing morphism
+precisely the transpose of the lower composite in the original glued morphism
 diagram.
 
 The right-hand side of the desired equality is the transpose of the upper
-composite in the gluing morphism diagram so that the desired equality holds
+composite in the glued morphism diagram so that the desired equality holds
 because transposition preserves equality of morphisms (TODO: cite? this is
 obviously true by an appeal to the lambda calculus, but I'm not sure whether
 this is a well-known theorem in cat theory.)
@@ -2431,7 +2436,7 @@ We now summarize the rightward map for the isomorphism:
 
 \begin{align*}
   \phi_{1}(d) &= d' && (\textrm{the unique mediating arrow from the argument above})\\
-  \phi_{2}(\delta) &= i_{e} \circ \widetilde{\delta \circ i_{\pi}}
+  \phi_{2}(\delta) &= i_{e} \circ \reallywidetilde{\delta \circ i_{\pi}}
 \end{align*}
 
 
@@ -2447,7 +2452,7 @@ With our maps in hand, we can verify that they form a bijection:
 
 \begin{align*}
   \psi_{1}(\phi_{1}(d)) &= \epsilon \circ ((d' \circ r) \times \id) \\
-  \psi_{2}(\phi_{2}(\delta)) &= \tm(\epsilon) \circ ((i_{e} \circ \widetilde{\delta \circ i_{\pi}}) \times \id) \\
+  \psi_{2}(\phi_{2}(\delta)) &= \tm(\epsilon) \circ ((i_{e} \circ \reallywidetilde{\delta \circ i_{\pi}}) \times \id) \\
 \end{align*}
 
 Because we have defined \( d' \) by the universal property of the pullback, we
@@ -2455,7 +2460,7 @@ have that \( d' \circ r = \tilde{d} \) whence
 \( \psi_{1}(\phi_{1}(d)) = \epsilon \circ (\tilde{d} \times \id) \) so that \( \psi_{1}(\psi_{1}(\d)) = d \)
 by the universal property of the transpose in \( \renhat \).
 
-The second equality is a little trickier. Both of these are the universal
+The second equality is a little more tricky. Both of these are the universal
 property for the relevant transpose up to squinting, so I think they should be
 the identity...
 
@@ -2526,7 +2531,7 @@ substitutions.
 \begin{definition}[Gluing syntax and semantics of variables]
   We define the glued
   object \[ \nu_{\tau} = \yonedabar(\tau) = (\varpsh, \varpsh \rightarrow \tm(\tau), \tau)\] where the
-  components of the gluing map are the interpretation of terms in the
+  components of the interpretation are the usual interpretation of terms in the
   classifying category.
 \end{definition}
 
@@ -2560,7 +2565,7 @@ algebra we define will be constructed by gluing together the syntactic
     \[ (\var_{\tau} : \varpsh \rightarrow \mathfrak{Ne}_{\tau} , \id_{\sem{\tau}})\]
     is a map \( \nu_{\tau} \rightarrow \mu_{\tau} \) in \( \renhat \downarrow \tm \).
 
-    The gluing property for this pair follows from the fact that
+    That this pair forms a glued morphism follows from the fact that
     \( (m,n) : (\mathfrak{Ne},\mathfrak{Nf}) \rightarrow (\tm, \tm)\) is a
     \( NN \)-homomorphism. In particular, we have that the following
     diagram commutes:
@@ -2582,8 +2587,8 @@ algebra we define will be constructed by gluing together the syntactic
     \[ (\fst_{\tau}^{\tau'} : \mathfrak{Ne}_{\tau*\tau'} \rightarrow \mathfrak{Ne}_{\tau}, \pi_{1} : \sem{\tau} \times \sem{\tau'} \rightarrow \sem{\tau}) \]
     is a map \( \mu_{\tau*\tau'} \rightarrow \mu_{\tau} \) in \( \renhat \downarrow \tm \).
 
-    The gluing property for this pair again follows from the fact that
-    \( (m,n) : (\mathfrak{Ne},\mathfrak{Nf}) \rightarrow (\tm, \tm)\) is a
+    That this pair forms a glued morphisms again follows from the fact
+    that \( (m,n) : (\mathfrak{Ne},\mathfrak{Nf}) \rightarrow (\tm, \tm)\) is a
     \( NN \)-homomorphism. In particular, we have that the following
     diagram commutes:
 
@@ -2730,9 +2735,9 @@ To come up with such maps, we shall produce some intermediate maps
 \]
 in the gluing category. Setting \( \downarrow^{\tau} = \synproj (\Downarrow^{\tau})\) and
 \( \uparrow^{\tau} = \synproj(\Uparrow^{\tau})\), we find that the triangles above follow from
-demonstrating that the above gluing maps project in the semantics onto the
+demonstrating that the above glued maps project in the semantics onto the
 identity: \( \semproj(\Downarrow^{\tau}) = \id_{\sem{\tau}} = \semproj(\Uparrow^{\tau})\). This follows
-by considering the universal property of a gluing morphism. In the case of the
+by considering the universal property of a glued morphism. In the case of the
 reflect map, we get a diagram like this
 
 % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDAsIlxcbWF0aGZyYWt7Un1fXFx0YXUiXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMiwyLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXHBpX3tcXHRleHRybXtzZW19fShcXFVwYXJyb3dee1xcdGF1fSkpPVxcdGV4dHJte2lkfSIsMl0sWzAsMiwibV9cXHRhdSIsMl0sWzAsMSwiXFxwaV97XFx0ZXh0cm17c3lufX0oXFxVcGFycm93XlxcdGF1KSA9XFx1cGFycm93XlxcdGF1Il0sWzEsMywicl9cXHRhdSIsMV1d
@@ -2752,7 +2757,7 @@ required glued maps.
 
 \section{Glued reification and reflection}\label{def:reify-reflect}
 While defining these glued maps as pairs of suitable morphisms, we must take
-care to verify that the pairs satisfy the gluing condition. Fortunately, the
+care to verify that the pairs form actual glued morphisms. Fortunately, the
 careful setup in the preceding pages makes this process almost automatic.
 \begin{definition}
   The glued maps are defined by induction on the type structure of \( \types \):
@@ -2868,8 +2873,8 @@ input term. This result is stated but not proven in Fiore's extended abstract
               \semproj (\Uparrow^{\tau \rightarrow \tau'}) &= \semproj (\reallywidetilde{\Uparrow^{\tau} \circ（\app_{\tau'}^{\tau}, \epsilon）\circ (\id \times \Downarrow^{\tau})}) \\
                                     &= \reallywidetilde{\semproj (\Uparrow^{\tau}) \circ \semproj (\app_{\tau'}^{\tau},\epsilon) \circ \semproj (\id \times \Downarrow^{\tau})} && \textrm{(by functoriality of $\semproj$)} \\
                                     &= \reallywidetilde{\id \circ \epsilon \circ (\id \times \id)} && \textrm{(induction hypothesis, definition of $\semproj$)} \\
-                                    &= \reallywidetilde{\id \circ \id} && \textrm{(UP of the transpose, and since $\widetilde{\id} = \id$)} \\
-                                    &= \widetilde{\id} \\
+                                    &= \reallywidetilde{\id \circ \id} && \textrm{(UP of the transpose, and since $\reallywidetilde{\id} = \id$)} \\
+                                    &= \reallywidetilde{\id} \\
                                     &= \id \\
             \end{align*} as required.
 
@@ -2939,9 +2944,10 @@ so with ease.
 \end{theorem}
 \begin{proof}
   Per the version of the Yoneda lemma from Definition~\ref{def:yonedabar}, we
-  have that the composite \( n_{\tau} \circ ((d, \delta) \mapsto d(\id))\) of the gluing map for
-  normal forms with the isomorphism witnessing the Yoneda lemma is the semantic
-  projection \( \semproj \). So it suffices to show that
+  have that the composite \( n_{\tau} \circ ((d, \delta) \mapsto d(\id))\) of the semantic
+  interpretation of normal forms in \( \cl \) with the isomorphism witnessinga
+  the Yoneda lemma is the semantic projection \( \semproj \). So it suffices to
+  show that
   \( \semproj (\Downarrow^{\tau} \sem{\Gamma \vdash t : \tau}_{\gl} (\Uparrow_{\Gamma}v_{\Gamma}) ) = \sem{\Gamma \vdash t : \tau}_{\cl} \).
   By Lemma~\ref{lem:sem-pi-is-id-endofunctor}, the interpretation of terms in
   the gluing category extends the interpretation of terms in the classifying
