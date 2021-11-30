@@ -1631,7 +1631,7 @@ pair of a syntactic transformation and a substitution which commute with the
 semantic interpretations of the syntax.
 
 \begin{definition}[Comma category]
-  Let $E,D,C$ be categories and $F: D \rightarrow C \leftarrow E : G$ be a pair of functors sharing
+  Let $E,D,C$ be categories and \[F: D \rightarrow C \leftarrow E : G \] be a pair of functors sharing
   their codomain $C$. The comma category \( F \downarrow G \) has as its
   \begin{enumerate}
     \item Objects: triples \( (d : D, Fd \xrightarrow{f} Ge, e : E) \)
@@ -1666,12 +1666,12 @@ term and its normal form.) We will understand this problem in greater detail in
 Remark~\ref{rmk:syntactic-cat-bad}. Concisely, the category of renamings allows
 us to define the presheaves we need while not losing track of how contexts
 evolve by substitution\footnote{The reader might complain now, as I did, that if
-  we only care about tracking how contexts evolve by substitutionsn then we
+  we only care about tracking how contexts evolve by substitutions then we
   should simply work with the category of context \emph{weakenings}. The problem
   here is that the category of weakenings lacks finite products, which precludes
   the use of a trick (which we will soon see \emph{does} work in the case of the
   category of renamings) for explicating the binding structure of its category
-  of presheaves}. We present the category abstractly as a comma and at the
+  of presheaves.}. We present the category abstractly as a comma and at the
 same time spell out concretely its morphisms in terms of the substitutions of
 the syntactic category:
 \begin{definition}[Category of renamings]
@@ -1680,8 +1680,7 @@ the syntactic category:
   lambda calculus generated from a set of base types \( T \). Let \( \fin \) be
   the category whose objects are finite subsets of \( V \) and whose morphisms
   are all functions between the underlying sets. Let
-  \( \mathbb{T} : \fin \rightarrow \catset \) be the functor which is constantly
-  \( \types \) on objects and constantly \( \id_{\types}\) on morphisms. Let
+  \( \mathbb{T} : \termob_{\mathfrak{Cat}} \rightarrow \catset \) be the functor which is constantly . Let
   \( U : \fin \rightarrow \catset \) be the forgetful functor taking finite variable sets
   to their underlying sets and functions to functions. Now by the \emph{category
     of renamings} we mean the \emph{opposite category} of the comma
@@ -1718,11 +1717,11 @@ the syntactic category:
 \end{definition}
 
 \begin{remark}\label{rmk:reninclusioncl}
-  There is an obvious inclusion \( \iota : \ren \rightarrow \cl \) which takes contexts to
-  contexts and casts renamings as change-of-variable substitutions. When going
-  between \( \ren \) and \( \cl \), we will take the liberty to implicitly
+  We write for the functor \( \iota : \ren \rightarrow \cl \) which takes contexts to contexts
+  and casts renamings as change-of-variable (or weakening) substitutions. When
+  going between \( \ren \) and \( \cl \), we will take the liberty to implicitly
   insert this coercion as needed without further warning. It turns out that this
-  inclusion is \emph{faithful} and thus witnesses \( \ren \) as a
+  functor is \emph{faithful} and thus witnesses \( \ren \) as a
   \emph{subcategory} of the syntactic category.
 \end{remark}
 
@@ -1737,7 +1736,7 @@ category.
 \begin{definition}[$C$-Kripke relation]
   Let $C$ and $S$ be categories. For a functor \( \varsigma : C \rightarrow S \), a
   \emph{$C$-Kripke relation} $R$ of \emph{arity} $\varsigma$ over an object \( A \) of
-  \( S \) is a family of sets \( \{ R(c) \subseteq S[\varsigma(c), A]\}_{c \in C}\) satisfying the
+  \( S \) is a family of sets \( \{ R(c) \subseteq S(\varsigma(c), A)\}_{c \in C}\) satisfying the
   following \emph{monotonicity} condition:
 
   For each morphism \( \rho : c' \rightarrow c \) in \( C \) and every \( a : \varsigma(c) \rightarrow A \) in
@@ -1848,7 +1847,7 @@ renamings along the relative hom functor \( \tm \) just defined.
   category are \emph{proof relevant Kripke logical predicates}, in a sense that
   will be more clear after a digression to follow. Following the definition of
   the comma construction, the morphisms \( (R, q, \Delta) \rightarrow (R', q', \Delta') \) are pairs
-  $(d : R \rightarrow R', \delta: \cl[\Delta', \Delta])$ are pairs of a $\renhat$ natural transformation
+  $(d : R \rightarrow R', \delta: \cl(\Delta', \Delta))$ are pairs of a $\renhat$ natural transformation
   and a substitution making the following diagram commute:
   % https://q.uiver.app/?q=WzAsNCxbMCwwLCJEIl0sWzIsMCwiRCciXSxbMCwyLCJcXG1hdGhmcmFre1RtfShcXERlbHRhKSJdLFsyLDIsIlxcbWF0aGZyYWt7VG19KFxcRGVsdGEnKSJdLFswLDEsImQiXSxbMiwzLCJcXG1hdGhmcmFre1RtfShcXGRlbHRhKSJdLFswLDIsInFfe1xcRGVsdGF9IiwyXSxbMSwzLCJxX3tcXERlbHRhJ30iXV0=
   \[\begin{tikzcd}
@@ -2167,7 +2166,7 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
   family \( \{ \mathfrak{L}_{\tau}(\Delta)\}_{\Delta\in\cl}\) essentially as before, and use
   the following presheaf action:
   \begin{align*}
-    \cl[\Delta,\Gamma] &\rightarrow \catset[\mathfrak{L}_{\tau}(\Gamma), \mathfrak{L}_{\tau}(\Delta)] \\
+    \cl(\Delta,\Gamma) &\rightarrow \catset(\mathfrak{L}_{\tau}(\Gamma), \mathfrak{L}_{\tau}(\Delta)) \\
     \delta &\mapsto (t \mapsto \delta^{*} t)
   \end{align*}
   which acts by actually performing the substitution on a term in the set. This
@@ -2288,7 +2287,7 @@ this intro]
   \begin{align*}
     \gl &\rightarrow \cl \\
     (R, q, \Delta) &\mapsto \Delta \\\\
-    \gl[(R,q,\Delta), (R', q', \Delta')] &\rightarrow \cl[\Delta, \Delta'] \\
+    \gl((R,q,\Delta), (R', q', \Delta')) &\rightarrow \cl(\Delta, \Delta') \\
     (d, \delta) &\mapsto \delta \\
   \end{align*}
 
@@ -2348,7 +2347,7 @@ taken with a grain of salt.
 \begin{sketch}
   The universal property for exponentials is encoded by the product-hom
   adjunction. It suffices to show an isomorphism
-  \[ \gl[(R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \cong \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \]
+  \[ \gl((R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})) \cong \gl((R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}) \]
 
   recalling the definition of products in the gluing category, we must show
 
@@ -2357,8 +2356,8 @@ taken with a grain of salt.
   where
   \begin{align*}
     &\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{i_{\pi}} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1}) \\
-    &P = \gl[(R_{X} \times R_{Y}, i_{\pi} \circ (q_{X} \times q_{Y}),  \Delta_{X} \times \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})] \\
-    &E = \gl[(R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}] \\
+    &P = \gl((R_{X} \times R_{Y}, i_{\pi} \circ (q_{X} \times q_{Y}),  \Delta_{X} \times \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})) \\
+    &E = \gl((R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}) \\
   \end{align*}
 
   To come up with this isomorphism, it helps to consider what the morphisms in
@@ -2435,13 +2434,10 @@ equality in this notation (dropping the explicit type annotations and adding
 explicit variables for both abstracted variables and ordinary free variables
 representing morphism inputs) as
 \begin{align*}
-  q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(f,y))) \circ \tm(\delta)(x) \circ q_{X} &= q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(\tm(\delta(x)),y))) \circ q_{X}\\
-
-                                                               &= q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(\tm(\delta(x)),y))) \circ q_{X} \\
+  q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(f,y))) \circ \tm(\tilde{\delta})(x) \circ q_{X} &= q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(\tm(\delta(x)),y))) \circ q_{X}\\
+                                                               &= q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(\tm(\tilde{\delta}(x)),y))) \circ q_{X} \\
                                                                &= q_{Y}^{*} \circ (\lambda y.\, \tm(\delta)(i_{\pi}(x,y))) \circ q_{X} \\
                                                                &= \lambda y.\, \tm(\delta)(i_{\pi}(q_{X}(x),q_{Y}(y)))
-
-
 \end{align*}
 where the second and third steps respectively follow from associativity of
 composition and the lifting along \( \tm \) of the universal property of
@@ -2452,7 +2448,7 @@ What we are left with is exactly the transpose of the left-hand side of the
 gluing equation:
 \begin{align*}
   \reallywidetilde{\tm(\delta) \circ i_{\pi} \circ (q_{X} \times q_{Y})} &= \lambda y.\, \tm(\delta) (i_{\pi}((q_{X}\times q_{Y}) (x, y))) \\
-                                                     &= \lambda y.\, \tm(\delta (i_{\pi}(q_{X}(x),q_{Y}(y))))
+                                                     &= \lambda y.\, \tm(\delta) (i_{\pi}(q_{X}(x),q_{Y}(y)))
 \end{align*}
 Moreover, the right-hand side of the desired equality is evidently the transpose
 of the right-hand side of the gluing equation. Because taking transposes is
@@ -2505,7 +2501,7 @@ objects for an algebra of the theory \( NN \).
   \end{align*}
   where
   \begin{align*}
-    (\underline{\iota}_{\Gamma})_{\Delta} : \ren[\Delta, \Gamma] &\rightarrow \cl[\Delta, \Gamma] \\
+    (\underline{\iota}_{\Gamma})_{\Delta} : \ren(\Delta, \Gamma) &\rightarrow \cl(\Delta, \Gamma)\\
     \rho &\mapsto \iota(\rho) \\
   \end{align*}
 
@@ -2529,8 +2525,8 @@ and satisfies the following form of the Yoneda lemma:
 % https://q.uiver.app/?q=WzAsNixbMCwwLCIoZCxcXGRlbHRhKSJdLFsyLDAsImQoXFxpZCkiXSxbMCwxLCJcXGdsW1xcb3ZlcmxpbmV7XFx5b25lZGEoLSl9LCAoUixxLFxcRGVsdGEpXSJdLFsyLDEsIlIoLSkiXSxbMSwyLCJcXGNsW1xcaW90YSgtKSxcXERlbHRhXT1cXHRtKFxcRGVsdGEpIl0sWzEsMV0sWzAsMSwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibWFwcyB0byJ9fX1dLFsyLDMsIlxcY29uZyJdLFszLDQsInEiXSxbMiw0LCJcXHNlbXByb2oiLDJdXQ==
 \[\begin{tikzcd}
 	{(d,\delta)} && {d(\id)} \\
-	{\gl[\overline{\yoneda}(-), (R,q,\Delta)]} & {} & {R(-)} \\
-	& {\cl[\iota(-),\Delta]=\tm(\Delta)}
+	{\gl(\overline{\yoneda}(-), (R,q,\Delta))} & {} & {R(-)} \\
+	& {\cl(\iota(-),\Delta)=\tm(\Delta)}
 	\arrow[maps to, from=1-1, to=1-3]
 	\arrow["\cong", from=2-1, to=2-3]
 	\arrow["q", from=2-3, to=3-2]
@@ -2913,7 +2909,7 @@ the desired diagram from Section~\ref{sec:taking-stock}. We can now define a
 function \( \normalize : \mathfrak{L}_{\tau}(\Gamma) \rightarrow \mathfrak{Nf}_{\tau}(\Gamma)\) as the
 composite
 
-\[ \mathfrak{L}_{\tau}(\Gamma) \xrightarrow{l_{\tau}} \tm(\tau)(\Gamma) \xrightarrow{\sem{-}} \gl [\sem{\Gamma}, \sem{\tau}] \xrightarrow{(\Uparrow_{\Gamma} v_{\Gamma})^{*} \circ {\Downarrow^{\tau}}_{*}} \gl [\yoneda(\Gamma), \eta_{\tau}] \xrightarrow[\cong]{(d,\delta) \mapsto d(\id_{\Gamma})} \nfpsh(\Gamma) \]
+\[ \mathfrak{L}_{\tau}(\Gamma) \xrightarrow{l_{\tau}} \tm(\tau)(\Gamma) \xrightarrow{\sem{-}} \gl (\sem{\Gamma}, \sem{\tau}) \xrightarrow{(\Uparrow_{\Gamma} v_{\Gamma})^{*} \circ {\Downarrow^{\tau}}_{*}} \gl(\yoneda(\Gamma), \eta_{\tau}) \xrightarrow[\cong]{(d,\delta) \mapsto d(\id_{\Gamma})} \nfpsh(\Gamma) \]
 
 where
 \begin{align*}
