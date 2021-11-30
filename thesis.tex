@@ -322,23 +322,28 @@ type\footnote{in the same sense as above, only with much more complicated type
   formers and rules} theory. Such proof systems leverage a principle called the
 \emph{Curry-Howard isomorphism}, which allows one to represent theorems as
 \emph{types} and proofs as \emph{programs}. The advanced type theories of such
-systems allow one to state the sort of universally and existentially quantified
-propositions one often encounters in mathematics. An \emph{absolutely critical}
-property for systems like this is that the proof construction language (remember
-that this is analogous to a programming language according to the Curry-Howard
-isomorphism) be terminating for the following reason. Suppose you have stated a
-proposition $P$. The Curry-Howard isomorphism allows us to represent $P$ by a
-type $T_{P}$ such that constructing a term (a program potentially with
-parameters) $t$ with type $T_{P}$ amounts to proving the proposition $P$. Given
-any type, I can give you a non-terminating program of that type. This is easiest
-to see by putting unguarded termination in the language as a form of
-non-termination. The program simply calls itself recursively forever, infinitely
-passing the buck but ostensibly having the desired type. Below we demonstrate
-how this can be done by manually deactivating in the Coq proof assistant safety
-features expressly intended to rule out such definitions.
+systems allow one to state and prove the sort of universally and existentially
+quantified propositions one often encounters in mathematics. An \emph{absolutely
+  critical} property for systems like this is that the proof construction
+language (remember that this is analogous to a programming language according to
+the Curry-Howard isomorphism) be terminating, for the following reason. Suppose
+you have stated a proposition $P$. The Curry-Howard isomorphism allows us to
+represent $P$ by a type $T_{P}$ such that constructing a term (a program
+potentially with parameters) $t$ with type $T_{P}$ amounts to proving the
+proposition $P$. Given any type, I can give you a non-terminating program of
+that type. This is easiest to see by putting unguarded termination in the
+language as a form of non-termination. The program simply calls itself
+recursively forever, infinitely passing the buck but ostensibly having the
+desired type. Let's check out an example in the Coq proof assistant; we will be
+deriving a term of type False (the type which has no term constructors, and
+hence really ought to be uninhabited.) You could perform this same construction
+for any type you choose, even if it would be redundant now that we have a False
+term (which gives us a term of any other type by trivial case analysis). We
+first manually deactivate a Coq safety feature expressly intended to rule out
+such definitions.
 
 \begin{verbatim}
-j@computer ~ % coqtop
+j@proofmonkey ~ % coqtop
 Welcome to Coq 8.14.0
 
 Coq < Unset Guard Checking.
@@ -350,7 +355,7 @@ falso is recursively defined (guarded on 1st argument)
 
 If we reset \emph{guard checking}, which places restrictions on the allowed
 forms of recursive definitions so that they are \emph{well-founded}, we find
-that Cod refuses this definition.
+that Coq refuses this definition.
 
 \begin{verbatim}
 Coq < Set Guard Checking.
@@ -375,20 +380,35 @@ can easily prove false.
 
 [TODO: Talk about how closed normalization is typically proved using ordinary logical predicates]
 
-[TODO: Talk about open normalization somewhere nearby, and its importance in proof
-assistants. Carefully express the difference between closed and open
-normalization, why one would want such theorems. Open normalization is strictly stronger than closed normalization, but why is it useful? What's the difference between saying that all closed instances are normalizing vs. an open term itself is normalizing...]
+[TODO: Talk about open normalization somewhere nearby, and its importance in
+proof assistants. Carefully explain the difference between closed and open
+normalization, why one would want such theorems. Open normalization is strictly
+stronger than closed normalization, but why is it useful? What's the difference
+between saying that all closed instances are normalizing vs. an open term itself
+is normalizing...]
 
-[TODO: Our method + assumed background; mea culpa]
+The methods used in this thesis come from category theory and in particular
+topos theory, but only basic familiarity\footnote{the kind that one might obtain
+  in a text such as Riehl's \cite{riehl_category_nodate} or Awodey's
+  \cite{awodey_category_2010}.} with category theory is assumed. We will also
+make use of many of the basic tools of programming language theory without much
+commentary. In particular we expect that the reader has a working knowledge of
+type systems, grammars, etc. For these essentials, we refer the reader to
+Pierce's textbook \cite{pierce_types_2002}. I regret that I wasn't able to fully
+treat these topics in this thesis, but such a document would have been twice as
+long and I'm just one lad.
+
+The study of this mountain of prerequisites is well worth it, as the benefits of
+the methods we use are many. First of all, the \emph{Artin gluing} construction
+which is key to our normalization development enables us to give a far more
+conceptual treatment of this problem. Our particular instance of the Artin
+gluing problem reframes the problem into a
 
 [TODO: method+: more constructive and more conceptual; the structure of our
 constructions reflect the result we attempt to prove in a very clear way]
 
 [TODO: method+: our method is constructive, which, together with the fact that
-the result is open normlization means that we are giving a term reducer]
-
-
-
+the result is open normalization means that we are giving a term reducer]
 
 \chapter[Functorial semantics]{Functorial semantics: sketches and their models; algebraic theories and their algebras}\label{chapter:functorial_semantics}
 In this chapter we will develop tools for reasoning about (syntactic)
