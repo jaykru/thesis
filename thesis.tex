@@ -1855,7 +1855,7 @@ renamings along the relative hom functor \( \tm \) just defined.
       \\
       {\mathfrak{Tm}(\Delta)} && {\mathfrak{Tm}(\Delta')}
       \arrow["d", from=1-1, to=1-3]
-      \arrow["{\mathfrak{Tm}(\delta)}", from=3-1, to=3-3]
+      \arrow["{\mathfrak{Tm}(\delta)}", from=3-1, to=3-3, swap]
       \arrow["{q}"', from=1-1, to=3-1]
       \arrow["{q'}", from=1-3, to=3-3]
     \end{tikzcd}\]
@@ -1894,7 +1894,7 @@ We can recover ordinary, proof-\emph{irrelevant} variable-arity Kripke relations
 as a subcategory of the gluing category. In particular, ordinary variable-arity
 Kripke relations arise as those objects
 \( (D : \renhat, q : D \Longrightarrow \tm (\Delta), \Delta : \cl) \) of the gluing category whose
-quotient map $q$ is a component-wise monomorphism; i.e., for each
+interpretation map $q$ is a component-wise monomorphism; i.e., for each
 \( \Gamma \in \ren \), we have that \( q_{\Gamma} : D(\Gamma) \rightarrowtail \tm (\Delta)(\Gamma) \) is a monomorphism.
 Here's why: recalling the definition of $\ren$-Kripke relations over $\tau \in \cl$,
 we need to find in these data a $\ren$-indexed family \( \{ R_{\Gamma}\}_{\Gamma \in \ren}\)
@@ -1903,17 +1903,17 @@ condition: for any renaming \( \rho : \Gamma' \rightarrow \Gamma \), if \( t : \
 \( R_{\Gamma}\), then we have that \( t \circ \rho : \Gamma' \rightarrow \tau \) is in \( R_{\Gamma'}\). Looking
 again to our proposed Kripke predicate objects of the gluing category, we can
 see that the presheaf \( R \) together with the natural mono \( q \) define for
-each \( \Gamma \) a subset of the substitutions \( \Gamma \rightarrow \tau \).
-It is tempting to dismiss the naturality of $q$ as bureaucracy, but naturality
-turns out to be essential to recovering the monotonicity condition. To see this,
-we need to look at the naturality diagram of \( q \):
+each \( \Gamma \) a subset of the substitutions \( \Gamma \rightarrow \tau \). It is tempting to
+dismiss the naturality of $q$ as bureaucracy, but naturality turns out to be
+essential to recovering the monotonicity condition. To see this, we need to look
+at the naturality diagram of \( q \):
 
   \[\begin{tikzcd}
       {R (\Gamma)} &&& {\tm(\Delta) (\Gamma)} & t \\
       \\
       {R (\Gamma')} &&& {\tm(\Delta) (\Gamma')} & {t \circ \rho}
       \arrow["{q_{\Gamma}}", from=1-1, to=1-4, rightarrowtail]
-      \arrow["{q_{\Gamma'}}", from=3-1, to=3-4, rightarrowtail]
+      \arrow["{q_{\Gamma'}}", from=3-1, to=3-4, rightarrowtail,swap]
       \arrow["{R (\rho)}"', from=1-1, to=3-1]
       \arrow["{\tm(\Delta) (\rho)}", from=1-4, to=3-4]
       \arrow[from=1-5, to=3-5, mapsto]
