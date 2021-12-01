@@ -1593,48 +1593,49 @@ This final result will prove important in Chapter~\ref{chapter:gluing}.
   while you made lines in the heather}{Fleet Foxes, ``Lorelai''}
 
 This chapter will consider the normalization problem for the simply typed lambda
-calculus using the technology we've developed so far. Normalization comes in
-both weak and strong flavors, but both are properties of a \emph{reduction}
-relation, say, \( - \rightarrow = \) defined over the terms of a theory. By a \emph{normal
-  form} we mean a term $t$ for which there is no other $t'$ such that
-\( t \rightarrow t' \). Writing \( - \rightarrow^{*}\, = \) for the least transitive, reflexive
+calculus using the technology we've developed so far. We begin by reviewing the
+notion of normalization most likely to be familiar to the reader. Normalization
+comes in both weak and strong flavors, but both are properties of a
+\emph{reduction} relation, say, \( - \rightarrow = \) defined over the terms of a theory.
+By a \emph{normal form} we mean a term $t$ for which there is no other $t'$ such
+that \( t \rightarrow t' \). Writing \( - \rightarrow^{*}\, = \) for the least transitive, reflexive
 closure of this relation, we say the reduction system enjoys \emph{weak
   normalization} if for any well-typed term \( e \), there exists a normal form
 \( n \) such that \( e \red n\). A reduction system enjoying \emph{strong
   normalization} is one for which \emph{every} reduction sequence ends in a
-normal term.
+normal term. This is the \emph{operational} characterization of normalization.
 
 Such theorems \emph{about theories} (such as a programming language or type
-system) are called \emph{metatheorems}. Type safety\footnote{A result often
+system) are called \emph{metatheorems}. Type safety\footnote{This result often
   sloganized as \emph{well-typed (closed) terms don't go wrong}} is another
-metatheorem about the simply typed lambda calculus which is much more famous
-than normalization, perhaps because its proof is so straightforward. A certain
-variant of this result called \emph{syntactic type safety} defines a set of
-chosen \emph{good terms} called values and defines a \emph{stuck term} to be a
-term which is both irreducible and \emph{not} a value. This variant of type
-safety enjoys a straightforward proof by induction over typing derivations using
-a trick called \emph{progress and preservation}. See Chapters 8 and 9 of
-Pierce's textbook \cite{pierce_types_2002} for the details.
+class of metatheorem which is much more famous than normalization, perhaps
+because some of its variants enjoy straightforward proofs. One variant of this
+result called \emph{syntactic type safety} defines a set of chosen \emph{good
+  terms} called values and defines a \emph{stuck term} to be a term which is
+both irreducible and \emph{not} a value. The syntactic type safety theorem says
+that well-typed terms \( \Gamma \vdash t : \tau \) never reduce to a stuck term. This variant
+of type safety enjoys a straightforward proof by induction over typing
+derivations using a trick called \emph{progress and preservation}. See Chapters
+8 and 9 of Pierce's textbook \cite{pierce_types_2002} for the details.
 
 Normalization theorems on the other hand tend to resist standard techniques like
-straightforward induction over typing derivations. A simple example is
+straightforward induction over typing derivations. A famous example is
 \emph{closed normalization} which says that all closed terms have a normal form.
-Instead, metatheoreticians resort to \emph{occult} techniques like the method of
-logical relations. The method of logical relations is, broadly speaking, opaque
-to all but its most experienced practitioners. In short, a logical relation is a
-relation of terms indexed by the types of the theory whose inclusion criteria in
-some vague sense mirror the type structure of the theory. Such logical relations
-are easy to work with in simple settings like that of the closed normalization
-problem (writing \( \emptyset \) for the empty context, \emph{closed normalization} asks
-only whether all \emph{closed} terms \(\emptyset \vdash t : \tau\) have a normal form) for the
-simply-typed lambda calculus (see \cite{pierce_types_2002}.) However, logical
-relations are well known to become fiendishly complicated when working with
-theories whose type structure is more complicated. Examples of such complexity
-include the addition of type system features associated with computational
-effects, such as \emph{recursive types} (the effect being non-termination) or
-\emph{mutable reference types} (the effect being change of \emph{state}). Type
-safety presents a great example of the problems associated with using logical
-relations in the presence of these features.
+When easy induction fails, metatheoreticians resort to \emph{occult} techniques
+like the method of logical relations. The method of logical relations is,
+broadly speaking, opaque to all but its most experienced practitioners. In
+short, a logical relation is a relation of terms indexed by the types of the
+theory whose inclusion criteria in some vague sense mirror the type structure of
+the theory. Such logical relations are easy to work with in simple settings like
+that of the closed normalization problem for the simply-typed lambda calculus
+(see \cite{pierce_types_2002}.) However, logical relations are well known to
+become fiendishly complicated when working with theories whose type structure is
+more complicated. Examples of such complexity include the addition of type
+system features associated with computational effects, such as \emph{recursive
+  types} (the effect being non-termination) or \emph{mutable reference types}
+(the effect being change of \emph{state}). Another variant of type safety
+presents a great example of the problems associated with using logical relations
+in the presence of these features.
 
 Type safety has another characterization called \emph{semantic type safety}, as
 espoused by Milner in his paper introducing the concept of type
@@ -1680,19 +1681,35 @@ indexing poset is \( \mathbb{N} \) where the indices represent \emph{remaining
   reduction steps} and the partial order \( m \leq_{\texttt{step}} n \) is defined
 e as \( n \leq m \). That is not a typo. The monotonicity condition, then, says
 that a term is in the relation when allowed $k$ steps of reduction is also in
-the relation when allowed \emph{fewer} steps of reduction.
+the relation when allowed \emph{fewer} steps of reduction
+\cite{benton_formalizing_2007}. Don't read too much into this; we will be
+working with something closer to the poset of contexts ordered by weakenings
+mentioned before.
 
-This chapter will consider the open normalization for the simply typed lambda
-calculus from a slightly different perspective. Building on our work in the
-previous two chapters, we will develop and make use of the category-theoretic
-\emph{Artin gluing} construction. Briefly, the gluing construction allows us to
-define a category of \emph{proof relevant Kripke logical predicates}, meaning
-that the objects of the category are Kripke predicates (in the sense of Kripke
-logical relations mentioned above) with a neat twist. Just as a category is a
-proof-relevant poset (i.e., morphisms \( a \rightarrow b \) are witnesses for the
-proposition \( a \leq b \)) a proof relevant Kripke logical predicate is one where
-any inhabitant of the predicate can have multiple \emph{witnesses} of its
-membership.
+This chapter will consider the open normalization problem for the simply typed
+lambda calculus from a slightly different perspective. First of all, the problem
+we will tackle is not exactly the one I suggested at the beginning of this
+introduction. Instead of an \emph{operational} normalization theorem, we seek to
+prove an \emph{equational} normalization theorem, in keeping with the
+perspective we developed in the previous two chapters. The \emph{equational}
+version of the normalization problem asks for a given well-typed term
+\( \Gamma \vdash t : \tau \) whether there exists a normal form \( N \) such that
+\( \sem{t} = \sem{N}\), i.e., the two are equal as morphisms in the syntactic
+category. In fact, our solution will offer even more than that, giving a
+\emph{function} which computes the corresponding normal form for a given term.
+Our methods are also substantially different from the usual approach. Building
+on our work in the previous two chapters, we will develop and make use of the
+category-theoretic \emph{Artin gluing} construction to tackle this problem.
+Briefly, the gluing construction allows us to define a category of \emph{proof
+  relevant Kripke logical predicates}, meaning that the objects of the category
+are Kripke predicates (in the sense of Kripke logical relations mentioned above)
+with a twist: just as a category is a proof-relevant poset (i.e., morphisms
+\( a \rightarrow b \) are witnesses for the proposition \( a \leq b \)) a proof relevant
+Kripke logical predicate is one where any inhabitant of the predicate can have
+multiple \emph{witnesses} of its membership. The predicates are \emph{logical}
+insofar as the category is \emph{cartesian closed}, which the reader will
+recognize as saying that it in some sense mirrors the type structure of the
+lambda calculus.
 
 Where the method of Kripke logical relations is ad-hoc and mysterious, gluing
 regularizes the thought involved and delivers more conceptual proofs and theory.
@@ -1703,7 +1720,19 @@ normalization. Because we are interested in open normalization, the scone
 construction is not suited to the problem at hand. The reader interested in the
 broader context is encouraged to read on in Section 22 of Part II of Lambek and
 Scott's \emph{Introduction to higher order categorical logic}
-\cite{lambek_introduction_1989}.
+\cite{lambek_introduction_1989}. Our own case will involve an instance of the
+gluing construction which, in some sense, glues the syntax of open terms to its
+meaning in the semantics (in the category \( \cl \)). The gluing construction is
+set up exactly so that morphisms in the category are pairs of \emph{syntactic
+  transformations} and \emph{semantic transformations} (namely substitutions)
+which in some sense commute with the semantic interpretation of terms in
+\( \cl \). Our normalization function then will be delivered from a composite of
+these morphisms, so that the semantic equivalence of the input term and the
+computed normal form is essentially automatic once we have verified that the
+maps involved in the composite are genuine morphisms of the gluing category. In
+this sense, the gluing category we work with has been set up not just to mirror
+the type structure of the simply-typed lambda calculus, but to also mirror the
+desired result.
 
 \section{The comma construction and friends}
 This section introduces a general construction that will, among other things,
