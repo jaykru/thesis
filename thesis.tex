@@ -1602,38 +1602,77 @@ closure of this relation, we say the reduction system enjoys \emph{weak
   normalization} if for any well-typed term \( e \), there exists a normal form
 \( n \) such that \( e \red n\). A reduction system enjoying \emph{Strong
   normalization} is one for which \emph{every} reduction sequence ends in a
-normal term. \emph{Metatheorems} of this kind tend to resist standard techniques
-like straightforward induction over the term structure of the theory under
-consideration. Instead, metatheoreticians resort to \emph{occult} techniques
-like logical relations. The method of logical relations is, broadly speaking,
-opaque even to experienced practitioners. In short, a logical relation is a
+normal term.
+
+Such theorems \emph{about theories} (such as a programming language or type
+system) are called \emph{metatheorems}. Type safety\footnote{A result often
+  sloganized as \emph{well-typed (closed) terms don't go wrong} or
+  \emph{well-typed (closed) terms don't get stuck}, with both slogans meaning
+  that it is not possible to reach an irreducible term which is not a chosen
+  \emph{value} when reducing starting from a well-typed closed term.} is another
+metatheorem about the simply typed lambda calculus which is much more famous
+than normalization, perhaps because its proof is so straight forward. Type
+safety enjoys a straightforward proof by induction over typing derivations using
+a trick called \emph{progress and preservation}. See Chapters 8 and 9 of
+Pierce's textbook \cite{pierce_types_2002} for the details.
+
+Normalization theorems on the other hand tend to resist standard techniques like
+straightforward induction over typing derivations. A simple example is
+\emph{closed normalization} which says that all closed terms have a normal form.
+Instead, metatheoreticians resort to \emph{occult} techniques like the method of
+logical relations. The method of logical relations is, broadly speaking, opaque
+to all but its most experienced practitioners. In short, a logical relation is a
 relation of terms indexed by the types of the theory whose inclusion criteria in
 some vague sense mirror the type structure of the theory. Such logical relations
 are easy to work with in simple settings like that of the closed normalization
-(which asks whether closed terms all have a normal form) problem for the
-simply-typed lambda calculus (see \cite{pierce_types_2002}) but logical
-relations are well known to become devilishly complicated when working with
-theories whose type structure is more complicated [TODO: is this legit]. Still
-more complication arise when attempting to apply logical relations to more
-complicated metatheoretic problems such as the \emph{open normalization} problem
-for the simply typed lambda calculus. Open normalization generalizes the closed
-normalization problem to terms with free variables. Such problems demand that
-the relation be indexed not just by sorts, but also by the elements of some
-poset \cite{harper_kripke-style_nodate}. That poset might be, as in the case of
-this problem, the poset of contexts \( \Gamma \) ordered by weakenings \( \hat{x}\).
-Such a relation indexed by a poset is called a Kripke relation if it
-additionally satisfies a monotonicity condition. In the example of the previous
-sentence, these conditions amount to saying that a term which has a normal form
-when considered as a term under the context \( \Gamma \) should also have a normal
-form when considered as a term under any extended context \( \Gamma, x', \dots, z'\).
-The \emph{Artin gluing} construction, torn from the topos theorist's cookbook,
-is a more transparent encoding of the mechanics of Kripke logical relations.
-Where the method of Kripke logical relations is ad-hoc and mysterious, gluing
-regularizes the thought involved and delivers more conceptual proofs and theory.
-The gluing construction is perhaps overshadowed in fame by one of its instances:
-The \emph{scone} or \emph{Sierpinski cone} is well-known outside of type
-theoretic circles for its use in proving results similar to closed
-normalization. Because we are interested in open normalization, the scone
+problem (writing \( \emptyset \) for the empty context, \emph{closed normalization} asks
+only whether all \emph{closed} terms \(\emptyset \vdash t : \tau\) have a normal form) for the
+simply-typed lambda calculus (see \cite{pierce_types_2002}.) However, logical
+relations are well known to become fiendishly complicated when working with
+theories whose type structure is more complicated. Examples of such complexity
+include the addition of type system features associated with computational
+effects, such as \emph{recursive types} (the effect being non-termination) or
+\emph{mutable reference types} (the effect being change of \emph{state}). For
+systems involving such features, even type safety results require the
+development of more heavy machinery. In the case of \emph{mutable reference
+  types}, the heavy machinery called for is the method of \emph{step-indexed
+  logical relations}, a form of \emph{Kripke logical relations} which I describe
+below and detail in this chapter. Ahmed, for example, employed
+\emph{step-indexed logical relations} to prove the type safety of a version of
+System F endowed with mutable reference types.
+
+It is not just realistic programming languages whose metatheory demands the use
+of such heavy machinery, however. The very nature of certain metatheoretical
+problems preclude the use of ordinary logical relations. One such problem is the
+\emph{open normalization} problem for the simply typed lambda calculus. Open
+normalization generalizes the closed normalization problem to terms with free
+variables: we require that every well-typed term \( \Gamma \vdash t : \tau \) has a normal
+form, in the same sense as above. Such problems again demand that the logical
+relation be indexed not just by types, but also by the elements of some poset
+\cite{harper_kripke-style_nodate}. That poset might be, as in the case of the
+open normalization problem, the poset of contexts \( \Gamma \) ordered by weakenings
+\( \hat{x}\). Such a relation indexed by a poset is called a Kripke relation if
+it additionally satisfies a certain monotonicity condition. In the example of
+the previous sentence, these conditions amount to saying that a term which has a
+normal form when considered as a term under the context \( \Gamma \) should also have
+a normal form when considered as a term under any extended context
+\( \Gamma, x', \dots, z'\). In the case of \emph{step-indexed logical relations}, the
+indexing poset is \( \mathbb{N} \) where the indices represent \emph{remaining
+  reduction steps} and the partial order \( m \leq_{\texttt{step}} n \) is defined
+e as \( n \leq m \). That is not a typo. The monotonicity condition, then, says
+that if a term is in the relation when allowed $k$ steps of reduction is in the
+relation when allowed \emph{fewer} steps of reduction of well.
+
+[TODO from here]
+
+The \emph{Artin gluing} construction, torn from the topos
+theorist's cookbook, is a more transparent encoding of the mechanics of Kripke
+logical relations. Where the method of Kripke logical relations is ad-hoc and
+mysterious, gluing regularizes the thought involved and delivers more conceptual
+proofs and theory. The gluing construction is perhaps overshadowed in fame by
+one of its instances: The \emph{scone} or \emph{Sierpinski cone} is well-known
+outside of type theoretic circles for its use in proving results similar to
+closed normalization. Because we are interested in open normalization, the scone
 construction is not suited to the problem at hand. The reader interested in the
 broader context is encouraged to read on in Section 22 of Part II of Lambek and
 Scott's \emph{Introduction to higher order categorical logic}
@@ -1658,9 +1697,9 @@ semantic interpretations of the syntax.
   their codomain $C$. The comma category \( F \downarrow G \) has as its
   \begin{enumerate}
     \item Objects: triples \( (d : D, Fd \xrightarrow{f} Ge, e : E) \)
-    \item Morphisms: arrows $(h,k) : (d, f, e) \rightarrow (d', f', e')$ are pairs of
-          $D$ and $E$-morphisms \(h : d \rightarrow d', k : e \rightarrow e'\) making the following
-          diagram commute:
+    \item Morphisms: $(h,k) : (d, f, e) \rightarrow (d', f', e')$ are pairs of $D$ and
+          $E$-morphisms \(h : d \rightarrow d', k : e \rightarrow e'\) making the following diagram
+          commute:
           \[
             \begin{tikzcd}
               Fd \arrow{r}{Fh} \arrow{d}[swap]{f} & Fd' \arrow{d}{f'} \\
@@ -1685,10 +1724,10 @@ the morphisms are a restricted class of substitutions, which are only allowed to
 substitute for a variable \emph{by a variable of the same type} or weaken by a
 variable. Thus the category of renamings is something like a less proof-relevant
 version of the category of contexts and substitutions in the following sense: if
-there exists a substitution relating two contexts in syntactic category, then
-there exists a renaming relating the same contexts. The upshot is that renamings
-allow us to track changes in context \emph{due to a substitution} without
-actually working with substitutions directly. Working over \( \cl \) is
+there exists a substitution relating two contexts in the syntactic category,
+then there exists a renaming relating the same contexts. The upshot is that
+renamings allow us to track changes in context \emph{due to a substitution}
+without actually working with substitutions directly. Working over \( \cl \) is
 problematic because substitutions (and thus the terms they represent) are
 identified up to computational equality, whereas we would like to distinguish
 between terms at differing stages of reduction (e.g. distinguishing between a
@@ -1850,7 +1889,7 @@ Generalizing to multivariable target contexts \( \Delta \) gives presheaves of
 \emph{lists} of open terms of the types in $\Delta$.
 
 It turns out that the category of \( \ren\) presheaves shares the cartesian
-closed structure of \( \cl \) and that \( \tm \) preserve this structure.
+closed structure of \( \cl \) and that \( \tm \) preserves this structure.
 \begin{remark}\label{rmk:tm-cartesian-closed}
   Any category of presheaves, including \(\renhat\), is cartesian closed.
   Furthermore, the relative hom functor is a \emph{cartesian closed functor},
