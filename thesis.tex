@@ -1600,18 +1600,18 @@ relation, say, \( - \rightarrow = \) defined over the terms of a theory. By a \e
 \( t \rightarrow t' \). Writing \( - \rightarrow^{*}\, = \) for the least transitive, reflexive
 closure of this relation, we say the reduction system enjoys \emph{weak
   normalization} if for any well-typed term \( e \), there exists a normal form
-\( n \) such that \( e \red n\). A reduction system enjoying \emph{Strong
+\( n \) such that \( e \red n\). A reduction system enjoying \emph{strong
   normalization} is one for which \emph{every} reduction sequence ends in a
 normal term.
 
 Such theorems \emph{about theories} (such as a programming language or type
 system) are called \emph{metatheorems}. Type safety\footnote{A result often
-  sloganized as \emph{well-typed (closed) terms don't go wrong} or
-  \emph{well-typed (closed) terms don't get stuck}, with both slogans meaning
-  that it is not possible to reach an irreducible term which is not a chosen
-  \emph{value} when reducing starting from a well-typed closed term.} is another
+  sloganized as \emph{well-typed (closed) terms don't go wrong}} is another
 metatheorem about the simply typed lambda calculus which is much more famous
-than normalization, perhaps because its proof is so straight forward. Type
+than normalization, perhaps because its proof is so straightforward. A certain
+variant of this result called \emph{syntactic type safety} defines a set of
+chosen \emph{good terms} called values and defines a \emph{stuck term} to be a
+term which is both irreducible and \emph{not} a value. This variant of type
 safety enjoys a straightforward proof by induction over typing derivations using
 a trick called \emph{progress and preservation}. See Chapters 8 and 9 of
 Pierce's textbook \cite{pierce_types_2002} for the details.
@@ -1632,14 +1632,33 @@ relations are well known to become fiendishly complicated when working with
 theories whose type structure is more complicated. Examples of such complexity
 include the addition of type system features associated with computational
 effects, such as \emph{recursive types} (the effect being non-termination) or
-\emph{mutable reference types} (the effect being change of \emph{state}). For
-systems involving such features, even type safety results require the
-development of more heavy machinery. In the case of \emph{mutable reference
-  types}, the heavy machinery called for is the method of \emph{step-indexed
-  logical relations}, a form of \emph{Kripke logical relations} which I describe
-below and detail in this chapter. Ahmed, for example, employed
-\emph{step-indexed logical relations} to prove the type safety of a version of
-System F endowed with mutable reference types.
+\emph{mutable reference types} (the effect being change of \emph{state}). Type
+safety presents a great example of the problems associated with using logical
+relations in the presence of these features.
+
+Type safety has another characterization called \emph{semantic type safety}, as
+espoused by Milner in his paper introducing the concept of type
+safety \cite{milner_theory_1978}. Proving semantic type safety involves building
+a \( \catset \)-valued model\footnote{in the sense of Chapter 1.} $A$ of the
+type theory in question where the sets $\sem{\tau}_{A}$ of the model are comprised
+of terms satisfying a certain behavioral requirement. With this done, a
+\emph{semantic typing} relation \( \Gamma \Vdash t : \tau \) is defined by
+\( t \in \sem{\tau}_{A} \). Finally, one proves the so-called \emph{fundamental}
+theorem which says that all \emph{syntactically} well-typed terms
+\( \Gamma \vdash t : \tau \) are also \emph{semantically} well-typed, so that all
+\emph{syntactically} well-typed terms satisfy the behaviorally properties for
+their type as specified in the model. This type of result is unlike
+\emph{syntactic} type safety in that it does not admit easy proofs by induction
+on typing derivations, and rather are typically proven with logical relations.
+This is no problem for well-behaved type systems like the simply typed lambda
+calculus, but for type systems with features like \emph{mutable reference types}
+even (ordinary) logical relations don't suffice and more advanced proof
+techniques are required. The additional heavy machinery called for is the method
+of \emph{step-indexed logical relations}, a form of \emph{Kripke logical
+  relations} which I describe below and detail in this chapter. Ahmed, for
+example, employed \emph{step-indexed logical relations} to prove for the first
+time the semantic type safety of a version of System F endowed with mutable
+reference types in her doctoral thesis \cite{ahmed_semantics_2004}.
 
 It is not just realistic programming languages whose metatheory demands the use
 of such heavy machinery, however. The very nature of certain metatheoretical
@@ -1660,19 +1679,27 @@ a normal form when considered as a term under any extended context
 indexing poset is \( \mathbb{N} \) where the indices represent \emph{remaining
   reduction steps} and the partial order \( m \leq_{\texttt{step}} n \) is defined
 e as \( n \leq m \). That is not a typo. The monotonicity condition, then, says
-that if a term is in the relation when allowed $k$ steps of reduction is in the
-relation when allowed \emph{fewer} steps of reduction of well.
+that a term is in the relation when allowed $k$ steps of reduction is also in
+the relation when allowed \emph{fewer} steps of reduction.
 
-[TODO from here]
+This chapter will consider the open normalization for the simply typed lambda
+calculus from a slightly different perspective. Building on our work in the
+previous two chapters, we will develop and make use of the category-theoretic
+\emph{Artin gluing} construction. Briefly, the gluing construction allows us to
+define a category of \emph{proof relevant Kripke logical predicates}, meaning
+that the objects of the category are Kripke predicates (in the sense of Kripke
+logical relations mentioned above) with a neat twist. Just as a category is a
+proof-relevant poset (i.e., morphisms \( a \rightarrow b \) are witnesses for the
+proposition \( a \leq b \)) a proof relevant Kripke logical predicate is one where
+any inhabitant of the predicate can have multiple \emph{witnesses} of its
+membership.
 
-The \emph{Artin gluing} construction, torn from the topos
-theorist's cookbook, is a more transparent encoding of the mechanics of Kripke
-logical relations. Where the method of Kripke logical relations is ad-hoc and
-mysterious, gluing regularizes the thought involved and delivers more conceptual
-proofs and theory. The gluing construction is perhaps overshadowed in fame by
-one of its instances: The \emph{scone} or \emph{Sierpinski cone} is well-known
-outside of type theoretic circles for its use in proving results similar to
-closed normalization. Because we are interested in open normalization, the scone
+Where the method of Kripke logical relations is ad-hoc and mysterious, gluing
+regularizes the thought involved and delivers more conceptual proofs and theory.
+The gluing construction is perhaps overshadowed in fame by one of its instances:
+The \emph{scone} or \emph{Sierpinski cone} is well-known outside of type
+theoretic circles for its use in proving results similar to closed
+normalization. Because we are interested in open normalization, the scone
 construction is not suited to the problem at hand. The reader interested in the
 broader context is encouraged to read on in Section 22 of Part II of Lambek and
 Scott's \emph{Introduction to higher order categorical logic}
