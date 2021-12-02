@@ -2443,18 +2443,18 @@ For all this talk of normals forms and normalization, we haven't said much about
 what a normalization function must be. Of course, it should take a lambda term
 to a normal form, but the desiderata are far more than that. The following are
 some of the important properties a normalization function
-\( \nf_{\tau}^{\Gamma} : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should satisfy:
+\( \normalize : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should satisfy:
 \begin{itemize}
   \item Semantics preservation: For all terms \( t \in \opens_{\tau}(\Gamma)\),
-  \[ \nf_{\tau}^{\Gamma} (t) \equiv_{\alpha\beta\eta} t.\]
+  \[ \normalize (t) \equiv_{\alpha\beta\eta} t.\]
 
   \item Equation preservation: For all terms
         \( t, t' \in \opens_{\tau}(\Gamma) \),
-        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau}^{\Gamma} (t) \equiv_{\alpha\beta\eta}\nf_{\tau}^{\Gamma} (t') .\]
+        \[ t \equiv_{\beta\eta} t' \Rightarrow \normalize (t) \equiv_{\alpha\beta\eta} (t') .\]
 
    \item Equation reflection: For all terms
    \( t, t' \in \opens_{\tau}(\Gamma)\),
-   \[ \nf_{\tau}^{\Gamma}(t) = \nf_{\tau}^{\Gamma}(t') \Rightarrow t \equiv_{\alpha\beta\eta} t' \]
+   \[ \normalize(t) = \normalize(t') \Rightarrow t \equiv_{\alpha\beta\eta} t' \]
 \end{itemize}
 
 These properties together with the signature of the function above encode most
@@ -2466,7 +2466,7 @@ normalization function as a composite (with the right domain and codomain) of
 some glued maps. It should be said that the above are not a complete enumeration
 of the properties one might request of a normalization function. Some
 theoreticians might demands that normal forms are \emph{fixed} by the
-normalization function; that is, \( \nf_{\tau}^{\Gamma}(N) = N\) for any normal form
+normalization function; that is, \( \normalize(N) = N\) for any normal form
 $N$. We do not show this; for that, refer the reader to Fiore
 \cite{fiore_semantic_2002}.
 
@@ -2949,7 +2949,7 @@ Supposing we can achieve this, our normalization function will be precisely the
 the upper-right composite of the second diagram. Because the diagram commutes,
 the normalization function computes for a term $t$ a normal form with the same
 \emph{semantics} as $t$; that is, as evident from the diagram, we will have an
-equality of morphisms \( \sem{t} = \sem{\nf(t)}\) in the syntactic category.
+equality of morphisms \( \sem{t} = \sem{\normalize(t)}\) in the syntactic category.
 
 To come up with such maps, we shall produce, for each \( \tau \in \types \), a pair
 of intermediate maps
@@ -3112,7 +3112,7 @@ input term. This result is stated but not proven in Fiore's extended abstract
           \( \sem{{\tau'}}_{\cl}^{\sem{\tau}_{\cl}}\) in the classifying category.
   \end{itemize}
 \end{proof}
-\newcommand{\normalize}{{\nf}\,_{\tau}^{\Gamma}}
+
 \section{A promise kept: a function from open terms to normal terms}
 Having defined our glued reify-reflect maps at each type, we have established
 the desired diagram from Section~\ref{sec:taking-stock}. We can now define a
@@ -3176,7 +3176,7 @@ so with ease.
 
 \begin{theorem}[Equation preservation]
   For every pair of terms \( t, t' \in \mathfrak{L}_{\tau}(\Gamma) \), if
-  \( t \equiv_{\alpha\beta\eta} t' \) then \( {\nf}\,_{\tau}^{\Gamma}(t) \equiv_{\alpha\beta\eta} \nf\,_{\tau}^{\Gamma}(t')\).
+  \( t \equiv_{\alpha\beta\eta} t' \) then \( \normalize(t) \equiv_{\alpha\beta\eta} \nf\,_{\tau}^{\Gamma}(t')\).
 \end{theorem}
 \begin{proof}
   \( \alpha\beta\eta \)-equivalent terms have the same interpretation in the classifying
