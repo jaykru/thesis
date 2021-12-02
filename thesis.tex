@@ -1583,17 +1583,20 @@ resulting theory of the typical lambda calculus is cartesian closed.
   The theory \( \mathcal{L}_{\lambda\alpha}\) is raw cartesian closed
 \end{theorem}
 \begin{proof}
-  [TODO: Fix Paul's mess, see page 20 of Angelica's notes]
   In the following we write \( [ X \Rightarrow Y ]\) for the exponential \( Y ^{X}\), for the
   sake of legibility. The exponential
-  \[[{[x_{1} : X_{1},x_{2} : X_{2}\ldots, x_{j} : X_{j}]} \Rightarrow {[y_{1} : Y_{1},y_{2} : Y_{2},\ldots,y_{k} : Y_{k}]}]\]
+  \[{[x_{1} : X_{1},x_{2} : X_{2}\ldots, x_{j} : X_{j}]} \Rightarrow {[y_{1} : Y_{1},y_{2} : Y_{2},\ldots,y_{k} : Y_{k}]}\]
   is the context \( [f_{1} : F_{1} ,f_{2} : F_{2}, \ldots, f_{k} : F_{k}]\) where the
   \( f_{i}\) are new variables
-  and \[ F_{i} = X_{1} \Rightarrow [X_{2} \Rightarrow \cdots [X_{j} \Rightarrow Y_{i}] \cdots] \] Finally, we define \(\textrm{ev}_{\overrightarrow{X},\overrightarrow{Y}} \) as
+  and \[ F_{i} = X_{1} \Rightarrow (X_{2} \Rightarrow \cdots \Rightarrow (X_{j} \Rightarrow Y_{i}) \cdots ) \] Finally, we define \(\textrm{ev}_{\overrightarrow{X},\overrightarrow{Y}} \) as
   \[ [(\cdots(f_{1}(x_{1})x_{2}) \cdots x_{j}) / y_{1}] \circ \cdots \circ [(\cdots(f_{k}(x_{1})x_{2}) \cdots x_{j}) / y_{k}] \]
   and
   \( \lambda_{\Gamma, \overrightarrow{X}, \overrightarrow{Y}} [\overrightarrow{p} / \overrightarrow{y}] \) as
   \[[(\lambda x_{1}.\,(\lambda x_{2}. \ldots (\lambda x_{k} .\, p_{1}) \ldots ))/f_{1}] \circ \cdots \circ [(\lambda x_{1}.\,(\lambda x_{2}.\, \ldots (\lambda x_{k} .\, p_{k}) \ldots ))/f_{k}].\]
+  To clarify the notation, we consider a small example of an exponential object:
+  the exponential
+  \[ [x: X, y: Y] \Rightarrow [z: Z, w: W]\] is the context
+  \[ [f_{Z}: (X \Rightarrow (Y \Rightarrow Z)), f_{W} : (X \Rightarrow (Y \Rightarrow W))]. \]
 
   Naturality with respect to weakening and single substitution follows from the
   fact that substitution for (or weakening by) a variable $x$ commutes with
