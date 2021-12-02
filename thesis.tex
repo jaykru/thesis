@@ -596,8 +596,8 @@ intuitive handle on it.
     \item an assignment of a function $\tau_* : A_X \rightarrow A_Y$ for each
     operation-symbol of the appropriate arity such that:
     \item each law is preserved; i.e., for each law as before we have
-    \[ {\tau_n}_* ({\tau_{n-1}}_* (\cdots {\tau_2}_* ({\tau_1}_* (x))\cdots )) = {\sigma_m}_* ({\sigma_{m-1}}_*(\cdots {\sigma_2}_* ({\sigma_1}_* (x))\cdots )) \]
-    that is, the covariant action on operation-symbols is faithful in
+    \[ {\tau_n}_* ({\tau_{n-1}}_* (\cdots {\tau_2}_* ({\tau_1}_* (x))\cdots )) = {\sigma_m}_* ({\sigma_{m-1}}_*(\cdots {\sigma_2}_* ({\sigma_1}_* (x))\cdots )). \]
+    That is, the covariant action on operation-symbols is faithful in
     the sense defined above.
   \end{enumerate}
 \end{definition}
@@ -732,10 +732,9 @@ presentation.
     body of the second}. The third law says that \emph{non-overlapping}
   declarations and drops commute. The fourth law says that pairs of
   non-overlapping drops commute. The last law is tricky and is easier to explain
-  by passing to the substitution point-of-view. Since the change of base functor
-  is contravariant, this requires considering the compositions in reverse order
-  as:
-  \[ \hat{y}^{*}; [y/x]^{*}; \hat{x}^{*}; [x/y]^{*} = {\id}^{*} \] Rendered
+  by passing to the substitution point-of-view. Since the substitution action is
+  contravariant, this requires considering the compositions in reverse order as:
+  \[ \hat{y}^{*}; [y/x]^{*}; \hat{x}^{*}; [x/y]^{*} = {\id}^{*}. \] Rendered
   thus, this law means that introducing a free variable $y$ to the
   context\footnote{possibly having no effect if $y$ is already present},
   followed by replacing every free occurrence of $x$ with $y$, followed by
@@ -1060,7 +1059,7 @@ a contravariant operation.
 The circuit interpretation also provides a neat intuition for weakening.
 Weakening by a variable is drawing a new input wire with the appropriate label,
 and then not connecting it to anything. As an example, we have the following
-equality.
+equality
 \begin{align*}
  \widehat{b_{4}}^{*} \bigg({\tikz[baseline=-0.5ex]{ \draw (0,0) node[and port, number inputs=3](myand){}
     (myand.in 1) node [anchor=east] {\( b_{1} \)}
@@ -1071,12 +1070,12 @@ equality.
     (myand.in 2) node [anchor=east] {\( b_{2} \)}
     (myand.in 3) node [anchor=east] {\( b_{3} \)}
     (myand) ++(-1.725,-.75) node[](b4){\( b_{4}\)}
-    (b4) ++(1,0) node [ground](myground){}
+    (b4) ++(1,0) node [circle,fill=black,inner sep=0pt,minimum size=7pt](myground){}
     (b4) -- (myground)
     ; }
 \end{align*}
-
-where we represent an unused input as one connected straight to ground.
+where we represent an unused input as a wire capped off with some sort of
+insulating material, here displayed as a circle.
 
 Allowing ourselves to write the operations of the algebra for the operation
 symbols of the theory for a moment, consider the morphism
@@ -2110,7 +2109,7 @@ corresponds to lambda abstraction.
 \begin{definition}[Variable presheaf]\label{def:varpsh}
   We can define a presheaf of \emph{typed variables} in $\renhat$ with the Yoneda embedding on $\ren$:
   \[
-    \mathfrak{V}_{\tau} = \yoneda \tau = \ren(-, \tau)
+    \mathfrak{V}_{\tau} = \yoneda \tau = \ren(-, \tau).
   \]
 
   With that definition, we have \( \varpsh(\Gamma) = \ren(\Gamma,\tau) \) where the
@@ -2129,9 +2128,9 @@ gives
 
 \begin{align*}
   \mathfrak{P}^{\mathfrak{V}_{\Delta}}(\Gamma)  &= \mathfrak{P}^{\yoneda \Delta}(\Gamma) \\
-                                    &= \renhat[\yoneda \Gamma \times \yoneda \Delta, \mathfrak{P}] && (2)\\
-                                    &\cong \renhat[\yoneda (\Gamma \times \Delta)] && (\textrm{since the Yoneda embedding is cartesian closed}) \\
-                                    &\cong \mathfrak{P}(\Gamma\times\Delta) && (\textrm{by the Yoneda lemma})\\
+                                      &= \renhat[\yoneda \Gamma \times \yoneda \Delta, \mathfrak{P}] && (2)\\
+                                      &\cong \renhat[\yoneda (\Gamma \times \Delta), \mathfrak{P}] && (\textrm{since the Yoneda embedding is cartesian closed}) \\
+                                      &\cong \mathfrak{P}(\Gamma\times\Delta) && (\textrm{by the Yoneda lemma})\\
 \end{align*}
 
 Where step (2) follows from the definition of the exponentials in the category
@@ -2145,11 +2144,12 @@ algebras for a new algebraic theory \( \NN \) of stratified \emph{neutrals and
 \subsection{Stratifying neutral and normal terms}
 We introduce a new type system over the syntax and type structure of the lambda
 calculus as defined in Chapter~\ref{chapter:stlc}. This new type system will
-distinguish between \emph{neutral terms}, a special class of \emph{normal terms}
-which are in some sense beta-redexes whose reduction is \emph{blocked} by a
-variable in the head term, and all other normal terms. In some sense,
-\emph{neutral terms} can be regarded as those terms which are normal only
-because they are stuck waiting on the value of a variable.
+distinguish between \emph{neutral terms} and ordinary normal terms. The
+\emph{neutral terms} are a special class of \emph{normal terms} which are in
+some sense terms who might otherwise be reducible if not for having a variable
+as a subterm of an elimination form. Put another way, \emph{neutral terms} can
+be regarded as those terms which may only be normal because they are waiting on
+the value of a variable.
 
 \begin{definition}[Neutral and normal judgments]\label{def:neut-norm-rules}
   \begin{mathpar}
@@ -2254,7 +2254,7 @@ because they are stuck waiting on the value of a variable.
 \begin{definition}[A presheaf of open syntactic terms]
   For each type $\tau \in \types$, define
   \[
-    \mathfrak{L}_{\tau} = \{ t \mid \Gamma \vdash t : \tau \}_{\Gamma \in \ren}
+    \mathfrak{L}_{\tau} = \{ t \mid \Gamma \vdash t : \tau \}_{\Gamma \in \ren}.
   \]
   Together with the \emph{renaming action}, defined for each $\rho : \Gamma' \rightarrow \Gamma $ as
   \begin{align*}
@@ -2408,11 +2408,11 @@ some of the important properties a normalization function
 \( \nf_{\tau}^{\Gamma} : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should satisfy:
 \begin{itemize}
   \item Semantics preservation: For all terms \( t \in \opens_{\tau}(\Gamma)\),
-  \[ \nf_{\tau}^{\Gamma} (t) \equiv_{\beta\eta} t\]
+  \[ \nf_{\tau}^{\Gamma} (t) \equiv_{\beta\eta} t.\]
 
   \item Equation preservation: For all terms
         \( t, t' \in \opens_{\tau}(\Gamma) \),
-        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau}^{\Gamma} (t) = \nf_{\tau}^{\Gamma} (t') \]
+        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau}^{\Gamma} (t) = \nf_{\tau}^{\Gamma} (t') .\]
 \end{itemize}
 
 These properties together with the signature of the function above encode most
@@ -2482,7 +2482,7 @@ taken with a grain of salt.
   guaranteed by cartesian closure of \( \tm \). The binary product
   \( (P, p, \Delta) \times (Q, q, \Gamma) \) of \( (P, p, \Delta)\) and \( (Q,q,\Gamma)\) is
   \( (P \times Q, r, \Delta \times \Gamma)\) where $r$ is the composite
-  \[ P \times Q \xrightarrow{p \times q} \tm(\Delta) \times \tm(\Gamma) \xrightarrow[\cong]{i_{\pi}} \tm(\Delta \times \Gamma)\]
+  \[ P \times Q \xrightarrow{p \times q} \tm(\Delta) \times \tm(\Gamma) \xrightarrow[\cong]{i_{\pi}} \tm(\Delta \times \Gamma).\]
 \end{theorem}
 
 \begin{theorem}[Exponentials in the gluing category]
@@ -2501,17 +2501,18 @@ taken with a grain of salt.
       \arrow["{{q_2}_*}", from=1-3, to=3-3]
       \arrow["{{q_1}^* \circ \tilde{p}}"', from=3-1, to=3-3]
     \end{tikzcd}\]
-  where \[ p = \tm(\epsilon) \circ (\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{\cong} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1})) \]  is the composition of the lifting of the syntactic category's evaluation to
+  where \[ p = \tm(\epsilon) \circ (\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{\cong} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1})) \]
+  is the composition of the lifting of the syntactic category's evaluation to
   \( \renhat \) with the isomorphism witnessing the product preservation of
   \( \tm \), and \( \tilde{p} \) is its exponential transpose.
 \end{theorem}
 
 \begin{sketch}
   The universal property for exponentials is encoded by the product-hom
-  adjunction. It suffices to show an isomorphism
-  \[ \gl((R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})) \cong \gl((R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}) \]
+  adjunction, so that it suffices to show an isomorphism
+  \[ \gl((R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})) \cong \gl((R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}). \]
 
-  recalling the definition of products in the gluing category, we must show
+  Recalling the definition of products in the gluing category, we must show
 
   \[ \phi : P \cong E : \psi \]
 
@@ -2519,7 +2520,7 @@ taken with a grain of salt.
   \begin{align*}
     &\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{i_{\pi}} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1}) \\
     &P = \gl((R_{X} \times R_{Y}, i_{\pi} \circ (q_{X} \times q_{Y}),  \Delta_{X} \times \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})) \\
-    &E = \gl((R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}) \\
+    &E = \gl((R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}). \\
   \end{align*}
 
   To come up with this isomorphism, it helps to consider what the morphisms in
@@ -2564,7 +2565,7 @@ air, making our choice of \( d' \) automatic completely: \( d' \) must be, can
 only be, one of the mediators required by the universal property of the
 pullback, namely the dotted arrow in the diagram below. To get this dotted
 arrow, we need to verify that the outer square of the following diagram
-commutes.
+commutes:
 % https://q.uiver.app/?q=WzAsNixbMSwxLCJSIl0sWzAsMCwiUl9YIl0sWzEsMywiXFxtYXRoZnJha3tUbX0oe1xcRGVsdGFfWn1ee1xcRGVsdGFfWX0pIl0sWzMsMywiXFxtYXRoZnJha3tUbX0oXFxEZWx0YV9aKV57Ul9ZfSJdLFszLDEsIntSX1p9XntSX1l9Il0sWzIsMl0sWzAsNCwiciJdLFs0LDMsIntxX1p9XyoiXSxbMCwyLCJxIiwyXSxbMiwzLCJ7cV9ZfV4qIFxcY2lyYyBcXHdpZGV0aWxkZXtcXG1hdGhmcmFre1RtfShcXGVwc2lsb24pIFxcY2lyYyBpX1xccGl9IiwyXSxbMCw1LCIiLDIseyJzdHlsZSI6eyJuYW1lIjoiY29ybmVyIn19XSxbMSwyLCJcXGRlbHRhJyBcXGNpcmMgcV9YIiwyLHsiY3VydmUiOjN9XSxbMSw0LCJcXHRpbGRle2R9IiwwLHsiY3VydmUiOi0zfV0sWzEsMCwiXFxleGlzdHMhZCciLDIseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XV0=
 \[\begin{tikzcd}
 	{R_X} \\
@@ -2579,7 +2580,7 @@ commutes.
 	\arrow["{\tm(\delta') \circ q_X}"', curve={height=18pt}, from=1-1, to=4-2]
 	\arrow["{\tilde{d}}", curve={height=-18pt}, from=1-1, to=2-4]
 	\arrow["{\exists!d'}"', dotted, from=1-1, to=2-2]
-\end{tikzcd}\]
+\end{tikzcd}.\]
 
 We need to show
 that \[ q_{Y}^{*} \circ \reallywidetilde{\tm(\epsilon) \circ i_{\pi}} \circ \tm(\tilde{\delta}) \circ q_{X} = {q_{Z}}_{*} \circ \tilde{d} \]
@@ -2693,7 +2694,7 @@ and satisfies the following form of the Yoneda lemma:
 	\arrow["\cong", from=2-1, to=2-3]
 	\arrow["q", from=2-3, to=3-2]
 	\arrow["\semproj"', from=2-1, to=3-2]
-\end{tikzcd}\]
+\end{tikzcd}.\]
 \end{definition}
 
 This embedding allows us to define a typed-indexed family of glued objects which
@@ -2714,11 +2715,11 @@ earlier. In each case, the components of the quotient map are the interpretation
 of terms in the classifying category.
 
 \begin{definition}[Gluing syntax and semantics of neutrals]
-  \[ \mu_{\tau} = (\neut, \neut \xrightarrow{m_{\tau}} \tm(\tau), \tau) \]
+  We define \[ \mu_{\tau} = (\neut, \neut \xrightarrow{m_{\tau}} \tm(\tau), \tau). \]
 \end{definition}
 
 \begin{definition}[Gluing syntax and semantics of normals]
-  \[ \eta_{\tau} = (\norm, \norm \xrightarrow{n_{\tau}} \tm(\tau), \tau) \]
+  We define \[ \eta_{\tau} = (\norm, \norm \xrightarrow{n_{\tau}} \tm(\tau), \tau). \]
 \end{definition}
 
 With these glued objects, we can define an \( \NN \)-algebra over these families
@@ -2752,7 +2753,7 @@ algebra we define will be constructed by gluing together the syntactic
         \arrow["{\textrm{var}_\tau}", from=1-1, to=1-3]
         \arrow["m", from=1-3, to=3-3]
         \arrow["{\sem{-}}"', from=1-1, to=3-3]
-      \end{tikzcd}\]
+      \end{tikzcd}.\]
 
     Inserting the lifted identity map at the bottom gives precisely the
     required square.
@@ -2775,7 +2776,7 @@ algebra we define will be constructed by gluing together the syntactic
         \arrow["{m_\tau}", from=1-3, to=3-3]
         \arrow["{m_{\tau\times\tau'}}"', from=1-1, to=3-1]
         \arrow["{\tm(\pi_1)}"', from=3-1, to=3-3]
-      \end{tikzcd}\]
+      \end{tikzcd}.\]
 
     Which is exactly the required square. In fact, each of the remaining
     cases work out in this unsurprising way, so we will stop mentioning
@@ -2828,18 +2829,19 @@ We write \( \sem{-}_{\gl} : \cl \rightarrow \gl \) for both this functor and the
 interpretation of terms acquired by precomposing the functor with the usual
 interpretation of terms in the classifying category. It is crucial to understand
 that though we have \( \sem{\theta}_{\gl} = \mu_{\theta}\) for base types $\theta$, this equality
-does \emph{not} hold at higher types \( \tau \in \types\). In the case of products,
-the interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the actual product
-\( \mu_{\theta} \times \mu_{\theta'}\) and not \( \mu_{\theta\times\theta'} \). In what follows, we still allow
-ourselves to write \( \sem{-} \) for the usual interpretation of terms in the
-classifying category, distinguishing the new interpretation only by a subscript.
-The induced interpretation \( \sem{-}_{\gl}\) extends the usual interpretation
-of terms in the syntactic category in the following sense:
+does \emph{not} hold at higher types \( \tau \in \types\). In the case of
+products, the interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the
+actual product \( \mu_{\theta} \times \mu_{\theta'}\) and not
+\( \mu_{\theta\times\theta'} \). In what follows, we still allow ourselves to
+write \( \sem{-} \) for the usual interpretation of terms in the classifying
+category, distinguishing the new interpretation only by a subscript. The induced
+interpretation \( \sem{-}_{\gl}\) extends the usual interpretation of terms in
+the syntactic category in the following sense:
 \( \sem{\Gamma \vdash t : \tau}_{\gl} \) is a pair of the form
 $(\sem{\Gamma \vdash t : \tau}_{\renhat}, \sem{\Gamma \vdash t : \tau })$ where
 \( \sem{-}_{\renhat} : \cl \rightarrow \renhat \) functor induced by the
-\(\renhat\)-lambda algebra over the family \( \{ \nepsh \}_{\tau\in\types}\) and the
-universal property of the classifying category.
+\(\renhat\)-lambda algebra over the family \( \{ \nepsh \}_{\tau\in\types}\) and
+the universal property of the classifying category.
 
 \begin{lemma}\label{lem:sem-pi-is-id-endofunctor}
   The composite \( \semproj \circ \sem{-}_{\gl} : \cl \rightarrow \cl \) is the identity
@@ -2863,12 +2865,7 @@ this chapter. Let \( \tau \in \types \) and suppose
 \( \sem{\tau}_{\gl} = (\mathfrak{R}_{\tau}, q, \tau) \). We wish to come up with maps
 \( \uparrow_{\tau}\) (pronounced ``reflect'', or for the LISPer ``unquote'') and
 \( \downarrow_{\tau}\) (pronounced ``reify'', or for the LISPer ``quote'') at each type
-\( \tau \in \types \) to fill in the dotted arrows in the upper diagram such that the
-lower diagram commutes. In classical approaches to normalization by evaluation,
-reflection can be construed as lifting syntax into a semantic domain: in
-practice, this looks like, say, taking syntactic functions in the object
-language to \emph{actual functions} in the host language. Dually, reification is
-thought of as lowering semantic objects to a syntactic representation.
+\( \tau \in \types \) to fill in the dotted arrows in the diagram
 
 % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfV9cXHRhdSJdLFsyLDAsIlxcbWF0aGZyYWt7Un1fXFx0YXUiXSxbNCwwLCJcXG1hdGhmcmFre05mfV9cXHRhdSJdLFsyLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiXFx1cGFycm93X1xcdGF1IiwwLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzEsMiwiXFxkb3duYXJyb3dfXFx0YXUiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkb3R0ZWQifX19XSxbMiwzLCJuX1xcdGF1Il0sWzAsMywibV9cXHRhdSIsMl0sWzEsMywicl9cXHRhdSIsMl1d
 \[\begin{tikzcd}
@@ -2881,6 +2878,9 @@ thought of as lowering semantic objects to a syntactic representation.
 	\arrow["{r_\tau}"', from=1-3, to=2-3]
 \end{tikzcd}\]
 
+
+such that the
+diagram
 % https://q.uiver.app/?q=WzAsOSxbMCwwLCJcXHByb2RfaVxcbWF0aGZyYWt7TmV9X3tcXHRhdV9pfSAiXSxbMiwwLCJcXHByb2RfaVxcbWF0aGZyYWt7Un1fe1xcdGF1X2l9Il0sWzQsMCwiXFxtYXRoZnJha3tOZn1fe1xcdGF1fSJdLFsxLDBdLFsyLDEsIlxccHJvZF9pXFx0ZXh0cm17Q259X1xcbWF0aGNhbHtcXGxhbWJkYX1ee1xccmlnaHRhcnJvd30oLSxcXHRhdV9pKSJdLFsxLDFdLFsyLDIsIlxcdGV4dHJte0NufV9cXG1hdGhjYWx7XFxsYW1iZGF9XntcXHJpZ2h0YXJyb3d9KC0sXFxHYW1tYSkiXSxbMywwLCJcXG1hdGhmcmFre1J9X1xcdGF1Il0sWzQsMiwiXFx0ZXh0cm17Q259X1xcbWF0aGNhbHtcXGxhbWJkYX1ee1xccmlnaHRhcnJvd30oLSxcXHRhdSkiXSxbMCwxLCJcXHByb2RfaVxcdXBhcnJvd157XFx0YXVfaX0iXSxbMSw0LCJcXHByb2RfaSByX3tcXHRhdV9pfSJdLFswLDQsIlxccHJvZF9pbV97XFx0YXVfaX0iLDJdLFs0LDYsIlxcY29uZyJdLFs3LDIsIlxcZG93bmFycm93XntcXHRhdX0iXSxbMSw3LCJcXG1hdGhiYntzfVxcbGxicmFja2V0XFxHYW1tYVxcdmRhc2ggdDpcXHRhdVxccnJicmFja2V0Il0sWzYsOCwic1xcbGxicmFja2V0XFxHYW1tYVxcdmRhc2ggdCA6IFxcdGF1IFxccnJicmFja2V0XyoiLDJdLFsyLDgsIm5fXFx0YXUiXSxbNyw4LCJyX1xcdGF1IiwyXV0=
 \[\begin{tikzcd}
 	{\prod_i\mathfrak{Ne}_{\tau_i} } & {} & {\prod_i\mathfrak{R}_{\tau_i}} & {\mathfrak{R}_\tau} & {\mathfrak{Nf}_{\tau}} \\
@@ -2895,15 +2895,20 @@ thought of as lowering semantic objects to a syntactic representation.
 	\arrow["{s\llbracket\Gamma\vdash t : \tau \rrbracket_*}"', from=3-3, to=3-5]
 	\arrow["{n_\tau}", from=1-5, to=3-5]
 	\arrow["{r_\tau}"', from=1-4, to=3-5]
-\end{tikzcd}\]
+\end{tikzcd}\] commutes. In classical approaches to normalization by evaluation,
+reflection can be construed as lifting syntax into a semantic domain: in
+practice, this looks like, say, taking syntactic functions in the object
+language to \emph{actual functions} in the host language. Dually, reification is
+thought of as lowering semantic objects to a syntactic representation.
 
 Supposing we can achieve this, our normalization function will be precisely the
-the upper-right composite of the lower diagram. Because the diagram commutes,
+the upper-right composite of the second diagram. Because the diagram commutes,
 the normalization function computes for a term $t$ a normal form with the same
 \emph{semantics} as $t$; that is, as evident from the diagram, we will have an
 equality of morphisms \( t \equiv \nf(t)\) in the syntactic category.
 
-To come up with such maps, we shall produce some intermediate maps
+To come up with such maps, we shall produce, for each \( \tau \in \types \), a pair
+of intermediate maps
 \[
   \mu_{\tau} \xrightarrow{\Uparrow^{\tau}} \sem{\tau}_{\gl} \xrightarrow{\Downarrow^{\tau}} \eta_{\tau}
 \]
@@ -2952,7 +2957,7 @@ careful setup in the preceding pages makes this process almost automatic.
     \end{align*}
 
     and define \( \Downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) as the composite
-    \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)}     \eta_{\tau*\tau'} \]
+    \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)} \eta_{\tau*\tau'}. \]
 
           In each case, the first pair in the composite is a glued map from
           Definition~\ref{def:glued-algebra} while the second pair is a glued
@@ -2963,12 +2968,12 @@ careful setup in the preceding pages makes this process almost automatic.
     \item For types \( \tau, \tau' \in \types \), we define the reflection map
     \[ \Uparrow^{\tau\rightarrow\tau'} : \mu_{\tau\rightarrow\tau'} \rightarrow {\sem{\tau'}_{\gl}}^{\sem{\tau}_{\gl}} \]
     as the exponential transpose of the composite
-    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\]
+    \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}.\]
 
-    By the universal property of the transpose, it suffices to  show that
+    By the universal property of the transpose, it suffices to show that
     the composite is a glued map of the appropriate domain and codomain.
-    This follows from the induction hypothesis, the universal property
-    of products (as in the previous induction step), and since
+    This follows from the induction hypothesis, the universal property of
+    products (as in the previous induction step), and since
     \( （\app_{\tau'}^{\tau}, \epsilon） \) is a glued map from
     Definition~\ref{def:glued-algebra}.
 
@@ -2992,7 +2997,7 @@ input term. This result is stated but not proven in Fiore's extended abstract
 \begin{theorem}[Reification and reflection are the identity in the semantics]\label{thm:reif-refl-sempres}
   For each type \( \tau \in \types \), we have the identities
   \[
-    \semproj (\Uparrow^{\tau}) = \id_{\tau} = \semproj(\Downarrow^{\tau})
+    \semproj (\Uparrow^{\tau}) = \id_{\tau} = \semproj(\Downarrow^{\tau}).
   \]
 \end{theorem}
 \begin{proof}
@@ -3035,14 +3040,13 @@ input term. This result is stated but not proven in Fiore's extended abstract
           The reification map
           \( \Downarrow^{\tau*\tau'} : \sem{\tau}_{\gl} \times \sem{\tau'}_{\gl} \rightarrow \eta_{\tau*\tau'}\) is defined
           as the composite
-          \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)} \eta_{\tau*\tau'} \].
+          \[ \sem{\tau}_{\gl}\times \sem{\tau'}_{\gl} \xrightarrow{\Downarrow^{\tau}\times \Downarrow^{\tau'}} \eta_{\tau} \times \eta_{\tau'} \xrightarrow[\cong]{(\pair_{\tau*\tau'}, \id)} \eta_{\tau*\tau'} \]
 
           whose semantic component is the identity by the induction hypothesis
           and the definition of the product functor in the gluing category.
 
           \item For \( \tau, \tau' \in \types \), the reflection map \( \Uparrow^{\tau \rightarrow \tau'}\) for the function type over these is defined as the exponential transpose of the composite
           \[ \mu_{\tau\rightarrow\tau'} \times \sem{\tau}_{\gl} \xrightarrow{\id \times \Downarrow^{\tau}} \mu_{\tau \rightarrow \tau'} \times \eta_{\tau} \xrightarrow{（\app_{\tau'}^{\tau}, \epsilon）} \mu_{\tau'} \xrightarrow{\Uparrow^{\tau'}} \sem{\tau'}_{\gl}\] whence
-
             \begin{align*}
               \semproj (\Uparrow^{\tau \rightarrow \tau'}) &= \semproj (\reallywidetilde{\Uparrow^{\tau} \circ（\app_{\tau'}^{\tau}, \epsilon）\circ (\id \times \Downarrow^{\tau})}) \\
                                     &= \reallywidetilde{\semproj (\Uparrow^{\tau}) \circ \semproj (\app_{\tau'}^{\tau},\epsilon) \circ \semproj (\id \times \Downarrow^{\tau})} && \textrm{(by functoriality of $\semproj$)} \\
@@ -3085,7 +3089,7 @@ operation from the \( \NN \)-algebra on the gluing category.
 Since the final isomorphism in the composite is a form of the Yoneda lemma and
 hence given by evaluation at the identity, we have the following explicit
 formula for each term $t$:
-\[ \normalize (t) = (\Downarrow^{\tau} \sem{\Gamma \vdash t : \tau} \Uparrow_{\Gamma} v_{\Gamma}) (\id_{\Gamma}) \]
+\[ \normalize (t) = (\Downarrow^{\tau} \sem{\Gamma \vdash t : \tau} \Uparrow_{\Gamma} v_{\Gamma}) (\id_{\Gamma}).\]
 
 The function we've defined takes open terms to normal forms, but it remains to
 establish the various correctness properties characterizing a normalization
@@ -3114,7 +3118,7 @@ so with ease.
       \arrow["{\textrm{nf}_\tau}", from=1-1, to=1-3]
       \arrow["{l_\tau}"', from=1-1, to=2-2]
       \arrow["{n_\tau}", from=1-3, to=2-2]
-    \end{tikzcd}\]
+    \end{tikzcd}.\]
 \end{theorem}
 \begin{proof}
   Per the version of the Yoneda lemma from Definition~\ref{def:yonedabar}, we
