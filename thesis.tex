@@ -57,6 +57,8 @@ citestyle=alphabetic
 \include{macros}
 \include{bsymbol}
 
+\hyphenation{pre-sheaves}
+
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 
 % Comment out the natbib line above and uncomment the following two lines to use the new 
@@ -71,15 +73,15 @@ citestyle=alphabetic
 \author{Jay Kruer}
 % The month and year that you submit your FINAL draft TO THE LIBRARY (May or December)
 \date{December 2021}
-\division{Mathematics and Natural Sciences}
+% \division{Mathematics and Natural Sciences}
 \advisor{Ang\'elica Osorno}
 \altadvisor{James (Jim) Fix}
 
-\department{Mathematics}
+\department{Mathematics and Computer Science}
 % if you're writing a thesis in an interdisciplinary major,
 % uncomment the line below and change the text as appropriate.
 % check the Senior Handbook if unsure.
-\thedivisionof{The Established Interdisciplinary Committee for Mathematics and Computer Science}
+\thedivisionof{The Established Interdisciplinary Committee for\\ Mathematics and Computer Science}
 % if you want the approval page to say "Approved for the Committee",
 % uncomment the next line
 % \approvedforthe{Committee}
@@ -265,6 +267,9 @@ Normalization by gluing is based.
 
 \mainmatter% here the regular arabic numbering starts
 \pagestyle{fancyplain} % turns page numbering back on
+
+\setlength{\headheight}{14.49998pt}
+\overfullrule=1mm
 
 % The \introduction command is provided as a convenience.
 % if you want special chapter formatting, you'll probably want to avoid using it altogether
@@ -557,9 +562,9 @@ drastically simplified setting.
 \begin{definition}\label{def:term}
   Given an elementary sketch, a \textbf{term} $x : \Gamma \vdash X$ is a string of
   composable unary operation-symbols applied to a variable $\gamma : \Gamma$ as in:
-  \( \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma))))) \). Composable unary-operation
-  symbols are ones which have compatible domains and codomains in the usual
-  sense as in set theory.
+  \[ \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma))))).\] Composable unary-operation symbols
+  are ones which have compatible domains and codomains in the usual sense, as
+  for example in set theory.
 \end{definition}
 
 We now propose a more precise version of the above claim: the terms of the
@@ -722,7 +727,7 @@ presentation.
       [a/x]; \hat{y} &= \hat{y}; [a/x] \\
       % non-overlapping drops commute
       \hat{x}; \hat{y} &= \hat{y}; \hat{x} \\
-      [x/y]; \hat{x}; [y/x]; \hat{y} &= \id
+      [x/y]; \hat{x}; [y/x]; \hat{y} &= \id.
     \end{align*}
   \end{outline}
   We will briefly speak to the meaning of the laws. The first law says that
@@ -789,8 +794,8 @@ out of the category in question.
   \begin{align*}
    F_{A} &: \cn_{\mathcal{L}} \rightarrow \mathfrak{Set} \\
     X &\mapsto \ceil{X}_{A} \\
-    (X \xrightarrow{r} Y) &\mapsto \ceil{r}_{A}
-  \end{align*}.
+    (X \xrightarrow{r} Y) &\mapsto \ceil{r}_{A}.
+  \end{align*}
 
   It remains to show functoriality of these assignments which follows from the
   laws of the canonical elementary language and faithfulness of the model. \\
@@ -908,7 +913,7 @@ whose algebras is the ring of integers under addition and multiplication.
                         + &: S \times S \rightarrow S,\\
                         0 &: \mathbbm{1} \rightarrow S,\\
                         1 &: \mathbbm{1} \rightarrow S,\\
-                        - &: S \rightarrow S
+                        - &: S \rightarrow S.
                       \end{align*}
 
     \item Laws: \begin{align*}
@@ -917,7 +922,7 @@ whose algebras is the ring of integers under addition and multiplication.
                   +(x, -(x)) &= 0()\\
                   \cdot(x,y) &= \cdot(y,x)\\
                   \cdot(1(), x) &= x\\
-                  \cdot(x, +(y,z)) &= +(\cdot(x,y), \cdot(x,z))
+                  \cdot(x, +(y,z)) &= +(\cdot(x,y), \cdot(x,z)).
                 \end{align*}
   \end{enumerate}
   Note that the countably infinite set of variables \( \{ s\}_{i\in\mathbb{N}}\)
@@ -1189,7 +1194,7 @@ contexts and substitutions and thus give meaning to terms.
   \begin{align}
     \label{eq:contexts interp}
     \sem{\varnothing} &= \mathbbm{1}_{C} \\
-    \sem{\Gamma, x : X} &= \sem{\Gamma} \times A_{X}
+    \sem{\Gamma, x : X} &= \sem{\Gamma} \times A_{X}.
   \end{align}
   The (overly) careful reader will complain that $C$ doesn't
   necessarily feature a terminal object, but it turns out that a terminal object
@@ -1219,7 +1224,7 @@ contexts and substitutions and thus give meaning to terms.
   \begin{align*}
     \sem{x_{i}} &\equiv \pi_{i} \\
     \sem{c} &\equiv c_{A } \circ <_{!} \\
-    \sem{r(u_{1}, \dots , u_{k})} &\equiv r_{A} \circ \braket{\sem{u_{1}}, \dots,\sem{u_{k}}}
+    \sem{r(u_{1}, \dots , u_{k})} &\equiv r_{A} \circ \braket{\sem{u_{1}}, \dots,\sem{u_{k}}}.
   \end{align*}
 \end{definition}
 
@@ -1399,7 +1404,7 @@ algebraic theories) and along the new exponential objects as well.
           the raw cartesian closed structure.
     \item Contexts are taken to products as in Definition~\ref{def:term model}.
     \item The variables, operation symbols, and the laws are treated as in
-          Definition~\ref{def:term model}.
+          Definition \ref{def:term model}.
     \item The last clause of the raw cartesian closed structure gives the notion
           of lambda abstraction in $C$.
   \end{itemize}
@@ -1412,7 +1417,7 @@ algebraic theories) and along the new exponential objects as well.
   \( b \in \cn_{\mathcal{L}}(\Gamma \times X,Y) \) we have the equations
   \begin{align*}
     \ev{X}{Y} \circ (\lambda_{\Gamma,X,Y}(b) \times \id_{X}) &= b && (\beta) \\
-    \lambda_{Y^{X},X,Y}(\ev{X}{Y}) &= \id_{Y^{X}} && (\eta)\\
+    \lambda_{Y^{X},X,Y}(\ev{X}{Y}) &= \id_{Y^{X}}. && (\eta)\\
   \end{align*}
 \end{definition}
 
@@ -1509,7 +1514,7 @@ categories.
             [t_{1} : \tau_{1}, t_{2} : \tau_{2}] &\vdash (t_{1},t_{2}) : \tau_{1} * \tau_{2} \\
             \\
             [t : \tau' \rightarrow \tau , t' : \tau'] &\vdash t\, t' : \tau \\\\
-            &\vdash () : \termob\\
+            &\vdash () : \termob.\\
           \end{align*}
           The reader will note that we have not yet added an operation symbol
           for lambda abstraction. This requires careful consideration, because
@@ -1526,9 +1531,9 @@ categories.
           containing the operation symbols already mentioned above.
 
     \item The only equation is the $\alpha$-rule which says that terms can be
-          identified up to renamings of their bound variables.
+          identified up to renamings of their bound variables:
           \begin{align*}
-            \alphalaw && (\alpha)
+            \alphalaw. && (\alpha)
           \end{align*}
 
           Note that we do not include the $\beta\eta$-rules in this version.
@@ -1551,11 +1556,11 @@ resulting theory of the typical lambda calculus is cartesian closed.
   \[[{[x_{1} : X_{1},x_{2} : X_{2}\ldots, x_{j} : X_{j}]} \Rightarrow {[y_{1} : Y_{1},y_{2} : Y_{2},\ldots,y_{k} : Y_{k}]}]\]
   is the context \( [f_{1} : F_{1} ,f_{2} : F_{2}, \ldots, f_{k} : F_{k}]\) where the
   \( f_{i}\) are new variables
-  and \[ F_{i} = X_{1} \Rightarrow [X_{2} \Rightarrow \cdots [X_{j} \Rightarrow Y_{i}] \cdots] \] Finally, we define
-  \begin{align*}
-    \textrm{ev}_{\overrightarrow{X},\overrightarrow{Y}} &= [(\cdots(f_{1}(x_{1})x_{2}) \cdots x_{j}) / y_{1}] \circ \cdots [(\cdots(f_{k}(x_{1})x_{2}) \cdots x_{j}) / y_{k}] \\
-    \lambda_{\Gamma, \overrightarrow{X}, \overrightarrow{Y}} [\overrightarrow{p} / \overrightarrow{y}] &= [(\lambda x_{1}.\,(\lambda x_{2}. \ldots (\lambda x_{k} .\, p_{1}) \ldots ))/f_{1}] \circ  \cdots [(\lambda x_{1}.\,(\lambda x_{2}.\, \ldots (\lambda x_{k} .\, p_{k}) \ldots ))/f_{k}] \\
-  \end{align*}
+  and \[ F_{i} = X_{1} \Rightarrow [X_{2} \Rightarrow \cdots [X_{j} \Rightarrow Y_{i}] \cdots] \] Finally, we define \(\textrm{ev}_{\overrightarrow{X},\overrightarrow{Y}} \) as
+  \[ [(\cdots(f_{1}(x_{1})x_{2}) \cdots x_{j}) / y_{1}] \circ \cdots \circ [(\cdots(f_{k}(x_{1})x_{2}) \cdots x_{j}) / y_{k}] \]
+  and
+  \( \lambda_{\Gamma, \overrightarrow{X}, \overrightarrow{Y}} [\overrightarrow{p} / \overrightarrow{y}] \) as
+  \[[(\lambda x_{1}.\,(\lambda x_{2}. \ldots (\lambda x_{k} .\, p_{1}) \ldots ))/f_{1}] \circ \cdots \circ [(\lambda x_{1}.\,(\lambda x_{2}.\, \ldots (\lambda x_{k} .\, p_{k}) \ldots ))/f_{k}].\]
 
   Naturality with respect to weakening and single substitution follows from the
   fact that substitution for (or weakening by) a variable $x$ commutes with
@@ -1572,7 +1577,7 @@ resulting theory of the typical lambda calculus is cartesian closed.
   equational laws:
   \begin{align*}
     \betalaw && (\beta)\\
-    \etalaw && (\eta)\\
+    \etalaw. && (\eta)\\
   \end{align*}
 
   We write \( \mathcal{L}_{\lambda\alpha\beta\eta}\) or simply \( \lambda \) for the new theory, and
@@ -1960,7 +1965,7 @@ Specializing to the case of the inclusion \( \iota : \ren \rightarrow \cl \) of
 Remark~\ref{rmk:reninclusioncl} gives us a functor
 \begin{align*}
   \mathfrak{Tm} : \cl &\rightarrow \renhat \\
-  \Delta &\mapsto \cl(\iota(-), \Delta)\\
+  \Delta &\mapsto \cl(\iota(-), \Delta) \\
 \end{align*}
 
 where \( \renhat \) is the category \( \mathfrak{Set}^{\ren^{\textrm{op}}} \).
@@ -2002,7 +2007,7 @@ defined.
 \begin{definition}[The gluing category]
   The gluing category \( \gl \) is defined as the comma category
   \( \renhat \downarrow \tm \). Explicitly, its objects are triples
-  \( (R : \renhat, q : R \Rightarrow \tm(\Delta), \Delta : \cl) \). The objects of the gluing
+  \[ (R : \renhat, q : R \Rightarrow \tm(\Delta), \Delta : \cl). \] The objects of the gluing
   category are \emph{proof relevant Kripke logical predicates}, in a sense that
   will be more clear after a digression to follow. Following the definition of
   the comma construction, the morphisms \( (R, q, \Delta) \rightarrow (R', q', \Delta') \) are pairs
@@ -2097,7 +2102,7 @@ at the naturality diagram of \( q \):
   as $q$ is a mono, these objects are exactly variable-arity Kripke relations
   over the context \( \Delta \).
 
-\section{Presheaves of stratified neutral and normal syntax}
+\section{Presheaves of neutral and normal syntax}
 In this section, we will enlist a motley crew of \emph{presheaves of syntax}
 which more-or-less represent certain classes of terms in the lambda calculus.
 These presheaves are defined over $\ren$ rather than $\cl$ for reasons that will
@@ -2130,7 +2135,7 @@ gives
   \mathfrak{P}^{\mathfrak{V}_{\Delta}}(\Gamma)  &= \mathfrak{P}^{\yoneda \tau}(\Gamma) \\
                                       &= \renhat[\yoneda \Gamma \times \yoneda \tau, \mathfrak{P}] && (2)\\
                                       &\cong \renhat[\yoneda (\Gamma \times \tau), \mathfrak{P}] && (\textrm{since the Yoneda embedding is cartesian closed}) \\
-                                      &\cong \mathfrak{P}(\Gamma\times\tau) && (\textrm{by the Yoneda lemma})\\
+                                      &\cong \mathfrak{P}(\Gamma\times\tau). && (\textrm{by the Yoneda lemma})\\
 \end{align*}
 
 Where step (2) follows from the definition of the exponentials in the category
@@ -2185,7 +2190,7 @@ the value of a variable.
       \textrm{incl}_{\theta} &: M_{\theta} \rightarrow N_{\theta} \\
        \textrm{unit} &: \termob \rightarrow \mathcal{N}_{\termob} \\
        \textrm{pair}_{\tau}^{\tau'} &: \mathcal{N}_{\tau} \times \mathcal{N}_{\tau'} \rightarrow \mathcal{N}_{\tau \times \tau'} \\
-       \textrm{abs}_{\tau \rightarrow \tau'} &: {\mathcal{N}_{\tau'}}^{\mathcal{V}_{\tau}} \rightarrow \mathcal{N}_{\tau \rightarrow \tau'} \\
+       \textrm{abs}_{\tau \rightarrow \tau'} &: {\mathcal{N}_{\tau'}}^{\mathcal{V}_{\tau}} \rightarrow \mathcal{N}_{\tau \rightarrow \tau'}. \\
     \end{align*}
     \item The laws are the usual $\alpha-$, $\beta-$, and $\eta-$rules.
   \end{enumerate}
@@ -2264,7 +2269,7 @@ the value of a variable.
   \end{align*}
   where \( \rho^{*}t\) is the result of \( \rho \) (regarded as a substitution) acting
   on \( t \) by the action of the clone model (c.f. Theorem~\ref{thm:clone
-    model}), the above context-indexed family in fact defines a presheaf
+    model}), the assignment above in fact defines a presheaf
   \[
     \mathfrak{L}_{\tau} : \renhat
   \]
@@ -2292,29 +2297,27 @@ We can define presheaves of neutral and normal terms similarly, with the same
 presheaf action by renaming as before.
 
 \begin{definition}[A presheaf of neutral terms]
-  For each $\tau \in \types$ and context \( \Gamma \in \ren \), the assignment
+  For each $\tau \in \types$, the assignment
   \[
     \mathfrak{Ne}_{\tau}(\Gamma) = \{ t \mid \Gamma \nedash t : \tau \}
   \]
-  defines a presheaf
-  \[ \mathfrak{Ne}_{\tau} : \renhat \]
-  under the renaming action.
+  for each context \( \Gamma : \ren \) defines a presheaf
+  \[ \mathfrak{Ne}_{\tau} : \renhat \] under the renaming action.
 \end{definition}
 
 \begin{definition}[A presheaf of normal terms]
-  For each $\tau \in \types$, the families
+  For each $\tau \in \types$, the assignment
   \[
     \mathfrak{Nf}_{\tau} = \{ t \mid \Gamma \nfdash t : \tau \}_{\Gamma \in \ren}
   \]
-  define a presheaf
-  \[ \mathfrak{Nf}_{\tau} : \renhat\]
-  under the renaming action.
+  for each context \( \Gamma : \ren \) defines a presheaf
+  \[ \mathfrak{Nf}_{\tau} : \renhat\] under the renaming action.
 \end{definition}
 
 After teasing out the latent binding structure enjoyed by the category of
-presheaves, we will find in Definition~\ref{def:strat-lam-alg} that the
-presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
-\( \renhat \).
+presheaves, we will find in Definition~\ref{def:strat-lam-alg}
+that the presheaves of neutrals and normals give rise to a \( \NN \)-algebra
+over \( \renhat \).
 
 \begin{remark}[Why the syntactic category just won't do]\label{rmk:syntactic-cat-bad}
   As mentioned earlier, a major motivation for defining the category of
@@ -2322,12 +2325,12 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
   that the syntactic category is an unsuitable base category over which to
   define presheaves like the ones above. Let's go back to basics and recall that
   a presheaf is not just a fancy family of sets, but crucially comes with a
-  faithful contravariant action taking a morphism in the base category to a
-  function of \emph{sets of the family} going in the opposite direction. If we
-  take the example of the presheaf of opens of type \(\tau\),
-  \( \mathfrak{L}_{\tau}\), there are no apparent problems. We could define the
-  family \( \{ \mathfrak{L}_{\tau}(\Delta)\}_{\Delta\in\cl}\) essentially as before, and use
-  the following presheaf action:
+  contravariant action taking a morphism in the base category to a function of
+  \emph{sets of the family} going in the opposite direction. If we take the
+  example of the presheaf of opens of type \(\tau\), \( \mathfrak{L}_{\tau}\), there
+  are no apparent problems. We could define the family
+  \( \{ \mathfrak{L}_{\tau}(\Delta)\}_{\Delta\in\cl}\) essentially as before, and use the
+  following presheaf action:
   \begin{align*}
     \cl(\Delta,\Gamma) &\rightarrow \catset(\mathfrak{L}_{\tau}(\Gamma), \mathfrak{L}_{\tau}(\Delta)) \\
     \delta &\mapsto (t \mapsto \delta^{*} t)
@@ -2352,7 +2355,7 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
 \end{remark}
 
 \subsection{A stratified lambda-algebra of neutrals and normals in Renhat}
-\begin{definition}[A stratified lambda-algebra of neutrals and normals]\label{def:strat-lam-alg}
+\begin{definition}\label{def:strat-lam-alg}
   The presheaves of neutrals and normals defined above give rise to an algebra
   of the theory \( \NN \) in \( \renhat\). The sorts \( \mathcal{N}_{\tau}\)
   (resp.~\( \mathcal{M}_{\tau} \)) are taken to be the presheaves
@@ -2368,20 +2371,21 @@ presheaves of neutrals and normals give rise to a \( \NN \)-algebra over
 
 \begin{remark}\label{rmk:interpretations-into-tm}
   It turns out that the algebra \( (\mathfrak{Ne}, \mathfrak{Nf})\) is initial
-  in the category \( \textrm{Mod}_{\renhat}(NN) \) \cite{fiore_semantic_2002}.
-  With this fact, the \( \NN \)-algebra \( (\tm, \tm) \) over
-  \( \{ (\tm(\tau), \tm(\tau)) \}_{\tau} \) together with the \( \NN\)-algebra over
-  \( \{ (\mathfrak{Ne_{\tau}}, \mathfrak{Nf_{\tau}}) \}_{\tau\in\types} \) just presented
-  and the \( \NN\)-algebra on \( \{ \mathfrak{L}_{\tau} \}_{\tau\in\types} \) induce,
-  for each \( \tau \in \types \), \(NN\)-homomorphisms~\footnote{in the sense of
-    Definition~\ref{def:homomorphism}} \( l : \mathfrak{L} \rightarrow \tm \) and
+  in the category \( \textrm{Mod}_{\renhat}(\NN) \) \cite{fiore_semantic_2002}.
+  With this fact, the \( \NN \)-algebra \( (\tm, \tm) \) over the family
+  \( \{ (\tm(\tau), \tm(\tau)) \}_{\tau} \) together with the just presented
+  \( \NN\)-algebra over the family
+  \( \{ (\mathfrak{Ne_{\tau}}, \mathfrak{Nf_{\tau}}) \}_{\tau\in\types} \) and the
+  \( \NN\)-algebra over the family \( \{ \mathfrak{L}_{\tau} \}_{\tau\in\types} \)
+  induce, for each \( \tau \in \types \), \(\NN\)-homomorphisms\footnote{in the sense
+    of Definition~\ref{def:homomorphism}} \( l : \mathfrak{L} \rightarrow \tm \) and
   \( (m,n) : (\mathfrak{Ne}, \mathfrak{Nf}) \rightarrow (\tm, \tm )\) such that the
   following diagram commutes:
 
   % https://q.uiver.app/?q=WzAsNCxbMCwwLCJcXG1hdGhmcmFre05lfSJdLFsxLDAsIlxcbWF0aGZyYWt7TH0iXSxbMiwwLCJcXG1hdGhmcmFre05mfSJdLFsxLDEsIlxcbWF0aGZyYWt7VG19Il0sWzAsMSwiIiwwLHsic3R5bGUiOnsidGFpbCI6eyJuYW1lIjoibW9ubyJ9fX1dLFsyLDEsIiIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Im1vbm8ifX19XSxbMCwzLCJtIiwyXSxbMSwzLCJsIiwyXSxbMiwzLCJuIl1d
 \[\begin{tikzcd}
 	{\mathfrak{Ne}} & {\mathfrak{L}} & {\mathfrak{Nf}} \\
-	& {\mathfrak{Tm(\tau)}}
+	& {\mathfrak{Tm}}
 	\arrow[tail, from=1-1, to=1-2]
 	\arrow[tail, from=1-3, to=1-2]
 	\arrow["m"', from=1-1, to=2-2]
@@ -2393,7 +2397,7 @@ In explicit terms, the map \( l_{\tau} \) for each \( \tau \in \types \) is the 
 semantic interpretation of terms in the syntactic category:
 \begin{align*}
   l_{\tau}(\Gamma) : \mathfrak{L}_{\tau}(\Gamma) &\rightarrow \tm(\tau)(\Gamma) \\
-  t &\mapsto \sem{\Gamma \vdash t : \tau} \\
+  t &\mapsto \sem{\Gamma \vdash t : \tau}. \\
 \end{align*}
 
 The maps \( m_{\tau} \), \( n_{\tau}\) are the usual semantic interpretation
@@ -2434,16 +2438,16 @@ constructing it. As hinted at above, our course will be plotted like this:
 
 First, we will elaborate the cartesian closed structure of the gluing category
 so that we can extend its lambda algebras along that structure to
-interpretations of lambda terms. Later, we will define an \( NN\)-algebra of
+interpretations of lambda terms. Later, we will define an \( \NN\)-algebra of
 \emph{glued} neutrals and normals whose neutral objects \( \mu_{\theta}\) will serve as
 the interpretation of a base type \( \theta \). Finally, we will define the
 normalization function as a composite of the interpretation induced by this
-assignment and (more or less) the some of the glued operations for the
-\( NN\)-algebra mentioned above. It will turn out that the characterizing
+assignment and (more or less) some of the glued operations for the
+\( \NN\)-algebra mentioned above. It will turn out that the characterizing
 property of such glued morphisms says exactly that the semantics is preserved by
 these morphisms, from which the first property is almost trivial. The second
-property is even more immediate, as well will find. [TODO: do another pass of
-this intro]
+property is even more immediate, as we will find. [TODO: do another pass of this
+intro]
 
 \begin{definition}[Forgetful projections]
   The assignments
@@ -2461,7 +2465,7 @@ this intro]
   the semantics leaving only the syntax defined by
   \begin{align*}
     (R, q, \Delta) &\mapsto R \\
-    (d,\delta) &\mapsto d \\
+    (d,\delta) &\mapsto d. \\
   \end{align*}
 \end{definition}
 
@@ -2510,13 +2514,9 @@ taken with a grain of salt.
 
 \begin{sketch}
   The universal property for exponentials is encoded by the product-hom
-  adjunction, so that it suffices to show an isomorphism
-  \[ \gl((R_{X}, q_{X}, \Delta_{X})\times(R_{Y}, q_{Y}, \Delta_{Y}), (R_{Z}, q_{Z}, \Delta_{Z})) \cong \gl((R_{X}, q_{X}, \Delta_{X}), (R_{Z},q_{Z},\Delta_{Z})^{(R_{Y}, q_{Y}, \Delta_{Y})}). \]
-
-  Recalling the definition of products in the gluing category, we must show
-
+  adjunction so that it suffices, by the definition of products in the gluing
+  category, to show an isomorphism
   \[ \phi : P \cong E : \psi \]
-
   where
   \begin{align*}
     &\tm(\Delta_{2}^{\Delta_{1}}) \times \tm(\Delta_{1}) \xrightarrow{i_{\pi}} \tm(\Delta_{2}^{\Delta_{1}}\times \Delta_{1}) \\
@@ -2611,7 +2611,7 @@ What we are left with is exactly the transpose of the left-hand side of the
 gluing equation:
 \begin{align*}
   \reallywidetilde{\tm(\delta) \circ i_{\pi} \circ (q_{X} \times q_{Y})} &= \lambda y.\, \tm(\delta) (i_{\pi}((q_{X}\times q_{Y}) (x, y))) \\
-                                                     &= \lambda y.\, \tm(\delta) (i_{\pi}(q_{X}(x),q_{Y}(y)))
+                                                    &= \lambda y.\, \tm(\delta) (i_{\pi}(q_{X}(x),q_{Y}(y))).
 \end{align*}
 Moreover, the right-hand side of the desired equality is evidently the transpose
 of the right-hand side of the gluing equation. Because taking transposes is
@@ -2620,7 +2620,7 @@ well-defined, the preceding two facts gives us the desired equality.
 We can now summarize the rightward map for the isomorphism:
 \begin{align*}
   \phi_{1}(d) &= d' && (\textrm{the unique mediating arrow from the argument above})\\
-  \phi_{2}(\delta) &= \tilde{\delta}
+  \phi_{2}(\delta) &= \tilde{\delta}.
 \end{align*}
 
 
@@ -2629,7 +2629,7 @@ because we don't need to interact much with the pullback. We define
 
 \begin{align*}
   \psi_{1}(d') &= \epsilon \circ ((d' \circ r) \times \id)  \\
-  \psi_{2}(\delta') &= \tm(\epsilon) \circ \tm(\delta' \times \id)  \\
+  \psi_{2}(\delta') &= \tm(\epsilon) \circ \tm(\delta' \times \id).  \\
 \end{align*}
 
 With our maps in hand, we can verify that they form a bijection. Because we have
@@ -2814,10 +2814,11 @@ Note that the glued operations are given by pairs of syntactic operations and
 \emph{semantic operations} for elimination forms, and pairs of syntactic
 operations and the \emph{identity} for introduction forms.
 
-Finally we can give an interpretation of base types in the gluing category in terms of the glued neutrals
+Finally we can give an interpretation of base types in the gluing category in
+terms of the glued neutrals by the assignment
 \begin{align*}
   T &\xrightarrow{\bar{s}} \renhat \downarrow \tm \\
-  \theta &\mapsto \mu_{\theta}\\
+  \theta &\mapsto \mu_{\theta}.\\
 \end{align*}
 
 Together with a suitable interpretation of base constructors and eliminators
