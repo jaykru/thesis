@@ -289,25 +289,24 @@ Normalization by gluing is based.
 % \onehalfspacing
 % \doublespacing
 
-
 Though we encounter many interesting objects and ideas along the way, this
 thesis is primarily concerned with the \emph{open normalization} problem for the
 simply typed lambda calculus. Some explaining is in order. First, we'll talk
 about the simply typed lambda calculus. The reader might be familiar with the
 \emph{untyped} lambda calculus. That mathematical object is the following
-system.
+system:
 
 LAMBDA CALCULUS HERE
 
-The Church-Turing thesis says that the lambda calculus and the Turing machine, a
-more famous model of universal computation, are equivalent \emph{in
+The famed Church-Turing thesis says that the lambda calculus and the Turing
+machine, a more famous model of universal computation, are equivalent \emph{in
   computational power}: any Turing machine can be simulated by the lambda
-calculus, and consequently any decidable problem can be decided by the lambda
-calculus.
-
-That the lambda calculus is so powerful is exciting, but some consider working
-with that full power unwieldy or even dangerous. Indeed, there are programs that
-one can write down in the lambda calculus which get ``stuck'' before computing a
+calculus and any program written in the lambda calculus can be simulated by some
+Turing machine. Consequently, just as the Turing machine is a universal
+computer, the lambda calculus is a universal programming language. That the
+lambda calculus is so powerful is exciting, but some consider working with that
+full power unwieldy or even dangerous. Indeed, there are programs that one can
+write down in the lambda calculus which get ``stuck'' before computing a
 \emph{value}, meaning that there are lambda programs $p$ which reduce to a $p'$
 which isn't a value but cannot be reduced to some $p''$.
 
@@ -324,20 +323,22 @@ natural number. Along with this type structure comes \emph{rules} stipulating
 how it may be used. We will not explain this story in depth in this thesis, but
 we will soon see these rules. The desired result indeed follows from this setup:
 lambda terms that follow the typing rules do not get stuck when evaluated. This
-is the famed \emph{type safety} property from programming language theory.
-Another family of properties, namely \emph{normalization} properties, follows
-from this type regime. It turns out that any program in the lambda calculus will
-reduce to a value in a finite number of evaluation steps. This property is
-called \emph{closed normalization}. In the language of Turing machines, this
-means that programs written in the simply typed lambda calculus always halt. In
-particular, the lambda calculus is \emph{not} Turing complete and can only
-simulate deciding Turing machines. This can be a problem for some applications.
-If you want, say, your web server to run indefinitely without bound; the simply
-lambda calculus can't do that. You could, however, make your program loop until
-the projected death of the sun and deploy a new version of your server shortly
-thereafter. Beyond silly considerations like this, the halting property of
-languages like the simply typed lambda calculus is actually required for some
-applications.
+is one instance of the famed \emph{type safety} properties of programming
+language theory. Another family of properties, namely \emph{normalization}
+properties, follows from this type regime. It turns out that any program in the
+lambda calculus will reduce to a value in a finite number of evaluation steps.
+This property is called \emph{closed normalization}. Borrowing the language of
+the theory of Turing machines, this means that programs written in the simply
+typed lambda calculus always halt. In particular, this means that the lambda
+calculus is \emph{not} Turing complete and can only simulate deciding Turing
+machines. This can be a problem for some applications. If you want, say, your
+web server to run indefinitely without bound; the simply lambda calculus can't
+do that. You could, however, make your program loop until the projected death of
+the sun and deploy a new version of your server shortly thereafter. Having noted
+that there are some workarounds to the problems arising form terminating
+character of the simply typed lambda calculus, it is interesting to note also
+that this very character is actually required for some applications; for some
+purposes, non-terminating languages have no such cute workarounds.
 
 An \emph{interactive theorem prover} is a computer program that allows a
 computer user to state theorems and input proofs\footnote{individual systems
@@ -368,7 +369,7 @@ first manually deactivate a Coq safety feature expressly intended to rule out
 such definitions.
 
 \begin{verbatim}
-j@proofmonkey ~ % coqtop
+j@art-house-thinking-sand ~ % coqtop
 Welcome to Coq 8.14.0
 
 Coq < Unset Guard Checking.
@@ -406,6 +407,39 @@ are unavailable. It should be noted that non-termination is only one source of
 inconsistency and that we should demand much more than termination of our
 theorem proving systems.
 
+Normalization theorems like these are typically proven using a technique called
+\emph{the method of logical relations}\footnote{Normalization actually only
+  requires \emph{logical predicates}, but the general method is known by this
+  name.} We will learn a bit more about logical relations in the third chapter.
+The normalization theorem of interest to people concerned with the safety of
+proof assistants are a little more challenging, and demand a leap in technology
+to the method of \emph{Kripke logical relations}, also detailed in chapter
+theory. The class of normalization theorems of interest to implementors of proof
+assistants is called the problem of \emph{open normalization}, and is in fact
+the type of theorem we will work toward in this thesis. Our \emph{open
+  normalization} theorem will be stated somewhat differently than the
+\emph{closed normalization} statement given above. Rather than speaking directly
+about the behavior of terms undergoing reduction, we will work with
+\emph{equivalence classes} of terms taken over an equality \emph{generated by}
+the reduction rules of the lambda calculus. Our normalization theorem will
+demand that we produce a \emph{function} from ordinary open terms to normal
+forms which both preserves and reflects these equivalence classes of terms. The
+reason that such a device is interesting to implementors of proof assistants is
+that proof assistants are usually based on \emph{dependent type systems}, in
+which the language of types allows for the presence of general terms. Such
+advanced type systems are the ones alluded to earlier in this introduction
+during our discussion of the Curry-Howard isomorphism. The Curry-Howard
+isomorphism casts the task of proof verification to the task of typechecking.
+Because dependent type theory allows for arbitrary terms (and in particular
+\emph{programs}) inside of types, the task of typechecking in this setting
+amounts to deciding the equality of the final result of arbitrary subterms (and
+in particular, arbitrary \emph{programs}). In the general case, that problem is
+well-known to be undecidable. Using a \emph{normalizing} term language makes it
+possible. By coming up with a \emph{normalization} function which takes
+\emph{open terms} which preserves and reflects equivalence classes of terms, we
+can decide the equality of arbitrary types by first computing the normalization
+[TODO: finish from here]
+
 [TODO: Talk about how closed normalization is typically proved using ordinary logical predicates]
 
 [TODO: Talk about open normalization somewhere nearby, and its importance in
@@ -423,20 +457,19 @@ make use of many of the basic tools of programming language theory without much
 commentary. In particular we expect that the reader has a working knowledge of
 type systems, grammars, etc. For these essentials, we refer the reader to
 Pierce's textbook \cite{pierce_types_2002}. I regret that I wasn't able to fully
-treat these topics in this thesis, but such a document would have been perhaps
+treat these topics in this thesis, but such a document would have been at least
 twice as long and I'm just one lad.
 
 The study of this mountain of prerequisites is well worth it, as the benefits of
 the methods we employ are many. First of all, the \emph{Artin gluing}
 construction which frames the development enables us to give a far more
 conceptual treatment of this problem. Our particular instance of the Artin
-gluing construction casts the normalization problem
+gluing construction allows us to cast the normalization problem as a simpler
+problem [finish this]
 
 [TODO: method+: more constructive and more conceptual; the structure of our
-constructions reflect the result we attempt to prove in a very clear way]
+constructions reflect the result we attempt to prove in a very clarifying way]
 
-[TODO: method+: our method is constructive, which, together with the fact that
-the result is open normalization means that we are giving a term reducer]
 
 \chapter[Functorial semantics]{Functorial semantics: sketches and their models; algebraic theories and their algebras}\label{chapter:functorial_semantics}
 In this chapter we will develop tools for reasoning about (syntactic)
@@ -1565,10 +1598,10 @@ resulting theory of the typical lambda calculus is cartesian closed.
   Naturality with respect to weakening and single substitution follows from the
   fact that substitution for (or weakening by) a variable $x$ commutes with
   abstraction of a distinct variable $y$: for any terms $p$ and $c$, we have
-  \( [c/y]^{*} (\lambda x.\, p ) \equiv \lambda x.\, ([c/y]^{*}p)\). The same situation holds for
-  weakening. The full naturality law follows from this and the fact that single
-  substitution and weakening are the generating morphisms of the syntactic
-  category.
+  \( [c/y]^{*} (\lambda x.\, p ) \equiv_{\alpha} \lambda x.\, ([c/y]^{*}p)\). The same situation holds
+  for weakening. The full naturality law follows from this and the fact that
+  single substitution and weakening are the generating morphisms of the
+  syntactic category.
 \end{proof}
 
 \begin{definition}[Lambda calculus]\label{def:alpha_beta_eta_theory}
@@ -2413,11 +2446,15 @@ some of the important properties a normalization function
 \( \nf_{\tau}^{\Gamma} : \opens_{\tau}(\Gamma) \rightarrow \nfpsh(\Gamma) \) should satisfy:
 \begin{itemize}
   \item Semantics preservation: For all terms \( t \in \opens_{\tau}(\Gamma)\),
-  \[ \nf_{\tau}^{\Gamma} (t) \equiv_{\beta\eta} t.\]
+  \[ \nf_{\tau}^{\Gamma} (t) \equiv_{\alpha\beta\eta} t.\]
 
   \item Equation preservation: For all terms
         \( t, t' \in \opens_{\tau}(\Gamma) \),
-        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau}^{\Gamma} (t) = \nf_{\tau}^{\Gamma} (t') .\]
+        \[ t \equiv_{\beta\eta} t' \Rightarrow \nf_{\tau}^{\Gamma} (t) \equiv_{\alpha\beta\eta}\nf_{\tau}^{\Gamma} (t') .\]
+
+   \item Equation reflection: For all terms
+   \( t, t' \in \opens_{\tau}(\Gamma)\),
+   \[ \nf_{\tau}^{\Gamma}(t) = \nf_{\tau}^{\Gamma}(t') \Rightarrow t \equiv_{\alpha\beta\eta} t' \]
 \end{itemize}
 
 These properties together with the signature of the function above encode most
@@ -2907,7 +2944,7 @@ Supposing we can achieve this, our normalization function will be precisely the
 the upper-right composite of the second diagram. Because the diagram commutes,
 the normalization function computes for a term $t$ a normal form with the same
 \emph{semantics} as $t$; that is, as evident from the diagram, we will have an
-equality of morphisms \( t \equiv \nf(t)\) in the syntactic category.
+equality of morphisms \( \sem{t} = \sem{\nf(t)}\) in the syntactic category.
 
 To come up with such maps, we shall produce, for each \( \tau \in \types \), a pair
 of intermediate maps
@@ -3099,18 +3136,6 @@ function. The laborious setup work of this chapter turns out to allow us to do
 so with ease.
 
 \section{Reaping what we've sown: easy proofs of the correctness properties}
-\begin{theorem}[Normalization respects computational equality]
-  For every pair of terms \( t, t' \in \mathfrak{L}_{\tau}(\Gamma) \), if
-  \( t \equiv_{\beta\eta\alpha} t' \) then \( {\nf}\,_{\tau}^{\Gamma}(t) = \nf\,_{\tau}^{\Gamma}(t')\).
-\end{theorem}
-\begin{proof}
-  \( \beta\eta\alpha \)-equivalent terms have the same interpretation in the classifying
-  category, because the classifying category is quotiented by definitional
-  equality. Symbolically, we have \( l_{\tau}(t) = l_{\tau}(t')\) from which the
-  required equality is immediate by the definition of the normalization function
-  as a composite starting with \( l_{\tau}\).
-\end{proof}
-
 \begin{theorem}[Semantics preservation]
   The following diagram commutes for every type \( \tau \in \types \):
   % https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXG1hdGhmcmFre0x9X1xcdGF1Il0sWzIsMCwiXFxtYXRoZnJha3tOZn1fXFx0YXUiXSxbMSwxLCJcXG1hdGhmcmFre1RtfShcXHRhdSkiXSxbMCwxLCJcXHRleHRybXtuZn1fXFx0YXUiXSxbMCwyLCJsX1xcdGF1IiwyXSxbMSwyLCJuX1xcdGF1Il1d
@@ -3125,7 +3150,7 @@ so with ease.
 \begin{proof}
   Per the version of the Yoneda lemma from Definition~\ref{def:yonedabar}, we
   have that the composite \( n_{\tau} \circ ((d, \delta) \mapsto d(\id))\) of the semantic
-  interpretation of normal forms in \( \cl \) with the isomorphism witnessinga
+  interpretation of normal forms in \( \cl \) with the isomorphism witnessing
   the Yoneda lemma is the semantic projection \( \semproj \). So it suffices to
   show that
   \( \semproj (\Downarrow^{\tau} \sem{\Gamma \vdash t : \tau}_{\gl} (\Uparrow_{\Gamma}v_{\Gamma}) ) = \sem{\Gamma \vdash t : \tau}_{\cl} \).
@@ -3138,8 +3163,37 @@ so with ease.
   by Theorem~\ref{thm:reif-refl-sempres} and Definition~\ref{def:glued-algebra}.
 \end{proof}
 
-\section{Looking forward: ``blah'' by gluing}
+\begin{corollary}
+  Because the interpretations \( l_{\tau}\) and \( n_{\tau}\) are just the semantic
+  interpretation of terms, we have in particular for any term \( \Gamma \vdash t : \tau \)
+  that \( \normalize(t) \equiv_{\alpha\beta\eta} t\).
+\end{corollary}
 
+\begin{theorem}[Equation preservation]
+  For every pair of terms \( t, t' \in \mathfrak{L}_{\tau}(\Gamma) \), if
+  \( t \equiv_{\alpha\beta\eta} t' \) then \( {\nf}\,_{\tau}^{\Gamma}(t) \equiv_{\alpha\beta\eta} \nf\,_{\tau}^{\Gamma}(t')\).
+\end{theorem}
+\begin{proof}
+  \( \alpha\beta\eta \)-equivalent terms have the same interpretation in the classifying
+  category, because the classifying category is quotiented by definitional
+  equality. Symbolically, we have \( l_{\tau}(t) = l_{\tau}(t')\) from which the
+  required equality is immediate by the definition of the normalization function
+  as a composite starting with \( l_{\tau}\).
+\end{proof}
+
+\begin{theorem}[Equation reflection]
+  For every pair of terms \( t, t' \in \mathfrak{L}_{\tau}(\Gamma) \), if
+  \( {\nf}\,_{\tau}^{\Gamma}(t) \equiv_{\alpha\beta\eta} \nf\,_{\tau}^{\Gamma}(t')\) then \( t \equiv_{\alpha\beta\eta} t' \).
+\end{theorem}
+\begin{proof}
+  The corollary to the semantics preservation theorem above together with
+  transitivity of definitional equality give that
+  \begin{align*}
+    t &\equiv_{\alpha\beta\eta} {\nf}\,_{\tau}^{\Gamma}(t) \\
+      &\equiv_{\alpha\beta\eta} {\nf}\,_{\tau}^{\Gamma}(t') && \textrm{(assumption)}\\
+      & t'
+  \end{align*} as required.
+\end{proof}
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 \chaptermark{Conclusion}
