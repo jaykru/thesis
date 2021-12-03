@@ -635,7 +635,7 @@ As promised, we begin with the definition.
   An \emph{elementary sketch} is comprised of the following data:
   \begin{enumerate}
     \item a collection \(X, Y, Z, \dots \) of named \emph{base types} or
-          \emph{sorts}
+          \emph{sorts}.
     \item a \emph{variable} \(x:X\) for each occurrence of each named sort.
     \item a collection of \emph{unary operation-symbols} or
           \emph{constructors} \(\tau\) having at most one variable. We write
@@ -644,6 +644,14 @@ As promised, we begin with the definition.
           form: \[ \tau_n (\tau_{n-1}(\cdots \tau_2 (\tau_1 (x))\cdots )) = \sigma_m (\sigma_{m-1}(\cdots \sigma_2 (\sigma_1 (x))\cdots )) \]
   \end{enumerate}
 \end{definition}
+\begin{remark}
+  We will sometimes write example sorts with Greek letters, \( \Gamma, \Delta, \) etc.\ to
+  stress the similarities of our work in this simple setting to our treatment of
+  \emph{type theory} which takes place in a more advanced doctrinal setting. For
+  now, the reader should be careful not to read much into this notation. The
+  sorts of an elementry sketch are never to be considered as \emph{contexts}; in
+  this setting, a sort is always used with reference to single variable.
+\end{remark}
 We will discuss the generality provided by this definition after some
 intervening examples. One of the simplest examples is the sketch of a (free)
 monoid on some set $S$:
@@ -780,12 +788,12 @@ moreover induce an isomorphism of categories.
   \( L(C) = \mathcal{L} \) the \emph{canonical elementary language} of \( C \).
 
   The language is defined as follows:
-  \begin{itemize}
+  \begin{enumerate}
     \item The sorts \( \lceil X \rceil \) of \( L(C) \) are the objects \( X \) of \( C\)
     \item The operation symbols \( \lceil f \rceil \) are the morphisms \( f \) of \( C \) and
     \item The laws are \( \lceil \id \rceil (x) = x \) and \( \lceil g \rceil (\lceil f \rceil (x)) = \lceil g \circ f \rceil (x) \)
-  \end{itemize}
-  and the isomorphism \( C \cong \cn_{\mathcal{L}} \) is clear.
+  \end{enumerate}
+  and the isomorphism of categories \( C \cong \cn_{\mathcal{L}} \) is clear.
 \end{theorem}
 
 \section{The category of contexts and substitutions}
@@ -885,13 +893,13 @@ out of the category in question.
 \begin{proof}
   \( (\Rightarrow) \) Suppose we have an \( \mathcal{L}\)-model $A$. Then $A$ is an
   assignment of a set $\ceil{X}_{A}$ to each sort \( \ceil{X}\) and an
-  assignment of a function \( \ceil{r}_{A} : X_{A} \rightarrow Y_{A}\) to each operation-symbol
+  assignment of a function \( \ceil{r}_{A} : \ceil{X}_{A} \rightarrow \ceil{Y}_{A}\) to each operation-symbol
   \( X \vdash \ceil{r}(x) : Y\) such that the laws (given by
   Theorem~\ref{thm:canonical_elementary_language}) of \( \mathcal{L} \) are preserved. These
   assignment form precisely the data of a functor
 
   \begin{align*}
-   F_{A} &: \cn_{\mathcal{L}} \rightarrow \mathfrak{Set} \\
+   F &: \cn_{\mathcal{L}} \rightarrow \mathfrak{Set} \\
     X &\mapsto \ceil{X}_{A} \\
     (X \xrightarrow{r} Y) &\mapsto \ceil{r}_{A}.
   \end{align*}
@@ -900,21 +908,21 @@ out of the category in question.
   laws of the canonical elementary language and faithfulness of the model. \\
 
   \( (\Leftarrow) \) Suppose we have a functor
-  $F_A : \cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$. We will construct a model $A$ of
-  $\mathcal{L}$ from $F_{A}$ as follows: Recall from
+  $F : \cn_{\mathcal{L}} \rightarrow \mathfrak{Set}$. We will construct a model $A$ of
+  $\mathcal{L}$ from $F$ as follows: Recall from
   Theorem~\ref{thm:canonical_elementary_language} that the sorts \(\ceil{X} \)
   of the sketch $\mathcal{L}$ are precisely the objects $X$ of
   \( \cn_{ \mathcal{L}} \), and the operation symbols \( X \vdash \ceil{ f } : Y \)
   are the morphisms \( f \) of \( \cn_{\mathcal{L}}\). Now,
   \begin{enumerate}
-    \item For each sort \(\ceil{X}\) we assign \( \ceil{X}_A = F_{A}(X)\).
-    \item For each operation symbol \( \ceil{f} \) we assign \( \ceil{f}_{A} = F_{A}(f) \).
+    \item For each sort \(\ceil{X}\) we assign \( \ceil{X}_{A} = F(X)\).
+    \item For each operation symbol \( \ceil{f} \) we assign \( \ceil{f}_{A} = F(f) \).
     \item Again by Theorem~\ref{thm:canonical_elementary_language}, the only
           laws of the sketch are that \(\ceil{\text{id}}(x) = x\) and
           \(\ceil{g}(\ceil{f}(x)) = \ceil{g \circ f}(x)\). According to the
           assignments in the previous two points, the first law says that
-          \(F_{A}(\text{id}_{X}) = \text{id}_{\ceil{X}_{A}}\), and the second
-          says that \( (F_{A} \ceil{g}) \circ (F_{A}(\ceil{f})) = F_{A} (g \circ f)\).
+          \(F(\text{id}_{X}) = \text{id}_{\ceil{X}_{A}}\), and the second
+          says that \( (F \ceil{g}) \circ (F(\ceil{f})) = F (g \circ f)\).
           Both are ensured by functoriality.
   \end{enumerate}
 \end{proof}
@@ -957,13 +965,15 @@ sketches will come along for the ride without much changed.
           having an \emph{arity}, namely a list of input sorts $X_{i}$, and an
           output sort $Y$; and
     \item a collection of \emph{laws}, posed as equalities between different
-          terms (in the sense defined before)
+          terms (in the sense defined before.)
   \end{enumerate}
 \end{definition}
-
 We will write \( \termob \) for the nullary product of sorts, and moreover when
 working with a \emph{constant} operation symbol \( \termob \vdash c() : X \), we will
-often allow ourselves to simply write $c$ rather than $c()$.
+often allow ourselves to simply write $c$ rather than $c()$. When working
+abstractly with an operation symbol
+\(x_{1}: X_{1},\dots , x_{k} : X_{k} \vdash r(x_{1},\dots, x_{k}) : Y \), we will
+often elide the variables and simply write \( X_{1}, \dots, X_{k} \vdash r : Y\).
 
 \begin{remark}
   The syntactic category \(\syncat{\mathcal{L}}\) of an algebraic theory is
@@ -1001,8 +1011,8 @@ whose algebras is the ring of integers under addition and multiplication.
   anyone with a background in abstract algebra, except that we force the
   existence of multiplicative and additive identities by requiring any model (to
   be defined!) of this theory to 1) provide \emph{global elements}, namely
-  morphisms out of the terminal object of the category hosting the model and 2)
-  satisfy the defining equations of the identity.
+  morphisms out of the terminal object of the category hosting the model, which
+  act like identities and 2) satisfy the defining equations of the identity.
 
   \begin{enumerate}
     \item Sorts: The single sort is \( S \). The variable collection for the
@@ -1035,10 +1045,8 @@ whose algebras is the ring of integers under addition and multiplication.
 \end{example}
 
 
- Having given
-some concrete examples, we now allow ourselves another abstract definition: that
-of an \emph{$\mathcal{L}$-algebra} for an algebraic theory:
-
+Having given some concrete examples, we now allow ourselves another abstract
+definition: that of an \emph{$\mathcal{L}$-algebra} for an algebraic theory:
 \begin{example}[The ring of integers]\label{ex:integer ring}
   \begin{enumerate} \,
     \item For the single sort, we set $A_{S} = \mathbb{Z}$
@@ -1075,7 +1083,7 @@ find that all \emph{rings} (in the conventional sense of abstract algebra) are
 of the theory of \emph{ring} defines \emph{a ring}. The reader may also verify
 that the usual ring-homomorphisms in \( \mathfrak{Set}\) are an instance of the
 generalized notion of \( \mathcal{L}\)-algebra homomorphism that we introduce
-following an intervening example theory-algebra pair from computing. Conversely,
+following an intervening example theory-algebra pair from computing.
 
 This example is meant for readers with a basic background in digital logic. An
 interesting aspect of this example is that it admits some very practical
@@ -1305,8 +1313,7 @@ contexts and substitutions and thus give meaning to terms.
   extend this to arbitrary terms in the context
   \( \Gamma \equiv \sem{x_{1} : X_{1}, \dots , x_{n} : X_{n}} \) by the following
   recursive definition:
-  \begin{align*}
-    \label{eq:term interp}
+  \begin{align*}\label{eq:term interp}
     \sem{x_{i}} &: \sem{\Gamma} \equiv A_{X_{1}} \times \cdots \times A_{X_{n}} \xrightarrow{\pi_{i}} A_{X_{i}} \\
     \sem{c} &: \sem{\Gamma} \xrightarrow{<_{!}} \mathbbm{1}_{C} \xrightarrow{c_{A}} A_{Z} \\
     \sem{r(u_{1}, \dots , u_{k})} &: \sem{\Gamma} \xrightarrow{\braket{\sem{u_{1}}, \dots, \sem{u_{k}}}} A_{Y_{1}} \times \cdots \times A_{Y_{k}} \xrightarrow{r_{A}} A_{Z}
