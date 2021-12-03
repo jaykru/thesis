@@ -341,48 +341,68 @@ the natural numbers as appropriate) then the following terms are examples of
 values
 \begin{center}
   \begin{itemize}
-    \item \( \lambda x.\, 5 \)
-    \item \( \)
+    \item \( \lambda x.\, 5\)
+    \item \( 2 \)
+    \item \( \lambda x.\, 5\, (\lambda y.\, y) \)
   \end{itemize}
 \end{center}
+while these terms are neither values nor stuck
+\begin{center}
+  \begin{itemize}
+    \item \( (\lambda x.\, 5) 1\)
+    \item \( (\lambda x.\, 5\, (\lambda y.\, y)) 1 \)
+  \end{itemize}
+\end{center}
+and finally the term
+\[
+  5\, (\lambda y.\, y)
+\]
+is stuck because we have no clue what to do with a numeral applied to an
+abstraction and such a thing isn't one of our chosen values. This example
+illustrates that stuck terms are in some sense a coarse approximation for
+\emph{bad} program states. Hence, the problem in the lambda calculus pointed to
+above is that its definition allows us to write programs ending in \emph{bad}
+states.
 
 The usual solution to this problem is to tie our own hands a bit, imposing a
 regime of \emph{types} which allow us to statically rule out those program
-states (i.e., stuck terms) that we don't want to happen. The simplest example of
-such a regime is, appropriately, \emph{simple types}. The simply-typed lambda
-calculus enriches the lambda calculus with some base types, say booleans and
-natural numbers, along with derived types \( A \times B\) representing \emph{pairs of
-  terms} of the types $A$ and $B$ along with \( A \Rightarrow B\) representing
-\emph{functions} taking an $A$ and giving a $B$. For example, the type
-\( \mathbbm{B} \times \mathbbm{N}\) is inhabited by pairs of a boolean and some
-natural number. Along with this type structure comes \emph{rules} stipulating
-how it may be used. We will not explain this story in depth in this thesis, but
-we will soon see these rules in Chapter~\ref{chapter:stlc}. The desired result
-indeed follows from this setup: lambda terms that follow the typing rules do not
-get stuck when evaluated. This is one instance of the famed \emph{type safety}
-properties of programming language theory. Another family of properties, namely
-\emph{normalization} properties, follows from this type regime. It turns out
-that any program in the lambda calculus will reduce to a value in a finite
-number of evaluation steps. This property is called \emph{closed normalization}.
-Borrowing the language of the theory of Turing machines, this means that
-programs written in the simply typed lambda calculus always halt. In particular,
-this means that the lambda calculus is \emph{not} Turing complete and can only
-simulate deciding Turing machines. This can be a problem for some applications.
-If you want, say, your web server to run indefinitely without bound; the simply
-lambda calculus can't do that. You could, however, make your program loop until
-the projected death of the sun and deploy a new version of your server shortly
-thereafter. Having noted that there are some workarounds to the problems arising
-from the terminating character of the simply typed lambda calculus, it is
-interesting to note also that this very character is actually required for some
-applications; for some purposes, non-terminating languages have no such cute
-workarounds.
+states (i.e., stuck terms) that we don't want to happen. These static guarantees
+include, for example, ensuring that we only ever \emph{apply} abstractions, a
+situation which would rule out our example stuck term above. The simplest
+example of a typing regime is, appropriately, \emph{simple types}. The
+simply-typed lambda calculus enriches the lambda calculus with some base types,
+say booleans and natural numbers, along with derived types \( A \times B\)
+representing \emph{pairs of terms} of the types $A$ and $B$ along with
+\( A \Rightarrow B\) representing \emph{functions} taking an $A$ and giving a $B$. For
+example, the type \( \mathbbm{B} \times \mathbbm{N}\) is inhabited by pairs of a
+boolean and some natural number. Along with this type structure comes
+\emph{rules} stipulating how it may be used. We will not explain this story in
+depth in this thesis, but we will soon see these rules in
+Chapter~\ref{chapter:stlc}. The desired result indeed follows from this setup:
+lambda terms that follow the typing rules do not get stuck when evaluated. This
+is one instance of the famed \emph{type safety} properties of programming
+language theory. Another family of properties, namely \emph{normalization}
+properties, follows from this type regime. It turns out that any program in the
+lambda calculus will reduce to a value in a finite number of evaluation steps.
+This property is called \emph{closed normalization}. Borrowing the language of
+the theory of Turing machines, this means that programs written in the simply
+typed lambda calculus always halt. In particular, this means that the lambda
+calculus is \emph{not} Turing complete and can only solve \emph{decidable}
+problems. This can be a problem for some applications. If you want, say, your
+web server to run indefinitely without bound; the simply typed lambda calculus
+can't do that. You could, however, make your program loop until the projected
+death of the sun and deploy a new version of your server shortly thereafter.
+Having noted that there are some workarounds to the problems arising from the
+terminating character of the simply typed lambda calculus, it is interesting to
+note also that this very character is actually required for some applications;
+for some purposes, non-terminating languages have no such cute workarounds.
 
 An \emph{interactive theorem prover} is a computer program that allows a
 computer user to state theorems and input proofs\footnote{Individual systems
   vary in how manual the process of inputting proofs is.}, which are then
 checked by the program. Many interactive proof systems, such as Coq or Agda, are
 based on type\footnote{Here I am referring to type theory in the same sense as
-  above for the simply typed lambda calculs. Only the type systems underlying
+  above for the simply typed lambda calculus. Only the type systems underlying
   modern proof assistants feature much more complicated type structure, which is
   precisely what enables them to express non-trivial mathematical statements and
   proofs. We will see a little more on this story below.} theory. Such proof
@@ -401,12 +421,12 @@ non-terminating program of that type. This is easiest to see by putting
 unguarded termination in the language as a form of non-termination. The program
 simply calls itself recursively forever, infinitely passing the buck but
 ostensibly having the desired type. Let's check out an example in the Coq proof
-assistant; we will be deriving a term of type False (the type which has no term
-constructors, and hence really ought to be uninhabited.) You could perform this
-same construction for any type you choose, even if it would be redundant now
-that we have a False term (which gives us a term of any other type by trivial
-case analysis). We first manually deactivate a Coq safety feature expressly
-intended to rule out such definitions.
+assistant; we will be deriving a term of type \texttt{False} (the type which has
+no term constructors, and hence really ought to be uninhabited.) You could
+perform this same construction for any type you choose, even if it would be
+redundant now that we have a \texttt{False} term (which gives us a term of any
+other type by trivial case analysis). We first manually deactivate a Coq safety
+feature expressly intended to rule out such definitions.
 
 \begin{verbatim}
 j@art-house-thinking-sand ~ % coqtop
@@ -451,8 +471,8 @@ Normalization theorems like these are typically proven using a technique called
 \emph{the method of logical relations}\footnote{Normalization proofs actually
   only require the use of \emph{logical predicates}, which are the unary case of
   logical relations, but the general method is better known by the name
-  \emph{logical relations}.} We will learn a bit more about logical relations in
-the third chapter. The normalization theorem of interest to people concerned
+  \emph{logical relations}.}. We will learn a bit more about logical relations
+in the third chapter. The normalization theorem of interest to people concerned
 with the safety of proof assistants are a little more challenging, and demand a
 leap in technology to the method of \emph{Kripke logical relations}, also
 detailed in Chapter~\ref{chapter:gluing}. The class of normalization theorems of
@@ -465,29 +485,30 @@ work with \emph{equivalence classes} of terms taken over an equality
 \emph{generated by} the reduction rules of the lambda calculus. Our
 normalization theorem will demand that we produce a \emph{function} from
 ordinary open terms to normal forms which both preserves and reflects these
-equivalence classes of terms. The reason that such a device is interesting to
-implementors of proof assistants is that proof assistants are usually based on
-\emph{dependent type systems}, in which the language of types allows for the
-presence of general terms. Such advanced type systems are the ones alluded to
-earlier in this introduction during our discussion of the Curry-Howard
-isomorphism. The Curry-Howard isomorphism casts the task of proof verification
-as the task of typechecking. Because dependent type theory allows for arbitrary
-terms (and in particular \emph{programs}) inside of types, the task of
-typechecking in this setting amounts to deciding the equality of the final
-\emph{result} of arbitrary subterms (and, in particular, arbitrary
-sub\emph{programs}). In the general case, this problem is well-known to be
-undecidable. Using a \emph{normalizing} term language makes it possible. Coming
-up with a \emph{normalization} function \( \normalize \) which satisfies some
-key properties\footnote{Exactly which properties we will demand of our
-  normalization function will be fully detailed in Chapter~4.} will allow us to
-compute normal forms for these subterms and use those normal forms for the
-desired equality check. The desired property most relevant to dependent
-typechecking is what I call \emph{equation reflection} which says that for open
-terms \( t\) and \( t' \) of type \( \tau \) whose free\footnote{Free variables are
-  those variables appearing in a term which are not bound by a lambda
-  abstraction.} variables come from \emph{context}\footnote{A context is nothing
-  more than a list of variables together with their associated types.} \( \Gamma \)
-we have that
+equivalence classes of terms.
+
+The reason that such a device is interesting to implementors of proof assistants
+is that proof assistants are usually based on \emph{dependent type systems}, in
+which the language of types allows for the presence of general terms. Such
+advanced type systems are the ones alluded to earlier in this introduction
+during our discussion of the Curry-Howard isomorphism. The Curry-Howard
+isomorphism casts the task of proof verification as the task of typechecking.
+Because dependent type theory allows for arbitrary terms (and in particular
+\emph{programs}) inside of types, the task of typechecking in this setting
+amounts to deciding the equality of the final \emph{result} of arbitrary
+subterms (and, in particular, arbitrary sub\emph{programs}). In the general
+case, this problem is well-known to be undecidable. Using a \emph{normalizing}
+term language makes it possible. Coming up with a \emph{normalization} function
+\( \normalize \) which satisfies some key properties\footnote{Exactly which
+  properties we will demand of our normalization function will be fully detailed
+  in Chapter~4.} will allow us to compute normal forms for these subterms and
+use those normal forms for the desired equality check. The desired property most
+relevant to dependent typechecking is what I call \emph{equation reflection}
+which says that for open terms \( t\) and \( t' \) of type \( \tau \) whose
+free\footnote{Free variables are those variables appearing in a term which are
+  not bound by a lambda abstraction.} variables come from
+\emph{context}\footnote{A context is nothing more than a list of variables
+  together with their associated types.} \( \Gamma \) we have that
 \[
   \normalize(t) = \normalize(t') \Rightarrow t = t'.
 \]
@@ -529,30 +550,30 @@ twice as long and I'm just one lad.
 
 The study of this mountain of prerequisites is well worth it, as the benefits of
 the methods we employ are many. First of all, the \emph{Artin gluing}
-construction which frames the development enables us to give a far more
-conceptual treatment of this problem than conventional approaches allow for. Our
-particular instance of the Artin gluing construction allows us to cast the
-normalization problem as a simpler problem of finding a a morphism from one
-chosen object to another chosen object inside of a specially structured
-category. The structure of the category is such that each intermediate step
-taken along the path from the first chosen object to the second chosen object
-must maintain a certain invariant which ultimately will entail our desired
-properties. One could liken this situation to the style of \emph{type-directed
-  programming} popular among functional programmers. In \emph{type-directed
-  programming}, one defines rich datatypes in terms of which the functions
-comprising one's program are \emph{specified} before turning to the task of
-actually writing them. These (possibly dependent) datatypes are used to express
-a variety of correctness criteria about the functions such that any function the
-programmer ultimately comes us with meets the specified properties as long as it
-has the right type (as determined by the typechecker). In a similar way, the
-design of the gluing category is like a strongly typed setting in which to
-define and compose syntactic transformations. The structure of the gluing
-category forces us to verify a certain correctness criterion \emph{as we go}
-while constructing the intermediate syntactic transformations so that, besides
-one final totally straightforward verification about each of the syntactic
-transformations, our desired correctness criteria for a normalization function
-immediately follow from having managed to construct a normalization function of
-the ``correct type'' within the gluing category. I am remaining vague on this
+construction which frames the development enables us to give a more conceptual
+treatment of this problem than conventional approaches allow for. Our particular
+instance of the Artin gluing construction allows us to cast the normalization
+problem as a simpler problem of finding a a morphism from one chosen object to
+another chosen object inside of a specially structured category. The structure
+of the category is such that each intermediate step taken along the path from
+the first chosen object to the second chosen object must maintain a certain
+invariant which ultimately will combine with an elementary fact to entail our
+desired properties. One could liken this situation to the style of
+\emph{type-directed programming} popular among functional programmers. In
+\emph{type-directed programming}, one defines rich datatypes in terms of which
+the functions comprising one's program are \emph{specified} before turning to
+the task of actually writing them. These (possibly dependent) datatypes are used
+to express a variety of correctness criteria about the functions such that any
+function the programmer ultimately comes up with meets the specified properties
+as long as it has the right type (as determined by the typechecker). In a
+similar way, the design of the gluing category is like a strongly typed setting
+in which to define and compose syntactic transformations. The structure of the
+gluing category forces us to verify a certain correctness criterion \emph{as we
+  go} while constructing the intermediate syntactic transformations so that,
+besides one final totally straightforward verification about each of the
+syntactic transformations, our desired correctness criteria for a normalization
+function follow from simply having managed to construct a normalization function
+of the ``correct type'' within the gluing category. I am remaining vague on this
 point for now because we don't yet have enough language to precisely describe
 what is going on. A more clear characterization of how the gluing category
 productively ties our hands as typed programming languages do shall come in
@@ -2228,9 +2249,37 @@ at the naturality diagram of \( q \):
 
 \chapter{Obtaining a normalization function}\label{chapter:normalization}
 \epigraph{I stood on wondering which way to go\\
-I lit a cigarette on a parking meter\\
-And walked on down the road, it was a normal day
-}{Bob Dylan}
+  I lit a cigarette on a parking meter\\
+  And walked on down the road, it was a normal day }{Bob Dylan} With our
+prep-work out of the way and our course already sketched in the introduction to
+the previous chapter, this chapter will quickly get underway with the remaining
+work needed to construct our long-overdue normalization function for the simply
+typed lambda calculus after one quick attributional note. The work done in this
+chapter is heavily influence by an extended abstract of Fiore
+\cite{fiore_semantic_2002}. The primary original contribution of this chapter is
+to cast Fiore's work in terms of the language developed in the first two
+chapters, which comes from Taylor \cite{taylor_practical_1999}. Taylor's notion
+of algebraic theory is perhaps more digestible to the reader approaching this
+work from computer science than the language Fiore works in; in kind, the
+presentation here might be more appealing to such reader's than Fiore's original
+extended abstract. I do leave out some observations and results from Fiore's
+original paper, so I absolutely encourage to the reader to compare what follows
+with the development Fiore presents. Besides this recasting, I also follow
+Sterling and Spitters \cite{sterling_normalization_2018} in attempting
+throughout to lower the abstraction level seen in Fiore's paper. For example,
+Fiore's entire development is parameterized over a semantic interpretation of
+terms in \( \cl \), whereas I fix an interpretation throughout. I do however, in
+some places follow Fiore in work more abstractly where I feel it makes the
+results more clear. In this sense, the work presented in this chapter can be
+viewed as a mediating between these varying degrees of abstraction to find a
+nice medium for a reader whose background is similar to my own. Throughout this
+chapter, I present some proofs which are either fleshed out versions of
+arguments given \emph{en-passant} in Fiore or else entirely original. These
+proofs are marked as such.
+
+Now then, let's get on with it! To begin, we set about defining some
+\emph{presheaves of syntax} in \( \renhat\).
+
 \section{Presheaves of neutral and normal syntax}
 In this section, we will enlist a motley crew of \emph{presheaves of syntax}
 which more-or-less represent certain classes of terms in the lambda calculus.
@@ -2566,7 +2615,6 @@ $N$. We do not show this; for that, refer the reader to Fiore
 
 Now that we understand what a normalization function must be, we can set about
 constructing it. As hinted at above, our course will be plotted like this:
-
 First, we will elaborate the cartesian closed structure of the gluing category
 so that we can extend its lambda algebras along that structure to
 interpretations of lambda terms. Later, we will define an \( \NN\)-algebra of
@@ -2574,11 +2622,9 @@ interpretations of lambda terms. Later, we will define an \( \NN\)-algebra of
 the interpretation of a base type \( \theta \). Finally, we will define the
 normalization function as a composite of the interpretation induced by this
 assignment and (more or less) some of the glued operations for the
-\( \NN\)-algebra mentioned above. It will turn out that the characterizing
-property of such glued morphisms says exactly that the semantics is preserved by
-these morphisms, from which the first property is almost trivial. The second
-property is even more immediate, as we will find. [TODO: do another pass of this
-intro]
+\( \NN\)-algebra mentioned above. It will turn out each of these glued morphisms
+project in the semantics onto the identity, so that the first property is almost
+trivial. The second property is even more immediate.
 
 \begin{definition}[Forgetful projections]
   The assignments
