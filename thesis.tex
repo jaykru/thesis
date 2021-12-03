@@ -1889,27 +1889,28 @@ recognize as saying that it in some sense mirrors the type structure of the
 lambda calculus.
 
 Where the method of Kripke logical relations is ad-hoc and mysterious, gluing
-regularizes the thought involved and delivers more conceptual proofs and theory.
-The gluing construction is perhaps overshadowed in fame by one of its instances:
-The \emph{scone} or \emph{Sierpinski cone} is well-known outside of type
-theoretic circles for its use in proving results similar to closed
-normalization. Because we are interested in open normalization, the scone
+construction regularizes the thought involved and delivers more conceptual
+proofs and theory. The gluing construction is perhaps overshadowed in fame by
+one of its instances: The \emph{scone} or \emph{Sierpinski cone} is well-known
+outside of type theoretic circles for its use in proving results similar to
+closed normalization. Because we are interested in open normalization, the scone
 construction is not suited to the problem at hand. The reader interested in the
 broader context is encouraged to read on in Section 22 of Part II of Lambek and
 Scott's \emph{Introduction to higher order categorical logic}
 \cite{lambek_introduction_1989}. Our own case will involve an instance of the
 gluing construction which, in some sense, glues the syntax of open terms to its
-meaning in the semantics (in the category \( \cl \)). The gluing construction is
-set up exactly so that morphisms in the category are pairs of \emph{syntactic
-  transformations} and \emph{semantic transformations} (namely substitutions)
-which in some sense commute with the semantic interpretation of terms in
-\( \cl \). Our normalization function then will be delivered from a composite of
-these morphisms, so that the semantic equivalence of the input term and the
-computed normal form is essentially automatic once we have verified that the
-maps involved in the composite are genuine morphisms of the gluing category. In
-this sense, the gluing category we work with has been set up not just to mirror
-the type structure of the simply-typed lambda calculus, but to also mirror the
-desired result.
+meaning in the semantics (in the category \( \cl \)). As hinted at in the
+introduction, the gluing construction is set up exactly so that morphisms in the
+category are pairs of \emph{syntactic transformations} and \emph{semantic
+  transformations} (namely substitutions) which in some sense commute the
+semantic interpretation of terms in \( \cl \). Our normalization function, then,
+will be acquired in Chapter~\ref{chapter:normalization} as a composite of these
+glued morphisms. The proof of semantic equivalence of the input term and the
+computed normal form is essentially automatic, following from the structure of
+the gluing category and its morphisms together with one elementary fact proven
+by induction on types. In this sense, the gluing category we work with has been
+tailor made not just to mirror the type structure (as with logical relations) of
+the simply-typed lambda calculus, but to also mirror the desired result.
 
 This chapter will develop the gluing construction itself and define our
 particular gluing category. There is a lot of technology to build up, and many
