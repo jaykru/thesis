@@ -112,7 +112,7 @@ Jim's intro CS course taught partially in Standard ML was my first real exposure
 to mathematically structure programming and opened up to me a world that had
 until then had seemed inaccessible. Jim has also served as a great mentor in
 matters of personal taste and style (his course webpages are always out of this
-world cool.) I'll really miss our wacky math-cs crossover meetings, you two!
+world cool). I'll really miss our wacky math-cs crossover meetings, you two!
 
 The students and faculty in the math department have made the last few years a
 profoundly enriching experience. Albyn Jones and Irena Swanson, who taught my
@@ -295,21 +295,22 @@ Normalization by gluing is based.
 % \onehalfspacing
 % \doublespacing
 
-Though we encounter many interesting objects and ideas along the way, this
+Though we will encounter many interesting objects and ideas along the way, this
 thesis is primarily concerned with the \emph{open normalization} problem for the
-simply typed lambda calculus. Some explaining is in order. First, we'll talk
-about the simply typed lambda calculus. The reader might be familiar with the
-\emph{untyped} lambda calculus. The lambda calculus is a formal system oriented
-toward the study of functions and their \emph{applicative} behavior
-\cite{barendregt_lambda_2012}. We define a notion of function abstraction which
-allows us to select \emph{bound} variables from the variables appearing in some
-mathematical phrase, as in \( \lambda x.\, x^{2}\). The fundamental operation of the
-lambda calculus is \emph{application}, which is defined in terms of
-\emph{substitution}. The application of a function \( f \) to an argument
-\( a \) is denoted by juxtaposition as in \[ f a. \] A more concrete example of
-application is \( \sin \pi \). Function application is a derived notion; what
-application \emph{does} is defined in terms of \emph{substitution}. For phrases
-(henceforth called \emph{terms}) $e$ and $e'$, we impose an equation
+\emph{simply typed lambda calculus}. Some explaining is in order. First, we'll
+look at what is meant by the simply typed lambda calculus. The reader might be
+familiar with the \emph{untyped} lambda calculus. The (untyped) lambda calculus
+is a formal system oriented toward the study of functions and their
+\emph{applicative} behavior \cite{barendregt_lambda_2012}. We define a notion of
+function abstraction which allows us to select \emph{bound} variables from the
+variables appearing in some mathematical phrase, as in \( \lambda x.\, x^{2}\). The
+fundamental computational operation in the lambda calculus is
+\emph{application}, which is defined in terms of \emph{substitution}. The
+application of a function \( f \) to an argument \( a \) is denoted by
+juxtaposition as in \[ f a. \] A more concrete example of application is
+\( \sin \pi \). Function application is a derived notion; what application
+\emph{does} is defined in terms of \emph{substitution}. For phrases (henceforth
+called \emph{terms}) $e$ and $e'$, we impose an equation
 \[ (\lambda x.\, e) e' = [e' / x]^{*}e \] called the \( \beta \)-\emph{law}. When
 writing \[ [s/x]^{*} p, \] we mean the term given by taking the term $p$ and
 replacing with $s$ every occurrence of $x$ appearing within. We have by the \( \beta\)-law, for example, that  \[
@@ -339,27 +340,23 @@ inclinations. If, for example, we decide that the only values are lambda
 abstractions and non-negative numerals (adding to the lambda calculus terms for
 the natural numbers as appropriate) then the following terms are examples of
 values
-\begin{center}
-  \begin{itemize}
-    \item \( \lambda x.\, 5\)
-    \item \( 2 \)
-    \item \( \lambda x.\, 5\, (\lambda y.\, y) \)
-  \end{itemize}
-\end{center}
+\begin{gather*}
+    \lambda x.\, 5\\
+    2\\
+    \lambda x.\, 5\, (\lambda y.\, y)
+\end{gather*}
 while these terms are neither values nor stuck
-\begin{center}
-  \begin{itemize}
-    \item \( (\lambda x.\, 5) 1\)
-    \item \( (\lambda x.\, 5\, (\lambda y.\, y)) 1 \)
-  \end{itemize}
-\end{center}
-and finally the term
+\begin{gather*}
+    (\lambda x.\, 5) 1\\
+    (\lambda x.\, 5\, (\lambda y.\, y)) 1
+\end{gather*}
+while finally the term
 \[
   5\, (\lambda y.\, y)
 \]
-is stuck because we have no clue what to do with a numeral applied to an
+is stuck because we have don't know to do with a numeral applied to an
 abstraction and such a thing isn't one of our chosen values. This example
-illustrates that stuck terms are in some sense a coarse approximation for
+illustrates that stuckness is in some sense a coarse approximation for
 \emph{bad} program states. Hence, the problem in the lambda calculus pointed to
 above is that its definition allows us to write programs ending in \emph{bad}
 states.
@@ -381,25 +378,27 @@ depth in this thesis, but we will soon see these rules in
 Chapter~\ref{chapter:stlc}. The desired result indeed follows from this setup:
 lambda terms that follow the typing rules do not get stuck when evaluated. This
 is one instance of the famed \emph{type safety} properties of programming
-language theory. Another family of properties, namely \emph{normalization}
-properties, follows from this type regime. It turns out that any program in the
-lambda calculus will reduce to a value in a finite number of evaluation steps.
-This property is called \emph{closed normalization}. Borrowing the language of
-the theory of Turing machines, this means that programs written in the simply
-typed lambda calculus always halt. In particular, this means that the lambda
-calculus is \emph{not} Turing complete and can only solve \emph{decidable}
-problems. This can be a problem for some applications. If you want, say, your
-web server to run indefinitely without bound; the simply typed lambda calculus
-can't do that. You could, however, make your program loop until the projected
-death of the sun and deploy a new version of your server shortly thereafter.
-Having noted that there are some workarounds to the problems arising from the
-terminating character of the simply typed lambda calculus, it is interesting to
-note also that this very character is actually required for some applications;
-for some purposes, non-terminating languages have no such cute workarounds.
+language theory.
+
+Another family of properties, namely \emph{normalization} properties, also
+follows from this type regime. It turns out that any program in the lambda
+calculus will reduce to a value in a finite number of evaluation steps. This
+property is called \emph{closed normalization}. Borrowing the language of the
+theory of Turing machines, this means that programs written in the simply typed
+lambda calculus always halt. In particular, this means that the lambda calculus
+is \emph{not} Turing complete and can only solve \emph{decidable} problems. This
+can be a problem for some applications. If you want, say, your web server to run
+indefinitely without bound; the simply typed lambda calculus can't do that. You
+could, however, make your program loop until the projected death of the sun and
+deploy a new version of your server shortly thereafter. Having noted that there
+are some workarounds to the problems arising from the terminating character of
+the simply typed lambda calculus, it is interesting to note also that this very
+character is actually required for some applications; for some purposes,
+non-terminating languages have no such cute workarounds.
 
 An \emph{interactive theorem prover} is a computer program that allows a
-computer user to state theorems and input proofs\footnote{Individual systems
-  vary in how manual the process of inputting proofs is.}, which are then
+computer user to state theorems and input proofs,\footnote{Individual systems
+  vary in how manual the process of inputting proofs is.} which are then
 checked by the program. Many interactive proof systems, such as Coq or Agda, are
 based on type\footnote{Here I am referring to type theory in the same sense as
   above for the simply typed lambda calculus. Only the type systems underlying
@@ -422,12 +421,11 @@ unguarded termination in the language as a form of non-termination. The program
 simply calls itself recursively forever, infinitely passing the buck but
 ostensibly having the desired type. Let's check out an example in the Coq proof
 assistant; we will be deriving a term of type \texttt{False} (the type which has
-no term constructors, and hence really ought to be uninhabited.) You could
+no term constructors, and hence really ought to be uninhabited). You could
 perform this same construction for any type you choose, even if it would be
 redundant now that we have a \texttt{False} term (which gives us a term of any
 other type by trivial case analysis). We first manually deactivate a Coq safety
 feature expressly intended to rule out such definitions.
-
 \begin{verbatim}
 j@art-house-thinking-sand ~ % coqtop
 Welcome to Coq 8.14.0
@@ -468,10 +466,10 @@ inconsistency and that we should demand much more than termination of our
 theorem proving systems.
 
 Normalization theorems like these are typically proven using a technique called
-\emph{the method of logical relations}\footnote{Normalization proofs actually
+\emph{the method of logical relations}.\footnote{Normalization proofs actually
   only require the use of \emph{logical predicates}, which are the unary case of
   logical relations, but the general method is better known by the name
-  \emph{logical relations}.}. We will learn a bit more about logical relations
+  \emph{logical relations}.} We will learn a bit more about logical relations
 in the third chapter. The normalization theorem of interest to people concerned
 with the safety of proof assistants are a little more challenging, and demand a
 leap in technology to the method of \emph{Kripke logical relations}, also
@@ -506,7 +504,7 @@ use those normal forms for the desired equality check. The desired property most
 relevant to dependent typechecking is what I call \emph{equation reflection}
 which says that for open terms \( t\) and \( t' \) of type \( \tau \) whose
 free\footnote{Free variables are those variables appearing in a term which are
-  not bound by a lambda abstraction.} variables come from
+  not bound by a lambda abstraction.} variables come from some
 \emph{context}\footnote{A context is nothing more than a list of variables
   together with their associated types.} \( \Gamma \) we have that
 \[
@@ -542,8 +540,8 @@ topos theory, but only basic familiarity\footnote{The level of familiarity I
   each presents its own unique perspective and one perspective may suit your
   background better than another.} with category theory is assumed. We will also
 make use of many of the basic tools of programming language theory without much
-commentary. In particular we expect that the reader has a working knowledge of
-type systems, grammars, etc. For these essentials, we refer the reader to
+commentary. In particular, I expect that the reader has a working knowledge of
+type systems, grammars, etc. For these essentials, the reader is referred to
 Pierce's textbook \cite{pierce_types_2002}. I regret that I wasn't able to fully
 treat these topics in this thesis, but such a document would have been at least
 twice as long and I'm just one lad.
@@ -582,25 +580,25 @@ about syntactic theories and the meaning of the things (terms) these theories
 allow us to write down.
 
 \chapter[Functorial semantics]{Functorial semantics: sketches and their models; algebraic theories and their algebras}\label{chapter:functorial_semantics}
-\epigraph{The geometry of innocent flesh on the bone
-Causes Galileo’s math book to get thrown
-At Delilah who's sitting worthlessly alone
+\epigraph{The geometry of innocent flesh on the bone\\
+Causes Galileo's math book to get thrown\\
+At Delilah who's sitting worthlessly alone\\
 But the tears on her cheeks are from laughter}{Bob Dylan, \emph{Tombstone Blues}}
 In this chapter we will develop tools for reasoning about (syntactic)
 \emph{theories}, which are \emph{notions of} abstract structure. As an example,
 this chapter will present a theory encoding the structure of a ring (as in
-algebra.) A more complicated example will come in Chapter~\ref{chapter:stlc}
+algebra). A more complicated example will come in Chapter~\ref{chapter:stlc}
 which will apply the ideas of this chapter to simple type theory. To discuss how
 we write down our theories, we need another level of abstraction. We will work
 with several \emph{notions of} (syntactic) theory. We will more laconically
 refer to a notion of syntactic theory as a \emph{doctrine}. A \emph{doctrine} is
 something like a framework specifying how we are to write down a theory. The
 first doctrine we will consider is that of the \emph{elementary
-  sketch}\footnote{The reader familiar with and/or traumatized by experience
+  sketch}.\footnote{The reader familiar with and/or traumatized by experience
   with pencils of geodesics in hyperbolic geometry need not be scared away by
-  this terminology; there is nothing non-Euclidean afoot here, per se.}. The
+  this terminology; there is nothing non-Euclidean afoot here, per se.} The
 doctrine of the \emph{elementary sketch} allows us to specify theories involving
-\emph{unary} operations (those defined over a single parameter.)
+\emph{unary} operations (those defined over a single parameter).
 
 This restriction on the arity of operations turns out to be quite limiting. To
 address this, we will later upgrade the doctrine of elementary sketches to the
@@ -656,7 +654,7 @@ property of actions: \emph{faithfulness}.
   \[ \forall (a:A)\ldotp f_* a = g_* a \Longrightarrow f = g \] for all \( f, g \) in $M$. Morally,
   this requirement says that elements are \emph{semantically} equal (or, act the
   same) only when they are \emph{syntactically} equal (or, \emph{look}
-  identical.)
+  identical).
 \end{definition}
 
 It can now be seen that the crucial property enjoyed by the natural action of
@@ -895,8 +893,8 @@ presentation.
   contravariant, this requires considering the compositions in reverse order as:
   \[ \hat{y}^{*}; [y/x]^{*}; \hat{x}^{*}; [x/y]^{*} = {\id}^{*}. \] Rendered
   thus, this law means that introducing a free variable $y$ to the
-  context\footnote{Note that weakening by $y$ might have no effect if $y$ is
-    already present as a free variable.}, followed by replacing every free
+  context,\footnote{Note that weakening by $y$ might have no effect if $y$ is
+    already present as a free variable.} followed by replacing every free
   occurrence of $x$ with $y$, followed by re-introducing $x$ as a variable in
   the context, and then finally replacing every free occurrence of $y$ with $x$
   is the same as doing nothing. More concisely at the expense of precision,
@@ -1009,7 +1007,7 @@ elementary sketches will come along for the ride without much changed.
           having an \emph{arity}, namely a list of input sorts $X_{i}$, and an
           output sort $Y$; and
     \item a collection of \emph{laws}, posed as equalities between different
-          terms (in the sense defined before.)
+          terms (in the sense defined before).
   \end{enumerate}
 \end{definition}
 We will write \( \termob \) for the nullary product of sorts, and moreover when
@@ -1685,7 +1683,7 @@ categories.
 \end{definition}
 
 With this theory in hand, we first show that it is raw cartesian closed (i.e.
-that it supports a reasonably coherent notion of lambda abstraction.) After
+that it supports a reasonably coherent notion of lambda abstraction). After
 that, we will add to the theory the \( \beta\) and \(\eta \) laws. Finally, we will use
 the preceding theorems to argue \emph{from $\beta$ and $\eta$} to show that the
 resulting theory of the typical lambda calculus is cartesian closed.
@@ -1759,7 +1757,7 @@ calculus and the work we did in Chapter~\ref{chapter:functorial_semantics}.
 
 This final result will prove important in Chapter~\ref{chapter:gluing}.
 
-\chapter{Artin Gluing}\label{chapter:gluing}
+\chapter{Artin gluing}\label{chapter:gluing}
 \epigraph{You, you were like glue\\
   holding each of us together\\
   I slept through July\\
@@ -1806,7 +1804,7 @@ short, a logical relation is a relation of terms indexed by the types of the
 theory whose inclusion criteria in some vague sense mirror the type structure of
 the theory. Such logical relations are easy to work with in simple settings like
 that of the closed normalization problem for the simply-typed lambda calculus
-(see Pierce's textbook \cite{pierce_types_2002}.) However, logical relations are
+(see Pierce's textbook \cite{pierce_types_2002}). However, logical relations are
 well known to become fiendishly complicated when working with theories whose
 type structure is more complicated. Examples of such complexity include the
 addition of type system features associated with computational effects, such as
@@ -1928,7 +1926,7 @@ object-with-extra-data-morphism which preserves the attached data. This
 intuition perhaps underlies the name for the gluing construction. Our specific
 use of the gluing construction will involve gluing presheaves of syntactic terms
 (as you would write them down on paper) together with presheaves of semantic
-terms (which are \emph{substitutions}.) That is, the extra data we glob on is
+terms (which are \emph{substitutions}). That is, the extra data we glob on is
 the semantics of terms, and the notion of extra-data-preserving morphism is a
 pair of a syntactic transformation and a substitution which commute with the
 semantic interpretations of the syntax.
@@ -1972,16 +1970,16 @@ without actually working with substitutions directly. Working over \( \cl \) is
 problematic because substitutions (and thus the terms they represent) are
 identified up to computational equality, whereas we would like to distinguish
 between terms at differing stages of reduction (e.g. distinguishing between a
-term and its normal form.) We will understand this problem in greater detail in
+term and its normal form). We will understand this problem in greater detail in
 Remark~\ref{rmk:syntactic-cat-bad}. Concisely, the category of renamings allows
 us to define the presheaves we need while not losing track of how contexts
-evolve by substitution\footnote{The reader might complain now, as I did, that if
+evolve by substitution.\footnote{The reader might complain now, as I did, that if
   we only care about tracking how contexts evolve by substitutions then we
   should simply work with the category of context \emph{weakenings}. The problem
   here is that the category of weakenings lacks finite products, which precludes
   the use of a trick (which we will soon see \emph{does} work in the case of the
   category of renamings) for explicating the binding structure of its category
-  of presheaves. Thank you to Carlo Angiuli for explaining this to me!}. We
+  of presheaves. Thank you to Carlo Angiuli for explaining this to me!} We
 present the category abstractly as a comma category and at the same time spell
 out concretely its morphisms in terms of the substitutions of the syntactic
 category:
@@ -2663,8 +2661,8 @@ products are, but not prove the universal property: we send the reader to
 of the universal property for the exponentials, which is not shown in either of
 the sources we consulted on connections between gluing and normalization
 \cite{sterling_normalization_2018} \cite{fiore_semantic_2002}. The result itself
-is well-known\footnote{See e.g. Johnstone's Elephant
-  \cite{johnstone_sketches_2002} where it is posed as an exercise.}, but the
+is well-known,\footnote{See e.g. Johnstone's Elephant
+  \cite{johnstone_sketches_2002} where it is posed as an exercise.} but the
 sketch is my own and has not been fully verified.
 
 \begin{theorem}[Products in the gluing category]
