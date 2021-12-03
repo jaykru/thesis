@@ -138,7 +138,7 @@ None of this would have been possible without my Mom and Dad. Thanks so much for
 everything!
 
 Jaclyn, my love, thank you for being everything to me over the past (almost!)
-two years and for your friendship for the last (almost) 4.
+two years and for your friendship for the last (almost) four.
 
 Thanks to my sister Megan for her unrelenting support, especially over the last
 few challenging years! Thanks to my brother Ryan and my sister Kathleen for
@@ -238,8 +238,7 @@ perspective on programming or mathematics in general.
 
 My final thanks go to Jon Erickson, the author of \emph{Hacking: The Art of
   Exploitation} which got me started on this road so many years ago. What a long
-and strange road to a thesis about huffing (strictly in the mathematical sense)
-glue!
+and strange road to a thesis about glue!
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -391,12 +390,16 @@ representing \emph{pairs of terms} of the types $A$ and $B$ along with
 \( A \Rightarrow B\) representing \emph{functions} taking an $A$ and giving a $B$. For
 example, the type \( \mathbbm{B} \times \mathbbm{N}\) is inhabited by pairs of a
 boolean and some natural number. Along with this type structure comes
-\emph{rules} stipulating how it may be used. We will not explain this story in
-depth in this thesis, but we will soon see these rules in
-Chapter~\ref{chapter:stlc}. The desired result indeed follows from this setup:
-lambda terms that follow the typing rules do not get stuck when evaluated. This
-is one instance of the famed \emph{type safety} properties of programming
-language theory.
+\emph{rules} stipulating how it may be used. The rules for the arrow type, for
+example, makes it so that we may only meaningfully apply a function of type
+\( \nat \Rightarrow \nat \) to a term of type \( \nat \); in particular, this setup rules
+out the stuck term mentioned above, in that these rule mean that the term is not
+\emph{well-typed} and so we will never try running it (or any program in which
+it appears as a subterm). We will not explain this story in depth in this
+thesis, but we will soon see these rules in Chapter~\ref{chapter:stlc}. The
+desired result indeed follows from this setup: lambda terms that follow the
+typing rules do not get stuck when evaluated. This is one instance of the famed
+\emph{type safety} properties of programming language theory.
 
 Another family of properties, namely \emph{normalization} properties, also
 follows from this type regime. It turns out that any program in the lambda
