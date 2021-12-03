@@ -518,15 +518,21 @@ comprising one's program are \emph{specified} before turning to the task of
 actually writing them. These (possibly dependent) datatypes are used to express
 a variety of correctness criteria about the functions such that any function the
 programmer ultimately comes us with meets the specified properties as long as it
-has the right type (as determined by the typechecker). In this sense, the design
-of the gluing category allows us to impose some correctness criteria on all of
-the intermediate syntactic transformations making up our normalization function
-such that our correctness criteria immediately follow from having managed to
-construct a normalization function of the ``correct type'' at all.
-
-[TODO: method+: more constructive and more conceptual; the structure of our
-constructions reflect the result we attempt to prove in a very clarifying way]
-
+has the right type (as determined by the typechecker). In a similar way, the
+design of the gluing category is like a strongly typed setting in which to
+define and compose syntactic transformations. The structure of the gluing
+category forces us to verify a certain correctness criterion \emph{as we go}
+while constructing the intermediate syntactic transformations so that, besides
+one final totally straightforward verification about each of the syntactic
+transformations, our desired correctness criteria for a normalization function
+immediately follow from having managed to construct a normalization function of
+the ``correct type'' within the gluing category. I am remaining vague on this
+point for now because we don't yet have enough language to precisely describe
+what is going on. A more clear characterization of how the gluing category
+productively ties our hands as typed programming languages do shall come in
+Chapter~3. For now, we turn to developing category-theoretic tools for reasoning
+about syntactic theories and the meaning of the things (terms) these theories
+allow us to write down.
 
 \chapter[Functorial semantics]{Functorial semantics: sketches and their models; algebraic theories and their algebras}\label{chapter:functorial_semantics}
 In this chapter we will develop tools for reasoning about (syntactic)
