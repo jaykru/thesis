@@ -103,15 +103,16 @@ thesis possible or just for having had an outsized impact on my life at one
 point or another. I can only start by thanking my advisors Ang\'elica and Jim
 for their part in making my thesis year one of my favorite's in my time at Reed
 and for making this thesis possible. I am first of all indebted to Ang\'elica's
-spooky ability to instantly grasp at understanding in an area relatively unknown
-to her. Without her hints at how to tackle an opaque construction every now and
-then, I think I'd probably be still fumbling around with the basics. Jim has had
-an outsized influence on the direction my intellectual life has taken. Jim's
-intro CS course taught partially in Standard ML was my first real exposure to
-mathematically structure programming and opened me up to a world that had until
-then had seemed inaccessible to me. Jim has also served as a great mentor in
-matters of personal taste and style (his course webpages are always out of this
-world cool.) I'll really miss our wacky math-cs crossover meetings, you two!
+spooky ability to instantly grasp at understanding even in an area relatively
+unknown to her. Without her hints at how to tackle an opaque construction every
+now and then, I think I'd probably be still fumbling around with the basics. Jim
+has had an outsized influence on the direction my intellectual life has taken.
+Jim's intro CS course taught partially in Standard ML was my first real exposure
+to mathematically structure programming and opened me up to a world that had
+until then had seemed inaccessible to me. Jim has also served as a great mentor
+in matters of personal taste and style (his course webpages are always out of
+this world cool.) I'll really miss our wacky math-cs crossover meetings, you
+two!
 
 The students and faculty in the math department have made the last few years a
 profoundly enriching experience. Albyn Jones and Irena Swanson, who taught my
@@ -139,7 +140,7 @@ teacher 吳老師 (Rhoda Weston) is the most generous person I've ever met, in s
 many ways, and just about changed my life. Thank you for making it possible for
 me to go to Taiwan and for everything else! Thank you to my first grade teacher
 Ms.\ King for being a fantastic example of living with kindness, to 柳老
-師 (Hyong Rhew) for getting me to chill out a bit freshman year\footnote{and
+師 (Hyong Rhew) for getting me to chill out a bit freshman year\footnote{and for
   comparing me to a metal waterbottle for some reason\dots never figured that
   one out.} and hours of fun studying Chinese, to Mrs.\ Leitsch for stellar
 teaching and encouragement in 9th grade English, to Mr. Cool for good times on
@@ -164,7 +165,7 @@ the last 3 years. I'm so glad we ended up labmates! Stay fresh, king.
 The following people made my freshman year at Reed. Thank you to Holden and Max
 for making WP117 home. Special thanks to Max for not holding against me my
 having thrown a mug at him. Thanks to Noah Koster for being one of my very first
-friends at Reed and for always truckin. You may not be the next Bill Gates, but
+friends at Reed and for always truckin'. You may not be the next Bill Gates, but
 you're a great guy. Thanks to Nick Chaiyachakorn for encouraging all my stupid
 computer purchases. Thanks to Carter Fife for ditching us all and for being a
 massive weeb, to Dan Jeon for telling everyone about that time he caught me
@@ -184,7 +185,7 @@ not just tolerable but an absolute adventure. I'll miss you forever :'(
 Thanks to Murali Vijayaraghavan for mentorship and patient instruction while
 I was learning the ropes the ropes of CPU and hardware design.
 
-Thank you to Sara Rosen berger in the business office for having my back when the
+Thank you to Sara Rosenberger in the business office for having my back when the
 office of financial aid left me to rot. This thesis couldn't have happened
 without you!
 
@@ -293,20 +294,36 @@ Though we encounter many interesting objects and ideas along the way, this
 thesis is primarily concerned with the \emph{open normalization} problem for the
 simply typed lambda calculus. Some explaining is in order. First, we'll talk
 about the simply typed lambda calculus. The reader might be familiar with the
-\emph{untyped} lambda calculus. That mathematical object is the following
-system:
-
-LAMBDA CALCULUS HERE
+\emph{untyped} lambda calculus. The lambda calculus is a formal system oriented
+toward the study of functions and their \emph{applicative} behavior
+\cite{barendregt_lambda_2012}. We define a notion of function abstraction which
+allows us to select \emph{bound} variables from the variables appearing in some
+mathematical phrase, as in \( \lambda x.\, x^{2}\). The fundamental operation of the
+lambda calculus is \emph{application}, which is defined in terms of
+\emph{substitution}. The application of a function \( f \) to an argument
+\( a \) is denoted by juxtaposition as in \[ f a. \] A more concrete example of
+application is \( \sin \pi \). Function application is a derived notion; what
+application \emph{does} is defined in terms of \emph{substitution}. For phrases
+(henceforth called \emph{terms}) $e$ and $e'$, we impose an equation
+\[ (\lambda x.\, e) e' = [e' / x]^{*}e \] called the \( \beta \)-\emph{law}. When
+writing \[ [s/x]^{*} p, \] we mean the term given by taking the term $p$ and
+replacing with $s$ every occurrence of $x$ appearing within. Authors more
+interested in the computational character of the \emph{lambda calculus} write
+\[ (\lambda x.\, e) e' \rightarrow [e' / x]^{*}e\] so that \( \beta \) principle is instead
+understood as a \emph{reduction rule} for an \emph{allowed transition} or
+\emph{computation step}. For our purposes, we will mostly be working with
+equations except in remarks meant to appeal to those readers who are
+operationally inclined.
 
 The famed Church-Turing thesis says that the lambda calculus and the Turing
-machine, a more famous model of universal computation, are equivalent \emph{in
-  computational power}: any Turing machine can be simulated by the lambda
-calculus and any program written in the lambda calculus can be simulated by some
-Turing machine. Consequently, just as the Turing machine is a universal
-computer, the lambda calculus is a universal programming language. That the
-lambda calculus is so powerful is exciting, but some consider working with that
-full power unwieldy or even dangerous. Indeed, there are programs that one can
-write down in the lambda calculus which get ``stuck'' before computing a
+machine, a more famous model of universal computation, are \emph{equivalent in
+  computational power}. That is, any Turing machine can be simulated by the
+lambda calculus and conversely any program written in the lambda calculus can be
+simulated by some Turing machine. Consequently, just as the Turing machine is a
+universal computer, the lambda calculus is a universal programming language.
+That the lambda calculus is so powerful is exciting, but some consider working
+with that full power unwieldy or even dangerous. Indeed, there are programs that
+one can write down in the lambda calculus which get ``stuck'' before computing a
 \emph{value}, meaning that there are lambda programs $p$ which reduce to a $p'$
 which isn't a value but cannot be reduced to some $p''$.
 
@@ -335,7 +352,7 @@ machines. This can be a problem for some applications. If you want, say, your
 web server to run indefinitely without bound; the simply lambda calculus can't
 do that. You could, however, make your program loop until the projected death of
 the sun and deploy a new version of your server shortly thereafter. Having noted
-that there are some workarounds to the problems arising form terminating
+that there are some workarounds to the problems arising from the terminating
 character of the simply typed lambda calculus, it is interesting to note also
 that this very character is actually required for some applications; for some
 purposes, non-terminating languages have no such cute workarounds.
@@ -408,51 +425,75 @@ inconsistency and that we should demand much more than termination of our
 theorem proving systems.
 
 Normalization theorems like these are typically proven using a technique called
-\emph{the method of logical relations}\footnote{Normalization actually only
-  requires \emph{logical predicates}, but the general method is known by this
-  name.} We will learn a bit more about logical relations in the third chapter.
-The normalization theorem of interest to people concerned with the safety of
-proof assistants are a little more challenging, and demand a leap in technology
-to the method of \emph{Kripke logical relations}, also detailed in chapter
-theory. The class of normalization theorems of interest to implementors of proof
-assistants is called the problem of \emph{open normalization}, and is in fact
-the type of theorem we will work toward in this thesis. Our \emph{open
-  normalization} theorem will be stated somewhat differently than the
-\emph{closed normalization} statement given above. Rather than speaking directly
-about the behavior of terms undergoing reduction, we will work with
-\emph{equivalence classes} of terms taken over an equality \emph{generated by}
-the reduction rules of the lambda calculus. Our normalization theorem will
-demand that we produce a \emph{function} from ordinary open terms to normal
-forms which both preserves and reflects these equivalence classes of terms. The
-reason that such a device is interesting to implementors of proof assistants is
-that proof assistants are usually based on \emph{dependent type systems}, in
-which the language of types allows for the presence of general terms. Such
-advanced type systems are the ones alluded to earlier in this introduction
-during our discussion of the Curry-Howard isomorphism. The Curry-Howard
-isomorphism casts the task of proof verification to the task of typechecking.
-Because dependent type theory allows for arbitrary terms (and in particular
-\emph{programs}) inside of types, the task of typechecking in this setting
-amounts to deciding the equality of the final result of arbitrary subterms (and
-in particular, arbitrary \emph{programs}). In the general case, that problem is
-well-known to be undecidable. Using a \emph{normalizing} term language makes it
-possible. By coming up with a \emph{normalization} function which takes
-\emph{open terms} which preserves and reflects equivalence classes of terms, we
-can decide the equality of arbitrary types by first computing the normalization
-[TODO: finish from here]
+\emph{the method of logical relations}\footnote{Normalization proofs actually
+  only require the use of \emph{logical predicates}, which are the unary case of
+  logical relations, but the general method is better known by the name
+  \emph{logical relations}.} We will learn a bit more about logical relations in
+the third chapter. The normalization theorem of interest to people concerned
+with the safety of proof assistants are a little more challenging, and demand a
+leap in technology to the method of \emph{Kripke logical relations}, also
+detailed in chapter theory. The class of normalization theorems of interest to
+implementors of proof assistants is called the problem of \emph{open
+  normalization}, and is in fact the type of theorem we will work toward in this
+thesis. Our \emph{open normalization} theorem will be stated somewhat
+differently than the \emph{closed normalization} statement given above. Rather
+than speaking directly about the behavior of terms undergoing reduction, we will
+work with \emph{equivalence classes} of terms taken over an equality
+\emph{generated by} the reduction rules of the lambda calculus. Our
+normalization theorem will demand that we produce a \emph{function} from
+ordinary open terms to normal forms which both preserves and reflects these
+equivalence classes of terms. The reason that such a device is interesting to
+implementors of proof assistants is that proof assistants are usually based on
+\emph{dependent type systems}, in which the language of types allows for the
+presence of general terms. Such advanced type systems are the ones alluded to
+earlier in this introduction during our discussion of the Curry-Howard
+isomorphism. The Curry-Howard isomorphism casts the task of proof verification
+as the task of typechecking. Because dependent type theory allows for arbitrary
+terms (and in particular \emph{programs}) inside of types, the task of
+typechecking in this setting amounts to deciding the equality of the final
+\emph{result} of arbitrary subterms (and, in particular, arbitrary
+sub\emph{programs}). In the general case, this problem is well-known to be
+undecidable. Using a \emph{normalizing} term language makes it possible. Coming
+up with a \emph{normalization} function \( \normalize \) which satisfies some
+key properties\footnote{Exactly which properties we will demand of our
+  normalization function will be fully detailed in Chapter~4} will allow us to
+compute normal forms for these subterms and use those normal forms for the
+desired equality check. The desired property most relevant to dependent
+typechecking is what I call \emph{equation reflection} which says that for open
+terms \( t\) and \( t' \) of type \( \tau \) whose free\footnote{Free variables are
+  those variables appearing in a term which are not bound by a lambda
+  abstraction.} variables come from \emph{context}\footnote{A context is nothing
+  more than a list of variables together with their associated types.} \( \Gamma \)
+we have that
+\[
+  \normalize(t) = \normalize(t') \Rightarrow t = t'.
+\]
+This property validates the use of normalized subterms (as opposed to the
+original subterms) in our final check for equality of types.
 
-[TODO: Talk about how closed normalization is typically proved using ordinary logical predicates]
-
-[TODO: Talk about open normalization somewhere nearby, and its importance in
-proof assistants. Carefully explain the difference between closed and open
-normalization, why one would want such theorems. Open normalization is strictly
-stronger than closed normalization, but why is it useful? What's the difference
-between saying that all closed instances are normalizing vs. an open term itself
-is normalizing...]
+Theorems such as closed and open normalization are conventionally proven by a
+technique called the method of \emph{logical relations}. Open normalization in
+particular demands the use of a strong variant of logical relations called
+\emph{Kripke logical relations}. We will discuss Kripke logical relations in
+more detail in the introduction to Chapter~3. The specific open normalization
+theorem often proven using Kripke logical relations is somewhat ill-suited to
+the proof assistant applications mentioned in the previous chapter; the theorem
+statement only asks for a proof of \emph{existence} of a normal form for each
+term, whereas dependent typechecking requires an effective formula by which to
+\emph{compute} the normal form for a given open term. Our goal in this thesis is
+to construct such a normalization function. To do so, we make a significant
+departure from the usual methods. However, we will ultimately observe echoes of
+the conventional approaches in the constructions we settle on.
 
 The methods used in this thesis come from category theory and in particular
-topos theory, but only basic familiarity\footnote{the kind that one might obtain
-  in a text such as Riehl's \cite{riehl_category_nodate} or Awodey's
-  \cite{awodey_category_2010}.} with category theory is assumed. We will also
+topos theory, but only basic familiarity\footnote{The level of familiarity I
+  expect of the reader is the kind that one might obtain from having read
+  through most of a standard text such as Riehl's \cite{riehl_category_nodate}
+  or Awodey's \cite{awodey_category_2010} or from having read the early parts of
+  a text like Barr and Wells's \cite{barr_toposes_nodate}. I recommend that the
+  reader unfamiliar with category theory check out as many texts as possible, as
+  each presents its own unique perspective and one perspective may suit your
+  background better than another.} with category theory is assumed. We will also
 make use of many of the basic tools of programming language theory without much
 commentary. In particular we expect that the reader has a working knowledge of
 type systems, grammars, etc. For these essentials, we refer the reader to
@@ -463,9 +504,25 @@ twice as long and I'm just one lad.
 The study of this mountain of prerequisites is well worth it, as the benefits of
 the methods we employ are many. First of all, the \emph{Artin gluing}
 construction which frames the development enables us to give a far more
-conceptual treatment of this problem. Our particular instance of the Artin
-gluing construction allows us to cast the normalization problem as a simpler
-problem [finish this]
+conceptual treatment of this problem than conventional approaches allow for. Our
+particular instance of the Artin gluing construction allows us to cast the
+normalization problem as a simpler problem of finding a a morphism from one
+chosen object to another chosen object inside of a specially structured
+category. The structure of the category is such that each intermediate step
+taken along the path from the first chosen object to the second chosen object
+must maintain a certain invariant which ultimately will entail our desired
+properties. One could liken this situation to the style of \emph{type-directed
+  programming} popular among functional programmers. In \emph{type-directed
+  programming}, one defines rich datatypes in terms of which the functions
+comprising one's program are \emph{specified} before turning to the task of
+actually writing them. These (possibly dependent) datatypes are used to express
+a variety of correctness criteria about the functions such that any function the
+programmer ultimately comes us with meets the specified properties as long as it
+has the right type (as determined by the typechecker). In this sense, the design
+of the gluing category allows us to impose some correctness criteria on all of
+the intermediate syntactic transformations making up our normalization function
+such that our correctness criteria immediately follow from having managed to
+construct a normalization function of the ``correct type'' at all.
 
 [TODO: method+: more constructive and more conceptual; the structure of our
 constructions reflect the result we attempt to prove in a very clarifying way]
@@ -473,7 +530,7 @@ constructions reflect the result we attempt to prove in a very clarifying way]
 
 \chapter[Functorial semantics]{Functorial semantics: sketches and their models; algebraic theories and their algebras}\label{chapter:functorial_semantics}
 In this chapter we will develop tools for reasoning about (syntactic)
-\emph{theories}, which are ``notions of'' abstract structure. As an example,
+\emph{theories}, which are \emph{notions of} abstract structure. As an example,
 this chapter will present a theory encoding the structure of a ring (as in
 algebra.) A more complicated example will come in Chapter~\ref{chapter:stlc}
 which will apply the ideas of this chapter to simple type theory. To discuss how
@@ -1069,8 +1126,10 @@ focusing on the physical algebra.
 
 The exact details of how a MOSFET is used to construct such circuits are beyond
 the scope of this thesis; we refer the interested reader to Ben Eater's videos
-on the constructions~\cite{eater_making_2015}. The upshot of this construction
-is that we get, for say the NOT operation, a circuit component
+on the constructions~\cite{eater_making_2015}. The particularly interested
+reader might also consult a standard textbook \cite{brown_fundamentals_2014} for
+more on the matter. For our purposes, the upshot of this construction is that we
+get, for say the NOT operation, a circuit component
 
 \begin{center}
   \begin{circuitikz}
@@ -2455,7 +2514,7 @@ some of the important properties a normalization function
         \( t, t' \in \opens_{\tau}(\Gamma) \),
         \[ t \equiv_{\beta\eta} t' \Rightarrow \normalize (t) \equiv_{\alpha\beta\eta} (t') .\]
 
-   \item Equation reflection: For all terms
+  \item Equation reflection: For all terms
    \( t, t' \in \opens_{\tau}(\Gamma)\),
    \[ \normalize(t) = \normalize(t') \Rightarrow t \equiv_{\alpha\beta\eta} t' \]
 \end{itemize}
@@ -2745,7 +2804,7 @@ and satisfies the following form of the Yoneda lemma:
 \end{definition}
 
 This embedding allows us to define a typed-indexed family of glued objects which
-glue the syntax, $x,y,z,\ldots,$ etc., of variables to the their semantics as
+glue the syntax, $x,y,z,\ldots$, etc., of variables to the their semantics as
 substitutions.
 
 \newcommand{\yonedabar}{\overline{\yoneda}}
