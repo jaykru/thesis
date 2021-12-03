@@ -69,8 +69,8 @@ citestyle=alphabetic
 
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
 
-\title{The Way of Glue\\ A Head-First Dive into the Categorical Semantics of Lambda Calculi}
-\author{Jay Kruer}
+\title{The Way of Glue\\ An Invitation to the Categorical Semantics of Lambda
+  Calculi} \author{Jay Kruer}
 % The month and year that you submit your FINAL draft TO THE LIBRARY (May or December)
 \date{December 2021}
 % \division{Mathematics and Natural Sciences}
@@ -123,11 +123,13 @@ my life! I am also grateful to Kyle Ormsby for always being an absolute chiller,
 encouraging me in some early ambitions, and for giving me a taste of category
 theory before I fled from his topology class.
 
+Now the acknowledgements become less organized, but by no means less sincere!
+
 None of this would have been possible without my Mom and Dad. Thanks so much!
 
-Jaclyn, my love, thank you for being everything to me over the past (almost) two
-years and for your friendship for the last (almost) 4. You turned an ugly
-pandemic into a beautiful one, and I can't wait to spend the rest of it (and
+Jaclyn, my love, thank you for being everything to me over the past (almost!)
+two years and for your friendship for the last (almost) 4. You turned an ugly
+quarantine into a beautiful one, and I can't wait to spend the rest of it (and
 more!) with you.
 
 Thank you to Uncle Jay for your constant encouragement for my interests in
@@ -335,24 +337,25 @@ natural numbers, along with derived types \( A \times B\) representing \emph{pai
 \( \mathbbm{B} \times \mathbbm{N}\) is inhabited by pairs of a boolean and some
 natural number. Along with this type structure comes \emph{rules} stipulating
 how it may be used. We will not explain this story in depth in this thesis, but
-we will soon see these rules. The desired result indeed follows from this setup:
-lambda terms that follow the typing rules do not get stuck when evaluated. This
-is one instance of the famed \emph{type safety} properties of programming
-language theory. Another family of properties, namely \emph{normalization}
-properties, follows from this type regime. It turns out that any program in the
-lambda calculus will reduce to a value in a finite number of evaluation steps.
-This property is called \emph{closed normalization}. Borrowing the language of
-the theory of Turing machines, this means that programs written in the simply
-typed lambda calculus always halt. In particular, this means that the lambda
-calculus is \emph{not} Turing complete and can only simulate deciding Turing
-machines. This can be a problem for some applications. If you want, say, your
-web server to run indefinitely without bound; the simply lambda calculus can't
-do that. You could, however, make your program loop until the projected death of
-the sun and deploy a new version of your server shortly thereafter. Having noted
-that there are some workarounds to the problems arising from the terminating
-character of the simply typed lambda calculus, it is interesting to note also
-that this very character is actually required for some applications; for some
-purposes, non-terminating languages have no such cute workarounds.
+we will soon see these rules in Chapter~\ref{chapter:stlc}. The desired result
+indeed follows from this setup: lambda terms that follow the typing rules do not
+get stuck when evaluated. This is one instance of the famed \emph{type safety}
+properties of programming language theory. Another family of properties, namely
+\emph{normalization} properties, follows from this type regime. It turns out
+that any program in the lambda calculus will reduce to a value in a finite
+number of evaluation steps. This property is called \emph{closed normalization}.
+Borrowing the language of the theory of Turing machines, this means that
+programs written in the simply typed lambda calculus always halt. In particular,
+this means that the lambda calculus is \emph{not} Turing complete and can only
+simulate deciding Turing machines. This can be a problem for some applications.
+If you want, say, your web server to run indefinitely without bound; the simply
+lambda calculus can't do that. You could, however, make your program loop until
+the projected death of the sun and deploy a new version of your server shortly
+thereafter. Having noted that there are some workarounds to the problems arising
+from the terminating character of the simply typed lambda calculus, it is
+interesting to note also that this very character is actually required for some
+applications; for some purposes, non-terminating languages have no such cute
+workarounds.
 
 An \emph{interactive theorem prover} is a computer program that allows a
 computer user to state theorems and input proofs\footnote{individual systems
@@ -429,8 +432,8 @@ Normalization theorems like these are typically proven using a technique called
 the third chapter. The normalization theorem of interest to people concerned
 with the safety of proof assistants are a little more challenging, and demand a
 leap in technology to the method of \emph{Kripke logical relations}, also
-detailed in chapter theory. The class of normalization theorems of interest to
-implementors of proof assistants is called the problem of \emph{open
+detailed in Chapter~\ref{chapter:gluing}. The class of normalization theorems of
+interest to implementors of proof assistants is called the problem of \emph{open
   normalization}, and is in fact the type of theorem we will work toward in this
 thesis. Our \emph{open normalization} theorem will be stated somewhat
 differently than the \emph{closed normalization} statement given above. Rather
@@ -466,9 +469,12 @@ we have that
   \normalize(t) = \normalize(t') \Rightarrow t = t'.
 \]
 This property validates the use of normalized subterms (as opposed to the
-original subterms) in our final check for equality of types.
+original subterms) in our final check for equality of types. More information on
+how normalization functions can be used in implementations of dependent
+typecheckers can be found in Christiansen's tutorial
+\cite{christiansen_checking_nodate}.
 
-Theorems such as closed and open normalization are conventionally proven by a
+Theorems such as closed and open normalization are conventionally proven using a
 technique called the method of \emph{logical relations}. Open normalization in
 particular demands the use of a strong variant of logical relations called
 \emph{Kripke logical relations}. We will discuss Kripke logical relations in
@@ -1058,10 +1064,11 @@ verifying that the integers form a ring under the standard multiplication and
 addition operations we learn in elementary school. In general, the reader will
 find that all \emph{rings} (in the conventional sense of abstract algebra) are
 \( \mathfrak{Set}\)-valued \emph{algebras} of the algebraic theory of
-\emph{ring}. The reader may also verify that the usual ring-homomorphisms in
-\( \mathfrak{Set}\) are an instance of the generalized notion of
-\( \mathcal{L}\)-algebra homomorphism that we introduce following an intervening
-example theory-algebra pair from computing.
+\emph{ring} and that conversely every \(\mathfrak{Set}\)-valued \emph{algebra}
+of the theory of \emph{ring} defines \emph{a ring}. The reader may also verify
+that the usual ring-homomorphisms in \( \mathfrak{Set}\) are an instance of the
+generalized notion of \( \mathcal{L}\)-algebra homomorphism that we introduce
+following an intervening example theory-algebra pair from computing. Conversely,
 
 This example is meant for readers with a basic background in digital logic. An
 interesting aspect of this example is that it admits some very practical
@@ -1104,9 +1111,9 @@ finally not to be the function taking $b$ to $1-b$. This algebra provides a
 convenient way of writing down and quickly reducing boolean circuits according
 to the familiar symbolic language of algebra.
 
-A more interesting algebra comes from practical engineering. We can give an
-algebra of the theory above by implementing the \emph{logic gate} operations
-NOT, AND, and OR as component circuits built with \emph{metal oxide
+A more interesting algebra of this theory comes from practical engineering. We
+can give an algebra of the theory above by implementing the \emph{logic gate}
+operations NOT, AND, and OR as component circuits built with \emph{metal oxide
   semiconductor field effect transistors}, also known as \emph{MOSFETs}. You
 probably own a couple billion of them. The reader more familiar with computer
 games than MOSFETs might be interested in Nguyen's work which exhibits an
@@ -1127,13 +1134,11 @@ on the constructions~\cite{eater_making_2015}. The particularly interested
 reader might also consult a standard textbook \cite{brown_fundamentals_2014} for
 more on the matter. For our purposes, the upshot of this construction is that we
 get, for say the NOT operation, a circuit component
-
 \begin{center}
   \begin{circuitikz}
     \draw (0,0) node[not port] (mynot) {};
   \end{circuitikz}
 \end{center}
-
 which has low voltage on its output when it has high voltage applied to its
 input, and vice versa. This behavior is precisely the equational law
 characterizing the NOT operation symbol, and suggests that we interpret the
@@ -1173,15 +1178,13 @@ insulating material, here displayed as a circle.
 
 Allowing ourselves to write the operations of the algebra for the operation
 symbols of the theory for a moment, consider the morphism
-\[ [ \tikz{ \draw node[and port, number inputs=3](myand){}
-    (myand.in 1) node [anchor=east] {\( b_{1} \)}
-    (myand.in 2) node [anchor=east] {\( b_{2} \)}
-    (myand.in 3) node [anchor=east] {\( b_{3} \)};
-  } \middle/ b_{4}] : [b_1 : \bitcoin, b_2:\bitcoin, b_3 : \bitcoin] \rightarrow [b_1:\bitcoin,b_2:\bitcoin,b_3:\bitcoin,b_4 :\bitcoin]\]
-
-in the syntactic category. We can now consider a concrete example of a concrete
-example of substitution in action by substituting along this morphism. Ignoring
-the requisite intermediate weakenings, we have that
+\[ [ \tikz{ \draw node[and port, number inputs=3](myand){} (myand.in 1) node [anchor=east] {\( b_{1} \)}
+    (myand.in 2) node [anchor=east] {\( b_{2} \)} (myand.in 3) node
+    [anchor=east] {\( b_{3} \)}; } \middle/ b_{4}] : [b_1 : \bitcoin,
+  b_2:\bitcoin, b_3 : \bitcoin] \rightarrow [b_1:\bitcoin,b_2:\bitcoin,b_3:\bitcoin,b_4
+  :\bitcoin]\] in the syntactic category. We can now consider a concrete example
+of substitution in action by substituting along this morphism. Ignoring the
+requisite intermediate weakenings, we have that
 
 \[
   [ \tikz{ \draw node[and port, number inputs=3](myand){}
@@ -2194,8 +2197,7 @@ at the naturality diagram of \( q \):
   as $q$ is a mono, these objects are exactly variable-arity Kripke relations
   over the context \( \Delta \).
 
-\chapter{Obtaining a normalization function}
-
+\chapter{Obtaining a normalization function}\label{chapter:normalization}
 \section{Presheaves of neutral and normal syntax}
 In this section, we will enlist a motley crew of \emph{presheaves of syntax}
 which more-or-less represent certain classes of terms in the lambda calculus.
@@ -3008,14 +3010,15 @@ diagram
 
 Supposing we can achieve this, we have in particular that the evaluation
 \[(n_{\tau} \circ \downarrow^{\tau} \circ \sem{\Gamma \vdash t : \tau}_{\renhat} \circ \prod_{i\in\{1,\dots,k\}}\uparrow^{\tau_{i}}) (\var_{\tau_{i}}(x_{i}))_{i\in \{1,\dots,k\}}\]
-of the upper-right composite at a tuple the variables contained in \( \Gamma \) has
-the same semantics as the input term \( t \).
+of the upper-right composite at a tuple of the variables contained in \( \Gamma \)
+has the same semantics as the input term \( t \).
 
 This is where our method shows its resemblance to the classical normalization by
 evaluation algorithm, in which the normalization function is given by
-\emph{evaluating} a semantic interpretation of the input term on \emph{lifted
+\emph{evaluating} the semantic interpretation of the input term on \emph{lifted
   syntactic variables} before finally reifying the result, bringing it back down
-to syntax. Indeed, a normalization \emph{algorithm} can be obtained from the above by stopping short of taking the semantic interpretation \( n_{\tau}\), as in:
+to syntax. Indeed, a normalization \emph{algorithm} can be obtained from the
+above by stopping short of taking the semantic interpretation \( n_{\tau}\), as in:
 \[(\downarrow^{\tau} \circ \sem{\Gamma \vdash t : \tau}_{\renhat} \circ \prod_{i\in\{1,\dots,k\}}\uparrow^{\tau_{i}}) (\var_{\tau_{i}}(x_{i}))_{i\in \{1,\dots,k\}}.\]
 
 To come up with our desired reification and reflection maps, we shall produce,
