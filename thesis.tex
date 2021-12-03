@@ -58,6 +58,7 @@ citestyle=alphabetic
 \include{bsymbol}
 
 \hyphenation{pre-sheaves}
+\renewbibmacro{in:}{} % suppress bad bibliography
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 
@@ -311,9 +312,12 @@ application \emph{does} is defined in terms of \emph{substitution}. For phrases
 (henceforth called \emph{terms}) $e$ and $e'$, we impose an equation
 \[ (\lambda x.\, e) e' = [e' / x]^{*}e \] called the \( \beta \)-\emph{law}. When
 writing \[ [s/x]^{*} p, \] we mean the term given by taking the term $p$ and
-replacing with $s$ every occurrence of $x$ appearing within. Authors more
-interested in the computational character of the \emph{lambda calculus} write
-\[ (\lambda x.\, e) e' \rightarrow [e' / x]^{*}e\] so that \( \beta \) principle is instead
+replacing with $s$ every occurrence of $x$ appearing within. We have by the \( \beta\)-law, for example, that  \[
+  (\lambda x.\, x^{2}) 3 = 3^{2}
+\]
+Authors more interested in the computational character of the \emph{lambda
+  calculus} write
+\[ (\lambda x.\, e) e' \rightarrow [e' / x]^{*}e\] so that the \( \beta \) principle is instead
 understood as a \emph{reduction rule} for an \emph{allowed transition} or
 \emph{computation step}. For our purposes, we will mostly be working with
 equations except in remarks meant to appeal to those readers who are
@@ -321,15 +325,26 @@ operationally inclined.
 
 The famed Church-Turing thesis says that the lambda calculus and the Turing
 machine, a more famous model of universal computation, are \emph{equivalent in
-  computational power}. That is, any Turing machine can be simulated by the
-lambda calculus and conversely any program written in the lambda calculus can be
-simulated by some Turing machine. Consequently, just as the Turing machine is a
-universal computer, the lambda calculus is a universal programming language.
-That the lambda calculus is so powerful is exciting, but some consider working
-with that full power unwieldy or even dangerous. Indeed, there are programs that
-one can write down in the lambda calculus which get ``stuck'' before computing a
-\emph{value}, meaning that there are lambda programs $p$ which reduce to a $p'$
-which isn't a value but cannot be reduced to some $p''$.
+  computational power}. That is, any Turing machine can be simulated by a
+program written in the lambda calculus and conversely the execution of any
+program written in the lambda calculus can be simulated by some Turing machine.
+Consequently, just as the Turing machine is a universal computer, the lambda
+calculus is a universal programming language. That the lambda calculus is so
+powerful is exciting, but some consider working with that full power unwieldy or
+even dangerous. Indeed, there are programs that one can write down in the lambda
+calculus which get ``stuck'' before computing a \emph{value}, meaning that there
+are lambda programs $p$ which reduce to a $p'$ which isn't a value but cannot be
+reduced to some $p''$. What constitutes a \emph{value} varies according to one's
+inclinations. If, for example, we decide that the only values are lambda
+abstractions and non-negative numerals (adding to the lambda calculus terms for
+the natural numbers as appropriate) then the following terms are examples of
+values
+\begin{center}
+  \begin{itemize}
+    \item \( \lambda x.\, 5 \)
+    \item \( \)
+  \end{itemize}
+\end{center}
 
 The usual solution to this problem is to tie our own hands a bit, imposing a
 regime of \emph{types} which allow us to statically rule out those program
@@ -560,8 +575,9 @@ first doctrine we will consider is that of the \emph{elementary
   with pencils of geodesics in hyperbolic geometry need not be scared away by
   this terminology; there is nothing non-Euclidean afoot here, per se.}. The
 doctrine of the \emph{elementary sketch} allows us to specify theories involving
-\emph{unary} operations (those defined over a single parameter.) This
-restriction on the arity of operations turns out to be quite limiting. To
+\emph{unary} operations (those defined over a single parameter.)
+
+This restriction on the arity of operations turns out to be quite limiting. To
 address this, we will later upgrade the doctrine of elementary sketches to the
 doctrine of \emph{algebraic theories} which allow us to encode operations with
 any finite number of parameters, thus covering a broad variety of gadgets one
@@ -575,12 +591,14 @@ Lawvere's original terminology. As an example of the strength of algebraic
 theories, we will show how to write down (as an algebraic theory) what it means
 to be a ring, with no reference to sets or functions. In the following chapter,
 we will use the doctrine of algebraic theories to develop categorical semantics
-of the lambda calculus. This chapter is strictly expository in nature; indeed,
-much of what follows draws heavily from Paul Taylor's \emph{Practical
-  Foundations of Mathematics}~\cite{taylor_practical_1999}. My contribution is
-to flesh out some of the examples found there, add some of my own, and make
-other parts of the presentation more palatable and quickly digestible to the
-reader already acquainted with basic category theory and type theory.
+of the lambda calculus.
+
+This chapter is strictly expository in nature; indeed, much of what follows
+draws heavily from Paul Taylor's \emph{Practical Foundations of
+  Mathematics}~\cite{taylor_practical_1999}. My contribution is to flesh out
+some of the examples found there, add some of my own, and make other parts of
+the presentation more palatable and quickly digestible to the reader already
+acquainted with basic category theory and type theory.
 
 \section{An algebraic prelude}
 We begin by recalling from algebra the notion of an \emph{action} of, say, a
@@ -862,8 +880,8 @@ presentation.
 \end{definition}
 
 
-We can give the syntactic category a model in the clones by acting by
-substituting for variables, along the lines of Theorem~\ref{thm:clone model}.
+We can give the syntactic category a model in the clones whose action is given
+by substituting for variables, along the lines of Theorem~\ref{thm:clone model}.
 The reader unfamiliar with substitution will find relief in
 Example~\ref{ex:digital_logic}, where we show how this action works in terms of
 a concrete (and visual) example from digital logic.
@@ -893,10 +911,10 @@ out of the category in question.
 \begin{proof}
   \( (\Rightarrow) \) Suppose we have an \( \mathcal{L}\)-model $A$. Then $A$ is an
   assignment of a set $\ceil{X}_{A}$ to each sort \( \ceil{X}\) and an
-  assignment of a function \( \ceil{r}_{A} : \ceil{X}_{A} \rightarrow \ceil{Y}_{A}\) to each operation-symbol
-  \( X \vdash \ceil{r}(x) : Y\) such that the laws (given by
-  Theorem~\ref{thm:canonical_elementary_language}) of \( \mathcal{L} \) are preserved. These
-  assignment form precisely the data of a functor
+  assignment of a function \( \ceil{r}_{A} : \ceil{X}_{A} \rightarrow \ceil{Y}_{A}\) to
+  each operation-symbol \( X \vdash \ceil{r}(x) : Y\) such that the laws (given by
+  Theorem~\ref{thm:canonical_elementary_language}) of \( \mathcal{L} \) are
+  preserved. These assignments form precisely the data of a functor
 
   \begin{align*}
    F &: \cn_{\mathcal{L}} \rightarrow \mathfrak{Set} \\
@@ -904,7 +922,8 @@ out of the category in question.
     (X \xrightarrow{r} Y) &\mapsto \ceil{r}_{A}.
   \end{align*}
 
-  It remains to show functoriality of these assignments which follows from the
+  It remains to show functoriality of these assignments. Functoriality follows
+  from the
   laws of the canonical elementary language and faithfulness of the model. \\
 
   \( (\Leftarrow) \) Suppose we have a functor
@@ -949,11 +968,11 @@ out of the category in question.
 While conjuring up example elementary sketches, the reader will find that the
 regime of unary operations regularly gets in the way of representing familiar
 gadgets like rings or type theories. To address this deficiency, we introduce
-the doctrine of \emph{algebraic theories} which generalizes the doctrine of
-elementary sketches and allows for multi-input operation symbols. As we work
-through this upgrade in doctrine, many of the notions (\emph{terms, clones,
-  syntactic category, etc.}) we developed in the simplified world of elementary
-sketches will come along for the ride without much changed.
+the doctrine of \emph{algebraic theories}. This doctrine generalizes the
+doctrine of elementary sketches and allows for multi-input operation symbols. As
+we work through this upgrade in doctrine, many of the notions (\emph{terms,
+  clones, syntactic category, etc.}) we developed in the simplified world of
+elementary sketches will come along for the ride without much changed.
 
 \begin{definition}[Algebraic theory]\label{def:alg theory}
   A (finitary many-sorted) \emph{algebraic theory} $\mathcal{L}$ has
@@ -1035,13 +1054,13 @@ whose algebras is the ring of integers under addition and multiplication.
                   \cdot(x, +(y,z)) &= +(\cdot(x,y), \cdot(x,z)).
                 \end{align*}
   \end{enumerate}
-  Note that the countably infinite set of variables \( \{ s\}_{i\in\mathbb{N}}\)
-  is added so that we may have deeply nested expressions, even if we had no need
-  for them when stating the laws above. In fact, such countable variable sets
-  are \emph{required} when defining an algebraic theory for precisely this
-  reason. That this requirement was not imposed for elementary sketches is
-  because there can only be one variable in a term, even in heavily nested
-  terms, by construction.
+  Note that the countably infinite set of variables
+  \( \{ s_{i}\}_{i\in\mathbb{N}}\) is added so that we may have deeply nested
+  expressions, even if we had no need for them when stating the laws above. In
+  fact, such countable variable sets are \emph{required} when defining an
+  algebraic theory for precisely this reason. That this requirement was not
+  imposed for elementary sketches is because there can only be one variable in a
+  term, even in heavily nested terms, by construction.
 \end{example}
 
 
@@ -1158,7 +1177,7 @@ which has low voltage on its output when it has high voltage applied to its
 input, and vice versa. This behavior is precisely the equational law
 characterizing the NOT operation symbol, and suggests that we interpret the
 \( \top \) operation symbol as a source of high voltage and the \( \bot \) operation
-symbol as a wire with no voltage applied. The AND and OR operations also enjoy
+symbol as a wire with low voltage applied. The AND and OR operations also enjoy
 physical realizations in term of MOSFETs, as do the finite-input generalizations
 of all of these operations.
 
@@ -1319,11 +1338,11 @@ contexts and substitutions and thus give meaning to terms.
     \sem{r(u_{1}, \dots , u_{k})} &: \sem{\Gamma} \xrightarrow{\braket{\sem{u_{1}}, \dots, \sem{u_{k}}}} A_{Y_{1}} \times \cdots \times A_{Y_{k}} \xrightarrow{r_{A}} A_{Z}
   \end{align*}
   where the $\sem{u_{i}}$ are the interpretations of the sub-expressions of the
-  expression in the final line, $\pi_{i}$ is the $i$th projection guaranteed to us
-  by the universal property of products, and $<_{!}$ is the unique map into the
-  terminal object. The angle bracket notion is used to express the product
-  functor's action on morphisms in $C$. For clarity, we write out
-  explicitly the composites for the reader:
+  expression in the final line, $\pi_{i}$ is the $i$-th projection guaranteed to
+  us by the universal property of products, and $<_{!}$ is the unique map into
+  the terminal object. The angle bracket notion is used to express the product
+  functor's action on morphisms in $C$. For clarity, we write out explicitly the
+  composites for the reader:
   \begin{align*}
     \sem{x_{i}} &\equiv \pi_{i} \\
     \sem{c} &\equiv c_{A } \circ <_{!} \\
@@ -1383,10 +1402,10 @@ contexts and substitutions and thus give meaning to terms.
 This chapter exploits the heavy machinery developed in the previous chapter to
 give meaning, in specially structured categories, to the types and terms of the
 simply typed lambda calculus. Here is how we shall do so: First, we will present
-various a suite of simple type theories as a series of \emph{algebraic theories}
+a suite of simple type theories as a series of \emph{algebraic theories}
 differing only in their equational laws. One of these type theories will be the
 typical simply typed lambda calculus with the full gamut of equational laws,
-including \( \beta \)-conversion and \( \eta \)-conversion and \( \alpha \)-renaming.
+including \( \beta \)-conversion, and \( \eta \)-conversion, and \( \alpha \)-renaming.
 Second, we present an interesting perspective on a well known type of
 categorical structure, namely \emph{cartesian closedness}, by explicitly
 defining it in terms of the definitional \( \beta\) and \( \eta \) laws from type
@@ -1622,7 +1641,7 @@ categories.
           family of operation symbols defined mutually with the others. For each
           term \( \Gamma, x:\tau' \vdash t : \tau \), we add a new operation symbol
          \begin{align*}
-           \Gamma &\vdash (\lambda x.\, t)(\overrightarrow{\gamma}) : \tau
+           \Gamma &\vdash (\lambda x:\tau'.\, t)(\overrightarrow{\gamma}) : \tau
          \end{align*}
          where $\overrightarrow{\gamma}$ is the list of variables comprising $\Gamma$.
 
@@ -1682,8 +1701,7 @@ resulting theory of the typical lambda calculus is cartesian closed.
     \betalaw && (\beta)\\
     \etalaw. && (\eta)\\
   \end{align*}
-
-  We write \( \mathcal{L}_{\lambda\alpha\beta\eta}\) or simply \( \lambda \) for the new theory, and
+We write \( \mathcal{L}_{\lambda\alpha\beta\eta}\) or simply \( \lambda \) for the new theory, and
   \( \cl \) for its classifying category.
 \end{definition}
 
@@ -1716,7 +1734,7 @@ calculus and the work we did in Chapter~\ref{chapter:functorial_semantics}.
 
 This final result will prove important in Chapter~\ref{chapter:gluing}.
 
-\chapter{Normalization by gluing}\label{chapter:gluing}
+\chapter{Artin Gluing}\label{chapter:gluing}
 \epigraph{You, you were like glue\\
   holding each of us together\\
   I slept through July\\
@@ -1735,7 +1753,7 @@ we say the reduction system enjoys \emph{weak normalization} if for any
 well-typed term \( e \), there exists a normal form \( n \) such that
 \( e \red n\). A reduction system enjoying \emph{strong normalization} is one
 for which \emph{every} reduction sequence ends in a normal term. These are
-\emph{operational} characterization of normalization; we will see below
+\emph{operational} characterizations of normalization; we will see below
 \emph{equational} characterizations of normalization that better line up with
 what we have done so far.
 
@@ -1757,13 +1775,13 @@ Normalization theorems on the other hand tend to resist standard techniques like
 straightforward induction over typing derivations. A famous example is
 \emph{closed normalization} which says that all closed terms have a normal form.
 When easy induction fails, metatheoreticians resort to \emph{occult} techniques
-like the method of logical relations. The method of logical relations is,
+like \emph{the method of logical relations}. The method of logical relations is,
 broadly speaking, opaque to all but its most experienced practitioners. In
 short, a logical relation is a relation of terms indexed by the types of the
 theory whose inclusion criteria in some vague sense mirror the type structure of
 the theory. Such logical relations are easy to work with in simple settings like
-that of the closed normalization problem for the simply-typed lambda calculus,
-see Pierce's textbook \cite{pierce_types_2002}. However, logical relations are
+that of the closed normalization problem for the simply-typed lambda calculus
+(see Pierce's textbook \cite{pierce_types_2002}.) However, logical relations are
 well known to become fiendishly complicated when working with theories whose
 type structure is more complicated. Examples of such complexity include the
 addition of type system features associated with computational effects, such as
@@ -1785,16 +1803,17 @@ that all \emph{syntactically} well-typed terms satisfy the behaviorally
 properties for their type as specified in the model. This type of result is
 unlike \emph{syntactic} type safety in that it does not admit easy proofs by
 induction on typing derivations, and rather are typically proven with logical
-relations. This is no problem for well-behaved type systems like the simply
-typed lambda calculus, but for type systems with features like \emph{mutable
-  reference types} even (ordinary) logical relations don't suffice and more
-advanced proof techniques are required. The additional heavy machinery called
-for is the method of \emph{step-indexed logical relations}, a form of
-\emph{Kripke logical relations} which I describe below and detail in this
-chapter. Ahmed, for example, employed \emph{step-indexed logical relations} to
-prove for the first time the semantic type safety of a version of System F
-endowed with mutable reference types in her doctoral thesis
-\cite{ahmed_semantics_2004}.
+relations. As in the case of normalization, proving semantic type safety by
+logical relations is tedious by poses no problems for well-behaved type systems
+like the simply typed lambda calculus. However, as alluded to above, not even
+(ordinary) logical relations suffice when attempting to prove semantic type
+safety for type systems with realistic features like \emph{mutable reference
+  types}. The additional heavy machinery called for in cases like these is the
+method of \emph{step-indexed logical relations}, a form of \emph{Kripke logical
+  relations} which I describe briefly below and detail later in this chapter.
+Ahmed, for example, employed \emph{step-indexed logical relations} to prove for
+the first time the semantic type safety of a version of System F endowed with
+mutable reference types in her doctoral thesis \cite{ahmed_semantics_2004}.
 
 It is not just realistic programming languages whose metatheory demands the use
 of such heavy machinery, however. The very nature of certain metatheoretical
@@ -1814,9 +1833,9 @@ a normal form when considered as a term under any extended context
 \( \Gamma, x', \dots, z'\). In the case of \emph{step-indexed logical relations}, the
 indexing poset is \( \mathbb{N} \) where the indices represent \emph{remaining
   reduction steps} and the partial order \( m \leq_{\texttt{step}} n \) is defined
-e as \( n \leq m \). That is not a typo. The monotonicity condition, then, says
-that a term is in the relation when allowed $k$ steps of reduction is also in
-the relation when allowed \emph{fewer} steps of reduction
+as \( n \leq m \). That is not a typo. The monotonicity condition, then, says that
+a term is in the relation when allowed $k$ steps of reduction is also in the
+relation when allowed \emph{fewer} steps of reduction
 \cite{benton_formalizing_2007}. Don't read too much into this; we will be
 working with something closer to the poset of contexts ordered by weakenings
 mentioned before.
@@ -1954,8 +1973,8 @@ category:
     of renamings} we mean the \emph{opposite category} of the comma category
   \( U \downarrow \mathbb{T} \) whose
   \begin{itemize}
-    \item Objects are \emph{pairs} \( (V : \fin, \Gamma : V \rightarrow \types) \), i.e.,
-          finite variable list together with an assignments of types to a each
+    \item Objects are \emph{pairs} \( (V : \fin, \Gamma : V \rightarrow \types) \), i.e., a
+          finite variable list together with an assignments of types to each
           variable. Note that we elide the final entry of the triple, since it
           is always the object \( * : \termob_{\mathfrak{Cat}}\) and is
           therefore uninformative. These objects are precisely the contexts of
@@ -2056,13 +2075,12 @@ situation:
 % https://q.uiver.app/?q=WzAsNSxbMCwwLCJcXG1hdGhjYWx7Un0iXSxbMiwwLCJcXG1hdGhmcmFre1NldH1ee1xcbWF0aGNhbHtSfV5cXHRleHRybXtvcH19Il0sWzAsMSwiXFxtYXRoY2Fse1N9Il0sWzIsMSwiXFxtYXRoZnJha3tTZXR9XntcXG1hdGhjYWx7U31eXFx0ZXh0cm17b3B9fSJdLFsxLDBdLFswLDIsIlxcdmFyc2lnbWEiLDJdLFsyLDMsIuOCiCIsMix7InN0eWxlIjp7InRhaWwiOnsibmFtZSI6Imhvb2siLCJzaWRlIjoiYm90dG9tIn19fV0sWzIsMSwiXFxicmFrZXR7XFx2YXJzaWdtYX0iLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XSxbMywxLCJcXHZhcnNpZ21hXioiLDJdXQ==
 \[\begin{tikzcd}
 	{\mathcal{R}} & {} & {\mathfrak{Set}^{\mathcal{R}^\textrm{op}}} \\
-	{\mathcal{S}} && {\mathfrak{Set}^{\mathcal{S}^\textrm{op}}}
+	{\mathcal{S}} && {\mathfrak{Set}^{\mathcal{S}^\textrm{op}}\;\;\;\;\;\; .}
 	\arrow["\varsigma"', from=1-1, to=2-1]
 	\arrow["{よ}"', hook', from=2-1, to=2-3]
 	\arrow["{\braket{\varsigma}}", dashed, from=2-1, to=1-3]
 	\arrow["{\varsigma^*}"', from=2-3, to=1-3]
-\end{tikzcd}.\]
-
+\end{tikzcd}\]
 That is, we get a functor
 \[
   \braket{\varsigma} : \mathcal{S} \rightarrow \mathfrak{Set}^{\mathcal{R}^{\textrm{op}}}
@@ -2074,7 +2092,6 @@ Remark~\ref{rmk:reninclusioncl} gives us a functor
   \mathfrak{Tm} : \cl &\rightarrow \renhat \\
   \Delta &\mapsto \cl(\iota(-), \Delta) \\
 \end{align*}
-
 where \( \renhat \) is the category \( \mathfrak{Set}^{\ren^{\textrm{op}}} \).
 This functor can be construed as taking a syntactic context to a presheaf of
 open terms. This is a confusing idea at first, and it helps to consider the
