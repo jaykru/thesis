@@ -164,15 +164,16 @@ the last 3 years. I'm so glad we ended up labmates! Stay fresh, king.
 
 The following people made my freshman year at Reed. Thank you to Holden and Max
 for making WP117 home. Special thanks to Max for not holding against me my
-having thrown a mug at him. Thanks to Noah Koster for being one of my very first
-friends at Reed and for always truckin'. You may not be the next Bill Gates, but
-you're a great guy. Thanks to Nick Chaiyachakorn for always encouraging my
-stupid computer purchases, and for just always being there for me. Thanks to
-Yuta, Shulav, Jake, and Aditya for many fine hours of good lad time. Thanks to
-Carter Fife for ditching us all and for being a massive weeb, to Dan Jeon for
-telling everyone about that time he caught me practicing Naruto hand signs, to
-Mary Brady for showing me the best song of the century (Freaky Friday by Lil
-Dicky ft. Chris Brown), and to Salma Huque for being poggers.
+having thrown a mug at him, and to Holden for never violating the NAP. Thanks to
+Noah Koster for being one of my very first friends at Reed and for always
+truckin'. You may not be the next Bill Gates, but you're a great guy. Thanks to
+Nick Chaiyachakorn for always encouraging my stupid computer purchases, and for
+just always being there for me. Thanks to Yuta, Shulav, Jake, and Aditya for
+many fine hours of good lad time. Thanks to Carter Fife for ditching us all and
+for being a massive weeb, to Dan Jeon for telling everyone about that time he
+caught me practicing Naruto hand signs, to Mary Brady for showing me the best
+song of the century (Freaky Friday by Lil Dicky ft. Chris Brown), and to Salma
+Huque for being poggers.
 
 The following people made my sophomore year much more tolerable. Thanks to
 Genya, Tristan, and the rest of the crew for so many great nights in Polytopia.
@@ -180,11 +181,19 @@ Special thanks go to Young Kim for corrupting my soul. This thesis is in some
 sense a tribute to you, because I know how much you love category theory. Thanks
 also to Alice McKean for good times talkin' type theory.
 
-Thank you to my beloved 1989 Toyota TownAce van which made the early pandemic
-not just tolerable but an absolute adventure. I'll miss you forever :'(
+Thank you to my beloved 1989 Toyota TownAce van which made the early pandemic an
+absolute adventure. I'll miss you forever :'(
 
-Thanks to Murali Vijayaraghavan for mentorship and patient instruction while
-I was learning the ropes the ropes of CPU and hardware design.
+My deep thanks go to Amal Ahmed for taking me on and guiding my early studies of
+programming language theory during my leave from Reed. I came to her with a lot
+of enthusiasm to learn and not much else, and she gave me a wonderful
+opportunity to make good on that enthusiasm. Without her guidance I would not be
+writing a thesis like this today, and I'll always be indebted to the influence
+she's had on my way of thinking about computing.
+
+Thanks to Murali Vijayaraghavan for mentorship and patient instruction while I
+was learning the ropes the ropes of CPU and hardware design. Thanks to Cody Roux
+and Dan McArdle (then at Draper Lab) for early encouragement!
 
 Thank you to Sara Rosenberger in the business office for having my back when the
 office of financial aid left me to rot. This thesis couldn't have happened
@@ -192,11 +201,7 @@ without you!
 
 Thanks to my sister Megan for her unrelenting support, especially over the last
 few challenging years! and for her patience putting up with my various neuroses!
-Thanks to my brother Ryan and my sister Kathleen for always being there. And to
-my brother-in-law Luke Donahue for the ounce of pot he owes me.
-
-Thanks to Cody Roux and Dan McArdle (then at Draper Lab) for early
-encouragement!
+Thanks to my brother Ryan and my sister Kathleen for always being there.
 
 Thank you to the composers of Breath of the Wild and to lofi girl for the
 soundtrack.
@@ -551,16 +556,16 @@ with several \emph{notions of} (syntactic) theory. We will more laconically
 refer to a notion of syntactic theory as a \emph{doctrine}. A \emph{doctrine} is
 something like a framework specifying how we are to write down a theory. The
 first doctrine we will consider is that of the \emph{elementary
-  sketch}. % The reader familiar with and/or traumatized by
-% experience with pencils of geodesics in hyperbolic geometry need not be scared
-% away by this terminology; there is nothing non-Euclidean afoot here.
-The doctrine of the \emph{elementary sketch} allows us to specify theories
-involving \emph{unary} operations (those defined over a single parameter.) This
+  sketch}\footnote{The reader familiar with and/or traumatized by experience
+  with pencils of geodesics in hyperbolic geometry need not be scared away by
+  this terminology; there is nothing non-Euclidean afoot here, per se.}. The
+doctrine of the \emph{elementary sketch} allows us to specify theories involving
+\emph{unary} operations (those defined over a single parameter.) This
 restriction on the arity of operations turns out to be quite limiting. To
 address this, we will later upgrade the doctrine of elementary sketches to the
-doctrine of \emph{algebraic theories} which allow encoding operations with any
-finite number of parameters, thus covering a broad variety of gadgets one might
-encounter in mathematics and computing. Algebraic theories are known more
+doctrine of \emph{algebraic theories} which allow us to encode operations with
+any finite number of parameters, thus covering a broad variety of gadgets one
+might encounter in mathematics and computing. Algebraic theories are known more
 famously as \emph{Lawvere theories} after categorical logic superstar (and
 former Reed College professor!) William Lawvere who originally presented them
 while building his functorial treatment of universal algebra. Emphasizing the
@@ -582,10 +587,10 @@ We begin by recalling from algebra the notion of an \emph{action} of, say, a
 group or a monoid. Actions are, from our perspective, a way of giving meaning,
 or \emph{semantics} to elements of a set which enjoys some algebraic structure.
 \begin{definition}\label{def:covariant action}
-  Recall that a \textbf{covariant action} of a group or monoid \((M, id, \cdot)\) on
+  Recall that a \emph{covariant action} of a group or monoid \((M, id, \cdot)\) on
   a set \(A\) is a function \((-)_* (=) : M ‌\times A \rightarrow A\) such that
-  \(\text{id}_* a = a\) and \( (g \circ f)_* a = g_* (f_* a) \). We can similarly a
-  define the notion of a \textbf{contravariant action} which similarly requires
+  \(\text{id}_* a = a\) and \( (g \circ f)_* a = g_* (f_* a) \). We can similarly
+  define the notion of a \emph{contravariant} action which similarly requires
   the identity action to do nothing, but instead flips the order of action for
   compositions: $(g \circ f)^{*}a = f^{*}(g^{*} a)$
 \end{definition}
@@ -604,7 +609,7 @@ be even more trivially defined. We now turn to the definition of an important
 property of actions: \emph{faithfulness}.
 
 \begin{definition}\label{def:faithful}
-  A \textbf{faithful} action $(-)_{*}$ is one for which we have
+  A \emph{faithful} action $(-)_{*}$ is one for which we have
   \[ \forall (a:A)\ldotp f_* a = g_* a \Longrightarrow f = g \] for all \( f, g \) in $M$. Morally,
   this requirement says that elements are \emph{semantically} equal (or, act the
   same) only when they are \emph{syntactically} equal (or, \emph{look}
@@ -627,30 +632,27 @@ algebraic structures and their actions to new settings.
 \section{Elementary sketches and their models}
 As promised, we begin with the definition.
 \begin{definition}\label{def:elem sketch}
-  An \textbf{elementary sketch} is comprised of the following data:
+  An \emph{elementary sketch} is comprised of the following data:
   \begin{enumerate}
-    \item a collection \(X, Y, Z, \dots \) of named \textbf{base types} or
-          \textbf{sorts}
-    \item a \textbf{variable} \(x:X\) for each occurrence of each named sort.
-    \item a collection of \textbf{unary operation-symbols} or
-          \textbf{constructors} \(\tau\) having at most one variable. As a
-          clarifying example: when sketching type theories, we will write
-          \( x:X \vdash \tau(x) : Y \).
-    \item a collection of equations or \textbf{laws} of the
+    \item a collection \(X, Y, Z, \dots \) of named \emph{base types} or
+          \emph{sorts}
+    \item a \emph{variable} \(x:X\) for each occurrence of each named sort.
+    \item a collection of \emph{unary operation-symbols} or
+          \emph{constructors} \(\tau\) having at most one variable. We write
+          these operation symbols as, for example, \( x:X \vdash \tau(x) : Y \).
+    \item a collection of equations or \emph{laws} of the
           form: \[ \tau_n (\tau_{n-1}(\cdots \tau_2 (\tau_1 (x))\cdots )) = \sigma_m (\sigma_{m-1}(\cdots \sigma_2 (\sigma_1 (x))\cdots )) \]
   \end{enumerate}
 \end{definition}
-
 We will discuss the generality provided by this definition after some
 intervening examples. One of the simplest examples is the sketch of a (free)
 monoid on some set $S$:
-
 \begin{example}[Sketch of a (free) monoid]\label{ex:monoid sketch}
   The requisite data for the sketch are as follows:
   \begin{enumerate}
     \item The collection of sorts is the singleton \( \{M\} \).
     \item The collection of variables is \( \{m:M\} \).
-    \item The collection of operation symbols is the set \( S \). Each has as its signature \( M \rightarrow M \)
+    \item The operation symbols are the set \( \{ m : M \vdash s(m) \mid s \in S\} \).
     \item No equations are imposed.
   \end{enumerate}
 \end{example}
@@ -661,7 +663,7 @@ idea should be familiar to the reader acquainted with type theory, despite the
 drastically simplified setting.
 
 \begin{definition}\label{def:term}
-  Given an elementary sketch, a \textbf{term} $x : \Gamma \vdash X$ is a string of
+  Given an elementary sketch, a \emph{term} $t : \Gamma \vdash X$ is a string of
   composable unary operation-symbols applied to a variable $\gamma : \Gamma$ as in:
   \[ \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma))))).\] Composable unary-operation symbols
   are ones which have compatible domains and codomains in the usual sense, as
@@ -674,20 +676,21 @@ continue, we should decide what our term composition will be.
 
 \begin{definition}[Composition of terms]\label{def:term composition}
   Composition of terms is by substitution for the variable: for a term
-  \( \sigma : \Delta \vdash \Gamma\) and some terms \( \tau_{i}\) with \( \tau_{n} : \cdots \vdash \Xi \) we define
-  \[ (\tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\gamma)))))) \circ \sigma = \tau_{n} (\tau_{n-1} (\cdots (\tau_{2}(\tau_{1}(\sigma(\delta)))))) : \Delta \vdash \Xi. \]
+  \( s : \Delta \vdash \Gamma\) and some terms \( t_{i}\) with \( t_{n} \) having as its
+  outermost operation symbol an operation ending in \( \Xi \), we define
+  \[ (t_{n} (t_{n-1} (\cdots (t_{2}(t_{1}(\gamma)))))) \circ s = t_{n} (t_{n-1} (\cdots (t_{2}(t_{1}(s(\delta)))))) : \Delta \vdash \Xi. \]
 \end{definition}
 
 With our notion of composition in hand, we can now handwave an argument for our
 revised claim that the terms of the sketch form the elements of a free monoid.
-It is well-known that substitution operation is associative; see, for example,
-Chapter 1 of \cite{taylor_practical_1999} for a fantastic treatment of the
-theory of substitution. As a consequence, any elementary sketch, including this
-one, satisfies the associativity axiom of monoids for free. The identity term is
-given by zero composable unary operation-symbols (i.e., the empty string)
-applied to a variable. Because composition is given by substitution for the
-variable, a lone variable does indeed work function as the identity. Freedom
-comes from the fact that the sketch has no equations.
+It is well-known that the substitution operation is associative; see, for
+example, Chapter~1 of Taylor \cite{taylor_practical_1999} for a fantastic
+treatment of the theory of substitution. As a consequence, any elementary
+sketch, including this one, satisfies the associativity axiom of monoids for
+free. The identity term is given by zero composable unary operation-symbols
+(i.e., the empty string) applied to a variable. Because composition is given by
+substitution for the variable, a lone variable does indeed function as the
+identity. Freedom comes from the fact that the sketch has no equations.
 
 This loose argument is somewhat satisfying, but we can do better. To get there,
 we will first develop a notion generalizing \emph{actions} from algebra. After
@@ -695,7 +698,7 @@ doing so, we will give more concrete meaning to this sketch and complete our
 intuitive handle on it.
 
 \begin{definition}\label{def:model}
-  A \textbf{model} (also known as an algebra, an interpretation, a covariant
+  A \emph{model} (also known as an algebra, an interpretation, a covariant
   action) of an elementary sketch is comprised of:
   \begin{enumerate}
     \item an assignment of a set $X_{A}$ to each sort $X$ and
@@ -713,8 +716,8 @@ but will also prove immediately useful in studying Example~\ref{ex:monoid
   sketch} by forming the sets of a ``for-free'' model for any elementary sketch.
 
 \begin{definition}\label{def:clone}
-  Given an elementary (unary) sketch, the \textbf{clone} at \( (\Gamma, X) \) is
-  the set \( \text{Cn}_{\mathcal{L}} (\Gamma, X) \) of all the \textbf{terms} of sort
+  Given an elementary (unary) sketch, the \emph{clone} at \( (\Gamma, X) \) is
+  the set \( \text{Cn}_{\mathcal{L}} (\Gamma, X) \) of all the \emph{terms} of sort
   $X$ assuming a single variable of sort $\Gamma$, quotiented by the laws of the
   sketch.
 \end{definition}
@@ -796,7 +799,7 @@ presentation.
 
 \newcommand{\syncat}[1]{\text{Cn}_#1^{\times}}
 \begin{definition}[The category of contexts and substitutions]\label{def:syn cat}
-  Given a sketch $\mathcal{L}$, the \textbf{category of contexts and substitutions}, written \( \syncat{\mathcal{L}} \) is presented as follows:
+  Given a sketch $\mathcal{L}$, the \emph{category of contexts and substitutions}, written \( \syncat{\mathcal{L}} \) is presented as follows:
   \begin{outline}
     \1 The objects are the contexts of \( \mathcal{L} \), i.e., finite lists of
     distinct variables and their types.
@@ -945,15 +948,15 @@ through this upgrade in doctrine, many of the notions (\emph{terms, clones,
 sketches will come along for the ride without much changed.
 
 \begin{definition}[Algebraic theory]\label{def:alg theory}
-  A (finitary many-sorted) \textbf{algebraic theory} $\mathcal{L}$ has
+  A (finitary many-sorted) \emph{algebraic theory} $\mathcal{L}$ has
   \begin{enumerate}
-    \item a collection $\Sigma$ of base types or \textbf{sorts} $X$
+    \item a collection $\Sigma$ of base types or \emph{sorts} $X$
     \item an inexhaustible collection of variables $x_{i}:X$ of each sort;
-    \item a collection of \textbf{operation symbols},
+    \item a collection of \emph{operation symbols},
           $x_{1}: X_{1},\dots , x_{k} : X_{k} \vdash r(x_{1},\dots, x_{k}) : Y$ each
-          having an \textbf{arity}, namely a list of input sorts $X_{i}$, and an
+          having an \emph{arity}, namely a list of input sorts $X_{i}$, and an
           output sort $Y$; and
-    \item a collection of \textbf{laws}, posed as equalities between different
+    \item a collection of \emph{laws}, posed as equalities between different
           terms (in the sense defined before)
   \end{enumerate}
 \end{definition}
@@ -2200,6 +2203,10 @@ at the naturality diagram of \( q \):
   over the context \( \Delta \).
 
 \chapter{Obtaining a normalization function}\label{chapter:normalization}
+\epigraph{I stood on wondering which way to go\\
+I lit a cigarette on a parking meter\\
+And walked on down the road, it was a normal day
+}{Bob Dylan}
 \section{Presheaves of neutral and normal syntax}
 In this section, we will enlist a motley crew of \emph{presheaves of syntax}
 which more-or-less represent certain classes of terms in the lambda calculus.
