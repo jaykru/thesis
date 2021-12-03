@@ -141,14 +141,14 @@ teacher 吳老師 (Rhoda Weston) is the most generous person I've ever met, in s
 many ways, and just about changed my life. Thank you for making it possible for
 me to go to Taiwan and for everything else! Thank you to my first grade teacher
 Ms.\ King for being a fantastic example of living with kindness, to 柳老
-師 (Hyong Rhew) for getting me to chill out a bit freshman year\footnote{and for
-  comparing me to a metal waterbottle for some reason\dots never figured that
-  one out.} and hours of fun studying Chinese, to Mrs.\ Leitsch for stellar
-teaching and encouragement in 9th grade English, to Mr. Cool for good times on
-the robotics team (even if you wouldn't let us switch from LabView), and to my
-4th (?) grade history teacher Mr.\ Raveli \footnote{if that's how you spell your
-  name} for teaching me that it's better to know how and where to find the
-answers than to have them all committed to memory.
+師 (Hyong Rhew) for getting me to chill out a bit freshman year\footnote{Thanks
+  also for comparing me to a metal waterbottle for some reason\dots never
+  figured that one out.} and hours of fun studying Chinese, to Mrs.\ Leitsch for
+stellar teaching and encouragement in 9th grade English, to Mr. Cool for good
+times on the robotics team (even if you wouldn't let us switch from LabView),
+and to my 4th (?) grade history teacher Mr.\ Raveli for teaching me that it's
+better to know how and where to find the answers than to have them all committed
+to memory.
 
 More than anything, friends have made the last few years special:
 
@@ -211,9 +211,9 @@ that recognizing it in this small way means something to the authors of these
 tools.
 
 Thank you to Steve Awodey for listening to me deliver a draft version of the
-argument laid out in Chapter 3 and for helpful comments. Thanks to Carlo
-Angiulini for helpfully answering my questions. Thank you to Ivan Di Liberti
-for many fun and useful mentorship Zoom meetings throughout the last few
+argument laid out in Chapter 3 and for helpful comments. Thanks to Carlo Angiuli
+for answering a question about the category of renamings. Thank you to Ivan Di
+Liberti for many fun and useful mentorship Zoom meetings throughout the last few
 months!
 
 I would like to give special thanks to Paul Taylor who wrote the book that made
@@ -358,32 +358,35 @@ applications; for some purposes, non-terminating languages have no such cute
 workarounds.
 
 An \emph{interactive theorem prover} is a computer program that allows a
-computer user to state theorems and input proofs\footnote{individual systems
-  vary in how manual this process is}, which are then checked by the program.
-Many interactive proof systems, such as Coq or Agda, are based on
-type\footnote{in the same sense as above, only with much more complicated type
-  formers and rules} theory. Such proof systems leverage a principle called the
-\emph{Curry-Howard isomorphism}, which allows one to represent theorems as
-\emph{types} and proofs as \emph{programs}. The advanced type theories of such
-systems allow one to state and prove the sort of universally and existentially
-quantified propositions one often encounters in mathematics. An \emph{absolutely
-  critical} property for systems like this is that the proof construction
-language (remember that this is analogous to a programming language according to
-the Curry-Howard isomorphism) be terminating, for the following reason. Suppose
-you have stated a proposition $P$. The Curry-Howard isomorphism allows us to
-represent $P$ by a type $T_{P}$ such that constructing a term (a program
-potentially with parameters) $t$ with type $T_{P}$ amounts to proving the
-proposition $P$. Given any type, I can give you a non-terminating program of
-that type. This is easiest to see by putting unguarded termination in the
-language as a form of non-termination. The program simply calls itself
-recursively forever, infinitely passing the buck but ostensibly having the
-desired type. Let's check out an example in the Coq proof assistant; we will be
-deriving a term of type False (the type which has no term constructors, and
-hence really ought to be uninhabited.) You could perform this same construction
-for any type you choose, even if it would be redundant now that we have a False
-term (which gives us a term of any other type by trivial case analysis). We
-first manually deactivate a Coq safety feature expressly intended to rule out
-such definitions.
+computer user to state theorems and input proofs\footnote{Individual systems
+  vary in how manual the process of inputting proofs is.}, which are then
+checked by the program. Many interactive proof systems, such as Coq or Agda, are
+based on type\footnote{Here I am referring to type theory in the same sense as
+  above for the simply typed lambda calculs. Only the type systems underlying
+  modern proof assistants feature much more complicated type structure, which is
+  precisely what enables them to express non-trivial mathematical statements and
+  proofs. We will see a little more on this story below.} theory. Such proof
+systems leverage a principle called the \emph{Curry-Howard isomorphism}, which
+allows one to represent theorems as \emph{types} and proofs as \emph{programs}.
+The advanced type theories of such systems allow one to state and prove the sort
+of universally and existentially quantified propositions one often encounters in
+mathematics. An \emph{absolutely critical} property for systems like this is
+that the proof construction language (remember that this is analogous to a
+programming language according to the Curry-Howard isomorphism) be terminating,
+for the following reason. Suppose you have stated a proposition $P$. The
+Curry-Howard isomorphism allows us to represent $P$ by a type $T_{P}$ such that
+constructing a term (a program potentially with parameters) $t$ with type
+$T_{P}$ amounts to proving the proposition $P$. Given any type, I can give you a
+non-terminating program of that type. This is easiest to see by putting
+unguarded termination in the language as a form of non-termination. The program
+simply calls itself recursively forever, infinitely passing the buck but
+ostensibly having the desired type. Let's check out an example in the Coq proof
+assistant; we will be deriving a term of type False (the type which has no term
+constructors, and hence really ought to be uninhabited.) You could perform this
+same construction for any type you choose, even if it would be redundant now
+that we have a False term (which gives us a term of any other type by trivial
+case analysis). We first manually deactivate a Coq safety feature expressly
+intended to rule out such definitions.
 
 \begin{verbatim}
 j@art-house-thinking-sand ~ % coqtop
@@ -456,7 +459,7 @@ sub\emph{programs}). In the general case, this problem is well-known to be
 undecidable. Using a \emph{normalizing} term language makes it possible. Coming
 up with a \emph{normalization} function \( \normalize \) which satisfies some
 key properties\footnote{Exactly which properties we will demand of our
-  normalization function will be fully detailed in Chapter~4} will allow us to
+  normalization function will be fully detailed in Chapter~4.} will allow us to
 compute normal forms for these subterms and use those normal forms for the
 desired equality check. The desired property most relevant to dependent
 typechecking is what I call \emph{equation reflection} which says that for open
@@ -838,12 +841,13 @@ presentation.
   contravariant, this requires considering the compositions in reverse order as:
   \[ \hat{y}^{*}; [y/x]^{*}; \hat{x}^{*}; [x/y]^{*} = {\id}^{*}. \] Rendered
   thus, this law means that introducing a free variable $y$ to the
-  context\footnote{possibly having no effect if $y$ is already present},
-  followed by replacing every free occurrence of $x$ with $y$, followed by
-  re-introducing $x$ as a variable in the context, and then finally replacing
-  every free occurrence of $y$ with $x$ is the same as doing nothing. More
-  concisely at the expense of precision, renaming a free variable in a term and
-  then un-renaming it results in the same term.
+  context\footnote{Note that weakening by $y$ might have no effect if $y$ is
+    already present as a free variable.}, followed by replacing every free
+  occurrence of $x$ with $y$, followed by re-introducing $x$ as a variable in
+  the context, and then finally replacing every free occurrence of $y$ with $x$
+  is the same as doing nothing. More concisely at the expense of precision,
+  renaming a free variable in a term and then un-renaming it results in the same
+  term.
 \end{definition}
 
 
@@ -1184,8 +1188,7 @@ symbols of the theory for a moment, consider the morphism
   b_2:\bitcoin, b_3 : \bitcoin] \rightarrow [b_1:\bitcoin,b_2:\bitcoin,b_3:\bitcoin,b_4
   :\bitcoin]\] in the syntactic category. We can now consider a concrete example
 of substitution in action by substituting along this morphism. Ignoring the
-requisite intermediate weakenings, we have that
-
+requisite intermediate weakenings, we have
 \[
   [ \tikz{ \draw node[and port, number inputs=3](myand){}
     (myand.in 1) node [anchor=east] {\( b_{1} \)}
@@ -1193,11 +1196,9 @@ requisite intermediate weakenings, we have that
     (myand.in 3) node [anchor=east] {\( b_{3} \)};
   } \middle/ b_{4}]^* (\tikz { \draw node[or port](myor){}
     (myor.in 1) node [anchor=east] { \(b_{4}\) }
-  (myor.in 2) node [anchor=east] { \( b_{5}\) };})
+  (myor.in 2) node [anchor=east] { \( b_{5}\) };}),
 \]
-
-which results in the circuit
-
+which results in the circuit component
 \[
 \tikz{ \draw (0,2) node[and port, number inputs=3](myand){}
     (myand.in 1) node [anchor=east] {\( b_{1} \)}
@@ -1208,7 +1209,7 @@ which results in the circuit
 
     (myor.in 2) node [anchor=east] { \( b_{5}\) }
     (myand.out) -| (myor.in 1);
-    }
+    }.
 \]
 
 Looking back at the morphism encoding this substitution operation, we should
@@ -1288,11 +1289,11 @@ contexts and substitutions and thus give meaning to terms.
     \sem{\varnothing} &= \mathbbm{1}_{C} \\
     \sem{\Gamma, x : X} &= \sem{\Gamma} \times A_{X}.
   \end{align}
-  The (overly) careful reader will complain that $C$ doesn't
-  necessarily feature a terminal object, but it turns out that a terminal object
-  is guaranteed\footnote{as the nullary finite product} by the finite product
-  closure we imposed on $C$ in our definition of algebras. We are
-  good to go.
+  The (overly) careful reader will complain that $C$ doesn't necessarily feature
+  a terminal object, but it turns out that a terminal object is
+  guaranteed\footnote{I.e., because the terminal object is just the nullary
+    finite product.} by the finite product closure we imposed on $C$ in our
+  definition of algebras. We are good to go.
 
   Recalling more from the definition of an algebra, we know that $A$ gives
   meaning to each operation symbol \( Y_{1},\dots , Y_{k} \vdash r : Z \) as a
@@ -1381,12 +1382,11 @@ categorical structure, namely \emph{cartesian closedness}, by explicitly
 defining it in terms of the definitional \( \beta\) and \( \eta \) laws from type
 theory. We will find that this characterization exactly coincides with the one
 found in typical books on category theory. Finally, we will show that any
-interpretation of base types of the lambda calculus\footnote{as above} gives
-rise to an interpretation of lambda terms in any \emph{cartesian closed}
-category with an interpretation of the base types. Unless otherwise noted, what
-follows is an adaptation of \cite[Chapter 4.7]{taylor_practical_1999}. We begin
-by presenting the term language and type system for the calculus under
-consideration.
+interpretation of base types of the simply typed lambda calculus gives rise to
+an interpretation of lambda terms in any \emph{cartesian closed} category with
+an interpretation of the base types. Unless otherwise noted, what follows is an
+adaptation of \cite[Chapter 4.7]{taylor_practical_1999}. We begin by presenting
+the term language and type system for the calculus under consideration.
 
 
 \section{The simply typed lambda calculus}
@@ -1729,18 +1729,19 @@ for which \emph{every} reduction sequence ends in a normal term. These are
 \emph{equational} characterizations of normalization that better line up with
 what we have done so far.
 
-Such theorems \emph{about theories} (such as a programming language or type
-system) are called \emph{metatheorems}. Type safety\footnote{This result often
-  sloganized as \emph{well-typed (closed) terms don't go wrong}} is another
-class of metatheorem which is much more famous than normalization, perhaps
-because some of its variants enjoy straightforward proofs. One variant of this
-result called \emph{syntactic type safety} defines a set of chosen \emph{good
-  terms} called values and defines a \emph{stuck term} to be a term which is
-both irreducible and \emph{not} a value. The syntactic type safety theorem says
-that well-typed terms \( \Gamma \vdash t : \tau \) never reduce to a stuck term. This variant
-of type safety enjoys a straightforward proof by induction over typing
-derivations using a trick called \emph{progress and preservation}. See Chapters
-8 and 9 of Pierce's textbook \cite{pierce_types_2002} for the details.
+Theorems \emph{about theories} (such as a programming language or type system)
+are called \emph{metatheorems}. Normalization theorems, then, are
+\emph{metatheorems}. Type safety\footnote{This result is often sloganized as
+  \emph{well-typed (closed) terms don't go wrong}.} is another class of
+metatheorem which is much more famous than normalization, perhaps because some
+of its variants enjoy straightforward proofs. One variant of this result called
+\emph{syntactic type safety} defines a set of chosen \emph{good terms} called
+values and defines a \emph{stuck term} to be a term which is both irreducible
+and \emph{not} a value. The syntactic type safety theorem says that well-typed
+terms \( \Gamma \vdash t : \tau \) never reduce to a stuck term. This variant of type safety
+enjoys a straightforward proof by induction over typing derivations using a
+trick called \emph{progress and preservation}. See Chapters 8 and 9 of Pierce's
+textbook \cite{pierce_types_2002} for the details.
 
 Normalization theorems on the other hand tend to resist standard techniques like
 straightforward induction over typing derivations. A famous example is
@@ -1762,28 +1763,28 @@ type safety presents a great example of the problems associated with using
 logical relations in the presence of these features.
 
 Type safety has another characterization called \emph{semantic type safety}, as
-espoused by Milner in his paper introducing the concept of type
-safety \cite{milner_theory_1978}. Proving semantic type safety involves building
-a \( \catset \)-valued model\footnote{in the sense of Chapter 1.} $A$ of the
-type theory in question where the sets $\sem{\tau}_{A}$ of the model are comprised
-of terms satisfying a certain behavioral requirement. With this done, a
-\emph{semantic typing} relation \( \Gamma \Vdash t : \tau \) is defined by
-\( t \in \sem{\tau}_{A} \). Finally, one proves the so-called \emph{fundamental}
-theorem which says that all \emph{syntactically} well-typed terms
-\( \Gamma \vdash t : \tau \) are also \emph{semantically} well-typed, so that all
-\emph{syntactically} well-typed terms satisfy the behaviorally properties for
-their type as specified in the model. This type of result is unlike
-\emph{syntactic} type safety in that it does not admit easy proofs by induction
-on typing derivations, and rather are typically proven with logical relations.
-This is no problem for well-behaved type systems like the simply typed lambda
-calculus, but for type systems with features like \emph{mutable reference types}
-even (ordinary) logical relations don't suffice and more advanced proof
-techniques are required. The additional heavy machinery called for is the method
-of \emph{step-indexed logical relations}, a form of \emph{Kripke logical
-  relations} which I describe below and detail in this chapter. Ahmed, for
-example, employed \emph{step-indexed logical relations} to prove for the first
-time the semantic type safety of a version of System F endowed with mutable
-reference types in her doctoral thesis \cite{ahmed_semantics_2004}.
+espoused by Milner in his paper introducing the concept of type safety
+\cite{milner_theory_1978}. Proving semantic type safety involves building a
+\( \catset \)-valued model $A$ of the type theory in question where the sets
+$\sem{\tau}_{A}$ of the model are comprised of terms satisfying a certain
+behavioral requirement. With this done, a \emph{semantic typing} relation
+\( \Gamma \Vdash t : \tau \) is defined by \( t \in \sem{\tau}_{A} \). Finally, one proves the
+so-called \emph{fundamental} theorem which says that all \emph{syntactically}
+well-typed terms \( \Gamma \vdash t : \tau \) are also \emph{semantically} well-typed, so
+that all \emph{syntactically} well-typed terms satisfy the behaviorally
+properties for their type as specified in the model. This type of result is
+unlike \emph{syntactic} type safety in that it does not admit easy proofs by
+induction on typing derivations, and rather are typically proven with logical
+relations. This is no problem for well-behaved type systems like the simply
+typed lambda calculus, but for type systems with features like \emph{mutable
+  reference types} even (ordinary) logical relations don't suffice and more
+advanced proof techniques are required. The additional heavy machinery called
+for is the method of \emph{step-indexed logical relations}, a form of
+\emph{Kripke logical relations} which I describe below and detail in this
+chapter. Ahmed, for example, employed \emph{step-indexed logical relations} to
+prove for the first time the semantic type safety of a version of System F
+endowed with mutable reference types in her doctoral thesis
+\cite{ahmed_semantics_2004}.
 
 It is not just realistic programming languages whose metatheory demands the use
 of such heavy machinery, however. The very nature of certain metatheoretical
@@ -1926,9 +1927,10 @@ evolve by substitution\footnote{The reader might complain now, as I did, that if
   here is that the category of weakenings lacks finite products, which precludes
   the use of a trick (which we will soon see \emph{does} work in the case of the
   category of renamings) for explicating the binding structure of its category
-  of presheaves.}. We present the category abstractly as a comma category and at
-the same time spell out concretely its morphisms in terms of the substitutions
-of the syntactic category:
+  of presheaves. Thank you to Carlo Angiuli for explaining this to me!}. We
+present the category abstractly as a comma category and at the same time spell
+out concretely its morphisms in terms of the substitutions of the syntactic
+category:
 \begin{definition}[Category of renamings]
   Recall from Chapter~\ref{chapter:stlc} that \( V \) is some countably infinite
   set of variables and \( \types \) is the set of all types in the simply typed
@@ -2006,17 +2008,17 @@ the case of \( \ren\)-Kripke relations which are perhaps more graspable.
 \begin{example}[A class of \( \ren \)-Kripke relations over \( \cl \)]
   Consider the inclusion functor \( \iota : \ren \rightarrow \cl \). Following the definition
   above, we can define a \( \ren\)-Kripke relation $R$ of \emph{arity} $\iota$ over
-  any type\footnote{i.e., a singleton context} \( \tau \) of \( \cl \) by producing
-  a family of sets \( \{ R(\Gamma) \subseteq \cl[\Gamma, \tau]\}_{\Gamma \in \ren}\), namely a selection of
-  terms of type \( \tau \) in each context \( \Gamma \), along with a proof of the
-  monotonicity condition: for each \emph{renaming} \( \rho : \Gamma' \rightarrow \Gamma \) in
-  \( \ren \) and every \emph{term} \( t : \Gamma \rightarrow \tau \) in $R(\Gamma)$, the map
-  \( t \circ \iota(\rho) : \Gamma' \rightarrow \tau\) is in $R(\Gamma')$. This example demonstrates that we can
-  think of Kripke relations as families of unary relations for which inclusion
-  in any of the relations in the family, say $R(\Gamma)$, those unary relations of
-  terms which can be \emph{lifted} along a renaming to yield a proof of
-  inclusion in the relation at any other context \( \Gamma' \) enjoying a renaming
-  into \( \Gamma \).
+  any type\footnote{Remember that a type is in particular a singleton context.}
+  \( \tau \) of \( \cl \) by producing a family of sets
+  \( \{ R(\Gamma) \subseteq \cl[\Gamma, \tau]\}_{\Gamma \in \ren}\), namely a selection of terms of type
+  \( \tau \) in each context \( \Gamma \), along with a proof of the monotonicity
+  condition: for each \emph{renaming} \( \rho : \Gamma' \rightarrow \Gamma \) in \( \ren \) and every
+  \emph{term} \( t : \Gamma \rightarrow \tau \) in $R(\Gamma)$, the map \( t \circ \iota(\rho) : \Gamma' \rightarrow \tau\) is in
+  $R(\Gamma')$. This example demonstrates that we can think of Kripke relations as
+  families of unary relations for which inclusion in any of the relations in the
+  family, say $R(\Gamma)$, those unary relations of terms which can be
+  \emph{lifted} along a renaming to yield a proof of inclusion in the relation
+  at any other context \( \Gamma' \) enjoying a renaming into \( \Gamma \).
 \end{example}
 
 Even with a more concrete example, it can be hard to understand what the utility
@@ -2473,8 +2475,8 @@ over \( \renhat \).
   \( \NN\)-algebra over the family
   \( \{ (\mathfrak{Ne_{\tau}}, \mathfrak{Nf_{\tau}}) \}_{\tau\in\types} \) and the
   \( \NN\)-algebra over the family \( \{ \mathfrak{L}_{\tau} \}_{\tau\in\types} \)
-  induce, for each \( \tau \in \types \), \(\NN\)-homomorphisms\footnote{in the sense
-    of Definition~\ref{def:homomorphism}} \( l : \mathfrak{L} \rightarrow \tm \) and
+  induce, for each \( \tau \in \types \), \(\NN\)-homomorphisms
+  \( l : \mathfrak{L} \rightarrow \tm \) and
   \( (m,n) : (\mathfrak{Ne}, \mathfrak{Nf}) \rightarrow (\tm, \tm )\) such that the
   following diagram commutes:
 
@@ -2695,7 +2697,9 @@ To untangle this mess, we pass to the lambda notation for the transpose as in
 Chapter~\ref{chapter:stlc}. We can express the left-hand side of the desired
 equality in this notation (dropping the explicit type annotations and adding
 explicit variables for both abstracted variables and ordinary free variables
-representing morphism inputs\footnote{just as we did with the inputs of operation symbols in algebraic theories}) as
+representing morphism inputs\footnote{For the sake of clarity, we will not do
+  this unless necessary. Our use of free variables to represent morphism inputs
+  is meant to mirror how we handled the inputs to operation symbols.}) as
 \begin{align*}
   &\,\,\,\,\,\,\,\, q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(f,y))) \circ \tm(\tilde{\delta})(x) \circ q_{X} \\ % jank af lol but it works
   &= q_{Y}^{*} \circ (\lambda y.\, \tm(\epsilon) (i_{\pi}(\tm(\delta(x)),y))) \circ q_{X}\\
@@ -2832,9 +2836,9 @@ Definition~\ref{def:term model} will allow us to leverage this to interpret
 substitutions as gluing category morphisms between these glued objects. The
 algebra we define will be constructed by gluing together the syntactic
 \( \NN \)-algebra in \( \renhat \) together with the semantic
-\( \NN \)-algebra\footnote{i.e., the one induced by
-  Remark~\ref{rmk:upgrade_to_stratified} and the usual lambda algebra in the
-  classifying category.} in the classifying category.
+\( \NN \)-algebra\footnote{The algebra referred to here is the one induced by
+  upgrading the usual lambda algebra in the classifying category according to
+  Remark~\ref{rmk:upgrade_to_stratified}} in the classifying category.
 
 \begin{definition}[An algebra of stratified neutrals and normals in the gluing category]\label{def:glued-algebra}
   The family \( \{ (\mu_{\tau}, \eta_{\tau})\}_{\tau\in\types}\) define the objects of an
