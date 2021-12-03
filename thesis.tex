@@ -76,7 +76,7 @@ citestyle=alphabetic
 \date{December 2021}
 % \division{Mathematics and Natural Sciences}
 \advisor{Ang\'elica Osorno}
-\altadvisor{James (Jim) Fix}
+\altadvisor{James D. Fix}
 
 \department{Mathematics and Computer Science}
 % if you're writing a thesis in an interdisciplinary major,
@@ -116,7 +116,7 @@ intellectual life has taken, for which I am very grateful. Jim's intro CS course
 taught partially in Standard ML was my first real exposure to mathematically
 structure programming and put me on a road that until then had seemed
 inaccessible. Jim has also served as a great mentor in matters of personal taste
-and style (his course webpages are always out of this world cool). Jim and
+and style (his course web pages are always out of this world cool). Jim and
 Ang\'elica have both been very generous with their time during my thesis year,
 especially in providing the comments that made this document something I'm proud
 to my name on. I'll really miss our wacky math-cs crossover meetings, you two!
@@ -202,13 +202,14 @@ a wonderful opportunity to make good on that enthusiasm. Without her guidance I
 would not be writing a thesis like this today, and I'll always be indebted to
 the influence she's had on my way of thinking about programming language theory.
 Thanks also to Murali Vijayaraghavan for his mentorship and patient instruction
-while I was learning the ropes the ropes of CPU and hardware design. Working
-together was a blast!
+while I was learning the ropes the ropes of CPU and hardware design.
 
 The acknowledgements that remain don't fit neatly into any of the above
-categories, but should be said nonetheless: Thank you to Sara Rosenberger in the
-business office for having my back when the office of financial aid left me to
-rot. This thesis couldn't have happened without you!
+categories, but should be said nonetheless:
+
+Thank you to Sara Rosenberger in the business office for having my back when the
+office of financial aid left me to rot. This thesis couldn't have happened
+without you!
 
 Thank you to the composers of Breath of the Wild and to lofi girl for the
 soundtrack.
@@ -223,10 +224,12 @@ that recognizing it in this small way means something to the authors of these
 tools.
 
 Thank you to Steve Awodey for listening to me deliver a draft version of the
-argument laid out in Chapter 3 and for helpful comments. Thanks to Carlo Angiuli
-for answering a question about the category of renamings. Thank you to Ivan Di
-Liberti for many fun and useful mentorship Zoom meetings throughout the last few
-months!
+argument laid out in Chapter 3 and for helpful comments, and to Carlo Angiuli
+(via Steve) for answering a long-standing question of mine about the category of
+renamings.
+
+Thank you to Ivan Di Liberti for many fun and useful mentorship Zoom meetings
+throughout the last few months!
 
 I would like to give special thanks to Paul Taylor who wrote the book that made
 this thesis possible. Paul's \emph{Practical Foundations of Mathematics} is one
@@ -238,7 +241,8 @@ perspective on programming or mathematics in general.
 
 My final thanks go to Jon Erickson, the author of \emph{Hacking: The Art of
   Exploitation} which got me started on this road so many years ago. What a long
-and strange road to a thesis about glue!
+and strange road to a thesis about huffing (in the strictly mathematical sense)
+glue!
 
 % The preface is optional
 % To remove it, comment it out or delete it.
@@ -391,7 +395,7 @@ representing \emph{pairs of terms} of the types $A$ and $B$ along with
 example, the type \( \mathbbm{B} \times \mathbbm{N}\) is inhabited by pairs of a
 boolean and some natural number. Along with this type structure comes
 \emph{rules} stipulating how it may be used. The rules for the arrow type, for
-example, makes it so that we may only meaningfully apply a function of type
+example, make it so that we may only meaningfully apply a function of type
 \( \nat \Rightarrow \nat \) to a term of type \( \nat \); in particular, this setup rules
 out the stuck term mentioned above, in that these rule mean that the term is not
 \emph{well-typed} and so we will never try running it (or any program in which
@@ -406,16 +410,19 @@ follows from this type regime. It turns out that any program in the lambda
 calculus will reduce to a value in a finite number of evaluation steps. This
 property is called \emph{closed normalization}. Borrowing the language of the
 theory of Turing machines, this means that programs written in the simply typed
-lambda calculus always halt. In particular, this means that the lambda calculus
-is \emph{not} Turing complete and can only solve \emph{decidable} problems. This
-can be a problem for some applications. If you want, say, your web server to run
-indefinitely without bound; the simply typed lambda calculus can't do that. You
-could, however, make your program loop until the projected death of the sun and
-deploy a new version of your server shortly thereafter. Having noted that there
-are some workarounds to the problems arising from the terminating character of
-the simply typed lambda calculus, it is interesting to note also that this very
-character is actually required for some applications; for some purposes,
-non-terminating languages have no such cute workarounds.
+lambda calculus always halt. In particular, this means that the \emph{simply
+  typed} lambda calculus is \emph{not} Turing complete and cannot express
+computations encoded by non-halting Turing machines. This might be a problem for
+some applications. If you want, say, your web server to run \emph{indefinitely}
+without bound; the simply typed lambda calculus can't do that. You could,
+however, make your program loop until the projected death of the sun (or with
+some other finite bound) and then deploy a new version of your server shortly
+thereafter. Similar workarounds allow us to use terminating languages for a
+variety of other applications which ostensibly demand non-termination but in
+reality demand much less. So it turns out that being forced to terminate is not
+really so much of a problem, but conversely the possibility of non-termination
+is a true problem for some applications. Those applications call for
+\emph{proven} termination in the strict sense encoded by normalization theorems.
 
 An \emph{interactive theorem prover} is a computer program that allows a
 computer user to state theorems and input proofs,\footnote{Individual systems
