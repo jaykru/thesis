@@ -70,7 +70,7 @@ citestyle=alphabetic
 
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
 
-\title{The Way of Glue\\ An Invitation to the Categorical Semantics of Lambda
+\title{The Way of Glue\\ An Invitation to the Categorical Metatheory of Lambda
   Calculi} \author{Jay Kruer}
 % The month and year that you submit your FINAL draft TO THE LIBRARY (May or December)
 \date{December 2021}
@@ -3043,12 +3043,12 @@ interpretation defines a lambda algebra of glued neutrals. The universal
 property of the classifying category and its lambda algebra in turn induces a
 unique functor
 \[ \sem{-}_{\gl} : \cl \rightarrow \gl \] as in Theorem~\ref{thm:classifying alg theory}.
-We write \( \sem{-}_{\gl} : \cl \rightarrow \gl \) for both this functor and the
-interpretation of terms acquired by precomposing the functor with the usual
-interpretation of terms in the classifying category. It is crucial to understand
-that though we have \( \sem{\theta}_{\gl} = \mu_{\theta}\) for base types $\theta$, this equality
-does \emph{not} hold at higher types \( \tau \in \types\). In the case of products,
-the interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the actual product
+We write \( \sem{-}_{\gl} \) for both this functor and the interpretation of
+syntax acquired by precomposing the functor with the usual interpretation of
+terms in the classifying category. It is crucial to understand that though we
+have \( \sem{\theta}_{\gl} = \mu_{\theta}\) for base types $\theta$, this equality does
+\emph{not} hold at higher types \( \tau \in \types\). In the case of products, the
+interpreted type \( \sem{\theta \times \theta'}_{\gl} \) is the actual product
 \( \mu_{\theta} \times \mu_{\theta'}\) and not \( \mu_{\theta\times\theta'} \). In what follows, we still allow
 ourselves to write \( \sem{-} \) for the usual interpretation of terms in the
 classifying category, distinguishing the new interpretation only by a subscript.
